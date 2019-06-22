@@ -23,8 +23,16 @@ class AthleticsTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
+    }
+    
+    func addData(model: AthleticsModel) {
+        let charactersToFilter : CharacterSet = CharacterSet(charactersIn: ":()1234567890")
+        var titleText : String = "\(model.gender)'s \(model.sport) \(model.homeGame) \(model.opponent)"
+        titleText = titleText.components(separatedBy: charactersToFilter).joined()
+        titleLabel.text = titleText
+        levelLabel.text = model.level
+        timeLabel.text = model.time
     }
 
 }
