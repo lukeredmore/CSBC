@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:Gotham-Black.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-Bold.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-BookItalic.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-Light.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-Thin.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-ThinItalic.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-UltraItalic.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-XLight.otf">
+   </FileRef>
+   <FileRef
+      location = "group:Gotham-XLightItalic.otf">
+   </FileRef>
+   <FileRef
+      location = "group:gotham.otf">
+   </FileRef>
+   <FileRef
+      location = "self:">
+   </FileRef>
+</Workspace>
