@@ -18,6 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var window: UIWindow?
     let notificationKeys = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
     var notificationSettings : NotificationSettings!
+    var schoolDateFormatter : DateFormatter {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy"
+        return fmt
+    }
+    let dayScheduleLite = DaySchedule()
     
     
     
@@ -125,7 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         Messaging.messaging().apnsToken = deviceToken
         InstanceID.instanceID().instanceID { (result, _) in
-            if result != nil {
+            if result != nil && (Date() < self.schoolDateFormatter.date(from: self.dayScheduleLite.startDateString)!) {
                 let notificationController = NotificationController()
                 notificationController.subscribeToTopics()
                 notificationController.queueNotifications()

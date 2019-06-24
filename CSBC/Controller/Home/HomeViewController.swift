@@ -19,11 +19,7 @@ import RevealingSplashView
 
 class HomeViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate, SchoolSelectedDelegate, AlertDelegate {
     
-    
-    
-    
-    
-    //MARK: Collection Setup Properties
+    //Collection Setup Properties
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     let buttonImages : [String] = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
@@ -35,7 +31,7 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
         sectionInset: UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
     )
     
-    //MARK: Alert Setup Properties
+    //Alert Setup Properties
     @IBOutlet weak var alertLabel: UILabel!
     @IBOutlet weak var alertViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var wordmarkMarginHeightConstraint: NSLayoutConstraint!
@@ -43,18 +39,8 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     @IBOutlet weak var alertBanner: UIView!
     var snowDayArrayCount : Int = 0
     
-    
-    //MARK: Document Download Properties
+    //Document Download Properties
     var HTMLParser : HTMLController?
-//    var urls : [String] = []
-//    let destination: DownloadRequest.DownloadFileDestination = { _, _ in
-//        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-//        let fileURL = documentsURL.appendingPathComponent("Lunch Menu.pdf")
-//        return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
-//    }
-//    var lunchesReady = [false, false, false, false]
-//    var loadedDocs : [Int:PDFDocument] = [:]
-//    var loadedMSWords : [Int:String] = [:]
     
     //MARK: Notification Properties
     var localNotifications : NotificationController?
@@ -88,16 +74,16 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
         self.view.addSubview(revealingSplashView)
         removeBannerAlert()
         
-        //MARK: Document Downloader
+        //Document Downloader
         HTMLParser = HTMLController()
         HTMLParser?.getSpecialLunchMenuURLs()
         
-        //MARK: Refresh other data
+        //Refresh other data
         localAlerts = AlertController(delegate: self)
         findDefaultSchoolSelected()
         localNotifications = NotificationController()
         
-        //MARK: Setup UI
+        //Setup UI
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         configureCollectionViewForScreenSize()
@@ -122,7 +108,7 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     }
     
     
-    //MARK: Delegate Methods
+    //MARK: Alert Delegate Methods
     func reinitNotifications() {
         localNotifications?.reinit()
     }
@@ -162,7 +148,7 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
         
     }
     
-    //Mark: Find school selected
+    //MARK: School Selected Methods
     func storeSchoolSelected(schoolSelected: String) {
         print("School stored is: \(schoolSelected)")
         self.schoolSelected = schoolSelected
@@ -295,7 +281,7 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
             columnLayout.minimumLineSpacing = (UIScreen.main.bounds.height-133)/15.88
             columnLayout.sectionInset = UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
         }
-        //MARK: Collection View and header setup
+        //Collection View and header setup
         headerHeightConstraint.constant = ((UIScreen.main.bounds.height)/8) + 23//6.737
         collectionView?.collectionViewLayout = columnLayout
         collectionView?.contentInsetAdjustmentBehavior = .always

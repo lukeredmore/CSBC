@@ -26,23 +26,28 @@ class NotificationController {
         fmt.dateFormat = "HH:mm"
         return fmt
     }
+    var schoolDateFormatter : DateFormatter {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy"
+        return fmt
+    }
     var timeComponents : [Int] = []
-//    let schoolsNotifications = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
-//    var notif12HTimeString = "7:00 AM"//Get time of notif deliver
-//    var notifTimeAsDate : Date!
-//    var notif24HTimeString = "07:00"
+    let dayScheduleLite = DaySchedule()
     var notificationSettings : NotificationSettings!
     
     
     init() {
-        //print("initialized")
-        notificationSettings = defineNotificationSettings()
-        
+        if Date() < schoolDateFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
+            //print("initialized")
+            notificationSettings = defineNotificationSettings()
+        }
     }
     
     func reinit() {
-        notificationSettings = nil
-        notificationSettings = defineNotificationSettings()
+        if Date() < schoolDateFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
+            notificationSettings = nil
+            notificationSettings = defineNotificationSettings()
+        }
     }
     
     func queueNotifications() {

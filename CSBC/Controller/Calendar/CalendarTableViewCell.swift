@@ -23,8 +23,15 @@ class CalendarTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
+    }
+    
+    func addData(model: EventsModel) {
+        eventLabel.text = model.event.uppercased()
+        dayLabel.text = model.day
+        schoolsLabel.text = model.schools
+        timeLabel.text = model.time
+        monthLabel.text = model.month
     }
 
 }

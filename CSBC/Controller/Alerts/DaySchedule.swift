@@ -16,8 +16,8 @@ class DaySchedule {
     var dateDayDictArray : [String] = [""]
     
     let noSchoolDateStrings : [String] = ["10/05/2018", "10/08/2018", "11/12/2018", "11/21/2018", "11/22/2018", "11/23/2018", "12/24/2018", "12/25/2018", "12/26/2018", "12/27/2018", "12/28/2018", "12/31/2018", "01/01/2019", "02/15/2019", "02/18/2019", "03/14/2019", "03/15/2019", "03/18/2019", "04/15/2019", "04/16/2019", "04/17/2019", "04/18/2019", "04/19/2019", "04/22/2019", "05/23/2019", "05/24/2019", "05/27/2019"]
-    let ptcDateStrings : [String] = ["11/16/2018"]
-    let examDateStrings : [String] = ["01/21/2019", "01/22/2019", "01/23/2019", "01/24/2019", "01/25/2019", "06/18/2019", "06/19/2019", "06/20/2019", "06/21/2019"]
+    let noElementarySchoolDateStrings : [String] = ["11/16/2018"]
+    let noHighSchoolDateStrings : [String] = ["01/21/2019", "01/22/2019", "01/23/2019", "01/24/2019", "01/25/2019", "06/18/2019", "06/19/2019", "06/20/2019", "06/21/2019"]
     
     var snowDateStrings : [String] = [] //["02/22/2019", "02/25/2019", "02/26/2019", "02/27/2019"]
     var dayScheduleOverides : [String : Int] = [:]
@@ -76,7 +76,7 @@ class DaySchedule {
         
         if forSeton {
             //print("appending exam dates")
-            for dateString in examDateStrings {
+            for dateString in noHighSchoolDateStrings {
                 if let restrictedDate = fmt.date(from: dateString) {
                     restrictedDatesForHS.append(restrictedDate)
                     restrictedDatesForHSStrings.append(dateString)
@@ -85,7 +85,7 @@ class DaySchedule {
         }
         if forJohn || forSaints || forJames {
             //print("appending ptc dates")
-            for dateString in ptcDateStrings {
+            for dateString in noElementarySchoolDateStrings {
                 if let restrictedDate = fmt.date(from: dateString) {
                     restrictedDatesForES.append(restrictedDate)
                     restrictedDatesForESStrings.append(dateString)

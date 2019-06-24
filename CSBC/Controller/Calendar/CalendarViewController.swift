@@ -28,8 +28,8 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
     var storedSchoolsToShow : [Bool] = []
     var searchController : UISearchController!
     var filteredEvents : [[String:String]] = [[:]]
-    var events = [EventsModel]()
-    var eventsFilteredModel = [EventsModel]()
+    var eventsModelArray = [EventsModel]()
+    var eventsModelArrrayFiltered = [EventsModel]()
     var showSearchBar = false
 
     @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
@@ -93,7 +93,7 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     
     func setupCalendarTable() {
-        events.removeAll()
+        eventsModelArray.removeAll()
         for i in 0..<calendarData.filteredEventArrayNoDuplicates.count {
             let eventToAppend = EventsModel(
                 date: calendarData.filteredEventArrayNoDuplicates[i]["date"]!,
@@ -103,7 +103,7 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
                 event: calendarData.filteredEventArrayNoDuplicates[i]["event"]!,
                 schools: calendarData.filteredEventArrayNoDuplicates[i]["schools"]!
             )
-            events.append(eventToAppend)
+            eventsModelArray.append(eventToAppend)
         }
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
@@ -195,9 +195,9 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
-            return eventsFilteredModel.count
+            return eventsModelArrrayFiltered.count
         } else {
-            return events.count
+            return eventsModelArray.count
         }
         
     }
@@ -206,15 +206,11 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "calendarTableCell", for: indexPath) as! CalendarTableViewCell
         let model: EventsModel
         if searchController.isActive && searchController.searchBar.text != "" {
-            model = eventsFilteredModel[indexPath.row]
+            model = eventsModelArrrayFiltered[indexPath.row]
         } else {
-            model = events[indexPath.row]
+            model = eventsModelArray[indexPath.row]
         }
-        cell.eventLabel.text = model.event.uppercased()
-        cell.dayLabel.text = model.day
-        cell.schoolsLabel.text = model.schools
-        cell.timeLabel.text = model.time
-        cell.monthLabel.text = model.month
+        cell.addData(model: model)
         return cell
     }
     
@@ -225,9 +221,9 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let model: EventsModel
         if searchController.isActive && searchController.searchBar.text != "" {
-            model = eventsFilteredModel[indexPath.row]
+            model = eventsModelArrrayFiltered[indexPath.row]
         } else {
-            model = events[indexPath.row]
+            model = eventsModelArray[indexPath.row]
         }
         if indexPath.row == 0 && model.event == "" {
             return 0.0
@@ -257,8 +253,8 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     func filterRowsForSearchedText(_ searchText: String) {
-        eventsFilteredModel.removeAll()
-        eventsFilteredModel = events.filter({( model : EventsModel) -> Bool in
+        eventsModelArrrayFiltered.removeAll()
+        eventsModelArrrayFiltered = eventsModelArray.filter({( model : EventsModel) -> Bool in
             return model.date.lowercased().contains(searchText.lowercased())||model.event.lowercased().contains(searchText.lowercased())||model.schools.lowercased().contains(searchText.lowercased())
             
         })
