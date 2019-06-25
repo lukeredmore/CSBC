@@ -14,7 +14,7 @@ protocol PageViewLoadedDelegate: class {
 
 class TodayContainerViewController: UIViewController, TellDateShownToParentVC, DateEnteredDelegate, PageViewLoadedDelegate {
     
-    var athleticsData = AthleticsData()
+    var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
     weak var schoolSelectedForPageViewDelegate : SchoolSelectedForPageDelegate? = nil
     weak var schoolSelectedForHomeViewDelegate : SchoolSelectedDelegate? = nil

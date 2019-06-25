@@ -11,15 +11,17 @@ import Alamofire
 import SwiftyJSON
 
 protocol SendScheduleToPageVC: class {
-    func storeSchedules(athletics: AthleticsData, events: EventsParsing)
+    func storeSchedules(athletics: AthleticsDataParser, events: EventsParsing)
 }
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
+    
+    //var athleticsModelArray : [AthleticsModel]
     var tableView : UITableView!
     var headerLabel : UILabel!
     var headerView : UIView!
-    var athleticsData : AthleticsData = AthleticsData()
+    var athleticsData : AthleticsDataParser = AthleticsDataParser()
     var calendarData : EventsParsing = EventsParsing()
     var forSchool : String!
     var dayOfCycle : Int!
@@ -33,7 +35,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
 //    }()
     var todaysEvents : [[String:String]] = [[:]]
     var ogTodaysEvents : [[String:String]] = [[:]]
-    var todaysAthletics : [[String:String]] = [[:]]
+    var todaysAthletics : AthleticsModel? = nil
     let sectionNames = ["Events","Sports"]
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     var eventsReadyToLoad = false
@@ -58,7 +60,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         findEvent()
     }
     
-    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsData, events : EventsParsing) {
+    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsDataParser, events : EventsParsing) {
         self.dateShown = forDate
         self.athleticsData = athletics
         self.calendarData = events
@@ -120,7 +122,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func findEvent() {
-        if athleticsData.groupedArray.count > 0 && athleticsData.groupedArray[0] != [[:]] {
+        if athleticsData.athleticsModelArray.count > 0 {
             print("using old athletics data")
             prepAthleticsDataForTableView()
         } else {
@@ -156,24 +158,24 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func prepAthleticsDataForTableView() {
-        todaysAthletics = [[:]]
+        todaysAthletics = nil
         athleticsReadyToLoad = false
         //var todaysDateString = fmt.string(from: dateToShow)
         let athleticsDateFormatter = DateFormatter()
         athleticsDateFormatter.dateFormat = "MMMM dd"
         monthDayDateString = athleticsDateFormatter.string(from: fmt.date(from: dateShown)!)
-        for i in 0..<athleticsData.groupedArray.count {
-            if athleticsData.groupedArray[i][0]["date"]!.contains(monthDayDateString) {
-                todaysAthletics = athleticsData.groupedArray[i]
+        for dateWithEvents in athleticsData.athleticsModelArray {
+            if dateWithEvents.date.contains(monthDayDateString) {
+                todaysAthletics = dateWithEvents
             }
         }
-        if todaysAthletics.count == 0 {
-            print("there are no sports today")
-        } else {
-            if todaysAthletics[0] == [:] {
-                todaysAthletics.removeFirst()
-            }
-        }
+//        if todaysAthletics.count == 0 {
+//            print("there are no sports today")
+//        } else {
+//            if todaysAthletics[0] == [:] {
+//                todaysAthletics.removeFirst()
+//            }
+//        }
         athleticsReadyToLoad = true
         tryToLoadTableView()
     }
@@ -280,8 +282,8 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 return 1
             }
         } else {
-            if todaysAthletics.count != 0 {
-                return todaysAthletics.count
+            if todaysAthletics != nil {
+                return todaysAthletics!.sport.count
             } else {
                 return 1
             }
@@ -301,11 +303,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             cell.timeLabel.textColor = .darkText
         }
         if indexPath.section == 1 {
-            if todaysAthletics.count > 0 && todaysAthletics[0] != [:] {
+            if todaysAthletics != nil {
                 cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = "\(todaysAthletics[indexPath.row]["gender"]!)'s \(todaysAthletics[indexPath.row]["sport"]!) \(todaysAthletics[indexPath.row]["homeGame"]!) \(todaysAthletics[indexPath.row]["opponent"]!)"
-                cell.timeLabel.text = todaysAthletics[indexPath.row]["time"]
-                cell.levelLabel.text = todaysAthletics[indexPath.row]["level"]
+                cell.titleLabel.text = "\(todaysAthletics!.gender[indexPath.row])'s \(todaysAthletics!.sport[indexPath.row]) \(todaysAthletics!.homeGame[indexPath.row]) \(todaysAthletics!.opponent[indexPath.row])"
+                cell.timeLabel.text = todaysAthletics!.time[indexPath.row]
+                cell.levelLabel.text = todaysAthletics!.level[indexPath.row]
             } else {
                 cell.timeLabel.text = "There are no events today"
                 cell.titleLabel.text = nil

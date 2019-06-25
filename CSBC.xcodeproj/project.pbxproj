@@ -30,7 +30,7 @@
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
 		266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */; };
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
-		26858BC52226292700ADDD1F /* AthleticsData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsData.swift */; };
+		26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsDataParser.swift */; };
 		26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */; };
 		26894D4821EFACFE00691C97 /* Gotham-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26894D3E21EFACFD00691C97 /* Gotham-Light.otf */; };
 		26894D4921EFACFE00691C97 /* Gotham-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26894D3F21EFACFD00691C97 /* Gotham-Black.otf */; };
@@ -132,7 +132,7 @@
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
 		266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsModel.swift; sourceTree = "<group>"; };
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
-		26858BC42226292700ADDD1F /* AthleticsData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsData.swift; sourceTree = "<group>"; };
+		26858BC42226292700ADDD1F /* AthleticsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsDataParser.swift; sourceTree = "<group>"; };
 		26894D3E21EFACFD00691C97 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
 		26894D3F21EFACFD00691C97 /* Gotham-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Black.otf"; sourceTree = "<group>"; };
 		26894D4021EFACFD00691C97 /* Gotham-Thin.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Thin.otf"; sourceTree = "<group>"; };
@@ -407,7 +407,7 @@
 			children = (
 				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
 				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
-				26858BC42226292700ADDD1F /* AthleticsData.swift */,
+				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
 				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
 			);
 			path = Athletics;
@@ -903,7 +903,7 @@
 				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,
-				26858BC52226292700ADDD1F /* AthleticsData.swift in Sources */,
+				26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */,
 				266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */,
 				26ADFE422246A1CE00A557C5 /* ContactContainerViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,

@@ -30,7 +30,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     var dateSentToNextPageVC = Date()
     weak var dateDelegate : TellDateShownToParentVC? = nil
     var testVar : String!
-    var athleticsData = AthleticsData()
+    var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
     var schoolSelected = "Seton"
     let daySchedule : DaySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
@@ -48,7 +48,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
     }
     
-    func storeSchedules(athletics: AthleticsData, events: EventsParsing) {
+    func storeSchedules(athletics: AthleticsDataParser, events: EventsParsing) {
         self.athleticsData = athletics
         self.calendarData = events
         reloadInputViews()

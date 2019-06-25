@@ -9,11 +9,11 @@
 import Foundation
 
 struct AthleticsModel {
-    let homeGame : String
-    let gender : String
-    let level : String
-    let sport : String
-    let opponent : String
-    let time : String
+    let homeGame : [String]
+    let gender : [String]
+    let level : [String]
+    let sport : [String]
+    let opponent : [String]
+    let time : [String]
     let date : String
 }

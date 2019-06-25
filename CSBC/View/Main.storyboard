@@ -298,9 +298,6 @@
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" name="CSBCNavBarText"/>
                         </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" name="CSBCNavBarText"/>
-                        </textAttributes>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="D3v-qU-AoT">
                         <autoresizingMask key="autoresizingMask"/>
@@ -639,16 +636,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSg-N2-sl1">
-                                                    <rect key="frame" x="80" y="5" width="324" height="30"/>
-                                                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2bx-f2-FFm" userLabel="DateContainer">
-                                                    <rect key="frame" x="15" y="12.5" width="60" height="60"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="iql-bb-vIX">
+                                                    <rect key="frame" x="15" y="12.5" width="39" height="60"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pp4-fI-zyc">
-                                                            <rect key="frame" x="0.0" y="0.0" width="60" height="40"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="39" height="40"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="40" id="ycf-Zf-Atf"/>
                                                             </constraints>
@@ -656,35 +648,31 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JAN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0L8-aM-M8O">
-                                                            <rect key="frame" x="0.0" y="40" width="60" height="20"/>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JAN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0L8-aM-M8O">
+                                                            <rect key="frame" x="0.0" y="40" width="39" height="20"/>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
                                                     <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="Pp4-fI-zyc" secondAttribute="trailing" id="1IX-OH-tXq"/>
-                                                        <constraint firstItem="Pp4-fI-zyc" firstAttribute="leading" secondItem="2bx-f2-FFm" secondAttribute="leading" id="PsJ-bi-0rX"/>
-                                                        <constraint firstAttribute="bottom" secondItem="0L8-aM-M8O" secondAttribute="bottom" id="auD-hP-wLf"/>
-                                                        <constraint firstItem="Pp4-fI-zyc" firstAttribute="top" secondItem="2bx-f2-FFm" secondAttribute="top" id="dGn-VN-PsF"/>
-                                                        <constraint firstItem="0L8-aM-M8O" firstAttribute="leading" secondItem="2bx-f2-FFm" secondAttribute="leading" id="qeD-Fc-mUk"/>
-                                                        <constraint firstAttribute="height" constant="60" id="uES-6e-Vye"/>
-                                                        <constraint firstAttribute="width" constant="60" id="uW7-GG-XN6"/>
-                                                        <constraint firstAttribute="trailing" secondItem="0L8-aM-M8O" secondAttribute="trailing" id="wOt-jW-HUm"/>
+                                                        <constraint firstAttribute="trailing" secondItem="0L8-aM-M8O" secondAttribute="trailing" id="0MO-f5-ZPK"/>
+                                                        <constraint firstItem="0L8-aM-M8O" firstAttribute="leading" secondItem="iql-bb-vIX" secondAttribute="leading" id="aty-n4-xP1"/>
                                                     </constraints>
-                                                </view>
+                                                </stackView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zSg-N2-sl1">
+                                                    <rect key="frame" x="69" y="5" width="335" height="30"/>
+                                                    <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="G4E-ww-Sox">
-                                                    <rect key="frame" x="80" y="35" width="314" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="21" id="aax-rY-Vn2"/>
-                                                    </constraints>
+                                                    <rect key="frame" x="69" y="35" width="37.5" height="20"/>
                                                     <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="secondaryLabelColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Schools" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMa-KJ-5fU">
-                                                    <rect key="frame" x="80" y="56" width="329" height="20"/>
+                                                    <rect key="frame" x="69" y="55" width="61.5" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="20" id="D7W-mo-1uc"/>
                                                     </constraints>
@@ -694,17 +682,15 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="2bx-f2-FFm" firstAttribute="centerY" secondItem="jU2-wH-JBB" secondAttribute="centerY" id="0Pw-3y-xKs"/>
-                                                <constraint firstItem="2bx-f2-FFm" firstAttribute="leading" secondItem="jU2-wH-JBB" secondAttribute="leading" constant="15" id="52V-Kg-5lz"/>
-                                                <constraint firstItem="UMa-KJ-5fU" firstAttribute="leading" secondItem="2bx-f2-FFm" secondAttribute="trailing" constant="5" id="KJZ-tj-Wvd"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="G4E-ww-Sox" secondAttribute="trailing" id="M0K-YD-sVt"/>
+                                                <constraint firstItem="iql-bb-vIX" firstAttribute="centerY" secondItem="jU2-wH-JBB" secondAttribute="centerY" id="2mA-jU-5g8"/>
+                                                <constraint firstItem="zSg-N2-sl1" firstAttribute="leading" secondItem="iql-bb-vIX" secondAttribute="trailing" constant="15" id="8Sz-3B-z3O"/>
+                                                <constraint firstItem="iql-bb-vIX" firstAttribute="leading" secondItem="jU2-wH-JBB" secondAttribute="leading" constant="15" id="Htg-IX-Utk"/>
+                                                <constraint firstItem="UMa-KJ-5fU" firstAttribute="leading" secondItem="iql-bb-vIX" secondAttribute="trailing" constant="15" id="TFG-tj-R9V"/>
+                                                <constraint firstItem="G4E-ww-Sox" firstAttribute="leading" secondItem="iql-bb-vIX" secondAttribute="trailing" constant="15" id="Vyb-4K-JWi"/>
                                                 <constraint firstItem="zSg-N2-sl1" firstAttribute="top" secondItem="jU2-wH-JBB" secondAttribute="top" constant="5" id="aOY-I4-tLc"/>
-                                                <constraint firstAttribute="trailing" secondItem="UMa-KJ-5fU" secondAttribute="trailing" constant="5" id="adh-ah-wfj"/>
                                                 <constraint firstItem="G4E-ww-Sox" firstAttribute="top" secondItem="zSg-N2-sl1" secondAttribute="bottom" id="aek-gA-99d"/>
                                                 <constraint firstAttribute="bottom" secondItem="zSg-N2-sl1" secondAttribute="bottom" constant="50" id="euV-YG-fOW"/>
                                                 <constraint firstAttribute="trailing" secondItem="zSg-N2-sl1" secondAttribute="trailing" constant="10" id="feq-kX-5w6"/>
-                                                <constraint firstItem="zSg-N2-sl1" firstAttribute="leading" secondItem="2bx-f2-FFm" secondAttribute="trailing" constant="5" id="tsy-IK-1lQ"/>
-                                                <constraint firstItem="G4E-ww-Sox" firstAttribute="leading" secondItem="2bx-f2-FFm" secondAttribute="trailing" constant="5" id="vgh-zS-c13"/>
                                                 <constraint firstItem="UMa-KJ-5fU" firstAttribute="top" secondItem="G4E-ww-Sox" secondAttribute="bottom" id="yRE-Zk-aRk"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -2575,4 +2561,5 @@
         <segue reference="pqm-TP-Tjd"/>
         <segue reference="c4i-zB-7td"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" name="CSBCNavBarBackground"/>
 </document>

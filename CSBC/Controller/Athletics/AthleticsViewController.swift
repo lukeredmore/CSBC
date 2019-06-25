@@ -12,15 +12,7 @@ import SwiftyJSON
 
 class AthleticsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchResultsUpdating, UISearchBarDelegate {
     
-    var athleticsData = AthleticsData()
-    let athleticsDataURL = "https://www.schedulegalaxy.com/api/v1/schools/163/activities"
-    let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
-    var gameInfo : [String : String] = [:]
-    var gameInfoArray : [[String : String]] = [[:]]
-    var gameDates : [String?] = []
-    var numberOfDates : [String:Int] = [:]
-    var numberOfDatesArray : [Int] = []
-    var numberOfDatesSum : [Int] = []
+    var athleticsData = AthleticsDataParser()
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
@@ -31,8 +23,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
     var firstTimeLoaded = true
     var searchController : UISearchController!
     let requestingURL = true
-    var athleticsModelArray = [[AthleticsModel]]()
-    var athleticsModelArrayFiltered = [[AthleticsModel]]()
     var showSearchBar = false
     
     private var originalTableViewOffset: CGFloat = 0
@@ -61,67 +51,35 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        if athleticsData.groupedArray.count < 2 {
+        if athleticsData.athleticsModelArray.isEmpty {
             print("groupedArray is empty on viewWillAppear")
-        } else {
-            print("groupedArray has \(athleticsData.groupedArray.count) values on viewWillAppear")
-        }
-        if athleticsData.groupedArray == [[[:]]] {
             tableView.isHidden = true
             loadingSymbol.startAnimating()
             showSearchBar = false
             searchBarTopConstraint.constant = -56
             view.layoutIfNeeded()
-            getAthleticsData(url: athleticsDataURL)
+            getAthleticsData()
         } else {
+            print("groupedArray has \(athleticsData.athleticsModelArray.count) values on viewWillAppear")
             setupTable()
         }
     }
 
     //MARK: Athletics Data Methods
-    func getAthleticsData(url: String) {
+    func getAthleticsData() {
         print("we are asking for data")
         let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
-        if requestingURL == true {
-            Alamofire.request(url, method: .get, parameters: parameters).responseJSON {
-                response in
-                if response.result.isSuccess {
-                    print("Athletics Data Received")
-                    let athleticsJSON : JSON = JSON(response.result.value!)
-                    self.athleticsData.parseAthleticsData(json: athleticsJSON)
-                    self.setupTable()
-                }
+        Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
+            response in
+            if response.result.isSuccess {
+                print("Athletics Data Received")
+                let athleticsJSON : JSON = JSON(response.result.value!)
+                self.athleticsData.parseAthleticsData(json: athleticsJSON)
+                self.setupTable()
             }
-        } else {
-            let path = Bundle.main.path(forResource: "testJSON", ofType: "json")!
-            let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8)
-            let athleticsJSON = JSON(parseJSON: jsonString!)
-            athleticsData.parseAthleticsData(json: athleticsJSON)
-            setupTable()
         }
-        
     }
     func setupTable() {
-        athleticsModelArray.removeAll()
-        var gameToAppend : AthleticsModel
-        var daysToAppend : [AthleticsModel] = [AthleticsModel]()
-        for dateWithEvents in athleticsData.groupedArray {
-            daysToAppend.removeAll()
-            for event in dateWithEvents {
-                gameToAppend = AthleticsModel(
-                    homeGame: event["homeGame"]!,
-                    gender: event["gender"]!,
-                    level: event["level"]!,
-                    sport: event["sport"]!,
-                    opponent: event["opponent"]!,
-                    time: event["time"]!,
-                    date: event["date"]!
-                )
-                daysToAppend.append(gameToAppend)
-            }
-            athleticsModelArray.append(daysToAppend)
-        }
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.refreshControl = refreshControl
@@ -176,19 +134,30 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     func filterRowsForSearchedText(_ searchText: String) {
-        athleticsModelArrayFiltered.removeAll()
-        for i in 0..<athleticsModelArray.count {
-            athleticsModelArrayFiltered.append(athleticsModelArray[i].filter({( model : AthleticsModel) -> Bool in
-                return model.date.lowercased().contains(searchText.lowercased())||model.opponent.lowercased().contains(searchText.lowercased())||model.level.lowercased().contains(searchText.lowercased())||model.sport.lowercased().contains(searchText.lowercased())||model.gender.lowercased().contains(searchText.lowercased())
-            }))
-        }
-        var i = athleticsModelArrayFiltered.count - 1
-        while i > -1 {
-            if athleticsModelArrayFiltered[i].isEmpty {
-                athleticsModelArrayFiltered.remove(at: i)
+        athleticsData.athleticsModelArrayFiltered.removeAll()
+        var includedModelsList : [Int] = []
+        var includedIndicesList : [Int] = []
+        for date in 0..<athleticsData.athleticsModelArray.count {
+            for event in 0..<athleticsData.athleticsModelArray[date].sport.count {
+                if athleticsData.athleticsModelArray[date].sport[event].lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(date)
+                    includedIndicesList.append(event)
+                } else if athleticsData.athleticsModelArray[date].opponent[event].lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(date)
+                    includedIndicesList.append(event)
+                } else if athleticsData.athleticsModelArray[date].level[event].lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(date)
+                    includedIndicesList.append(event)
+                } else if athleticsData.athleticsModelArray[date].gender[event].lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(date)
+                    includedIndicesList.append(event)
+                } else if athleticsData.athleticsModelArray[date].date.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(date)
+                    includedIndicesList.append(event)
+                }
             }
-            i -= 1
         }
+        athleticsData.addToFilteredModelArray(modelsToInclude: includedModelsList, indicesToInclude: includedIndicesList)
         tableView.reloadData()
     }
     
@@ -196,16 +165,16 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
     //MARK: TableView and ScrollView Delegate Methods
     func numberOfSections(in tableView: UITableView) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
-            return athleticsModelArrayFiltered.count
+            return athleticsData.athleticsModelArrayFiltered.count
         } else {
-            return athleticsModelArray.count
+            return athleticsData.athleticsModelArray.count
         }
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if searchController.isActive && searchController.searchBar.text != "" {
-            return athleticsModelArrayFiltered[section].count
+            return athleticsData.athleticsModelArrayFiltered[section].sport.count
         } else {
-            return athleticsModelArray[section].count
+            return athleticsData.athleticsModelArray[section].sport.count
         }
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -214,19 +183,19 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         let modelForCurrentCell : AthleticsModel
         if searchController.isActive && searchController.searchBar.text != "" {
-            modelForCurrentCell = athleticsModelArrayFiltered[indexPath.section][indexPath.row]
+            modelForCurrentCell = athleticsData.athleticsModelArrayFiltered[indexPath.section]
         } else {
-            modelForCurrentCell = athleticsModelArray[indexPath.section][indexPath.row]
+            modelForCurrentCell = athleticsData.athleticsModelArray[indexPath.section]
         }
-        cell.addData(model: modelForCurrentCell)
+        cell.addData(model: modelForCurrentCell, index: indexPath.row)
         
         return cell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if searchController.isActive && searchController.searchBar.text != "" {
-            return athleticsModelArrayFiltered[section][0].date
+            return athleticsData.athleticsModelArrayFiltered[section].date
         } else {
-            return athleticsData.groupedArray[section][0]["date"]
+            return athleticsData.athleticsModelArray[section].date
         }
         
     }
@@ -276,7 +245,7 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
         //tableView.dataSource = nil
         if Reachability.isConnectedToNetwork(){
             firstTimeLoaded = false
-            getAthleticsData(url: athleticsDataURL)
+            getAthleticsData()
             tableView.reloadData()
             //refreshControl.endRefreshing()
         }

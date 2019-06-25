@@ -26,13 +26,13 @@ class AthleticsTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func addData(model: AthleticsModel) {
+    func addData(model: AthleticsModel, index: Int) {
         let charactersToFilter : CharacterSet = CharacterSet(charactersIn: ":()1234567890")
-        var titleText : String = "\(model.gender)'s \(model.sport) \(model.homeGame) \(model.opponent)"
+        var titleText : String = "\(model.gender[index])'s \(model.sport[index]) \(model.homeGame[index]) \(model.opponent[index])"
         titleText = titleText.components(separatedBy: charactersToFilter).joined()
         titleLabel.text = titleText
-        levelLabel.text = model.level
-        timeLabel.text = model.time
+        levelLabel.text = model.level[index]
+        timeLabel.text = model.time[index]
     }
 
 }

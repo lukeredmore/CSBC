@@ -49,7 +49,7 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     
     //MARK: Other properties
     let production: Bool = Env.isProduction()
-    var athleticsData = AthleticsData()
+    var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
     let safariViewURLS : [Int:String] = [5:"https://csbcsaints.org/news",8:"https://app.mobilecause.com/form/fi0kKA?vid=hf0o"]
     var button = ""
