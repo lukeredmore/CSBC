@@ -73,8 +73,10 @@ class AthleticsDataParser {
                     let date = formatter.date(from: "\(dateArray[0]) \(dateArray[1]) \(dateArray[2])")
                     formatter.dateFormat = "EEEE, MMMM d"
                     dateString = formatter.string(from: date!)
-                    n += 1
+                } else {
+                    print("Error in parsing '\(title)'")
                 }
+                n += 1
                 
             }
             dateToBeat = currentDate

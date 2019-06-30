@@ -11,20 +11,12 @@ import UIKit
 protocol TellDateShownToParentVC: class  {
     func showDateAsHeader(dateGiven : Date)
 }
-protocol SchoolSelectedForPageDelegate: class {
-    func storeSchoolSelected(schoolSelected : String)
-}
 protocol DateForPageDelegate: class {
     func storeDateSelected(date : Date)
 }
 
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, SendScheduleToPageVC, SchoolSelectedForPageDelegate, DateForPageDelegate {
+class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, PageViewSchoolPickerDelegate, SendScheduleToPageVC, DateForPageDelegate {
     
-    var fmt : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        return fmt
-    }
     var dateSentToCurrentPageVC = Date()
     var dateSentToPreviousPageVC = Date()
     var dateSentToNextPageVC = Date()
@@ -32,7 +24,6 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     var testVar : String!
     var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
-    var schoolSelected = "Seton"
     let daySchedule : DaySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
     
     override func viewDidLoad() {
@@ -42,8 +33,12 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print(schoolSelected, "selected on viewWillAppear in PageViewController")
-        let controller = TodayViewController(forDate: fmt.string(from: dateSentToCurrentPageVC), forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![fmt.string(from: dateSentToCurrentPageVC)] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+        let controller = TodayViewController(
+            forDate: dateStringFormatter.string(from: dateSentToCurrentPageVC),
+            forSchool: schoolSelected.ssString,
+            forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![dateStringFormatter.string(from: dateSentToCurrentPageVC)] ?? 0,
+            athletics: self.athleticsData,
+            events: self.calendarData)
         controller.pageViewDidLoadDelegate = parent as! TodayContainerViewController
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
     }
@@ -54,25 +49,41 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         reloadInputViews()
     }
 
-    func storeSchoolSelected(schoolSelected: String) {
+    func schoolPickerValueDidChange() {
         //print(schoolSelected)
-        self.schoolSelected = schoolSelected
+        schoolSelected = getSchoolSelected()
         
         if self.viewControllers!.count > 0 {
             //print("running this one")
             let currentVC = self.viewControllers![0] as! TodayViewController
-            let controller = TodayViewController(forDate: currentVC.dateShown, forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![currentVC.dateShown] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+            let controller = TodayViewController(
+                forDate: currentVC.dateShown,
+                forSchool: schoolSelected.ssString,
+                forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![currentVC.dateShown] ?? 0,
+                athletics: self.athleticsData,
+                events: self.calendarData
+            )
             controller.pageViewDidLoadDelegate = parent as! TodayContainerViewController
             self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
         } else {
             //print("that olne")
-            let controller = TodayViewController(forDate: fmt.string(from: Date()), forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![fmt.string(from: Date())] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+            let controller = TodayViewController(
+                forDate: dateStringFormatter.string(from: Date()),
+                forSchool: schoolSelected.ssString,
+                forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![dateStringFormatter.string(from: Date())] ?? 0,
+                athletics: self.athleticsData,
+                events: self.calendarData)
             controller.pageViewDidLoadDelegate = parent as! TodayContainerViewController
             self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
         }
     }
     func storeDateSelected(date : Date) {
-        let controller = TodayViewController(forDate: fmt.string(from: date), forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![fmt.string(from: date)] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+        let controller = TodayViewController(
+            forDate: dateStringFormatter.string(from: date),
+            forSchool: schoolSelected.ssString,
+            forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![dateStringFormatter.string(from: date)] ?? 0,
+            athletics: self.athleticsData,
+            events: self.calendarData)
         dateSentToPreviousPageVC = date
         dateSentToNextPageVC = date
         controller.pageViewDidLoadDelegate = parent as! TodayContainerViewController
@@ -81,13 +92,23 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         dateSentToPreviousPageVC -= 86400
-        let controller = TodayViewController(forDate: fmt.string(from: dateSentToPreviousPageVC), forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![fmt.string(from: dateSentToPreviousPageVC)] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+        let controller = TodayViewController(
+            forDate: dateStringFormatter.string(from: dateSentToPreviousPageVC),
+            forSchool: schoolSelected.ssString,
+            forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![dateStringFormatter.string(from: dateSentToPreviousPageVC)] ?? 0,
+            athletics: self.athleticsData,
+            events: self.calendarData)
         return controller
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         dateSentToNextPageVC += 86400
-        let controller = TodayViewController(forDate: fmt.string(from: dateSentToNextPageVC), forSchool: schoolSelected, forDayOfCycle: daySchedule.dateDayDict[schoolSelected]![fmt.string(from: dateSentToNextPageVC)] ?? 0, athletics: self.athleticsData, events: self.calendarData)
+        let controller = TodayViewController(
+            forDate: dateStringFormatter.string(from: dateSentToNextPageVC),
+            forSchool: schoolSelected.ssString,
+            forDayOfCycle: daySchedule.dateDayDict[schoolSelected.ssString]![dateStringFormatter.string(from: dateSentToNextPageVC)] ?? 0,
+            athletics: self.athleticsData,
+            events: self.calendarData)
         return controller
     }
     
@@ -95,7 +116,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
         let childVC = pageViewController.viewControllers![0] as! TodayViewController
         childVC.eventsDelegate = self
         childVC.pageViewDidLoadDelegate = parent as! TodayContainerViewController
-        let dateToSend = fmt.date(from: childVC.dateShown)!
+        let dateToSend = dateStringFormatter.date(from: childVC.dateShown)!
         dateDelegate?.showDateAsHeader(dateGiven: dateToSend)
         dateSentToNextPageVC = dateToSend
         dateSentToPreviousPageVC = dateToSend

@@ -9,36 +9,28 @@
 import UIKit
 
 
-class SettingsContainerViewController: UIViewController{//, TimeEnteredDelegate {
+class SettingsContainerViewController: CSBCViewController {//, TimeEnteredDelegate {
 
-    let userDefaults = UserDefaults.standard
-    var schoolSelected : String? = nil
-    let schools = ["Seton","St. John's","All Saints","St. James"]
     let schoolsNotifications = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
-    weak var delegate : SchoolSelectedDelegate?
-    let fmt = DateFormatter()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
+    //var schoolSelectedOptional: String? = nil
     
     
+    /*
     override func viewDidDisappear(_ animated: Bool) {
         var i = 0
         let notificationSettings = defineNotificationSettings()
-        while schoolSelected == nil && i < 4 {
+        while schoolSelectedOptional == nil && i < 4 {
             if notificationSettings.schools[i] {
-                schoolSelected = schools[i]
+                schoolSelectedOptional = schoolsArray[i]
             }
             i += 1
         }
-        if schoolSelected == nil {
-            schoolSelected = "Seton"
+        if schoolSelectedOptional == nil {
+            schoolSelectedOptional = "Seton"
         }
-        print("attmpetimng to store school of \(schoolSelected!)")
-        delegate?.storeSchoolSelected(schoolSelected: self.schoolSelected!)
+        print("attmpetimng to store school of \(schoolSelectedOptional!)")
     }
+    */
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {

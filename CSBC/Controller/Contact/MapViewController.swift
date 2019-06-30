@@ -9,13 +9,12 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: CSBCViewController {
 
     var givenLatitude : Double = 0.000
     var givenLongitude : Double = 0.000
     let locationDictionary : [String:[Double]] = ["Seton Catholic Central":[42.098485, -75.928579], "All Saints School":[42.100491, -76.050103], "St. John's School":[42.092430, -75.908342], "St. James School":[42.115512, -75.969542]]
-    let schoolsArray = ["Seton Catholic Central","St. John's School","All Saints School","St. James School"]
-    var schoolSelected = 0
+    let fullSchoolsArray = ["Seton Catholic Central","St. John's School","All Saints School","St. James School"]
     
     @IBOutlet var mapView: MKMapView!
     
@@ -26,7 +25,7 @@ class MapViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        let header = schoolsArray[schoolSelected]
+        let header = fullSchoolsArray[schoolSelected.ssInt]
         givenLatitude = locationDictionary[header]![0]
         givenLongitude = locationDictionary[header]![1]
         let initialLocation = CLLocation(latitude: givenLatitude, longitude: givenLongitude)
@@ -57,15 +56,5 @@ class MapViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

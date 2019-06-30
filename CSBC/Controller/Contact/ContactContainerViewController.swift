@@ -8,20 +8,9 @@
 
 import UIKit
 
+class ContactContainerViewController: CSBCViewController {
 
-protocol SchoolSelectedDelegate: class {
-    func storeSchoolSelected(schoolSelected: String)
-}
-
-class ContactContainerViewController: UIViewController {
-
-    var schoolSelected = ""
-    weak var delegate: SchoolSelectedDelegate? = nil
     @IBOutlet weak var schoolPicker: UISegmentedControl!
-    
-    //MARK: - New school picker properties
-    let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
-    var schoolSelectedInt = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,38 +18,25 @@ class ContactContainerViewController: UIViewController {
         if #available(iOS 13.0, *) {
             schoolPicker.overrideUserInterfaceStyle = .dark
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
                 schoolPicker.selectedSegmentIndex = i
                 break
             }
         }
-        sendData(intToSend: schoolSelectedInt)
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        delegate?.storeSchoolSelected(schoolSelected: schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!)
     }
     
-    func sendData(intToSend : Int) {
+    func sendData() {
         let CVC = children.last as! ContactParallaxViewController
-        CVC.setSchoolSelectedInContainer(newSchoolSelected: intToSend)
+        CVC.schoolPickerValueDidChange()
     }
     
     @IBAction func schoolPickerValueChanged(_ sender: Any) {
-        schoolSelected = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
-        sendData(intToSend: schoolSelectedInt)
-        
+        schoolSelected.update(schoolPicker)
+        sendData()
     }
     
-    
-
-    
-
 }

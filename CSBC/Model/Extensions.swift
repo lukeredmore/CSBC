@@ -44,33 +44,33 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-        
+
         return ceil(boundingBox.height)
     }
-    
+
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-        
+
         return ceil(boundingBox.width)
     }
 }
 
-extension NSAttributedString {
-    func height(withConstrainedWidth width: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        
-        return ceil(boundingBox.height)
-    }
-    
-    func width(withConstrainedHeight height: CGFloat) -> CGFloat {
-        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-        
-        return ceil(boundingBox.width)
-    }
-}
+//extension NSAttributedString {
+//    func height(withConstrainedWidth width: CGFloat) -> CGFloat {
+//        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+//        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+//
+//        return ceil(boundingBox.height)
+//    }
+//
+//    func width(withConstrainedHeight height: CGFloat) -> CGFloat {
+//        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+//        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
+//
+//        return ceil(boundingBox.width)
+//    }
+//}
 //extension UIViewController {
 //    /**
 //     *  Height of status bar + navigation bar (if navigation bar exist)
@@ -81,129 +81,6 @@ extension NSAttributedString {
 //    }
 //}
 
-extension FilterCalendarViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 1
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-        guard let toVC = toViewController else { return }
-        isPresenting = !isPresenting
-        
-        if isPresenting == true {
-            containerView.addSubview(toVC.view)
-            
-            menuView.frame.origin.y += menuHeight
-            backdropView.alpha = 0
-            
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y -= self.menuHeight
-                self.backdropView.alpha = 1
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        } else {
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y += self.menuHeight
-                self.backdropView.alpha = 0
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        }
-    }
-}
-extension FilterAlertsViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 1
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-        guard let toVC = toViewController else { return }
-        isPresenting.toggle()
-        
-        if isPresenting == true {
-            containerView.addSubview(toVC.view)
-            
-            menuView.frame.origin.y += menuHeight
-            backdropView.alpha = 0
-            
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y -= self.menuHeight
-                self.backdropView.alpha = 1
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        } else {
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y += self.menuHeight
-                self.backdropView.alpha = 0
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        }
-    }
-}
-extension SetDeliveryTimeViewController: UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
-    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
-    }
-    
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return 1
-    }
-    
-    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let containerView = transitionContext.containerView
-        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
-        guard let toVC = toViewController else { return }
-        isPresenting = !isPresenting
-        
-        if isPresenting == true {
-            containerView.addSubview(toVC.view)
-            
-            menuView.frame.origin.y += menuHeight
-            backdropView.alpha = 0
-            
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y -= self.menuHeight
-                self.backdropView.alpha = 1
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        } else {
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.menuView.frame.origin.y += self.menuHeight
-                self.backdropView.alpha = 0
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
-        }
-    }
-}
 extension UIView {
     
     func addShadow() {
@@ -214,67 +91,11 @@ extension UIView {
         //clipsToBounds = false
     }
 }
-extension NSLayoutConstraint {
-    func constraintWithMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
-        return NSLayoutConstraint(item: self.firstItem!, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
-    }
-}
-extension UIViewController {
-    func shouldIShowAllSchools(schoolPicker : UISegmentedControl, schoolPickerHeightConstraint : NSLayoutConstraint) {
-        if #available(iOS 13.0, *) {
-            schoolPicker.overrideUserInterfaceStyle = .dark
-        }
-        let schoolNames = ["Seton","St. John's","All Saints","St. James"]
-        let internalNotificationSettings = defineNotificationSettings()
-        if let showAllSchools : Bool = UserDefaults.standard.value(forKey: "showAllSchools") as! Bool? {
-            if showAllSchools {
-                schoolPicker.removeAllSegments()
-                for i in 0..<schoolNames.count {
-                    schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
-                }
-                schoolPickerHeightConstraint.constant = 45
-                schoolPicker.isHidden = false
-            } else {
-                let schoolBools : [Bool] = internalNotificationSettings.schools
-                //print(editedSchoolNames)
-                schoolPicker.removeAllSegments()
-                var indexAtWhichToInsertSegment = 0
-                for i in 0..<schoolBools.count {
-                    if schoolBools[i] {
-                        schoolPicker.insertSegment(withTitle: schoolNames[i], at: indexAtWhichToInsertSegment, animated: false)
-                        indexAtWhichToInsertSegment += 1
-                        //print("thing inserted at \(i)")
-                        //print("thing again inserted at \(indexAtWhichToInsertSegment)")
-                    }
-                }
-                if schoolPicker.numberOfSegments == 1 {
-                    schoolPickerHeightConstraint.constant = 0
-                    schoolPicker.isHidden = true
-                } else {
-                    schoolPickerHeightConstraint.constant = 45
-                    schoolPicker.isHidden = false
-                }
-                view.layoutIfNeeded()
-            }
-        } else {
-            schoolPicker.removeAllSegments()
-            for i in 0..<schoolNames.count {
-                schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
-            }
-            schoolPickerHeightConstraint.constant = 45
-            schoolPicker.isHidden = false
-        }
-    }
-    func defineNotificationSettings() -> NotificationSettings {
-        if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
-            let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
-            return notificationSettings!
-        } else {
-            let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
-            return notificationSettings
-        }
-    }
-}
+//extension NSLayoutConstraint {
+//    func constraintWithMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
+//        return NSLayoutConstraint(item: self.firstItem!, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
+//    }
+//}
 
 extension UserDefaults {
     

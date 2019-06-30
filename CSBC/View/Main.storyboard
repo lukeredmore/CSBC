@@ -2383,7 +2383,6 @@
                                             <segment title="All Saints"/>
                                             <segment title="St. James"/>
                                         </segments>
-                                        <color key="tintColor" cocoaTouchSystemColor="systemPinkColor"/>
                                         <connections>
                                             <action selector="schoolSelectedChanged:" destination="hL9-rV-7XR" eventType="valueChanged" id="UGn-MH-vr8"/>
                                         </connections>

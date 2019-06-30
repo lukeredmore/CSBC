@@ -12,7 +12,7 @@ import PDFKit
 
 class ActualDocViewController: UIViewController {
 
-    var schoolSelected = 0
+    //var schoolSelected = 0
     @IBOutlet weak var pdfView: PDFView!
     
     var clickedDocument : PDFDocument?
@@ -81,14 +81,5 @@ class ActualDocViewController: UIViewController {
         }
         
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

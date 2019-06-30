@@ -8,9 +8,7 @@
 
 import UIKit
 
-class SocialMediaController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var schoolSelected = ""
-    weak var delegate: SchoolSelectedDelegate? = nil
+class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
     let tableHeaders = ["Twitter", "Facebook", "Instagram"]
     let headerDeepLinkPrefixes = ["twitter://user?screen_name=", "fb://profile/", "instagram://user?username="]
     let headerSafariPrefixes = ["https://twitter.com/", "https://facebook.com/", "https://instagram.com/"]
@@ -54,9 +52,7 @@ class SocialMediaController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet var schoolPicker: UISegmentedControl!
     
     //MARK: - New school picker properties
-    let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
     var editedSchoolNames : [String] = []
-    var schoolSelectedInt = 0
     @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     
@@ -68,40 +64,33 @@ class SocialMediaController: UIViewController, UITableViewDataSource, UITableVie
     
     override func viewWillAppear(_ animated: Bool) {
         shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
                 schoolPicker.selectedSegmentIndex = i
-                //print("\(i) was selected")
-            } //else { print("\(i) wasn't selected") }
+            }
         }
         tableView.reloadData()
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        delegate?.storeSchoolSelected(schoolSelected: self.schoolSelected)
-    }
-    
     @IBAction func schoolSelectedChanged(_ sender: Any) {
-        schoolSelected = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
+        schoolSelected.update(schoolPicker)
         tableView.reloadData()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return socialArray[schoolSelectedInt].count
+        return socialArray[schoolSelected.ssInt].count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return socialArray[schoolSelectedInt][section].count
+        return socialArray[schoolSelected.ssInt][section].count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "socialMediaTableCell", for: indexPath)
-        cell.textLabel!.text = socialArray[schoolSelectedInt][indexPath.section][indexPath.row]
+        cell.textLabel!.text = socialArray[schoolSelected.ssInt][indexPath.section][indexPath.row]
         return cell
     }
     
@@ -112,7 +101,7 @@ class SocialMediaController: UIViewController, UITableViewDataSource, UITableVie
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appPrefix : String = headerDeepLinkPrefixes[indexPath.section]
         let safariPrefix : String = headerSafariPrefixes[indexPath.section]
-        let screenName : String = socialURLArray[schoolSelectedInt][indexPath.section][indexPath.row]
+        let screenName : String = socialURLArray[schoolSelected.ssInt][indexPath.section][indexPath.row]
         let appURL = NSURL(string: "\(appPrefix)\(screenName)")!
         let webURL = NSURL(string: "\(safariPrefix)\(screenName)")!
         

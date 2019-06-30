@@ -30,6 +30,8 @@
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
 		266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */; };
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
+		26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */; };
+		26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4022C7FB6400C30493 /* CSBCViewController.swift */; };
 		26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsDataParser.swift */; };
 		26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */; };
 		26894D4821EFACFE00691C97 /* Gotham-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26894D3E21EFACFD00691C97 /* Gotham-Light.otf */; };
@@ -132,6 +134,8 @@
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
 		266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsModel.swift; sourceTree = "<group>"; };
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
+		26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMenuViewController.swift; sourceTree = "<group>"; };
+		26712F4022C7FB6400C30493 /* CSBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCViewController.swift; sourceTree = "<group>"; };
 		26858BC42226292700ADDD1F /* AthleticsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsDataParser.swift; sourceTree = "<group>"; };
 		26894D3E21EFACFD00691C97 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
 		26894D3F21EFACFD00691C97 /* Gotham-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Black.otf"; sourceTree = "<group>"; };
@@ -252,11 +256,8 @@
 			isa = PBXGroup;
 			children = (
 				26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */,
-				26B75AEC22279B7100D109EC /* DaySchedule.swift */,
 				26BE62072273A53F00C6656F /* PageViewController.swift */,
 				26BE62092273AED600C6656F /* TodayViewController.swift */,
-				26BE620B2273EB2D00C6656F /* TodayViewCell.swift */,
-				26BE620C2273EB2D00C6656F /* TodayViewCell.xib */,
 				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
 			);
 			path = Alerts;
@@ -273,11 +274,8 @@
 		262C1164222AC5B9009A359E /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				262C1165222AC5CD009A359E /* EventsParsing.swift */,
 				26DC0B67222AE3B300371B61 /* CalendarViewController.swift */,
-				26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */,
 				26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */,
-				2663CD02223448F300E22281 /* EventsModel.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -406,9 +404,6 @@
 			isa = PBXGroup;
 			children = (
 				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
-				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
-				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
-				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
 			);
 			path = Athletics;
 			sourceTree = "<group>";
@@ -416,8 +411,6 @@
 		26C529B0222308D200267ECA /* Contact */ = {
 			isa = PBXGroup;
 			children = (
-				26DC0B74222F1E7300371B61 /* ContactInfoRegularCell.swift */,
-				26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */,
 				26DC0B78222F275900371B61 /* MapViewController.swift */,
 				26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */,
 				26ADFE432246B49900A557C5 /* ContactParallaxViewController.swift */,
@@ -476,6 +469,11 @@
 			isa = PBXGroup;
 			children = (
 				2653118022355BD6009C5512 /* Extensions.swift */,
+				262C1165222AC5CD009A359E /* EventsParsing.swift */,
+				26B75AEC22279B7100D109EC /* DaySchedule.swift */,
+				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
+				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
+				2663CD02223448F300E22281 /* EventsModel.swift */,
 				26F723402295E073005DEDA7 /* Env.swift */,
 			);
 			path = Model;
@@ -493,10 +491,8 @@
 			isa = PBXGroup;
 			children = (
 				2628430D2228A4FC00ADC019 /* HomeViewController.swift */,
-				2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */,
 				26F7234522960E15005DEDA7 /* NotificationController.swift */,
 				26F7234722961BDA005DEDA7 /* HTMLController.swift */,
-				262843112228C1D500ADC019 /* ColumnFlowLayout.swift */,
 				263A81F122A5F6D3001D0716 /* NotificationSettings.swift */,
 				26DD570022BBD16E005E109B /* AlertController.swift */,
 			);
@@ -506,6 +502,8 @@
 		26F8769D22010771000641E0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
+				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
 				26F7234422960C0F005DEDA7 /* Home */,
 				2616777F223A9A1500A988D0 /* Uniforms */,
 				2699F9D82233144100AA1CF3 /* Portal */,
@@ -525,6 +523,14 @@
 			isa = PBXGroup;
 			children = (
 				26AAAE272220F3C100DA3182 /* Main.storyboard */,
+				26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */,
+				26BE620B2273EB2D00C6656F /* TodayViewCell.swift */,
+				26BE620C2273EB2D00C6656F /* TodayViewCell.xib */,
+				2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */,
+				262843112228C1D500ADC019 /* ColumnFlowLayout.swift */,
+				26DC0B74222F1E7300371B61 /* ContactInfoRegularCell.swift */,
+				26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */,
+				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
 				26F64BFE2213937A00A6326D /* ResizeableButton.swift */,
 			);
 			path = View;
@@ -891,6 +897,7 @@
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
 				2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */,
+				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
 				26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
 				26157656222198DD0023EC03 /* Reachability.swift in Sources */,
@@ -907,6 +914,7 @@
 				266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */,
 				26ADFE422246A1CE00A557C5 /* ContactContainerViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
+				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
 				26F723412295E073005DEDA7 /* Env.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,

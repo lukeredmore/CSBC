@@ -9,14 +9,13 @@
 import UIKit
 import MessageUI
 
-class ContactParallaxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
+class ContactParallaxViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
 
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var copyrightLabel: UILabel!
     let imageView = UIImageView()
     var headerImage: UIImage!
-    var schoolSelected = 0
-    var fmt : DateFormatter {
+    var yearFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy"
         return fmt
@@ -41,15 +40,15 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let currentYear = fmt.string(from: Date())
+        let currentYear = yearFormatter.string(from: Date())
         copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         view.addSubview(imageView)
     }
     
-    func setSchoolSelectedInContainer(newSchoolSelected : Int){
-        schoolSelected = newSchoolSelected
+    func schoolPickerValueDidChange(){
+        schoolSelected = getSchoolSelected()
         updateContactUI()
         
     }
@@ -59,7 +58,7 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
     }
     
     func updateContactUI() {
-        headerImage = UIImage(named: buildingImageArray[schoolSelected])!
+        headerImage = UIImage(named: buildingImageArray[schoolSelected.ssInt])!
         let imageHeight = (34*UIScreen.main.bounds.size.width)/69
         tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
         imageView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: imageHeight)
@@ -75,9 +74,9 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
         case 0:
             return 1
         case 1:
-            return schoolPhone[schoolSelected].count + 2
+            return schoolPhone[schoolSelected.ssInt].count + 2
         case 2:
-            return hoursOfOperation[schoolSelected].count
+            return hoursOfOperation[schoolSelected.ssInt].count
         default:
             return 1
         }
@@ -92,31 +91,31 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let mapCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoMapCell") as! ContactInfoMapCell
-            mapCell.mapImageView.image = UIImage(named: mapImageArray[schoolSelected])
-            mapCell.buildingLabel.text = schoolNames[schoolSelected]
-            mapCell.addressLabel.text = schoolAddresses[schoolSelected]
+            mapCell.mapImageView.image = UIImage(named: mapImageArray[schoolSelected.ssInt])
+            mapCell.buildingLabel.text = schoolNames[schoolSelected.ssInt]
+            mapCell.addressLabel.text = schoolAddresses[schoolSelected.ssInt]
             return mapCell
             
         } else if indexPath.section == 1 {
             let regularCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoRegularCell")
             
             if indexPath.row == 0 {
-                regularCell!.textLabel?.text = "Main: 607.\(schoolPhone[schoolSelected][0])"
+                regularCell!.textLabel?.text = "Main: 607.\(schoolPhone[schoolSelected.ssInt][0])"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
             } else if indexPath.row == 1 {
                 regularCell!.textLabel?.text = "District: 607.\(districtPhone)"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
-            } else if schoolPhone[schoolSelected].count == 2 {
+            } else if schoolPhone[schoolSelected.ssInt].count == 2 {
                 if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "Fax: 607.\(schoolPhone[schoolSelected][1])"
+                    regularCell!.textLabel?.text = "Fax: 607.\(schoolPhone[schoolSelected.ssInt][1])"
                     regularCell!.imageView!.image = UIImage(named: "faxIcon")
                 } else if indexPath.row == 3 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected]), Principal"
+                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.ssInt]), Principal"
                     regularCell!.imageView!.image = UIImage(named: "mailIcon")
                 }
             } else {
                 if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected]), Principal"
+                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.ssInt]), Principal"
                     regularCell!.imageView!.image = UIImage(named: "mailIcon")
                 }
             }
@@ -125,7 +124,7 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
             
         } else {
             let hoursCell = tableView.dequeueReusableCell(withIdentifier: "hoursOfOperationCell")
-            hoursCell!.textLabel?.text = hoursOfOperation[schoolSelected][indexPath.row]
+            hoursCell!.textLabel?.text = hoursOfOperation[schoolSelected.ssInt][indexPath.row]
             //regularCell!.imageView?.image = nil
             return hoursCell!
             
@@ -135,14 +134,14 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             performSegueFromContainer(identifier: "showMapSegue")
-        } else if schoolPhone[schoolSelected].count == 2 && indexPath.section == 1 {
+        } else if schoolPhone[schoolSelected.ssInt].count == 2 && indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected][0])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][0])")!)
             case 1:
                 UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
             case 2:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected][1])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][1])")!)
             case 3:
                 presentMailVC()
             default:
@@ -151,7 +150,7 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected][0])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][0])")!)
             case 1:
                 UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
             case 2:
@@ -176,7 +175,7 @@ class ContactParallaxViewController: UIViewController, UITableViewDataSource, UI
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
         
-        mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected])@syrdiocese.org"])
+        mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected.ssInt])@syrdiocese.org"])
         mailComposerVC.setSubject("")
         mailComposerVC.setMessageBody("", isHTML: false)
         

@@ -9,21 +9,18 @@
 import UIKit
 import WebKit
 
-class UniformsViewController: UIViewController, WKNavigationDelegate {
+class UniformsViewController: CSBCViewController, WKNavigationDelegate {
 
     @IBOutlet var schoolPicker: UISegmentedControl!
     @IBOutlet var webView: WKWebView!
     @IBOutlet var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet var maskView: UIView!
     
-    var schoolSelected = ""
     var schoolSelectedToDisplay = 0
-    weak var delegate : SchoolSelectedDelegate? = nil
     let dressCodeHTMLs = ["highSchoolDress","middleSchoolDress","elementarySchoolDress"]
 
     //MARK: - New school picker properties
     let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
-    var schoolSelectedInt = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,23 +42,16 @@ class UniformsViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         maskView.isHidden = false
         loadingSymbol.startAnimating()
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
-        if schoolSelectedInt > 0 {
+        if schoolSelected.ssInt > 0 {
             schoolSelectedToDisplay = 2
         } else {
-            schoolSelectedToDisplay = schoolSelectedInt
+            schoolSelectedToDisplay = schoolSelected.ssInt
         }
-        schoolPicker.selectedSegmentIndex = schoolSelectedToDisplay
+        schoolPicker.selectedSegmentIndex = schoolSelected.ssInt
         updateDressCodeShown()
     }
     override func viewWillDisappear(_ animated: Bool) {
-//        var schoolToPassBack : Int
-//        if schoolSelectedToDisplay > 1 {
-//            schoolToPassBack = schoolSelectedInt
-//        } else {
-//            schoolToPassBack = 0
-//        }
-        delegate?.storeSchoolSelected(schoolSelected: schoolSelected)
+        schoolSelected.update(schoolPicker)
     }
     
     @IBAction func schoolPickerValueChanged(_ sender: Any) {

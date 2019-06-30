@@ -11,24 +11,21 @@ import UIKit
 protocol PageViewLoadedDelegate: class {
     func pageViewDidLoad()
 }
+protocol PageViewSchoolPickerDelegate: class {
+    func schoolPickerValueDidChange()
+}
 
-class TodayContainerViewController: UIViewController, TellDateShownToParentVC, DateEnteredDelegate, PageViewLoadedDelegate {
+class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC, DateEnteredDelegate, PageViewLoadedDelegate {
     
     var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
-    weak var schoolSelectedForPageViewDelegate : SchoolSelectedForPageDelegate? = nil
-    weak var schoolSelectedForHomeViewDelegate : SchoolSelectedDelegate? = nil
+    weak var pageViewSchoolPickerDelegate : PageViewSchoolPickerDelegate? = nil
     weak var dateForPageDelegate : DateForPageDelegate? = nil
-    let userDefaults = UserDefaults.standard
     //let schoolNames = ["Seton","St. John's","All Saints","St. James"]
     //let schoolBoolStrings = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
-    var schoolSelected = ""
     var dateToShow = Date()
-    var fmt : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        return fmt
-    }
+    
+    
     @IBOutlet weak var schoolPicker: UISegmentedControl!
     @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var dateChangerButton: UIBarButtonItem!
@@ -52,7 +49,7 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
         loadingSymbol.startAnimating()
         shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
                 schoolPicker.selectedSegmentIndex = i
                 //print("\(i) was selected")
             } //else { print("\(i) wasn't selected") }
@@ -60,17 +57,11 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
         
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        schoolSelectedForHomeViewDelegate?.storeSchoolSelected(schoolSelected: schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!)
-    }
-    
     @IBAction func schoolPickerValueChanged(_ sender: Any) {
         loadingSymbol.startAnimating()
-        if let schoolToSend = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex) {
-            schoolSelectedForPageViewDelegate?.storeSchoolSelected(schoolSelected: schoolToSend)
-        } else {
-            schoolSelectedForPageViewDelegate?.storeSchoolSelected(schoolSelected: "Seton")
-        }
+        schoolSelected.update(schoolPicker)
+        pageViewSchoolPickerDelegate?.schoolPickerValueDidChange()
+        loadingSymbol.stopAnimating()
     }
     
     func showDateAsHeader(dateGiven : Date) {
@@ -84,50 +75,6 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
         }
         
     }
-
-//    func shouldIShowAllSchools() {
-//        if let showAllSchools : Bool = userDefaults.value(forKey: "showAllSchools") as! Bool? {
-//            if showAllSchools {
-//                schoolPicker.removeAllSegments()
-//                for i in 0..<schoolNames.count {
-//                    schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
-//                }
-//                schoolPickerHeightConstraint.constant = 45
-//                schoolPicker.isHidden = false
-//            } else {
-//                var schoolBools : [Bool] = []
-//                for i in schoolBoolStrings {
-//                    schoolBools.append((userDefaults.value(forKey: i) as! Bool?)!)
-//                }
-//                //print(editedSchoolNames)
-//                schoolPicker.removeAllSegments()
-//                var indexAtWhichToInsertSegment = 0
-//                for i in 0..<schoolBools.count {
-//                    if schoolBools[i] {
-//                        schoolPicker.insertSegment(withTitle: schoolNames[i], at: indexAtWhichToInsertSegment, animated: false)
-//                        indexAtWhichToInsertSegment += 1
-//                        //print("thing inserted at \(i)")
-//                        //print("thing again inserted at \(indexAtWhichToInsertSegment)")
-//                    }
-//                }
-//                if schoolPicker.numberOfSegments == 1 {
-//                    schoolPickerHeightConstraint.constant = 0
-//                    schoolPicker.isHidden = true
-//                } else {
-//                    schoolPickerHeightConstraint.constant = 45
-//                    schoolPicker.isHidden = false
-//                }
-//                view.layoutIfNeeded()
-//            }
-//        } else {
-//            schoolPicker.removeAllSegments()
-//            for i in 0..<schoolNames.count {
-//                schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
-//            }
-//            schoolPickerHeightConstraint.constant = 45
-//            schoolPicker.isHidden = false
-//        }
-//    }
     
     func setupTapGestureForSettingsButton() {
         let multiTapGesture = UITapGestureRecognizer()
@@ -148,7 +95,7 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
     }
     
     @objc func dateChangerDoubleTapped() {
-        if fmt.string(from: dateToShow) != fmt.string(from: Date()) && loadingSymbol.isHidden {
+        if dateStringFormatter.string(from: dateToShow) != dateStringFormatter.string(from: Date()) && loadingSymbol.isHidden {
             userDidSelectDate(dateToShow: Date())
         }
     }
@@ -156,8 +103,8 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
     func userDidSelectDate(dateToShow: Date) {
         loadingSymbol.startAnimating()
         self.dateToShow = dateToShow
-        let dateString = fmt.string(from: dateToShow)
-        let todaysRealDateString = fmt.string(from: Date())
+        let dateString = dateStringFormatter.string(from: dateToShow)
+        let todaysRealDateString = dateStringFormatter.string(from: Date())
         if dateString != todaysRealDateString {
             let titleFormat = DateFormatter()
             titleFormat.dateFormat = "MMM d"
@@ -183,9 +130,8 @@ class TodayContainerViewController: UIViewController, TellDateShownToParentVC, D
             childVC.athleticsData = self.athleticsData
             childVC.calendarData = self.calendarData
             print(self.schoolSelected,"in prepare for degueas")
-            childVC.schoolSelected = self.schoolSelected
             dateForPageDelegate = childVC
-            schoolSelectedForPageViewDelegate = childVC
+            pageViewSchoolPickerDelegate = childVC
         } else if segue.identifier == "AlertsSettingsSegue" {
             let childVC = segue.destination as! FilterAlertsViewController
             childVC.delegate = self

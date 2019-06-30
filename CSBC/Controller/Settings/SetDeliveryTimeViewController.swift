@@ -6,78 +6,33 @@
 //  Copyright © 2019 Catholic Schools of Broome County. All rights reserved.
 //
 
-//
-//  FilterAlertsViewController.swift
-//  CSBC
-//
-//  Created by Luke Redmore on 3/19/19.
-//  Copyright © 2019 Catholic Schools of Broome County. All rights reserved.
-//
-
 import UIKit
 
 protocol TimeEnteredDelegate: class {
     func userDidSelectTime(timeToShow: Date)
 }
-
 protocol DayOverriddenDelegate: class {
     func adminDidOverrideDay(day: Int)
 }
 
-final class SetDeliveryTimeViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    
-    
-    
-    lazy var backdropView: UIView = {
-        let bdView = UIView(frame: self.view.bounds)
-        bdView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-        return bdView
-    }()
+final class SetDeliveryTimeViewController: ModalMenuViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var menuView: UIView!
     @IBOutlet weak var menuViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var timePicker: UIDatePicker!
     @IBOutlet weak var dayPicker: UIPickerView!
     
-    
-    //let menuView = UIView()
-    let menuHeight = UIScreen.main.bounds.height / 2
-    var isPresenting = false
     weak var delegate: TimeEnteredDelegate? = nil
     weak var dayOverrideDelegate: DayOverriddenDelegate? = nil
     var timeToShow = Date()
     var overrideDaySelected = 0
     var dayToShow = 0
-    
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configure()
-    }
-    
-    private func configure() {
-        modalPresentationStyle = .custom
-        transitioningDelegate = self
-    }
-    
+
+    //MARK: View control
     override func viewDidLoad() {
         super.viewDidLoad()
-        //menuViewHeightConstraint.constant = UIScreen.main.bounds.height / 2 - 30
-        menuView.layer.cornerRadius = 5
-        menuView.layer.masksToBounds = true
-        
-        
-        view.backgroundColor = .clear
-        view.addSubview(backdropView)
-        view.addSubview(menuView)
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(SetDeliveryTimeViewController.handleTap(_:)))
-        backdropView.addGestureRecognizer(tapGesture)
+        setupMenuView(menuView)
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         if delegate != nil {
             dayOverrideDelegate = nil
@@ -98,15 +53,7 @@ final class SetDeliveryTimeViewController: UIViewController, UIPickerViewDelegat
             timePicker.isHidden = true
         }
     }
-    
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
-        passBackData()
-        dismiss(animated: true, completion: nil)
-    }
-    
-    
-    
-    func passBackData() {
+    override func passBackData() { //called before view disappears
         if delegate != nil && dayOverrideDelegate == nil {
             delegate?.userDidSelectTime(timeToShow: timePicker.date)
         }
@@ -115,7 +62,7 @@ final class SetDeliveryTimeViewController: UIViewController, UIPickerViewDelegat
         }
     }
 
-    
+    //MARK: Delegate Methods
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

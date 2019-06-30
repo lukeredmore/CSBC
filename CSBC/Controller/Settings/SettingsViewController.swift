@@ -209,7 +209,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
         
     }
     
-    //Mark: Send email
+    //MARK: Send email methods
     func presentMailVC() {
         let mailComposeViewController = configuredMailComposeViewController()
         if MFMailComposeViewController.canSendMail() {
@@ -218,7 +218,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
             self.showSendMailErrorAlert()
         }
     }
-    
     func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
@@ -229,29 +228,13 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
         
         return mailComposerVC
     }
-    
     func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send email. Please check your email configuration and try again.", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .cancel)
         sendMailErrorAlert.addAction(okButton)
         self.present(sendMailErrorAlert, animated: true, completion: nil)
     }
-    
-    // MARK: MFMailComposeViewControllerDelegate
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
-        
     }
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

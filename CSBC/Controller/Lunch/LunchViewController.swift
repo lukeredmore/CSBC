@@ -11,9 +11,8 @@ import PDFKit
 import WebKit
 
 
-class LunchViewController: UIViewController, WKNavigationDelegate {
+class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
-    var schoolSelected = ""
     @IBOutlet weak var pdfView: PDFView!
     @IBOutlet var schoolPicker: UISegmentedControl!
     @IBOutlet weak var dateLabel: UILabel!
@@ -22,19 +21,15 @@ class LunchViewController: UIViewController, WKNavigationDelegate {
     var loadedPDFURLs : [Int:URL] = [:]
     var loadedWordURLs : [Int:String] = [:]
     
-    
     let formatter = DateFormatter()
     let date = Date()
     
-    weak var delegate: SchoolSelectedDelegate? = nil
 //    var loadedDocs : [Int:PDFDocument] = UserDefaults.standard.dictionary(forKey: "PDFLocations")
 //    //Userdefaults
 //    var loadedMSWords : [Int:String] = [:]
     
     //MARK: - New school picker properties
-    let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
     var editedSchoolNames : [String] = []
-    var schoolSelectedInt = 0
     @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     
@@ -61,14 +56,10 @@ class LunchViewController: UIViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         loadingSymbol.startAnimating()
         shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
-        //print(schoolPicker.numberOfSegments)
-        //print("School selected to match against is \(schoolSelected)")
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
                 schoolPicker.selectedSegmentIndex = i
-                //print("\(i) was selected")
-            } //else { print("\(i) wasn't selected") }
+            }
         }
         
         formatter.dateFormat = "EEEE, MMMM d"
@@ -81,30 +72,29 @@ class LunchViewController: UIViewController, WKNavigationDelegate {
     }
     
     @IBAction func schoolPickerChanged(_ sender: Any) {
-        schoolSelected = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
+        schoolSelected.update(schoolPicker)
         reloadPDFView()
     }
     
     @objc func reloadPDFView() {
         loadingSymbol.startAnimating()
-        if loadedPDFURLs[schoolSelectedInt] != nil {
+        if loadedPDFURLs[schoolSelected.ssInt] != nil {
             self.navigationItem.rightBarButtonItem?.isEnabled = true
             webView.isHidden = true
             pdfView.isHidden = false
             pdfView.displayMode = .singlePageContinuous
             pdfView.autoScales = true
-            pdfView.document = PDFDocument(url: loadedPDFURLs[schoolSelectedInt]!)
+            pdfView.document = PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)
             let defaultScale = pdfView.scaleFactorForSizeToFit - 0.02
             pdfView.scaleFactor = defaultScale
             pdfView.maxScaleFactor = 4.0
             pdfView.minScaleFactor = defaultScale
             loadingSymbol.stopAnimating()
-        } else if loadedWordURLs[schoolSelectedInt] != nil {
+        } else if loadedWordURLs[schoolSelected.ssInt] != nil {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
             pdfView.isHidden = true
             //print(loadedMSWords[schoolSelectedInt])
-            if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(loadedWordURLs[schoolSelectedInt]!)") {
+            if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(loadedWordURLs[schoolSelected.ssInt]!)") {
                 let urlToRequest = URLRequest(url: urlToLoad)
                 webView.isHidden = false
                 webView.load(urlToRequest)
@@ -126,7 +116,6 @@ class LunchViewController: UIViewController, WKNavigationDelegate {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        delegate?.storeSchoolSelected(schoolSelected: schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex) ?? "Seton")
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         if (self.isMovingFromParent) {
             UIDevice.current.setValue(Int(UIInterfaceOrientation.portrait.rawValue), forKey: "orientation")
@@ -157,8 +146,8 @@ class LunchViewController: UIViewController, WKNavigationDelegate {
 
     
     @objc func shareButtonPressed() {
-        if loadedPDFURLs[schoolSelectedInt] != nil && loadingSymbol.isHidden == true {
-            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelectedInt]!)?.documentURL!], applicationActivities: nil)
+        if loadedPDFURLs[schoolSelected.ssInt] != nil && loadingSymbol.isHidden == true {
+            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)?.documentURL!], applicationActivities: nil)
             DispatchQueue.main.async {
                 self.present(activityViewController, animated: true, completion: nil)
             }

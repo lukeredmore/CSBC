@@ -17,7 +17,7 @@ import SwiftSoup
 import UserNotifications
 import RevealingSplashView
 
-class HomeViewController: UIViewController , UICollectionViewDataSource, UICollectionViewDelegate, SchoolSelectedDelegate, AlertDelegate {
+class HomeViewController: CSBCViewController , UICollectionViewDataSource, UICollectionViewDelegate, AlertDelegate {
     
     //Collection Setup Properties
     @IBOutlet var collectionView: UICollectionView!
@@ -55,9 +55,6 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     var button = ""
     var groupedArray : [[[String:String]]] = [[[:]]]
     var i = 0
-    var schoolSelected : String? = nil
-    let schools = ["Seton","St. John's","All Saints","St. James"]
-    let userDefaults = UserDefaults.standard
     let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
 
     //MARK: View Control
@@ -80,7 +77,6 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
         
         //Refresh other data
         localAlerts = AlertController(delegate: self)
-        findDefaultSchoolSelected()
         localNotifications = NotificationController()
         
         //Setup UI
@@ -103,7 +99,6 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        //print("School im sending is: \(schoolSelected!)")
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
@@ -148,25 +143,6 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
         
     }
     
-    //MARK: School Selected Methods
-    func storeSchoolSelected(schoolSelected: String) {
-        print("School stored is: \(schoolSelected)")
-        self.schoolSelected = schoolSelected
-    }
-    func findDefaultSchoolSelected() {
-        var i = 0
-        let notificationSettings = defineNotificationSettings()
-        while schoolSelected == nil && i < 4 {
-            if notificationSettings.schools[i] {
-                schoolSelected = schools[i]
-            }
-            i += 1
-        }
-        if schoolSelected == nil {
-            schoolSelected = "Seton"
-        }
-    }
-    
     // MARK: - Navigation
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -207,45 +183,16 @@ class HomeViewController: UIViewController , UICollectionViewDataSource, UIColle
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         switch segue.identifier {
-        case "DocumentsSegue":
-            let childVC = segue.destination as! DocumentsViewController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
         case "AthleticsSegue":
             let childVC = segue.destination as! AthleticsViewController
             childVC.athleticsData = athleticsData
         case "TodaySegue":
             let childVC = segue.destination as! TodayContainerViewController
-            childVC.schoolSelectedForHomeViewDelegate = self
-            childVC.schoolSelected = self.schoolSelected!
             childVC.athleticsData = self.athleticsData
             childVC.calendarData = self.calendarData
         case "CalendarSegue":
             let childVC = segue.destination as! CalendarViewController
             childVC.calendarData = calendarData
-        case "ContactSegue":
-            let childVC = segue.destination as! ContactContainerViewController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
-        case "SocialMediaSegue":
-            let childVC = segue.destination as! SocialMediaController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
-        case "LunchSegue":
-            let childVC = segue.destination as! LunchViewController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
-        case "WebSegue":
-            let childVC = segue.destination as! WebViewController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
-        case "UniformsSegue":
-            let childVC = segue.destination as! UniformsViewController
-            childVC.delegate = self
-            childVC.schoolSelected = self.schoolSelected!
-        case "SettingsSegue":
-            let childVC = segue.destination as! SettingsContainerViewController
-            childVC.delegate = self
         default:
             break
         }

@@ -9,18 +9,15 @@
 import UIKit
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
+class WebViewController: CSBCViewController, WKNavigationDelegate {
 
-    var schoolSelected = ""
     var urlToLoadOnViewWillAppear = 0
     private var progressKVOhandle: NSKeyValueObservation?
-    weak var delegate : SchoolSelectedDelegate? = nil
     var portalURLStrings = ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
     @IBOutlet var webView: WKWebView!
     @IBOutlet var schoolPicker: UISegmentedControl!
     @IBOutlet weak var myProgressView: UIProgressView!
-    var compileDate : Date
-    {
+    var compileDate : Date {
         let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as? String ?? "Info.plist"
         if let infoPath = Bundle.main.path(forResource: bundleName, ofType: nil),
             let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
@@ -30,9 +27,7 @@ class WebViewController: UIViewController, WKNavigationDelegate {
     }
     
     //MARK: - New school picker properties
-    let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
     var editedSchoolNames : [String] = []
-    var schoolSelectedInt = 0
     @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
@@ -50,27 +45,21 @@ class WebViewController: UIViewController, WKNavigationDelegate {
         myProgressView.setProgress(0.0, animated: false)
         myProgressView.progressTintColor = UIColor.blue
         shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
                 schoolPicker.selectedSegmentIndex = i
             }
         }
         
-        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelectedInt])")
+        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])")
         let urlToRequest = URLRequest(url: urlToLoad!)
         webView.load(urlToRequest)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        delegate?.storeSchoolSelected(schoolSelected: schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex) ?? "Seton")
-    }
-    
     @IBAction func schoolPickerValueChanged(_ sender: Any) {
-        schoolSelected = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex)!
-        schoolSelectedInt = schoolPickerDictionary[schoolSelected] ?? 0
+        schoolSelected.update(schoolPicker)
         
-        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelectedInt])")
+        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])")
         let urlToRequest = URLRequest(url: urlToLoad!)
         webView.load(urlToRequest)
     }
