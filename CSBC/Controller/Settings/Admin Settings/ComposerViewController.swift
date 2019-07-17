@@ -19,6 +19,7 @@ enum ComposeEventCalled {
     case notification, reportIssue
 }
 
+/// Configures composer view for user compose and prepares message to be sent
 class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushNotificationsDelegate {
     
     var expectedPlaceholderColor : UIColor {

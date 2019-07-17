@@ -11,6 +11,7 @@ import UserNotifications
 import Firebase
 import FirebaseInstanceID
 
+/// Retrieves user's notification preferences, queues local day notifications, subscribes users to push notifications
 class NotificationController {
     
     let userDefaults = UserDefaults.standard
@@ -26,7 +27,7 @@ class NotificationController {
         fmt.dateFormat = "HH:mm"
         return fmt
     }
-    var schoolDateFormatter : DateFormatter {
+    var dateStringFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
         return fmt
@@ -37,30 +38,22 @@ class NotificationController {
     
     
     init() {
-        if Date() < schoolDateFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
-            //print("initialized")
-            notificationSettings = defineNotificationSettings()
-        }
+        notificationSettings = defineNotificationSettings()
     }
     
     func reinit() {
-        if Date() < schoolDateFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
-            notificationSettings = nil
-            notificationSettings = defineNotificationSettings()
-        }
+        notificationSettings = nil
+        notificationSettings = defineNotificationSettings()
     }
     
     func queueNotifications() {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
-        if notificationSettings.shouldDeliver {
+        if notificationSettings?.shouldDeliver ?? false && Date() < dateStringFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
             print("Notifications queuing")
             
-            let formatter = DateFormatter()
-            formatter.dateFormat = "MM/dd/yyyy"
-            
-            let notifTimeAsDate = timeFormatter.date(from: notificationSettings.deliveryTime) //Get time of notif deliver as date
+            let notifTimeAsDate = timeFormatter.date(from: notificationSettings!.deliveryTime) //Get time of notif deliver as date
             let notif24HTimeString = timeFormatterIn24H.string(from: notifTimeAsDate!) //rewrite in 24h
             print(notif24HTimeString)
             let timeComponentsStrings = notif24HTimeString.components(separatedBy: ":") //convert to components
@@ -70,9 +63,9 @@ class NotificationController {
             }
             print(timeComponents)
             
-            let daySchedule = DaySchedule(forSeton: notificationSettings.schools[0], forJohn: notificationSettings.schools[1], forSaints: notificationSettings.schools[2], forJames: notificationSettings.schools[3])
+            let daySchedule = DaySchedule(forSeton: notificationSettings!.schools[0], forJohn: notificationSettings!.schools[1], forSaints: notificationSettings!.schools[2], forJames: notificationSettings!.schools[3])
             var allSchoolDays : [String] = daySchedule.dateDayDictArray
-            while formatter.date(from: allSchoolDays.first!)! < Date() { //Remove past dates
+            while dateStringFormatter.date(from: allSchoolDays.first!)! < Date() { //Remove past dates
                 allSchoolDays.removeFirst()
             }
             
@@ -87,22 +80,22 @@ class NotificationController {
                 var notificationContent3 = ""
                 var notificationContent4 = ""
                 
-                if notificationSettings.schools[0] && !daySchedule.restrictedDatesForHS.contains(formatter.date(from: date)!) {
+                if notificationSettings!.schools[0] && !daySchedule.restrictedDatesForHS.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.dateDayDict["Seton"]![date] {
                         notificationContent1 = "Day \(dayOfCycle) at Seton, "
                     }
                 }
-                if notificationSettings.schools[1] && !daySchedule.restrictedDatesForES.contains(formatter.date(from: date)!) {
+                if notificationSettings!.schools[1] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.dateDayDict["St. John's"]![date] {
                         notificationContent2 = "Day \(dayOfCycle) at St. John's, "
                     }
                 }
-                if notificationSettings.schools[2] && !daySchedule.restrictedDatesForES.contains(formatter.date(from: date)!) {
+                if notificationSettings!.schools[2] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.dateDayDict["All Saints"]![date] {
                         notificationContent3 = "Day \(dayOfCycle) at All Saints, "
                     }
                 }
-                if notificationSettings.schools[3] && !daySchedule.restrictedDatesForES.contains(formatter.date(from: date)!) {
+                if notificationSettings!.schools[3] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.dateDayDict["St. James"]![date] {
                         notificationContent4 = "Day \(dayOfCycle) at St. James, "
                     }
@@ -140,7 +133,7 @@ class NotificationController {
     func subscribeToTopics() {
         let topicArray = ["setonNotifications","johnNotifications","saintsNotifications","jamesNotifications"]
         for i in 0..<4 {
-            if notificationSettings.schools[i] {
+            if notificationSettings?.schools[i] ?? false {
                 Messaging.messaging().subscribe(toTopic: topicArray[i]) { error in
                     if error == nil {
                         print("Subscribed to \(topicArray[i])")
@@ -157,17 +150,55 @@ class NotificationController {
                     }
                 }
             }
+            Analytics.setUserProperty("\(notificationSettings?.schools[i] ?? false)", forName: topicArray[i])
         }
-        
     }
     
     func defineNotificationSettings() -> NotificationSettings! {
-        if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
+        let userDefinedSettingsExist =
+            userDefaults.value(forKey: "shouldDeliverNotifications") != nil &&
+            userDefaults.value(forKey: "timeOfNotificationDeliver") != nil &&
+            userDefaults.value(forKey: "showSetonNotifications") != nil &&
+            userDefaults.value(forKey: "showJohnNotifications") != nil &&
+            userDefaults.value(forKey: "showSaintsNotifications") != nil &&
+            userDefaults.value(forKey: "showJamesNotifications") != nil
+        
+        if userDefinedSettingsExist {
+            print("Notification settings exist in old form, converting to new form")
+            let notifs = NotificationSettings(
+                shouldDeliver: userDefaults.bool(forKey: "shouldDeliverNotifications"),
+                deliveryTime: userDefaults.string(forKey: "timeOfNotificationDeliver")!,
+                schools: [
+                    userDefaults.bool(forKey: "showSetonNotifications"),
+                    userDefaults.bool(forKey: "showJohnNotifications"),
+                    userDefaults.bool(forKey: "showSaintsNotifications"),
+                    userDefaults.bool(forKey: "showJamesNotifications")
+                ],
+                valuesChangedByUser: true)
+            self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
+            userDefaults.removeObject(forKey: "shouldDeliverNotifications")
+            userDefaults.removeObject(forKey: "timeOfNotificationDeliver")
+            userDefaults.removeObject(forKey: "showSetonNotifications")
+            userDefaults.removeObject(forKey: "showJohnNotifications")
+            userDefaults.removeObject(forKey: "showSaintsNotifications")
+            userDefaults.removeObject(forKey: "showJamesNotifications")
+            return notifs
+        } else if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
+            print("Notification settings exist in new form")
             let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
             return notificationSettings!
         } else {
+            print("No notification settings exist, creating new one")
             let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
             return notificationSettings
         }
     }
+    
+    func storeNotificationSettings(_ settings: NotificationSettings) {
+        settings.printNotifData()
+        self.notificationSettings = settings
+        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
+    }
 }
+
+

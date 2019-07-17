@@ -8,7 +8,8 @@
 
 import UIKit
 
-class CSBCViewController: UIViewController {
+/// Default superclass for View Controllers in CSBC with access to common methods (setting up segmented control and finding the selected school)
+class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     
     var schoolSelected = SchoolSelected(string: "Seton", int: 0)
     var dateStringFormatter : DateFormatter {
@@ -20,6 +21,7 @@ class CSBCViewController: UIViewController {
     let schoolsArray = ["Seton","St. John's","All Saints","St. James"]
     let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
     let userDefaults = UserDefaults.standard
+    var schoolPicker : CSBCSegmentedControl? = nil
     
 
     override func viewDidLoad() {
@@ -27,29 +29,110 @@ class CSBCViewController: UIViewController {
         schoolSelected = getSchoolSelected()
     }
     
+    func setupSchoolPickerAndBarForDefaultBehavior(topMostItems : [UIView], showAllSegments : Bool = false) {
+
+        //Container Initialization and Layout
+        let schoolPickerContainer = UIView()
+        schoolPickerContainer.backgroundColor = UIColor(named: "CSBCNavBarBackground")
+        schoolPickerContainer.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(schoolPickerContainer)
+        view.addConstraints([
+            schoolPickerContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            schoolPickerContainer.heightAnchor.constraint(equalToConstant: 45),
+            schoolPickerContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            schoolPickerContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        let bar = UIView()
+        bar.backgroundColor = .csbcYellow
+        bar.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bar)
+        view.addConstraints([
+            bar.topAnchor.constraint(equalTo: schoolPickerContainer.bottomAnchor),
+            bar.heightAnchor.constraint(equalToConstant: 8),
+            bar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        for item in topMostItems {
+            view.addConstraint(item.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 53))
+        }
+
+        view.layoutIfNeeded()
+        
+        //Picker Initialization
+        let showAllSchools : Bool! = userDefaults.value(forKey: "showAllSchools") as? Bool ?? true
+        if showAllSchools || showAllSegments {
+            schoolPicker = CSBCSegmentedControl(items: ["Seton", "St. John's","All Saints","St. James"])
+        } else {
+            let notificationController = NotificationController()
+            let schoolBools : [Bool] = notificationController.notificationSettings.schools
+            schoolPicker = CSBCSegmentedControl()
+            var indexAtWhichToInsertSegment = 0
+            for i in 0..<schoolBools.count {
+                if schoolBools[i] {
+                    schoolPicker?.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
+                    indexAtWhichToInsertSegment += 1
+                }
+            }
+        }
+        schoolPicker!.delegate = self
+        
+        
+        //Picker Layout
+        if schoolPicker!.numberOfSegments != 1 {
+            schoolPicker!.translatesAutoresizingMaskIntoConstraints = false
+            schoolPicker!.tintColor = .white
+            if #available(iOS 13.0, *) {
+                schoolPicker!.overrideUserInterfaceStyle = .dark
+            }
+            schoolPickerContainer.addSubview(schoolPicker!)
+            schoolPickerContainer.addConstraints([
+             schoolPicker!.topAnchor.constraint(equalTo: schoolPickerContainer.topAnchor, constant: 5),
+                schoolPicker!.heightAnchor.constraint(equalToConstant: 27),
+                schoolPicker!.leadingAnchor.constraint(equalTo: schoolPickerContainer.leadingAnchor, constant: 15),
+                schoolPicker!.trailingAnchor.constraint(equalTo: schoolPickerContainer.trailingAnchor, constant: -15)
+            ])
+        
+            schoolPickerContainer.layoutSubviews()
+            view.layoutIfNeeded()
+        }
+    }
     
+    override func viewWillAppear(_ animated: Bool) {
+        if schoolPicker != nil {
+            for i in 0..<schoolPicker!.numberOfSegments {
+                if schoolPicker!.titleForSegment(at: i) == schoolSelected.ssString {
+                    print("\(schoolSelected.ssString) was selected for segment \(i)")
+                    schoolPicker!.setSelectedSegmentIndex(i)
+                    break
+                } else {
+                    print("\(schoolSelected.ssString) was not selected for segment \(i)")
+                }
+            }
+        }
+    }
+    
+    /*
     func shouldIShowAllSchools(schoolPicker : UISegmentedControl, schoolPickerHeightConstraint : NSLayoutConstraint) {
         if #available(iOS 13.0, *) {
             schoolPicker.overrideUserInterfaceStyle = .dark
         }
-        let schoolNames = ["Seton","St. John's","All Saints","St. James"]
-        let internalNotificationSettings = defineNotificationSettings()
+
         if let showAllSchools : Bool = UserDefaults.standard.value(forKey: "showAllSchools") as! Bool? {
             if showAllSchools {
                 schoolPicker.removeAllSegments()
-                for i in 0..<schoolNames.count {
-                    schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
+                for i in 0..<schoolsArray.count {
+                    schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
                 }
                 schoolPickerHeightConstraint.constant = 45
                 schoolPicker.isHidden = false
             } else {
-                let schoolBools : [Bool] = internalNotificationSettings.schools
+                let schoolBools : [Bool] = notificationController.notificationSettings.schools
                 //print(editedSchoolNames)
                 schoolPicker.removeAllSegments()
                 var indexAtWhichToInsertSegment = 0
                 for i in 0..<schoolBools.count {
                     if schoolBools[i] {
-                        schoolPicker.insertSegment(withTitle: schoolNames[i], at: indexAtWhichToInsertSegment, animated: false)
+                        schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
                         indexAtWhichToInsertSegment += 1
                         //print("thing inserted at \(i)")
                         //print("thing again inserted at \(indexAtWhichToInsertSegment)")
@@ -66,12 +149,20 @@ class CSBCViewController: UIViewController {
             }
         } else {
             schoolPicker.removeAllSegments()
-            for i in 0..<schoolNames.count {
-                schoolPicker.insertSegment(withTitle: schoolNames[i], at: i, animated: false)
+            for i in 0..<schoolsArray.count {
+                schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
             }
             schoolPickerHeightConstraint.constant = 45
             schoolPicker.isHidden = false
         }
+
+    }
+    */
+    
+    
+    
+    func schoolPickerValueChanged(_ sender : CSBCSegmentedControl) {
+        schoolSelected.update(sender)
     }
     
     func getSchoolSelected() -> SchoolSelected {
@@ -80,17 +171,6 @@ class CSBCViewController: UIViewController {
 
 }
 
-extension UIViewController {
-    func defineNotificationSettings() -> NotificationSettings {
-        if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
-            let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
-            return notificationSettings!
-        } else {
-            let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
-            return notificationSettings
-        }
-    }
-}
 
 class CSBCPageViewController : UIPageViewController {
     var schoolSelected = SchoolSelected(string: "Seton", int: 0)
@@ -112,6 +192,39 @@ class CSBCPageViewController : UIPageViewController {
     
     func getSchoolSelected() -> SchoolSelected {
         return SchoolSelected(string: userDefaults.string(forKey: "schoolSelected") ?? "Seton", int: schoolsMap[userDefaults.string(forKey: "schoolSelected") ?? "Seton"] ?? 0)
+    }
+}
+
+protocol CSBCSegmentedControlDelegate : class {
+    func schoolPickerValueChanged(_ sender : CSBCSegmentedControl)
+}
+class CSBCSegmentedControl : UISegmentedControl {
+    
+    weak var delegate : CSBCSegmentedControlDelegate? = nil
+    
+    override init(items: [Any]?) {
+        super.init(items: items)
+        addTarget(self, action: #selector(schoolPickerValueChanged), for: .valueChanged)
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addTarget(self, action: #selector(schoolPickerValueChanged), for: .valueChanged)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setSelectedSegmentIndex(_ index: Int) {
+        selectedSegmentIndex = index
+        schoolPickerValueChanged(self)
+    }
+    
+    @objc func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        print("runs on programmatic change")
+        print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
+        delegate?.schoolPickerValueChanged(sender)
     }
 }
 

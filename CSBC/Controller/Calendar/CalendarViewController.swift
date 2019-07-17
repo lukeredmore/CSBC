@@ -11,11 +11,9 @@ import Alamofire
 import SafariServices
 import AuthenticationServices
 
-class CalendarViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, DataEnteredDelegate, UISearchBarDelegate, UISearchResultsUpdating {
-    
+class CalendarViewController: UIViewController, UITableViewDataSource, DataEnteredDelegate  {
     
     var calendarData = EventsParsing()
-    var firstTimeLoaded = true
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
@@ -24,9 +22,9 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
         
         return refreshControl
     }()
-    var arrayToDisplay : [[String:String]] = [[:]]
+    var firstTimeLoaded = true
     var storedSchoolsToShow : [Bool] = []
-    var searchController : UISearchController!
+    var searchController : UISearchController = UISearchController(searchResultsController: nil)
     var filteredEvents : [[String:String]] = [[:]]
     var eventsModelArray = [EventsModel]()
     var eventsModelArrrayFiltered = [EventsModel]()
@@ -36,6 +34,8 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var searchBarContainerView: UIView!
+    
+    var searchControllerController : CSBCSearchController!
     
     
     override func viewDidLoad() {
@@ -50,14 +50,11 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
             loadingSymbol.color = .gray
         }
         
-        
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
-        setupSearchController()
+        searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: nil, eventsParent: self)
 
     }
-    
-    
     override func viewWillAppear(_ animated: Bool) {
         if calendarData.filteredEventArrayNoDuplicates.count < 2 { //events.isEmpty {
             print("filteredEventArrayNoDuplicates is empty on viewWillAppear")
@@ -70,13 +67,14 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
         }
     }
     
+    
+    //MARK: Calendar data methods
     func userDidSelectSchools(schoolsToShow: [Bool]) {
         calendarData.storedSchoolsToShow = schoolsToShow
         print("I'm supposed to show \(calendarData.storedSchoolsToShow)")
         calendarData.userDidSelectSchools()
         setupCalendarTable()
     }
-    
     func getCalendarEvents() {
         Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
             if let html = response.result.value {
@@ -91,7 +89,6 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
             }
         }
     }
-    
     func setupCalendarTable() {
         eventsModelArray.removeAll()
         for i in 0..<calendarData.filteredEventArrayNoDuplicates.count {
@@ -105,6 +102,7 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
             )
             eventsModelArray.append(eventToAppend)
         }
+        tableView.delegate = searchControllerController
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
         tableView.rowHeight = UITableView.automaticDimension
@@ -118,133 +116,42 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
         view.backgroundColor = .csbcGreen
         refreshControl.endRefreshing()
     }
-    
-    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        //tableView.dataSource = nil
-        
-        if Reachability.isConnectedToNetwork(){
-            firstTimeLoaded = false
-            getCalendarEvents()
-            tableView.reloadData()
-            //refreshControl.endRefreshing()
-        }
-    }
-    
-    
     @IBAction func filterCalendarData(_ sender: Any) {
         if loadingSymbol.isHidden {
             performSegue(withIdentifier: "CalendarSettingsSegue", sender: self)
         }
     }
-    
     @IBAction func viewMoreButtonPressed(_ sender: Any) {
         if loadingSymbol.isHidden {
             if let url = URL(string: "https://csbcsaints.org/calendar/") {
                 let safariView = SFSafariViewController(url: url)
-                safariView.preferredBarTintColor = .csbcGreenForSafariViewController
-                safariView.preferredControlTintColor = .white
-                safariView.modalTransitionStyle = .coverVertical
-                safariView.modalPresentationStyle = .overFullScreen
-                
+                safariView.configureForCSBC()
                 self.present(safariView, animated: true, completion: nil)
             }
         }
     }
     
-    func setupSearchController() {
-        searchController = UISearchController(searchResultsController: nil)
-        
-        //tableView.tableHeaderView = searchController.searchBar
-        searchBarContainerView.addSubview(searchController.searchBar)
-        searchBarContainerView.bringSubviewToFront(searchController.searchBar)
-        searchController.searchBar.sizeToFit()
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        searchController.searchBar.tintColor = .white
-        searchController.searchBar.isTranslucent = false
-        searchController.searchBar.barTintColor = .csbcGreen
-        searchController.searchBar.searchField.clearButtonMode = .always
-        searchController.searchBar.searchField.backgroundColor = .csbcLightGreen
-        searchController.searchBar.searchField.textColor = .white
-        searchController.searchBar.searchField.attributedPlaceholder = NSAttributedString(
-            string: searchController.searchBar.searchField.placeholder ?? "",
-            attributes: [
-                NSAttributedString.Key.foregroundColor : UIColor.white
-            ]
-        )
-        if let leftView = searchController.searchBar.searchField.leftView as? UIImageView {
-            leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
-            leftView.tintColor = UIColor.white
-        }
-        
-        searchController.searchBar.backgroundImage = UIImage()
-        searchController.searchBar.clipsToBounds = true
-        searchController.searchBar.placeholder = "Search"
-        definesPresentationContext = true
-        //view.layoutIfNeeded()
-    }
     
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        if let term = searchController.searchBar.text {
-            filterRowsForSearchedText(term)
-        }
-    }
-    
-    
-    
+    //MARK: TableView Data Source Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchController.isActive && searchController.searchBar.text != "" {
+        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
             return eventsModelArrrayFiltered.count
         } else {
             return eventsModelArray.count
         }
-        
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "calendarTableCell", for: indexPath) as! CalendarTableViewCell
-        let model: EventsModel
-        if searchController.isActive && searchController.searchBar.text != "" {
-            model = eventsModelArrrayFiltered[indexPath.row]
+        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
+            cell.addData(model: eventsModelArrrayFiltered[indexPath.row])
         } else {
-            model = eventsModelArray[indexPath.row]
+            cell.addData(model: eventsModelArray[indexPath.row])
         }
-        cell.addData(model: model)
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       tableView.deselectRow(at: indexPath, animated: true)
-    }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let model: EventsModel
-        if searchController.isActive && searchController.searchBar.text != "" {
-            model = eventsModelArrrayFiltered[indexPath.row]
-        } else {
-            model = eventsModelArray[indexPath.row]
-        }
-        if indexPath.row == 0 && model.event == "" {
-            return 0.0
-        } else {
-            return UITableView.automaticDimension
-        }
-    }
-    
-//    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-//        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-//        if translation.y > 0 {
-//            // swipes from top to bottom of screen -> down
-//        } else {
-//            // swipes from bottom to top of screen -> up
-//        }
-//    }
-    
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CalendarSettingsSegue" {
             let childVC = segue.destination as! FilterCalendarViewController
@@ -252,51 +159,17 @@ class CalendarViewController: UIViewController, UITableViewDataSource, UITableVi
             childVC.buttonStates = calendarData.storedSchoolsToShow
         }
     }
-    func filterRowsForSearchedText(_ searchText: String) {
-        eventsModelArrrayFiltered.removeAll()
-        eventsModelArrrayFiltered = eventsModelArray.filter({( model : EventsModel) -> Bool in
-            return model.date.lowercased().contains(searchText.lowercased())||model.event.lowercased().contains(searchText.lowercased())||model.schools.lowercased().contains(searchText.lowercased())
-            
-        })
-        tableView.reloadData()
-    }
     
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-        if translation.y > 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != 0 && !searchController.isActive {//}&& searchBarTopConstraint.constant == -56 && showSearchBar {
-            if translation.y < 56 {
-                searchBarTopConstraint.constant = translation.y - 56 //show search bar
-            } else if translation.y == 56 {
-                searchBarTopConstraint.constant = 0
-                //scrollView.panGestureRecognizer.setTranslation(.zero, in: scrollView.superview)
-            }
-            self.view.layoutIfNeeded()
-            
-        } else if translation.y < 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != -56 && !searchController.isActive {//} && searchBarTopConstraint.constant == 0 && !searchController.isActive) || !showSearchBar) {
-            if translation.y > -56 {
-                searchBarTopConstraint.constant = translation.y //show search bar
-            } else if translation.y == -56 {
-                searchBarTopConstraint.constant = -56
-                //scrollView.panGestureRecognizer.setTranslation(.zero, in: scrollView.superview)
-            }
-            self.view.layoutIfNeeded()
-        }
-        
-    }
     
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        //print("no more touchy")
-        scrollView.panGestureRecognizer.setTranslation(.zero, in: scrollView.superview)
-        if searchBarTopConstraint.constant < -28 {
-            searchBarTopConstraint.constant = -56
-        } else {
-            searchBarTopConstraint.constant = 0
+    //MARK: Refresh control
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        //tableView.dataSource = nil
+        if Reachability.isConnectedToNetwork(){
+            firstTimeLoaded = false
+            getCalendarEvents()
+            tableView.reloadData()
+            //refreshControl.endRefreshing()
         }
-        
-        UIView.animate(withDuration: 0.1, animations: {
-            self.view.layoutIfNeeded()
-            
-        })
     }
 }
 

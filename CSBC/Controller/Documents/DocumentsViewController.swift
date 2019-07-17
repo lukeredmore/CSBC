@@ -17,11 +17,6 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
     @IBOutlet var tableView: UITableView!
     let documentTitles = [["SCC Parent - Student Handbook", "SCC Bell Schedule", "SCC Course Description and Information Guide", "SCC Monthly Calendar", "CSBC Calendar", "SCC Dress Code"],[""],["All Saints Cafeteria Info","All Saints Illness Policy"],["St. James Parent - Student Handbook","St. James Code of Conduct"]]
     let pdfFiles = [["scchandbook18-19","sccbellschedule18-19","scccoursedescription18-19","sccmonthlycalendar18-19","csbccalendar18-19","sccdresscode18-19"],[],["saintscafeteriainfo18-19","saintssickpolicy18-19"],["jameshandbook18-19","jamescodeofconduct18-19"]]
-    @IBOutlet var schoolPicker: UISegmentedControl!
-    
-    //MARK: - New school picker properties
-    var editedSchoolNames : [String] = []
-    @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,35 +39,25 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        //print(schoolSelected)
-        //print(schoolPicker.numberOfSegments)
-        for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
-                schoolPicker.selectedSegmentIndex = i
-                //print("\(i) was selected")
-            } //else { print("\(i) wasn't selected") }
-        }
-        tableView.reloadData()
+        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
+        super.viewWillAppear(animated)
     }
     
     
-    @IBAction func schoolPickerValueChanged(_ sender: Any) {
-        schoolSelected.update(schoolPicker)
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
         tableView.reloadData()
     }
 
-    
+    //MARK: Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return documentTitles[schoolSelected.ssInt].count
     }
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "documentsTableCell", for: indexPath)
         cell.textLabel!.text = documentTitles[schoolSelected.ssInt][indexPath.row]
         return cell
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         row = indexPath.row
         tableView.deselectRow(at: indexPath, animated: true)
@@ -87,10 +72,6 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
         if segue.identifier == "toDocument" {
             let childVC = segue.destination as! ActualDocViewController //!!
             childVC.clickedDocument = loadedPdfs[schoolSelected.ssInt][row]
-     
+        }
      }
-     
-     }
-
-
 }

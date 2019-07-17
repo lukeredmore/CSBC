@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// Common methods for halfscreen modal view controllers
 class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     lazy var backdropView: UIView = {

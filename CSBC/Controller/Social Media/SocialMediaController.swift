@@ -49,11 +49,7 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
     var selectedSocial : [[String]] = [[]]
     var selectedSocialURL : [[String]] = [[]]
     @IBOutlet var tableView: UITableView!
-    @IBOutlet var schoolPicker: UISegmentedControl!
     
-    //MARK: - New school picker properties
-    var editedSchoolNames : [String] = []
-    @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     
     override func viewDidLoad() {
@@ -63,41 +59,33 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
-                schoolPicker.selectedSegmentIndex = i
-            }
-        }
-        tableView.reloadData()
-        
+        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
+        super.viewWillAppear(animated)
     }
     
-    @IBAction func schoolSelectedChanged(_ sender: Any) {
-        schoolSelected.update(schoolPicker)
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
         tableView.reloadData()
     }
     
+    
+    
+    //MARK: TableView Methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return socialArray[schoolSelected.ssInt].count
     }
-    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return socialArray[schoolSelected.ssInt][section].count
     }
-    
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "socialMediaTableCell", for: indexPath)
         cell.textLabel!.text = socialArray[schoolSelected.ssInt][indexPath.section][indexPath.row]
         return cell
     }
-    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.tableHeaders[section]
     }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appPrefix : String = headerDeepLinkPrefixes[indexPath.section]
         let safariPrefix : String = headerSafariPrefixes[indexPath.section]

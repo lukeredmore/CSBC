@@ -14,7 +14,6 @@ import WebKit
 class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
     @IBOutlet weak var pdfView: PDFView!
-    @IBOutlet var schoolPicker: UISegmentedControl!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet weak var webView: WKWebView!
@@ -28,14 +27,12 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
 //    //Userdefaults
 //    var loadedMSWords : [Int:String] = [:]
     
-    //MARK: - New school picker properties
-    var editedSchoolNames : [String] = []
-    @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Lunch"
+        
         loadedPDFURLs = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
         loadedWordURLs = UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
         print(loadedPDFURLs)
@@ -54,13 +51,11 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [webView, pdfView])
+        super.viewWillAppear(animated)
+
         loadingSymbol.startAnimating()
-        shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
-                schoolPicker.selectedSegmentIndex = i
-            }
-        }
         
         formatter.dateFormat = "EEEE, MMMM d"
         
@@ -71,8 +66,8 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         
     }
     
-    @IBAction func schoolPickerChanged(_ sender: Any) {
-        schoolSelected.update(schoolPicker)
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
         reloadPDFView()
     }
     

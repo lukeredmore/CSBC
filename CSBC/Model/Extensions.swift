@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import UserNotifications
+import SafariServices
 
 extension UIColor {
     static var csbcGreen: UIColor  {
@@ -96,7 +97,14 @@ extension UIView {
 //        return NSLayoutConstraint(item: self.firstItem!, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
 //    }
 //}
-
+extension SFSafariViewController {
+    func configureForCSBC() {
+        self.preferredBarTintColor = UIColor(named: "CSBCNavBarBackground")!
+        self.preferredControlTintColor = UIColor(named: "CSBCNavBarText")!
+        self.modalTransitionStyle = .coverVertical
+        self.modalPresentationStyle = .overCurrentContext
+    }
+}
 extension UserDefaults {
     
     /**

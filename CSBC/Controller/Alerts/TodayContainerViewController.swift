@@ -21,13 +21,10 @@ class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC,
     var calendarData = EventsParsing()
     weak var pageViewSchoolPickerDelegate : PageViewSchoolPickerDelegate? = nil
     weak var dateForPageDelegate : DateForPageDelegate? = nil
-    //let schoolNames = ["Seton","St. John's","All Saints","St. James"]
-    //let schoolBoolStrings = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
     var dateToShow = Date()
     
     
-    @IBOutlet weak var schoolPicker: UISegmentedControl!
-    @IBOutlet weak var schoolPickerHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var dateChangerButton: UIBarButtonItem!
     @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     
@@ -47,19 +44,14 @@ class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC,
     
     override func viewWillAppear(_ animated: Bool) {
         loadingSymbol.startAnimating()
-        shouldIShowAllSchools(schoolPicker: schoolPicker, schoolPickerHeightConstraint: schoolPickerHeightConstraint)
-        for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
-                schoolPicker.selectedSegmentIndex = i
-                //print("\(i) was selected")
-            } //else { print("\(i) wasn't selected") }
-        }
+        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [containerView])
+        super.viewWillAppear(animated)
         
     }
     
-    @IBAction func schoolPickerValueChanged(_ sender: Any) {
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
         loadingSymbol.startAnimating()
-        schoolSelected.update(schoolPicker)
         pageViewSchoolPickerDelegate?.schoolPickerValueDidChange()
         loadingSymbol.stopAnimating()
     }

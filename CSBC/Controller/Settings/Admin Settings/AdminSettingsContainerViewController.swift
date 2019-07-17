@@ -11,7 +11,8 @@ import GoogleSignIn
 import Firebase
 import FirebaseAuth
 
-class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate, GIDSignInUIDelegate, DayOverriddenDelegate {
+/// Container of admin settings. Contains admin authentication methods, hides/shows admin settings,
+class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegate, GIDSignInUIDelegate, DayOverriddenDelegate {
 
     
     let allowedUserEmails = ["luke.redmore", "lukeredmore", "lredmore", "lredmore20", "mmartinkovic", "llevis", "skitchen", "isanyshyn", "kehret", "atierno", "wpipher", "krosen", "jfountaine", "kpawlowski"]
@@ -41,12 +42,57 @@ class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate,
         GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance().uiDelegate = self
     }
-    
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        print("Google user disconnected")
+    @IBAction func signOutTapped(_ sender: Any) {
+        GIDSignIn.sharedInstance()?.disconnect()
+        signOut()
     }
     
+    
+    //MARK: UI Methods
+    func viewSwitch(shouldBeSignedIn : Bool) {
+        containerView.isHidden = !shouldBeSignedIn
+        signOutButton.isEnabled = shouldBeSignedIn
+        signOutButton.isHidden = !shouldBeSignedIn
+        if shouldBeSignedIn {
+            signOutButton.titleLabel?.text = "Sign Out"
+            let childVC = children[0] as! AdminSettingsTableViewController
+            childVC.dayLabel.text = "\(daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] ?? 0)"
+        } else {
+            signOutButton.titleLabel?.text = "."
+        }
+        signInButton.isEnabled = !shouldBeSignedIn
+        signInButton.isHidden = shouldBeSignedIn
+        testLabel.isHidden = shouldBeSignedIn
+    }
+    
+    
+    //MARK: Admin Actions
+    func adminDidOverrideDay(day: Int) {
+        if let childVC = children[0] as? AdminSettingsTableViewController {
+            if let originalDay = daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] {
+                var dictToStore = UserDefaults.standard.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] ?? ["Seton":0,"John":0,"Saints":0,"James":0]
+                dictToStore[usersSchool] = day - originalDay + dictToStore[usersSchool]!
+                
+                let messagesDB = Database.database().reference().child("DayScheduleOverrides")
+                print("Adding day schedule override to database")
+                messagesDB.updateChildValues(dictToStore) {
+                    (error, reference) in
+                    if error != nil {
+                        print("Error adding day schedule override to databae:", error!)
+                    } else {
+                        UserDefaults.standard.set(dictToStore, forKey: "dayScheduleOverrides")
+                        print("Override added")
+                        self.daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
+                        childVC.dayLabel.text = "\(day)"
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    //MARK: Authentication Methods
+    //Delegate methods
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print("Error signing into Google:", error)
@@ -75,13 +121,11 @@ class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate,
             }
         })
     }
-    
-    @IBAction func signOutTapped(_ sender: Any) {
-        GIDSignIn.sharedInstance()?.disconnect()
-        signOut()
-        
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        print("Google user disconnected")
     }
     
+    //Newly created
     func signOut() {
         let firebaseAuth = Auth.auth()
         do {
@@ -90,28 +134,7 @@ class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate,
         } catch let signOutError as NSError {
             print ("Error signing out: %@", signOutError)
         }
-        
     }
-    
-    func viewSwitch(shouldBeSignedIn : Bool) {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        
-        containerView.isHidden = !shouldBeSignedIn
-        signOutButton.isEnabled = shouldBeSignedIn
-        signOutButton.isHidden = !shouldBeSignedIn
-        if shouldBeSignedIn {
-            signOutButton.titleLabel?.text = "Sign Out"
-            let childVC = children[0] as! AdminSettingsTableViewController
-            childVC.dayLabel.text = "\(daySchedule.dateDayDict[usersSchool]![fmt.string(from: Date())] ?? 0)"
-        } else {
-            signOutButton.titleLabel?.text = "."
-        }
-        signInButton.isEnabled = !shouldBeSignedIn
-        signInButton.isHidden = shouldBeSignedIn
-        testLabel.isHidden = shouldBeSignedIn
-    }
-    
     func determinePrioritiesForUser(userID : String) -> String {
         switch userID {
         case "luke.redmore","lredmore","lredmore20","mmartinkovic","llevis":
@@ -127,36 +150,9 @@ class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate,
         }
     }
     
-    func adminDidOverrideDay(day: Int) {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        if let childVC = children[0] as? AdminSettingsTableViewController {
-            if let originalDay = daySchedule.dateDayDict[usersSchool]![fmt.string(from: Date())] {
-                var dictToStore = UserDefaults.standard.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] ?? ["Seton":0,"John":0,"Saints":0,"James":0]
-                dictToStore[usersSchool] = day - originalDay + dictToStore[usersSchool]!
-                
-                let messagesDB = Database.database().reference().child("DayScheduleOverrides")
-                print("Adding day schedule override to database")
-                messagesDB.updateChildValues(dictToStore) {
-                    (error, reference) in
-                    if error != nil {
-                        print("Error adding day schedule override to databae:", error!)
-                    } else {
-                        UserDefaults.standard.set(dictToStore, forKey: "dayScheduleOverrides")
-                        print("Override added")
-                        self.daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
-                        childVC.dayLabel.text = "\(day)"
-                    }
-                }
-            }
-        }
-        
-        
-    }
     
+    //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
         if segue.identifier == "NotificationComposerSegue" {
             let childVC = segue.destination as! ComposerViewController
             childVC.usersSchool = usersSchool
@@ -166,7 +162,7 @@ class AdminSettingsContainerViewController: UIViewController, GIDSignInDelegate,
             let childVC = segue.destination as! SetDeliveryTimeViewController
             childVC.dayOverrideDelegate = self
             //print(daySchedule.dateDayDict[usersSchool]![fmt.string(from: Date())] ?? 0)
-            childVC.dayToShow = daySchedule.dateDayDict[usersSchool]![fmt.string(from: Date())] ?? 0
+            childVC.dayToShow = daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] ?? 0
         }
     }
     

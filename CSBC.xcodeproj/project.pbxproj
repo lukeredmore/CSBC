@@ -11,6 +11,7 @@
 		26019ABB2288A93300953FE2 /* UIPlaygroundFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26019AB22288A93200953FE2 /* UIPlaygroundFramework.framework */; };
 		26019AC02288A93300953FE2 /* UIPlaygroundFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26019ABF2288A93300953FE2 /* UIPlaygroundFrameworkTests.swift */; };
 		26019AC22288A93300953FE2 /* UIPlaygroundFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		26120F7F22D125F3002287CF /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26120F7E22D125F3002287CF /* TestVC.swift */; };
 		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
 		26157656222198DD0023EC03 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26157655222198DD0023EC03 /* Reachability.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
@@ -25,6 +26,7 @@
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
 		26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26561567226243BB002149E5 /* SettingsContainerViewController.swift */; };
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
+		2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660909022CB1EB100118EED /* CSBCSearchController.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
@@ -32,6 +34,8 @@
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
 		26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */; };
 		26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4022C7FB6400C30493 /* CSBCViewController.swift */; };
+		26712F4322C9071300C30493 /* HomeCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */; };
+		2682D3DA22D05BF000072492 /* ContactMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2682D3D922D05BF000072492 /* ContactMailDelegate.swift */; };
 		26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsDataParser.swift */; };
 		26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */; };
 		26894D4821EFACFE00691C97 /* Gotham-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26894D3E21EFACFD00691C97 /* Gotham-Light.otf */; };
@@ -51,8 +55,7 @@
 		26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */; };
 		26ADFE1A22442FA200A557C5 /* saintssickpolicy18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1922442FA100A557C5 /* saintssickpolicy18-19.pdf */; };
 		26ADFE1C22442FA600A557C5 /* saintscafeteriainfo18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1B22442FA600A557C5 /* saintscafeteriainfo18-19.pdf */; };
-		26ADFE422246A1CE00A557C5 /* ContactContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE412246A1CE00A557C5 /* ContactContainerViewController.swift */; };
-		26ADFE442246B49900A557C5 /* ContactParallaxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE432246B49900A557C5 /* ContactParallaxViewController.swift */; };
+		26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE412246A1CE00A557C5 /* ContactViewController.swift */; };
 		26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B75AEC22279B7100D109EC /* DaySchedule.swift */; };
 		26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA1223B050900B92936 /* elementarySchoolDress.html */; };
 		26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA3223B282C00B92936 /* middleSchoolDress.html */; };
@@ -88,6 +91,7 @@
 		26F723412295E073005DEDA7 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F723402295E073005DEDA7 /* Env.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* HTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* HTMLController.swift */; };
+		26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */; };
 		26FD7690223C6509003B57D9 /* sccbellschedule18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768A223C6509003B57D9 /* sccbellschedule18-19.pdf */; };
 		26FD7691223C6509003B57D9 /* csbccalendar18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768B223C6509003B57D9 /* csbccalendar18-19.pdf */; };
 		26FD7692223C6509003B57D9 /* sccdresscode18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768C223C6509003B57D9 /* sccdresscode18-19.pdf */; };
@@ -114,6 +118,7 @@
 		26019ABF2288A93300953FE2 /* UIPlaygroundFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlaygroundFrameworkTests.swift; sourceTree = "<group>"; };
 		26019AC12288A93300953FE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
+		26120F7E22D125F3002287CF /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
 		26157655222198DD0023EC03 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +134,7 @@
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		26561567226243BB002149E5 /* SettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerViewController.swift; sourceTree = "<group>"; };
 		265E65C522AADAE400B3B62C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		2660909022CB1EB100118EED /* CSBCSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchController.swift; sourceTree = "<group>"; };
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
@@ -136,6 +142,8 @@
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
 		26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMenuViewController.swift; sourceTree = "<group>"; };
 		26712F4022C7FB6400C30493 /* CSBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCViewController.swift; sourceTree = "<group>"; };
+		26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewDataSource.swift; sourceTree = "<group>"; };
+		2682D3D922D05BF000072492 /* ContactMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMailDelegate.swift; sourceTree = "<group>"; };
 		26858BC42226292700ADDD1F /* AthleticsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsDataParser.swift; sourceTree = "<group>"; };
 		26894D3E21EFACFD00691C97 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
 		26894D3F21EFACFD00691C97 /* Gotham-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Black.otf"; sourceTree = "<group>"; };
@@ -156,8 +164,7 @@
 		26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAlertsViewController.swift; sourceTree = "<group>"; };
 		26ADFE1922442FA100A557C5 /* saintssickpolicy18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintssickpolicy18-19.pdf"; sourceTree = "<group>"; };
 		26ADFE1B22442FA600A557C5 /* saintscafeteriainfo18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintscafeteriainfo18-19.pdf"; sourceTree = "<group>"; };
-		26ADFE412246A1CE00A557C5 /* ContactContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactContainerViewController.swift; sourceTree = "<group>"; };
-		26ADFE432246B49900A557C5 /* ContactParallaxViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactParallaxViewController.swift; sourceTree = "<group>"; };
+		26ADFE412246A1CE00A557C5 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		26B75AEC22279B7100D109EC /* DaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySchedule.swift; sourceTree = "<group>"; };
 		26B90BA1223B050900B92936 /* elementarySchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = elementarySchoolDress.html; sourceTree = "<group>"; };
 		26B90BA3223B282C00B92936 /* middleSchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDress.html; sourceTree = "<group>"; };
@@ -196,6 +203,7 @@
 		26F723402295E073005DEDA7 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* HTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLController.swift; sourceTree = "<group>"; };
+		26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDelegate.swift; sourceTree = "<group>"; };
 		26FD768A223C6509003B57D9 /* sccbellschedule18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule18-19.pdf"; sourceTree = "<group>"; };
 		26FD768B223C6509003B57D9 /* csbccalendar18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "csbccalendar18-19.pdf"; sourceTree = "<group>"; };
 		26FD768C223C6509003B57D9 /* sccdresscode18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccdresscode18-19.pdf"; sourceTree = "<group>"; };
@@ -285,11 +293,9 @@
 			children = (
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
 				26561567226243BB002149E5 /* SettingsContainerViewController.swift */,
+				26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */,
 				26BE62032272B65C00C6656F /* SetDeliveryTimeViewController.swift */,
-				264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */,
-				264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */,
-				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
-				2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */,
+				26F9F2E722DFB52E0051981D /* Admin Settings */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -404,6 +410,7 @@
 			isa = PBXGroup;
 			children = (
 				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
+				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
 			);
 			path = Athletics;
 			sourceTree = "<group>";
@@ -413,8 +420,8 @@
 			children = (
 				26DC0B78222F275900371B61 /* MapViewController.swift */,
 				26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */,
-				26ADFE432246B49900A557C5 /* ContactParallaxViewController.swift */,
-				26ADFE412246A1CE00A557C5 /* ContactContainerViewController.swift */,
+				2682D3D922D05BF000072492 /* ContactMailDelegate.swift */,
+				26ADFE412246A1CE00A557C5 /* ContactViewController.swift */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -495,6 +502,8 @@
 				26F7234722961BDA005DEDA7 /* HTMLController.swift */,
 				263A81F122A5F6D3001D0716 /* NotificationSettings.swift */,
 				26DD570022BBD16E005E109B /* AlertController.swift */,
+				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
+				26120F7E22D125F3002287CF /* TestVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -534,6 +543,17 @@
 				26F64BFE2213937A00A6326D /* ResizeableButton.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		26F9F2E722DFB52E0051981D /* Admin Settings */ = {
+			isa = PBXGroup;
+			children = (
+				264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */,
+				264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */,
+				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
+				2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */,
+			);
+			path = "Admin Settings";
 			sourceTree = "<group>";
 		};
 		26FD7689223C64F6003B57D9 /* PDF Files */ = {
@@ -886,17 +906,19 @@
 			files = (
 				26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */,
 				262843102228A6DB00ADC019 /* CollectionViewCell.swift in Sources */,
-				26ADFE442246B49900A557C5 /* ContactParallaxViewController.swift in Sources */,
 				26DC0B75222F1E7300371B61 /* ContactInfoRegularCell.swift in Sources */,
 				26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */,
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
+				26120F7F22D125F3002287CF /* TestVC.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
 				2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */,
+				26712F4322C9071300C30493 /* HomeCollectionViewDataSource.swift in Sources */,
+				2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */,
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
 				26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
@@ -911,8 +933,9 @@
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,
 				26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */,
+				2682D3DA22D05BF000072492 /* ContactMailDelegate.swift in Sources */,
 				266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */,
-				26ADFE422246A1CE00A557C5 /* ContactContainerViewController.swift in Sources */,
+				26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
@@ -923,6 +946,7 @@
 				26DD570122BBD16E005E109B /* AlertController.swift in Sources */,
 				26BE62042272B65C00C6656F /* SetDeliveryTimeViewController.swift in Sources */,
 				26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */,
+				26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,

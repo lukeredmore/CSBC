@@ -14,6 +14,7 @@ protocol PublishPushNotificationsDelegate: class {
     func notificationFailedToPublish(error : Error)
 }
 
+/// Takes a given notification and publishes it with preconfigured settings and reports to a delegate (the composer)
 class PublishPushNotifications {
  
     var messageToSend : String!

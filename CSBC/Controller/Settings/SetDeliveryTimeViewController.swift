@@ -15,6 +15,7 @@ protocol DayOverriddenDelegate: class {
     func adminDidOverrideDay(day: Int)
 }
 
+///Modal VC where both the notification delivery time and day override can be picked
 final class SetDeliveryTimeViewController: ModalMenuViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     
     @IBOutlet weak var menuView: UIView!

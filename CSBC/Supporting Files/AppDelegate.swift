@@ -14,41 +14,21 @@ import UserNotifications
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
-    let userDefaults = UserDefaults.standard
     var window: UIWindow?
-    let notificationKeys = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
-    var notificationSettings : NotificationSettings!
-    var schoolDateFormatter : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        return fmt
-    }
-    let dayScheduleLite = DaySchedule()
-    
-    
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        
-        //MARK: - Firebase
         FirebaseApp.configure()
         
-        
-        //MARK: - Navigation Bar
-        UINavigationBar.appearance().titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: "gotham", size: 30)!, NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!]
-    
-    
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!], for: .normal)
-        
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!, NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!], for: .highlighted)
+        let HTMLParser = HTMLController()
+        HTMLParser.downloadAndStoreLunchMenus()
         
         
         
-        //MARK: - Notifications
+        //Notifications
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self as? MessagingDelegate
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-            self.checkForNotificationProperties()
             if granted {
                 DispatchQueue.main.async(execute: {
                     UIApplication.shared.registerForRemoteNotifications()
@@ -56,72 +36,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
+        //UI
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "gotham", size: 30)!,
+            NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!
+        ]
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
+            NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!
+            ], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
+            NSAttributedString.Key.foregroundColor: UIColor(named: "CSBCNavBarText")!
+            ], for: .highlighted)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
+        
         return true
     }
-    
-    func checkForNotificationProperties(redefineOverride : Bool = false) {
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            let userDefinedSettingsExist = self.userDefaults.value(forKey: "shouldDeliverNotifications") != nil && self.userDefaults.value(forKey: "timeOfNotificationDeliver") != nil && self.userDefaults.value(forKey: "showSetonNotifications") != nil && self.userDefaults.value(forKey: "showJohnNotifications") != nil && self.userDefaults.value(forKey: "showSaintsNotifications") != nil && self.userDefaults.value(forKey: "showJamesNotifications") != nil
-            
-            if settings.authorizationStatus == .authorized && (self.userDefaults.value(forKey: "Notifications") == nil || redefineOverride) {
-                // Already authorized
-                if userDefinedSettingsExist { //3
-                    print("Device has user defined settings and wants to receive notifications")
-                    let notifs = NotificationSettings(
-                        shouldDeliver: self.userDefaults.bool(forKey: "shouldDeliverNotifications"),
-                        deliveryTime: self.userDefaults.string(forKey: "timeOfNotificationDeliver")!,
-                        schools: [
-                            self.userDefaults.bool(forKey: "showSetonNotifications"),
-                            self.userDefaults.bool(forKey: "showJohnNotifications"),
-                            self.userDefaults.bool(forKey: "showSaintsNotifications"),
-                            self.userDefaults.bool(forKey: "showJamesNotifications")
-                        ],
-                        valuesChangedByUser: true)
-                    self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
-                } else { //1
-                    print("Device doesn't have defined settings and wants to receive notifications")
-                    let notifs = NotificationSettings(
-                        shouldDeliver: true,
-                        deliveryTime: "7:00 AM",
-                        schools: [true, true, true, true],
-                        valuesChangedByUser: false)
-                    self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
-                }
-            }
-            else if self.userDefaults.value(forKey: "Notifications") == nil || redefineOverride {
-                // Either denied or notDetermined
-                if userDefinedSettingsExist { //4
-                    print("Device has user defined settings and doesn't want to receive notifications")
-                    let notifs = NotificationSettings(
-                        shouldDeliver: false,
-                        deliveryTime: self.userDefaults.string(forKey: "timeOfNotificationDeliver")!,
-                        schools: [
-                            self.userDefaults.bool(forKey: "showSetonNotifications"),
-                            self.userDefaults.bool(forKey: "showJohnNotifications"),
-                            self.userDefaults.bool(forKey: "showSaintsNotifications"),
-                            self.userDefaults.bool(forKey: "showJamesNotifications")
-                        ],
-                        valuesChangedByUser: true)
-                    self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
-                } else { //2
-                    print("Device doesn't have user defined settings and doesn't want to receive notifications")
-                    let notifs = NotificationSettings(
-                        shouldDeliver: false,
-                        deliveryTime: "7:00 AM",
-                        schools: [true, true, true, true],
-                        valuesChangedByUser: false)
-                    self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
-                }
-            } else {
-                print("Device has clearly defined settings in the new 'Notifications' struct")
-                self.notificationSettings = self.defineNotificationSettings()
-                print(self.notificationSettings!)
-            }
-        }
-    }
-    
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        print("jkhgkjhj")
         InstanceID.instanceID().instanceID(handler: { (result, error) in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
@@ -131,7 +64,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         })
         Messaging.messaging().apnsToken = deviceToken
         InstanceID.instanceID().instanceID { (result, _) in
-            if result != nil && (Date() < self.schoolDateFormatter.date(from: self.dayScheduleLite.startDateString)!) {
+            if result != nil {
+                print("Initilizing notifications")
                 let notificationController = NotificationController()
                 notificationController.subscribeToTopics()
                 notificationController.queueNotifications()
@@ -234,17 +168,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             return topViewControllerWithRootViewController(rootViewController: rootViewController.presentedViewController)
         }
         return rootViewController
-    }
-    
-    
-    func defineNotificationSettings() -> NotificationSettings {
-        if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
-            let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
-            return notificationSettings!
-        } else {
-            let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
-            return notificationSettings
-        }
     }
 }
 

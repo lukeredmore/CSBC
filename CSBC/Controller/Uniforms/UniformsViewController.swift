@@ -9,9 +9,10 @@
 import UIKit
 import WebKit
 
+/// Picks dress code html file to load and shows it in a web view
 class UniformsViewController: CSBCViewController, WKNavigationDelegate {
 
-    @IBOutlet var schoolPicker: UISegmentedControl!
+    @IBOutlet var differentSchoolPicker: UISegmentedControl!
     @IBOutlet var webView: WKWebView!
     @IBOutlet var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet var maskView: UIView!
@@ -19,9 +20,6 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
     var schoolSelectedToDisplay = 0
     let dressCodeHTMLs = ["highSchoolDress","middleSchoolDress","elementarySchoolDress"]
 
-    //MARK: - New school picker properties
-    let schoolPickerDictionary : [String:Int] = ["Seton":0,"St. John's":1,"All Saints":2,"St. James":3]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Dress Code"
@@ -34,9 +32,11 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
             loadingSymbol.color = .gray
         }
         if #available(iOS 13.0, *) {
-            schoolPicker.overrideUserInterfaceStyle = .dark
+            differentSchoolPicker.overrideUserInterfaceStyle = .dark
         }
         // Do any additional setup after loading the view.
+        
+        //setupSchoolPickerForDefaultBehavior(currentTopMostItem: schoolPicker)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -47,18 +47,17 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
         } else {
             schoolSelectedToDisplay = schoolSelected.ssInt
         }
-        schoolPicker.selectedSegmentIndex = schoolSelected.ssInt
+        differentSchoolPicker.selectedSegmentIndex = schoolSelected.ssInt
         updateDressCodeShown()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        schoolSelected.update(schoolPicker)
+        schoolSelected.update(differentSchoolPicker)
     }
     
     @IBAction func schoolPickerValueChanged(_ sender: Any) {
-        schoolSelectedToDisplay = schoolPicker.selectedSegmentIndex
+        schoolSelectedToDisplay = differentSchoolPicker.selectedSegmentIndex
         updateDressCodeShown()
     }
-    
     func updateDressCodeShown() {
         var isDark = ""
         if #available(iOS 12.0, *) {

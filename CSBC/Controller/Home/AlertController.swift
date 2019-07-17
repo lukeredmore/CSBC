@@ -17,34 +17,65 @@ protocol AlertDelegate: class {
     func reinitNotifications()
 }
 
+/// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
-    
     weak var delegate : AlertDelegate? = nil
     let defaults = UserDefaults.standard
     var closedData : [String] = []
+    var snowDatesChecked = false
+    var dayOverridesChecked = false
+    var shouldSnowDatesReinit = false
+    var shouldOverridesReinit = false
     
-    init(delegate : AlertDelegate) {
+    init(_ delegate : AlertDelegate) {
         self.delegate = delegate
+        self.delegate?.removeBannerAlert()
+        getSnowDatesAndOverridesAndQueueNotifications()
     }
     
     func getSnowDatesAndOverridesAndQueueNotifications() {
-        var snowDays : [String] = []
-        Database.database().reference().child("SnowDays").observe(.childAdded) {
-            (snapshot) in
-            let snapshotValue = snapshot.value as! String
-            snowDays.append(snapshotValue)
-            self.defaults.set(snowDays, forKey: "snowDays")
-        }
-        
-        Database.database().reference().child("DayScheduleOverrides").observeSingleEvent(of: .value, with: {
-            (snapshot) in
+        Database.database().reference().child("SnowDays").observeSingleEvent(of: .value) { (snapshot) in
             if let value = snapshot.value as? NSDictionary {
-                //print(value)
-                self.defaults.set(value, forKey: "dayScheduleOverrides")
-                self.delegate?.reinitNotifications()
+                let newSnowDays : [String] = value.allValues as! [String]
+                if let ogSnowDays : [String] = self.defaults.array(forKey: "snowDays") as? [String] {
+                    if newSnowDays.sorted() != ogSnowDays.sorted() {
+                        self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
+                        self.shouldSnowDatesReinit = true
+                        self.tryToReinit()
+                    }
+                } else {
+                    self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
+                    self.shouldSnowDatesReinit = true
+                    self.tryToReinit()
+                }
             }
-        })
+            self.snowDatesChecked = true
+        }
+
+        Database.database().reference().child("DayScheduleOverrides").observeSingleEvent(of: .value) { (snapshot) in
+            if let newOverrides = snapshot.value as? [String : Int] {
+                if let ogOverrides = self.defaults.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] {
+                    if newOverrides != ogOverrides {
+                        self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
+                        self.shouldOverridesReinit = true
+                        self.tryToReinit()
+                    }
+                } else {
+                    self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
+                    self.shouldOverridesReinit = true
+                    self.tryToReinit()
+                }
+            }
+            self.dayOverridesChecked = true
+        }
     }
+    func tryToReinit() {
+        if (snowDatesChecked && dayOverridesChecked && (shouldSnowDatesReinit || shouldOverridesReinit)) {
+            print("reinitializing Notifications")
+            self.delegate?.reinitNotifications()
+        }
+    }
+    
     func checkForAlert() {
         print("Checking for alert from CSBC site")
         Alamofire.request("https://csbcsaints.org").responseString(queue: nil, encoding: .utf8) { response in
@@ -112,16 +143,37 @@ class AlertController {
         let dateValueString = fmt.string(from: date)
         fmt.dateFormat = "MMddyyyy"
         let dateKeyString = fmt.string(from: date)
-        let messagesDB = Database.database().reference().child("SnowDays")
-        let dateToAddDict = [dateKeyString:dateValueString]
-        print("Adding snow day to database")
-        messagesDB.updateChildValues(dateToAddDict) {
-            (error, reference) in
-            if error != nil {
-                print("Error adding snow day to database:", error!)
+        let dateToAddDict = [dateKeyString : dateValueString]
+        if let currentSnowDays : [String] = self.defaults.array(forKey: "snowDays") as? [String] {
+            if !currentSnowDays.contains(dateValueString) {
+                print("Adding snow day on \(dateValueString) to database")
+                Database.database().reference().child("SnowDays").updateChildValues(dateToAddDict) {
+                    (error, reference) in
+                    if error != nil {
+                        print("Error adding snow day to database:", error!)
+                    } else {
+                        print("Snow day successfully added")
+                    }
+                }
+                self.getSnowDatesAndOverridesAndQueueNotifications()
             } else {
-                print("Snow day successfully added")
+                print("Snow day on \(dateValueString) already in database")
             }
+        } else {
+            print("Adding snow day on \(dateValueString) to database")
+            Database.database().reference().child("SnowDays").updateChildValues(dateToAddDict) {
+                (error, reference) in
+                if error != nil {
+                    print("Error adding snow day to database:", error!)
+                } else {
+                    print("Snow day successfully added")
+                }
+            }
+            self.getSnowDatesAndOverridesAndQueueNotifications()
         }
+        
+        
+        
+        
     }
 }

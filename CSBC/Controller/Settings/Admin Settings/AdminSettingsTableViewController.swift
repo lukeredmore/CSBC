@@ -9,13 +9,12 @@
 import UIKit
 import Firebase
 
+///TableViewDelegate controlling segues to composers and day override
 class AdminSettingsTableViewController: UITableViewController {
 
     @IBOutlet weak var dayLabel: UILabel!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
+   
     
     // MARK: - Table view data source
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

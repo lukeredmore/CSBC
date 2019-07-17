@@ -8,10 +8,10 @@
 
 import UIKit
 
+///Contains segues from settings VC
+class SettingsContainerViewController: UIViewController {//, TimeEnteredDelegate {
 
-class SettingsContainerViewController: CSBCViewController {//, TimeEnteredDelegate {
-
-    let schoolsNotifications = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
+    //let schoolsNotifications = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications"]
     //var schoolSelectedOptional: String? = nil
     
     

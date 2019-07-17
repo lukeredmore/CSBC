@@ -16,6 +16,7 @@ protocol LoadPDFDelegate: class {
     func tryToLoadPDFs()
 }
 
+/// Finds URLs of, download, and store all the lunch menus
 class HTMLController : UIViewController, URLSessionDownloadDelegate {
     
     //weak var delegate : LoadPDFDelegate? = nil
@@ -30,7 +31,7 @@ class HTMLController : UIViewController, URLSessionDownloadDelegate {
     var loadedPDFURLs : [Int:URL] = [:]
     var loadedWordURLs : [Int:String] = [:]
     
-    func getSpecialLunchMenuURLs() {
+    func downloadAndStoreLunchMenus() {
         lunchesReady = [false, false, false, false]
         let setonURL = URL(string: "https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/")
         let setonTask = URLSession.shared.dataTask(with: setonURL!) { (data, response, error) in

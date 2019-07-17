@@ -7,12 +7,9 @@
 //
 
 import UIKit
-import FirebaseMessaging
-import Firebase
-import MessageUI
 
-class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMailComposeViewControllerDelegate {
-    
+///Controls all settings switches and receives time from datePicker. Updates Firebase through NotificationController
+class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     
     @IBOutlet weak var deliverNotificationsSwitch: UISwitch!
     @IBOutlet weak var deliveryTimeLabel: UILabel!
@@ -21,8 +18,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
     @IBOutlet weak var copyrightLabel: UILabel!
     @IBOutlet weak var versionLabel: UILabel!
     let userDefaults = UserDefaults.standard
-    let schools = ["Seton","St. John's","All Saints","St. James"]
-    let schoolsNotifications = ["showSetonNotifications","showJohnNotifications","showSaintsNotifications","showJamesNotifications","showAllSchools"]
     var fmtYear : DateFormatter {
         let fmtYear = DateFormatter()
         fmtYear.dateFormat = "yyyy"
@@ -35,25 +30,26 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
         fmt.pmSymbol = "PM"
         return fmt
     }
-    let topicArray = ["setonNotifications","johnNotifications","saintsNotifications","jamesNotifications"]
+    var notificationController = NotificationController()
     var notificationSettings : NotificationSettings!
     
+    
+    //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        notificationSettings = defineNotificationSettings()
+        notificationSettings = notificationController.notificationSettings
         let currentYear = fmtYear.string(from: Date())
         copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
         versionLabel.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         getNotificationPreferences()
     }
-    
     override func viewWillDisappear(_ animated: Bool) {
         notificationSettings.schools = [settingsSwitch[0].isOn, settingsSwitch[1].isOn, settingsSwitch[2].isOn, settingsSwitch[3].isOn]
         notificationSettings.deliveryTime = deliveryTimeLabel.text!
-        if settingsSwitch[0].isOn == false && settingsSwitch[1].isOn == false && settingsSwitch[2].isOn == false && settingsSwitch[3].isOn == false {
+        if !settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn {
             userDefaults.set(true, forKey: "showAllSchools")
             notificationSettings.shouldDeliver = false
         } else {
@@ -61,33 +57,15 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
             notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
         }
         
-        if notificationSettings.shouldDeliver != true || notificationSettings.deliveryTime != "7:00 AM" || notificationSettings.schools != [true, true, true, true] || notificationSettings.valuesChangedByUser != false {
+        if !notificationSettings.shouldDeliver || notificationSettings.deliveryTime != "7:00 AM" || notificationSettings.schools != [true, true, true, true] || notificationSettings.valuesChangedByUser {
             notificationSettings.valuesChangedByUser = true
         }
-        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
-        
-        for i in 0..<4 {
-            if settingsSwitch[i].isOn {
-                Messaging.messaging().subscribe(toTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Subscribed to \(self.topicArray[i])")
-                    } else {
-                        print("Error subscribing to \(self.topicArray[i]):", error!)
-                    }
-                }
-            } else {
-                Messaging.messaging().unsubscribe(fromTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Unsubscribed from \(self.topicArray[i])")
-                    } else {
-                        print("Error unsubscribing from \(self.topicArray[i]):", error!)
-                    }
-                }
-            }
-            Analytics.setUserProperty("\(settingsSwitch[i].isOn)", forName: self.topicArray[i])
-        }
-        
-        
+        notificationController.storeNotificationSettings(notificationSettings)
+        notificationController.subscribeToTopics()
+    }
+    func performSegueFromContainer(identifier : String) {
+        let masterVC = parent as! SettingsContainerViewController
+        masterVC.performSegue(withIdentifier: identifier, sender: masterVC)
     }
     
     func getNotificationPreferences() {
@@ -95,146 +73,77 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate, MFMail
             settingsSwitch[i].isOn = notificationSettings.schools[i]
         }
         
-        if let showAllSchools:Bool = userDefaults.value(forKey: "showAllSchools") as! Bool? { //should show all schools
-            userDefaults.set(settingsSwitch[4].isOn, forKey: "showAllSchools")
-            if showAllSchools {
-                settingsSwitch[4].isOn = true
-            } else {
-                settingsSwitch[4].isOn = false
-            }
-        } else {
-            userDefaults.set(true, forKey: "showAllSchools")
-            settingsSwitch[4].isOn = true
-        }
+        let showAllSchools = userDefaults.value(forKey: "showAllSchools") as! Bool?
+        settingsSwitch[4].isOn = showAllSchools ?? true
         
-        if notificationSettings.shouldDeliver { //should get notifs
-            deliverNotificationsSwitch.isOn = true
-            deliveryTimeCell.isHidden = false
-        } else {
-            deliverNotificationsSwitch.isOn = false
-            deliveryTimeCell.isHidden = true
-        }
+        deliverNotificationsSwitch.isOn = notificationSettings.shouldDeliver
+        deliveryTimeCell.isHidden = !notificationSettings.shouldDeliver
         
         deliveryTimeLabel.text = notificationSettings.deliveryTime //what time should they be
         
         tableView.reloadData()
     }
     
-    @IBAction func showAllSchoolsSwitchToggled(_ sender: Any) {
-        if (settingsSwitch[0].isOn == false && settingsSwitch[1].isOn == false && settingsSwitch[2].isOn == false && settingsSwitch[3].isOn == false && settingsSwitch[4].isOn == false) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) {
-            settingsSwitch[4].setOn(true, animated: true)
-            userDefaults.set(true, forKey: "showAllSchools")
-        }
-    }
     
-    @IBAction func settingsSwitchToggled(_ sender: Any) {
+    //MARK: Button Listeners
+    @IBAction func settingsSwitchToggled(_ sender: Any) { //school switches
         notificationSettings.valuesChangedByUser = true
         
         let tag = (sender as AnyObject).tag - 1
         notificationSettings.schools[tag] = settingsSwitch[tag].isOn
-        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
+        notificationController.storeNotificationSettings(notificationSettings)
         
-        if (settingsSwitch[0].isOn == false && settingsSwitch[1].isOn == false && settingsSwitch[2].isOn == false && settingsSwitch[3].isOn == false) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) {
+        if (!settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) { //if all off or on
             settingsSwitch[4].setOn(true, animated: true)
             userDefaults.set(true, forKey: "showAllSchools")
         }
         
-        for i in 0..<4 {
-            if settingsSwitch[i].isOn {
-                Messaging.messaging().subscribe(toTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Subscribed to \(self.topicArray[i])")
-                    } else {
-                        print("Error subscribing to \(self.topicArray[i]):", error!)
-                    }
-                }
-            } else {
-                Messaging.messaging().unsubscribe(fromTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Unsubscribed from \(self.topicArray[i])")
-                    } else {
-                        print("Error unsubscribing from \(self.topicArray[i]):", error!)
-                    }
-                }
-            }
-            Analytics.setUserProperty("\(settingsSwitch[i].isOn)", forName: self.topicArray[i])
+    }
+    @IBAction func showAllSchoolsSwitchToggled(_ sender: Any) { //turn on showAllSchools if schools are all off or all on
+        if (!settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn && !settingsSwitch[4].isOn) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) {
+            settingsSwitch[4].setOn(true, animated: true)
+            userDefaults.set(true, forKey: "showAllSchools")
         }
     }
-    
-    @IBAction func notificationOptInToggled(_ sender: Any) {
+    @IBAction func notificationOptInToggled(_ sender: Any) { //deliver notiications switch
         notificationSettings.valuesChangedByUser = true
 
-        if deliverNotificationsSwitch.isOn {
-            deliveryTimeCell.isHidden = false
-        } else {
-            deliveryTimeCell.isHidden = true
-        }
+        deliveryTimeCell.isHidden = !deliverNotificationsSwitch.isOn
+        notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
         
-        notificationSettings.shouldDeliver = !deliveryTimeCell.isHidden
-        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
+        notificationController.storeNotificationSettings(notificationSettings)
     }
     
     
+    //MARK: Time Entered Delegate
+    func userDidSelectTime(timeToShow: Date) {
+        notificationSettings.valuesChangedByUser = true
+        
+        deliveryTimeLabel.text = fmt.string(from: timeToShow)
+        notificationSettings.deliveryTime = deliveryTimeLabel.text!
+        notificationController.storeNotificationSettings(notificationSettings)
 
-    // MARK: - Table view data source
+        tableView.reloadData()
+        
+    }
+    
+    
+    // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 2 && indexPath.row == 1 {
             performSegueFromContainer(identifier: "SetDeliveryTimeSegue")
         }
         if indexPath.section == 3 && indexPath.row == 0 {
-            presentMailVC()//performSegueFromContainer(identifier: "ReportIssueSegue")
+            let mailDelegate = SettingsViewDelegate(self)
+            mailDelegate.presentMailVC()
+            //performSegueFromContainer(identifier: "ReportIssueSegue")
         }
         if indexPath.section == 4 {
             performSegueFromContainer(identifier: "AdminSettingsSegue")
         }
     }
-    
-    
-    
-    
-    func performSegueFromContainer(identifier : String) {
-        let masterVC = parent as! SettingsContainerViewController
-        masterVC.performSegue(withIdentifier: identifier, sender: masterVC)
-    }
-    
-    func userDidSelectTime(timeToShow: Date) {
-        notificationSettings.valuesChangedByUser = true
-        
-        deliveryTimeLabel.text = fmt.string(from: timeToShow)
-        notificationSettings.deliveryTime = deliveryTimeLabel.text!
-        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
 
-        tableView.reloadData()
-        
-    }
     
-    //MARK: Send email methods
-    func presentMailVC() {
-        let mailComposeViewController = configuredMailComposeViewController()
-        if MFMailComposeViewController.canSendMail() {
-            self.present(mailComposeViewController, animated: true, completion: nil)
-        } else {
-            self.showSendMailErrorAlert()
-        }
-    }
-    func configuredMailComposeViewController() -> MFMailComposeViewController {
-        let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self
-        
-        mailComposerVC.setToRecipients(["lredmore@syrdio.org"])
-        mailComposerVC.setSubject("CSBC App User Comment")
-        mailComposerVC.setMessageBody("Please give a detailed description of the issue you would like to report or the suggestion you would like to submit:", isHTML: false)
-        
-        return mailComposerVC
-    }
-    func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send email. Please check your email configuration and try again.", preferredStyle: .alert)
-        let okButton = UIAlertAction(title: "OK", style: .cancel)
-        sendMailErrorAlert.addAction(okButton)
-        self.present(sendMailErrorAlert, animated: true, completion: nil)
-    }
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        controller.dismiss(animated: true, completion: nil)
-    }
+    
 }

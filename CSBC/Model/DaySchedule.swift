@@ -10,14 +10,14 @@ import Foundation
 //import Firebase
 
 class DaySchedule {
-    let startDateString : String = "09/05/2018" //first day of school
-    let endDateString : String = "06/21/2019" //last day of school
+    let startDateString : String = "09/04/2019" //first day of school
+    let endDateString : String = "06/19/2020" //last day of school
     var dateDayDict : [String:[String:Int]] = [:]
     var dateDayDictArray : [String] = [""]
     
-    let noSchoolDateStrings : [String] = ["10/05/2018", "10/08/2018", "11/12/2018", "11/21/2018", "11/22/2018", "11/23/2018", "12/24/2018", "12/25/2018", "12/26/2018", "12/27/2018", "12/28/2018", "12/31/2018", "01/01/2019", "02/15/2019", "02/18/2019", "03/14/2019", "03/15/2019", "03/18/2019", "04/15/2019", "04/16/2019", "04/17/2019", "04/18/2019", "04/19/2019", "04/22/2019", "05/23/2019", "05/24/2019", "05/27/2019"]
-    let noElementarySchoolDateStrings : [String] = ["11/16/2018"]
-    let noHighSchoolDateStrings : [String] = ["01/21/2019", "01/22/2019", "01/23/2019", "01/24/2019", "01/25/2019", "06/18/2019", "06/19/2019", "06/20/2019", "06/21/2019"]
+    let noSchoolDateStrings : [String] = ["10/05/2019", "10/08/2019", "11/12/2019", "11/21/2019", "11/22/2019", "11/23/2019", "12/24/2019", "12/25/2019", "12/26/2019", "12/27/2019", "12/28/2019", "12/31/2019", "01/01/2020", "02/15/2020", "02/18/2020", "03/14/2020", "03/15/2020", "03/18/2020", "04/15/2020", "04/16/2020", "04/17/2020", "04/18/2020", "04/19/2020", "04/22/2020", "05/23/2020", "05/24/2020", "05/27/2020"]
+    let noElementarySchoolDateStrings : [String] = ["11/15/2019"]
+    let noHighSchoolDateStrings : [String] = ["01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "01/25/2020", "06/18/2020", "06/19/2020"]
     
     var snowDateStrings : [String] = [] //["02/22/2019", "02/25/2019", "02/26/2019", "02/27/2019"]
     var dayScheduleOverides : [String : Int] = [:]
@@ -31,6 +31,12 @@ class DaySchedule {
     var restrictedDateStrings : [String] = []
     var restrictedDatesForHSStrings : [String] = []
     var restrictedDatesForESStrings : [String] = []
+    
+    var dateStringFormatter : DateFormatter {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy"
+        return fmt
+    }
     
     init(forSeton : Bool = false, forJohn : Bool = false, forSaints : Bool = false, forJames : Bool = false) {
         if forSeton || forJohn || forSaints || forJames {
@@ -48,21 +54,19 @@ class DaySchedule {
     }
     
     func findDayOfCycle(forSeton : Bool, forJohn : Bool, forSaints : Bool, forJames : Bool) {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        var date : Date = fmt.date(from: startDateString)!
-        let endDate : Date = fmt.date(from: endDateString)!
+        var date : Date = dateStringFormatter.date(from: startDateString)!
+        let endDate : Date = dateStringFormatter.date(from: endDateString)!
         
         //print("appending no school")
         for dateString in noSchoolDateStrings {
-            if let restrictedDate = fmt.date(from: dateString) {
+            if let restrictedDate = dateStringFormatter.date(from: dateString) {
                 restrictedDates.append(restrictedDate)
                 restrictedDateStrings.append(dateString)
             }
         }
         //print("appending snow dates")
         for dateString in snowDateStrings {
-            if let restrictedDate = fmt.date(from: dateString) {
+            if let restrictedDate = dateStringFormatter.date(from: dateString) {
                 restrictedDates.append(restrictedDate)
                 restrictedDateStrings.append(dateString)
             }
@@ -77,18 +81,22 @@ class DaySchedule {
         if forSeton {
             //print("appending exam dates")
             for dateString in noHighSchoolDateStrings {
-                if let restrictedDate = fmt.date(from: dateString) {
+                if let restrictedDate = dateStringFormatter.date(from: dateString) {
                     restrictedDatesForHS.append(restrictedDate)
                     restrictedDatesForHSStrings.append(dateString)
+                    print(restrictedDatesForHSStrings)
+                    print(restrictedDatesForESStrings)
                 }
             }
         }
         if forJohn || forSaints || forJames {
             //print("appending ptc dates")
             for dateString in noElementarySchoolDateStrings {
-                if let restrictedDate = fmt.date(from: dateString) {
+                if let restrictedDate = dateStringFormatter.date(from: dateString) {
                     restrictedDatesForES.append(restrictedDate)
                     restrictedDatesForESStrings.append(dateString)
+                    print(restrictedDatesForHSStrings)
+                    print(restrictedDatesForESStrings)
                 }
             }
         }
@@ -96,6 +104,8 @@ class DaySchedule {
         restrictedDatesForHS.sort()
         restrictedDatesForES.sort()
         
+        print(restrictedDatesForHSStrings)
+        print(restrictedDatesForESStrings)
 
         
         var setonDay = 1 + dayScheduleOverides["Seton"]!
@@ -105,7 +115,7 @@ class DaySchedule {
         
         while date <= endDate {
             if Calendar.current.component(.weekday, from: date) != 1 && Calendar.current.component(.weekday, from: date) != 7 { //if its a weekday
-                let dateString = fmt.string(from: date)
+                let dateString = dateStringFormatter.string(from: date)
                 if forSeton && !restrictedDatesForHSStrings.contains(dateString) {
                     dateDayDict["Seton"]![dateString] = setonDay
                     setonDay = proceedToNextDay(day: setonDay)
@@ -148,8 +158,6 @@ class DaySchedule {
     }
     
     func checkToAddDateToArray(dateString : String) {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
         if !dateDayDictArray.contains(dateString) {
             dateDayDictArray.append(dateString)
         }
