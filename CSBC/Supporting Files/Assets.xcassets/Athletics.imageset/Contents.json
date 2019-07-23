@@ -2,17 +2,50 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "sports.png",
+      "filename" : "Athletics.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sports@2x.png",
+      "filename" : "Athletics-1.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Athletics@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "sports@3x.png",
+      "filename" : "Athletics@2x-1.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Athletics@3x.png",
+      "scale" : "3x"
+    },
+    {
+      "idiom" : "universal",
+      "filename" : "Athletics@3x-1.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "scale" : "3x"
     }
   ],

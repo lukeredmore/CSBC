@@ -27,11 +27,10 @@ class PublishPushNotifications {
         self.messageToSend = withMessage
         self.schoolConditional = findConditionalForSchool(school: toSchool)
         
-        let production : Bool = Env.isProduction()
-        if production {
-            headers["Authorization"] = "key=AAAANZu-YrY:APA91bFXlM-W7Rj1pxf3f931BaRRmaJPBgef5T_o13nrc9jcugaRqZrGhbU7HMOszrW4k22zfXd45M3d2ciBbk2PH8MREVuyjfYV7ZvUa4LVxPY_IWLFr_L8Go6zUo4Lb1xiMyLczeHv"
+        if Env.isProduction() {
+            headers["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
         } else {
-            headers["Authorization"] = "key=AAAAdVsLo5g:APA91bGHiJBH-pWL0GwcVa39aDR2JOMcBR-vv0GbJ1qRKpclzoE-OMBYLWsrJ9X4CcO8P3muOXJbNcbc2slQunmjdE2JeV7yyMDhY8N30mcC3KEUHaFueHvXiHQJ9jrS_-pk-jB5Q6eI"
+            headers["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
         }
     }
     

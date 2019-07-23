@@ -9,36 +9,41 @@
 import UIKit
 import PDFKit
 
-
+///Displays PDF supplied by parent
 class ActualDocViewController: UIViewController {
-
-    //var schoolSelected = 0
     @IBOutlet weak var pdfView: PDFView!
+    var documentToDisplay : PDFDocument?
     
-    var clickedDocument : PDFDocument?
     
+    //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .csbcSuperLightGray
-        addShareBarButtonItem()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
         self.navigationItem.title = ""
-        
-        // Do any additional setup after loading the view.
     }
-    
     override func viewWillAppear(_ animated: Bool) {
-        
-        pdfView.document = clickedDocument!
-        pdfView.displayMode = .singlePageContinuous
-        pdfView.autoScales = true
-        let defaultScale = pdfView.scaleFactorForSizeToFit - 0.07
-        pdfView.scaleFactor = defaultScale
-        pdfView.maxScaleFactor = 4.0
-        pdfView.minScaleFactor = defaultScale
-        view.addSubview(pdfView)
-        
+        if documentToDisplay != nil {
+            let defaultScale = pdfView.scaleFactorForSizeToFit - 0.07
+            pdfView.document = documentToDisplay!
+            pdfView.displayMode = .singlePageContinuous
+            pdfView.autoScales = true
+            pdfView.scaleFactor = defaultScale
+            pdfView.maxScaleFactor = 4.0
+            pdfView.minScaleFactor = defaultScale
+            view.addSubview(pdfView)
+        }
     }
     
+    
+    //MARK: Rotational Methods
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        if (self.isMovingFromParent) {
+            UIDevice.current.setValue(Int(UIInterfaceOrientation.portrait.rawValue), forKey: "orientation")
+        }
+    }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: nil) { _ in
@@ -52,34 +57,17 @@ class ActualDocViewController: UIViewController {
             
         }
     }
-    
-    
     @objc func canRotate() -> Void {}
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        if (self.isMovingFromParent) {
-            UIDevice.current.setValue(Int(UIInterfaceOrientation.portrait.rawValue), forKey: "orientation")
-        }
-        
-    }
     
-    func addShareBarButtonItem() {
-        
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
-        
-        self.navigationItem.rightBarButtonItem = shareButton
-    }
-    
+    //MARK: PDF Methods
     @objc func shareButtonPressed() {
-        if clickedDocument != nil {
-            let activityViewController = UIActivityViewController(activityItems: [self.clickedDocument!.documentURL!], applicationActivities: nil)
+        if documentToDisplay != nil {
+            let activityViewController = UIActivityViewController(activityItems: [self.documentToDisplay?.documentURL! as Any], applicationActivities: nil)
             DispatchQueue.main.async {
                 self.present(activityViewController, animated: true, completion: nil)
             }
         }
-        
     }
 
 }

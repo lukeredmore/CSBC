@@ -10,9 +10,8 @@ import UIKit
 import PDFKit
 import WebKit
 
-
+///Displays the lunch menu for a given school in either Google Drive Viewer through a WKWebView or through a PDFView, based on what information is supplied to the VC on init
 class LunchViewController: CSBCViewController, WKNavigationDelegate {
-    
     @IBOutlet weak var pdfView: PDFView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
@@ -20,23 +19,11 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     var loadedPDFURLs : [Int:URL] = [:]
     var loadedWordURLs : [Int:String] = [:]
     
-    let formatter = DateFormatter()
-    let date = Date()
     
-//    var loadedDocs : [Int:PDFDocument] = UserDefaults.standard.dictionary(forKey: "PDFLocations")
-//    //Userdefaults
-//    var loadedMSWords : [Int:String] = [:]
-    
-    
-    
+    //MARK: ViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Lunch"
-        
-        loadedPDFURLs = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
-        loadedWordURLs = UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
-        print(loadedPDFURLs)
-        print(loadedWordURLs)
         view.backgroundColor = .csbcSuperLightGray
         loadingSymbol.hidesWhenStopped = true
         if #available(iOS 13.0, *) {
@@ -47,30 +34,31 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         }
         webView.navigationDelegate = self
         
-        addShareBarButtonItem()
+        loadedPDFURLs = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
+        loadedWordURLs = UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
+        print(loadedPDFURLs)
+        print(loadedWordURLs)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [webView, pdfView])
-        super.viewWillAppear(animated)
-
         loadingSymbol.startAnimating()
         
+        let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM d"
-        
-        let dateString = formatter.string(from: date)
-        dateLabel.text = "Today is \(dateString)"
+        dateLabel.text = "Today is \(formatter.string(from: Date()))"
         Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(reloadPDFView), userInfo: nil, repeats: false)
         reloadPDFView()
-        
     }
     
+    
+    //MARK: Lunch Menu Displayed Methods
     override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         reloadPDFView()
     }
-    
     @objc func reloadPDFView() {
         loadingSymbol.startAnimating()
         if loadedPDFURLs[schoolSelected.ssInt] != nil {
@@ -99,32 +87,30 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
             }
         } else {
             self.navigationItem.rightBarButtonItem?.isEnabled = false
+            print("No data found for this lunch")
             pdfView.isHidden = true
             webView.isHidden = true
             loadingSymbol.startAnimating()
         }
-        
-        
+    }
+    @objc func shareButtonPressed() {
+        if loadedPDFURLs[schoolSelected.ssInt] != nil && loadingSymbol.isHidden == true {
+            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)?.documentURL! as Any], applicationActivities: nil)
+            DispatchQueue.main.async {
+                self.present(activityViewController, animated: true, completion: nil)
+            }
+        }
     }
     
-    @objc func canRotate() -> Void {}
     
+    //MARK: Rotational functions
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         if (self.isMovingFromParent) {
             UIDevice.current.setValue(Int(UIInterfaceOrientation.portrait.rawValue), forKey: "orientation")
         }
-        
     }
-    
-    func addShareBarButtonItem() {
-        
-        let shareButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
-        
-        self.navigationItem.rightBarButtonItem = shareButton
-    }
-    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: nil) { _ in
@@ -135,31 +121,16 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
                 //print("You went from Landscape to Portrait")
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
             }
-            
         }
     }
-
+    @objc func canRotate() -> Void {}
     
-    @objc func shareButtonPressed() {
-        if loadedPDFURLs[schoolSelected.ssInt] != nil && loadingSymbol.isHidden == true {
-            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)?.documentURL!], applicationActivities: nil)
-            DispatchQueue.main.async {
-                self.present(activityViewController, animated: true, completion: nil)
-            }
-        }
-        
-    }
     
-    func lunchMenuLoaded(at : Int) {
-        reloadPDFView()
-    }
-    
+    //MARK: WebView Methods
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         self.loadingSymbol.startAnimating()
     }
-    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.loadingSymbol.stopAnimating()
     }
-    
 }

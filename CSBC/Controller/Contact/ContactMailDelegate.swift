@@ -9,6 +9,8 @@
 import UIKit
 import MessageUI
 
+
+///Methods to display mail composer in Contacts view
 class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     
     let schoolPhone : [[String]] = [["723.5307", "723.4811"],["723.0703","772.6210"],["748.7423"],["797.5444"]]

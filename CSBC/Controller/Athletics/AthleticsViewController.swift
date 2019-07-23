@@ -10,35 +10,29 @@ import UIKit
 import Alamofire
 import SwiftyJSON
 
-class AthleticsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    var athleticsData = AthleticsDataParser()
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action:
-            #selector(AthleticsViewController.handleRefresh(_:)), for: .valueChanged)
-        refreshControl.tintColor = .gray
-        return refreshControl
-    }()
-    var firstTimeLoaded = true
-    var searchController : UISearchController = UISearchController(searchResultsController: nil)
-    let requestingURL = true
-    var showSearchBar = false
-    
-    var searchControllerController : CSBCSearchController!
-    
-    private var originalTableViewOffset: CGFloat = 0
+///Downloads athletics data, outsources parsing, then displays results in a UITableView. It outsources search functions, but can display the filtered (searched) data
+class AthleticsViewController: UIViewController, UITableViewDataSource {
     
     @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet weak var tableView: UITableView! //.
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var searchBarContainerView: UIView!
     
+    var athleticsData = AthleticsDataParser()
+        
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(AthleticsViewController.handleRefresh(_:)), for: .valueChanged)
+        refreshControl.tintColor = .gray
+        return refreshControl
+    }()
+    var searchControllerController : CSBCSearchController!
     
+    
+    //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Athletics"
-        firstTimeLoaded = true
         loadingSymbol.hidesWhenStopped = true
         if #available(iOS 13.0, *) {
             loadingSymbol.style = .large
@@ -46,7 +40,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
             loadingSymbol.style = .whiteLarge
             loadingSymbol.color = .gray
         }
-        
         self.navigationController?.navigationBar.shadowImage = UIImage()
         
         searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: self, eventsParent: nil)
@@ -56,7 +49,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
             print("groupedArray is empty on viewWillAppear")
             tableView.isHidden = true
             loadingSymbol.startAnimating()
-            showSearchBar = false
             searchBarTopConstraint.constant = -56
             view.layoutIfNeeded()
             getAthleticsData()
@@ -87,7 +79,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.reloadData()
-        showSearchBar = true
         searchBarTopConstraint.constant = 0
         view.layoutIfNeeded()
         tableView.isHidden = false
@@ -132,7 +123,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             return athleticsData.athleticsModelArray[section].date
         }
-
     }
     
     
@@ -140,7 +130,6 @@ class AthleticsViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
         //tableView.dataSource = nil
         if Reachability.isConnectedToNetwork(){
-            firstTimeLoaded = false
             getAthleticsData()
             tableView.reloadData()
             //refreshControl.endRefreshing()

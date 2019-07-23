@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+///All methods, delegates and data for Connect view
 class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
     let tableHeaders = ["Twitter", "Facebook", "Instagram"]
     let headerDeepLinkPrefixes = ["twitter://user?screen_name=", "fb://profile/", "instagram://user?username="]

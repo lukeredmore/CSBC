@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+///Can search both athletics and calendar views to create filtered arrays for their respective VCs to display
 class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate {
     
     var athleticsParent : AthleticsViewController? = nil

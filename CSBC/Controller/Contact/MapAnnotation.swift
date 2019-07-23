@@ -19,7 +19,6 @@ class MapAnnotation: NSObject, MKAnnotation {
         self.title = title
         self.discipline = discipline
         self.coordinate = coordinate
-        
         super.init()
     }
     

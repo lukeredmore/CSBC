@@ -50,10 +50,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         return fmt
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         tableView.register(UINib(nibName: "TodayViewCell", bundle: nil), forCellReuseIdentifier: "todayViewCell")
         tableView.delegate = self
@@ -261,7 +257,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     
-
+    //MARK: TableView Methods
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }

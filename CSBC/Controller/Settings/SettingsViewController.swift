@@ -40,7 +40,12 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         notificationSettings = notificationController.notificationSettings
         let currentYear = fmtYear.string(from: Date())
         copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
-        versionLabel.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        
+        if Env.isProduction() {
+            versionLabel.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        } else {
+            versionLabel.text = "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)a"
+        }
         
     }
     override func viewWillAppear(_ animated: Bool) {

@@ -20,6 +20,7 @@
 		262843102228A6DB00ADC019 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */; };
 		262843122228C1D500ADC019 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262843112228C1D500ADC019 /* ColumnFlowLayout.swift */; };
 		262C1166222AC5CD009A359E /* EventsParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsParsing.swift */; };
+		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */; };
 		264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */; };
@@ -127,6 +128,7 @@
 		2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		262843112228C1D500ADC019 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsParsing.swift; sourceTree = "<group>"; };
+		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
 		263A63C8223B58150014DA32 /* testCalendarPage.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testCalendarPage.html; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsContainerViewController.swift; sourceTree = "<group>"; };
@@ -288,6 +290,14 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
+		262C56A522E79682006E3338 /* PrivateFiles */ = {
+			isa = PBXGroup;
+			children = (
+				262C56A322E79469006E3338 /* PrivateAPIKeys.swift */,
+			);
+			path = PrivateFiles;
+			sourceTree = "<group>";
+		};
 		2656156422624351002149E5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +313,7 @@
 		266F9914221B3A5C00CA7C4E /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				262C56A522E79682006E3338 /* PrivateFiles */,
 				269DF8B422696B7400090884 /* Firebase */,
 				26FD7689223C64F6003B57D9 /* PDF Files */,
 				26B90B96223B009B00B92936 /* Web Files */,
@@ -912,6 +923,7 @@
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
 				26120F7F22D125F3002287CF /* TestVC.swift in Sources */,
+				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
