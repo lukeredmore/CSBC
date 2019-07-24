@@ -310,7 +310,7 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		266F9914221B3A5C00CA7C4E /* Supporting Files */ = {
+		266F9914221B3A5C00CA7C4E /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
 				262C56A522E79682006E3338 /* PrivateFiles */,
@@ -324,7 +324,7 @@
 				26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */,
 				265E65C522AADAE400B3B62C /* Colors.xcassets */,
 			);
-			path = "Supporting Files";
+			path = SupportingFiles;
 			sourceTree = "<group>";
 		};
 		266F9915221B3A8C00CA7C4E /* Gotham */ = {
@@ -474,7 +474,7 @@
 			children = (
 				260DF8952253055900C7413A /* CSBC.entitlements */,
 				26ED796921EB91D50086FB86 /* Info.plist */,
-				266F9914221B3A5C00CA7C4E /* Supporting Files */,
+				266F9914221B3A5C00CA7C4E /* SupportingFiles */,
 				26F64BF72213416100A6326D /* Networking */,
 				26F64BF42213406C00A6326D /* Model */,
 				26F8769E2201078A000641E0 /* View */,
