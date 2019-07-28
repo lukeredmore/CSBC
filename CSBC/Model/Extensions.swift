@@ -57,33 +57,7 @@ extension String {
     }
 }
 
-//extension NSAttributedString {
-//    func height(withConstrainedWidth width: CGFloat) -> CGFloat {
-//        let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-//        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-//
-//        return ceil(boundingBox.height)
-//    }
-//
-//    func width(withConstrainedHeight height: CGFloat) -> CGFloat {
-//        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-//        let boundingBox = boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, context: nil)
-//
-//        return ceil(boundingBox.width)
-//    }
-//}
-//extension UIViewController {
-//    /**
-//     *  Height of status bar + navigation bar (if navigation bar exist)
-//     */
-//    var topBarHeight: CGFloat {
-//        return UIApplication.shared.statusBarFrame.size.height +
-//            (self.navigationController?.navigationBar.frame.height ?? 0.0)
-//    }
-//}
-
 extension UIView {
-    
     func addShadow() {
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
@@ -92,11 +66,6 @@ extension UIView {
         //clipsToBounds = false
     }
 }
-//extension NSLayoutConstraint {
-//    func constraintWithMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
-//        return NSLayoutConstraint(item: self.firstItem!, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
-//    }
-//}
 extension SFSafariViewController {
     func configureForCSBC() {
         self.preferredBarTintColor = UIColor(named: "CSBCNavBarBackground")!
@@ -121,6 +90,55 @@ extension UserDefaults {
     func set<T: Codable>(object: T, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) {
         let data = try? encoder.encode(object)
         self.set(data, forKey: key)
+    }
+}
+
+extension Date {
+    
+    func yearString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "yyyy"
+        return fmt.string(from: self)
+    }
+    func monthNumberString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM"
+        return fmt.string(from: self)
+    }
+    func monthNameString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MMMM"
+        return fmt.string(from: self)
+    }
+    func monthAbbreviationString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MMM"
+        return fmt.string(from: self)
+    }
+    func monthYearString() -> String {
+            let fmt = DateFormatter()
+            fmt.dateFormat = "MMMM yyyy"
+            return fmt.string(from: self)
+        }
+    func dayString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "dd"
+        return fmt.string(from: self)
+    }
+    func dateString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy"
+        return fmt.string(from: self)
+    }
+    func timeString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "hh:mm a"
+        return fmt.string(from: self)
+    }
+    func dayOfWeekString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "EEEE"
+        return fmt.string(from: self)
     }
 }
 

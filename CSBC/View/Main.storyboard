@@ -1044,7 +1044,6 @@
                                 </constraints>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" name="CSBCHeader"/>
                         <constraints>
                             <constraint firstItem="F6u-a7-i5u" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="15L-ea-Iwo"/>
                             <constraint firstItem="mgu-vS-B4t" firstAttribute="trailing" secondItem="63U-fB-kHK" secondAttribute="trailing" id="2et-h0-x7C"/>
@@ -2298,9 +2297,6 @@
         </namedColor>
         <namedColor name="CSBCCardView">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CSBCHeader">
-            <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarBackground">
             <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

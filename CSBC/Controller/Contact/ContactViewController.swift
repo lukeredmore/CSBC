@@ -10,7 +10,7 @@ import UIKit
 
 ///Contains most methods for contacts page, including table data, delegates, and parallax effect. For some reason, trying to split up these methods results in the table data disappearing after loading
 class ContactViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
-
+    
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var copyrightLabel: UILabel!
     
@@ -41,12 +41,12 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Contact"
+        copyrightLabel.text = "© " + Date().yearString() + " Catholic Schools of Broome County"
         
-        let currentYear = yearFormatter.string(from: Date())
-        copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         view.addSubview(imageView)
+        
         mailController = ContactMailDelegate(parent: self, schoolSelected: schoolSelected)
         
         tableView.delegate = self//tableController
@@ -62,12 +62,15 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     override func schoolPickerValueChanged(_ sender: UISegmentedControl) {
         schoolSelected.update(sender)
         mailController.schoolSelected = schoolSelected
-        let imageHeight = (34*UIScreen.main.bounds.size.width)/69
-        tableView.contentInset = UIEdgeInsets(top: imageHeight, left: 0, bottom: 0, right: 0)
-        imageView.frame = CGRect(x: 0, y: 53, width: UIScreen.main.bounds.size.width, height: imageHeight)
+        
+        let imageHeight = 0.4904*UIScreen.main.bounds.width
+                imageView.frame = CGRect(
+                    x: 0,
+                    y: 53,
+                    width: UIScreen.main.bounds.size.width,
+                    height: imageHeight)
+        tableView.contentInset.top = imageHeight
         imageView.image = UIImage(named: buildingImageArray[schoolSelected.ssInt])!
-        imageView.clipsToBounds = true
-        tableView.contentOffset.y += 1/3
         tableView.reloadData()
     }
     
@@ -168,9 +171,11 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         }
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let y = -scrollView.contentOffset.y
-        //let height = min(max(y, 60), 400)
-        imageView.frame = CGRect(x: 0, y: 53, width: UIScreen.main.bounds.size.width, height: y)
+        imageView.frame = CGRect(
+                            x: 0,
+                            y: 53,
+                            width: UIScreen.main.bounds.size.width,
+                            height: -scrollView.contentOffset.y)
         
     }
 }
