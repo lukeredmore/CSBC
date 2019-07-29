@@ -25,14 +25,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var calendarData : EventsParsing = EventsParsing()
     var forSchool : String!
     var dayOfCycle : Int!
-    //lazy var loadingSymbol: UIActivityIndicatorView!
-//    let loadingSymbol : UIActivityIndicatorView = {
-//        let loadingSymbol = UIActivityIndicatorView(style: .whiteLarge)
-//        loadingSymbol.hidesWhenStopped = true
-//        loadingSymbol.frame.origin = CGPoint(x: self.view.frame.midX, y: self.view.frame.midY)
-//        loadingSymbol.color = .gray
-//        return loadingSymbol
-//    }()
     var todaysEvents : [[String:String]] = [[:]]
     var ogTodaysEvents : [[String:String]] = [[:]]
     var todaysAthletics : AthleticsModel? = nil

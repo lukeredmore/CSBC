@@ -14,7 +14,6 @@ import WebKit
 class LunchViewController: CSBCViewController, WKNavigationDelegate {
     @IBOutlet weak var pdfView: PDFView!
     @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet weak var webView: WKWebView!
     var loadedPDFURLs : [Int:URL] = [:]
     var loadedWordURLs : [Int:String] = [:]
@@ -25,13 +24,6 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         super.viewDidLoad()
         self.title = "Lunch"
         view.backgroundColor = .csbcSuperLightGray
-        loadingSymbol.hidesWhenStopped = true
-        if #available(iOS 13.0, *) {
-            loadingSymbol.style = .large
-        } else {
-            loadingSymbol.style = .whiteLarge
-            loadingSymbol.color = .gray
-        }
         webView.navigationDelegate = self
         
         loadedPDFURLs = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!

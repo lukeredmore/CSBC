@@ -26,20 +26,12 @@ class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC,
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var dateChangerButton: UIBarButtonItem!
-    @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Today"
-        loadingSymbol.hidesWhenStopped = true
-        if #available(iOS 13.0, *) {
-            loadingSymbol.style = .large
-        } else {
-            loadingSymbol.style = .whiteLarge
-            loadingSymbol.color = .gray
-        }
+    
         setupTapGestureForSettingsButton()
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {

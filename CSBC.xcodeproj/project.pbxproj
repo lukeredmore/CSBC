@@ -11,7 +11,6 @@
 		26019ABB2288A93300953FE2 /* UIPlaygroundFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26019AB22288A93200953FE2 /* UIPlaygroundFramework.framework */; };
 		26019AC02288A93300953FE2 /* UIPlaygroundFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26019ABF2288A93300953FE2 /* UIPlaygroundFrameworkTests.swift */; };
 		26019AC22288A93300953FE2 /* UIPlaygroundFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		26120F7F22D125F3002287CF /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26120F7E22D125F3002287CF /* TestVC.swift */; };
 		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D26252211086200D0DD51 /* ActualDocViewController.swift */; };
@@ -119,7 +118,6 @@
 		26019ABF2288A93300953FE2 /* UIPlaygroundFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPlaygroundFrameworkTests.swift; sourceTree = "<group>"; };
 		26019AC12288A93300953FE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
-		26120F7E22D125F3002287CF /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		261D26252211086200D0DD51 /* ActualDocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDocViewController.swift; sourceTree = "<group>"; };
@@ -505,7 +503,6 @@
 				263A81F122A5F6D3001D0716 /* NotificationSettings.swift */,
 				26DD570022BBD16E005E109B /* AlertController.swift */,
 				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
-				26120F7E22D125F3002287CF /* TestVC.swift */,
 				267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */,
 			);
 			path = Home;
@@ -912,7 +909,6 @@
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
-				26120F7F22D125F3002287CF /* TestVC.swift in Sources */,
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,

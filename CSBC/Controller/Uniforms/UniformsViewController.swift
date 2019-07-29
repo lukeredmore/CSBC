@@ -14,7 +14,6 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
 
     @IBOutlet var differentSchoolPicker: UISegmentedControl!
     @IBOutlet var webView: WKWebView!
-    @IBOutlet var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet var maskView: UIView!
     
     var schoolSelectedToDisplay = 0
@@ -24,13 +23,6 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
         super.viewDidLoad()
         self.title = "Dress Code"
         webView.navigationDelegate = self
-        loadingSymbol.hidesWhenStopped = true
-        if #available(iOS 13.0, *) {
-            loadingSymbol.style = .large
-        } else {
-            loadingSymbol.style = .whiteLarge
-            loadingSymbol.color = .gray
-        }
         if #available(iOS 13.0, *) {
             differentSchoolPicker.overrideUserInterfaceStyle = .dark
         }

@@ -11,7 +11,7 @@ import Alamofire
 import SafariServices
 import AuthenticationServices
 
-class CalendarViewController: UIViewController, UITableViewDataSource, DataEnteredDelegate  {
+class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnteredDelegate  {
     
     var calendarData = EventsParsing()
     lazy var refreshControl: UIRefreshControl = {
@@ -29,7 +29,6 @@ class CalendarViewController: UIViewController, UITableViewDataSource, DataEnter
     var eventsModelArrrayFiltered = [EventsModel]()
     var showSearchBar = false
 
-    @IBOutlet weak var loadingSymbol: UIActivityIndicatorView!
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var searchBarContainerView: UIView!
@@ -41,13 +40,6 @@ class CalendarViewController: UIViewController, UITableViewDataSource, DataEnter
         super.viewDidLoad()
         self.title = "Calendar"
         calendarData.storedSchoolsToShow = [true, true, true, true]
-        loadingSymbol.hidesWhenStopped = true
-        if #available(iOS 13.0, *) {
-            loadingSymbol.style = .large
-        } else {
-            loadingSymbol.style = .whiteLarge
-            loadingSymbol.color = .gray
-        }
         
         self.navigationController?.navigationBar.shadowImage = UIImage()
         

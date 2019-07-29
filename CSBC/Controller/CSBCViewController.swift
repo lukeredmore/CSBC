@@ -22,15 +22,33 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
     let userDefaults = UserDefaults.standard
     var schoolPicker : CSBCSegmentedControl? = nil
+    let loadingSymbol : UIActivityIndicatorView = UIActivityIndicatorView()
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loadingSymbol.hidesWhenStopped = true
+        if #available(iOS 13.0, *) {
+            loadingSymbol.style = .large
+        } else {
+            loadingSymbol.style = .whiteLarge
+            loadingSymbol.color = .gray
+        }
+        loadingSymbol.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(loadingSymbol)
+        view.addConstraints([
+            loadingSymbol.heightAnchor.constraint(equalToConstant: 50),
+            loadingSymbol.widthAnchor.constraint(equalToConstant: 50),
+            loadingSymbol.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingSymbol.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30)
+        ])
+        
         schoolSelected = getSchoolSelected()
     }
     
     func setupSchoolPickerAndBarForDefaultBehavior(topMostItems : [UIView], showAllSegments : Bool = false) {
-
+        
         //Container Initialization and Layout
         let schoolPickerContainer = UIView()
         schoolPickerContainer.backgroundColor = UIColor(named: "CSBCNavBarBackground")
@@ -55,7 +73,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         for item in topMostItems {
             view.addConstraint(item.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 53))
         }
-
+        
         view.layoutIfNeeded()
         
         //Picker Initialization
@@ -86,12 +104,12 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
             }
             schoolPickerContainer.addSubview(schoolPicker!)
             schoolPickerContainer.addConstraints([
-             schoolPicker!.topAnchor.constraint(equalTo: schoolPickerContainer.topAnchor, constant: 5),
+                schoolPicker!.topAnchor.constraint(equalTo: schoolPickerContainer.topAnchor, constant: 5),
                 schoolPicker!.heightAnchor.constraint(equalToConstant: 27),
                 schoolPicker!.leadingAnchor.constraint(equalTo: schoolPickerContainer.leadingAnchor, constant: 15),
                 schoolPicker!.trailingAnchor.constraint(equalTo: schoolPickerContainer.trailingAnchor, constant: -15)
             ])
-        
+            
             schoolPickerContainer.layoutSubviews()
             view.layoutIfNeeded()
         }
@@ -112,52 +130,52 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     }
     
     /*
-    func shouldIShowAllSchools(schoolPicker : UISegmentedControl, schoolPickerHeightConstraint : NSLayoutConstraint) {
-        if #available(iOS 13.0, *) {
-            schoolPicker.overrideUserInterfaceStyle = .dark
-        }
-
-        if let showAllSchools : Bool = UserDefaults.standard.value(forKey: "showAllSchools") as! Bool? {
-            if showAllSchools {
-                schoolPicker.removeAllSegments()
-                for i in 0..<schoolsArray.count {
-                    schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
-                }
-                schoolPickerHeightConstraint.constant = 45
-                schoolPicker.isHidden = false
-            } else {
-                let schoolBools : [Bool] = notificationController.notificationSettings.schools
-                //print(editedSchoolNames)
-                schoolPicker.removeAllSegments()
-                var indexAtWhichToInsertSegment = 0
-                for i in 0..<schoolBools.count {
-                    if schoolBools[i] {
-                        schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
-                        indexAtWhichToInsertSegment += 1
-                        //print("thing inserted at \(i)")
-                        //print("thing again inserted at \(indexAtWhichToInsertSegment)")
-                    }
-                }
-                if schoolPicker.numberOfSegments == 1 {
-                    schoolPickerHeightConstraint.constant = 0
-                    schoolPicker.isHidden = true
-                } else {
-                    schoolPickerHeightConstraint.constant = 45
-                    schoolPicker.isHidden = false
-                }
-                view.layoutIfNeeded()
-            }
-        } else {
-            schoolPicker.removeAllSegments()
-            for i in 0..<schoolsArray.count {
-                schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
-            }
-            schoolPickerHeightConstraint.constant = 45
-            schoolPicker.isHidden = false
-        }
-
-    }
-    */
+     func shouldIShowAllSchools(schoolPicker : UISegmentedControl, schoolPickerHeightConstraint : NSLayoutConstraint) {
+     if #available(iOS 13.0, *) {
+     schoolPicker.overrideUserInterfaceStyle = .dark
+     }
+     
+     if let showAllSchools : Bool = UserDefaults.standard.value(forKey: "showAllSchools") as! Bool? {
+     if showAllSchools {
+     schoolPicker.removeAllSegments()
+     for i in 0..<schoolsArray.count {
+     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
+     }
+     schoolPickerHeightConstraint.constant = 45
+     schoolPicker.isHidden = false
+     } else {
+     let schoolBools : [Bool] = notificationController.notificationSettings.schools
+     //print(editedSchoolNames)
+     schoolPicker.removeAllSegments()
+     var indexAtWhichToInsertSegment = 0
+     for i in 0..<schoolBools.count {
+     if schoolBools[i] {
+     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
+     indexAtWhichToInsertSegment += 1
+     //print("thing inserted at \(i)")
+     //print("thing again inserted at \(indexAtWhichToInsertSegment)")
+     }
+     }
+     if schoolPicker.numberOfSegments == 1 {
+     schoolPickerHeightConstraint.constant = 0
+     schoolPicker.isHidden = true
+     } else {
+     schoolPickerHeightConstraint.constant = 45
+     schoolPicker.isHidden = false
+     }
+     view.layoutIfNeeded()
+     }
+     } else {
+     schoolPicker.removeAllSegments()
+     for i in 0..<schoolsArray.count {
+     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
+     }
+     schoolPickerHeightConstraint.constant = 45
+     schoolPicker.isHidden = false
+     }
+     
+     }
+     */
     
     
     
@@ -168,7 +186,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     func getSchoolSelected() -> SchoolSelected {
         return SchoolSelected(string: userDefaults.string(forKey: "schoolSelected") ?? "Seton", int: schoolsMap[userDefaults.string(forKey: "schoolSelected") ?? "Seton"] ?? 0)
     }
-
+    
 }
 
 
