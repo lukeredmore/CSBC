@@ -8,7 +8,6 @@
 
 import UIKit
 import SafariServices
-import RevealingSplashView
 
 /// Initial VC, segues into main screens of app, handles and displays critical alert methods
 class HomeViewController: CSBCViewController, AlertDelegate {
@@ -40,9 +39,8 @@ class HomeViewController: CSBCViewController, AlertDelegate {
             print("Application successfully loaded in debug configuration")
         }
         print("Version", appVersion)
-
-        let revealingSplashView = RevealingSplashView(iconImage: UIImage(named: "lettermark")!,iconInitialSize: CGSize(width: 128, height: 128), backgroundColor: UIColor(named: "CSBCBackground")!)
-        self.view.addSubview(revealingSplashView)
+        
+        let splashView = CSBCSplashView(addToView: view)
         
         localAlerts = AlertController(self)
         
@@ -51,7 +49,7 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         collectionView.dataSource = collectionController
         collectionController.configureCollectionViewForScreenSize(self)
         
-        revealingSplashView.startAnimation()
+        splashView.startAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

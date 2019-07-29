@@ -33,6 +33,7 @@
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
 		266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */; };
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
+		267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */; };
 		26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */; };
 		26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4022C7FB6400C30493 /* CSBCViewController.swift */; };
 		26712F4322C9071300C30493 /* HomeCollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */; };
@@ -142,6 +143,7 @@
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
 		266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsModel.swift; sourceTree = "<group>"; };
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
+		267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSplashView.swift; sourceTree = "<group>"; };
 		26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMenuViewController.swift; sourceTree = "<group>"; };
 		26712F4022C7FB6400C30493 /* CSBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCViewController.swift; sourceTree = "<group>"; };
 		26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewDataSource.swift; sourceTree = "<group>"; };
@@ -515,6 +517,7 @@
 				26DD570022BBD16E005E109B /* AlertController.swift */,
 				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
 				26120F7E22D125F3002287CF /* TestVC.swift */,
+				267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -805,7 +808,6 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/RevealingSplashView/RevealingSplashView.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
@@ -820,7 +822,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RevealingSplashView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSoup.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
@@ -923,6 +924,7 @@
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
 				26120F7F22D125F3002287CF /* TestVC.swift in Sources */,
+				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,

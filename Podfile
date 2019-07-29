@@ -8,7 +8,6 @@ target 'CSBC' do
   pod 'Alamofire'
   pod 'SwiftyJSON'
   pod 'SwiftSoup'
-  pod 'RevealingSplashView'
   pod 'Firebase'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'

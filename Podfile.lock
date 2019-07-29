@@ -100,7 +100,6 @@ PODS:
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
   - Protobuf (3.9.0)
-  - RevealingSplashView (0.6.0)
   - SwiftSoup (2.2.0)
   - SwiftyJSON (5.0.0)
 
@@ -114,7 +113,6 @@ DEPENDENCIES:
   - Firebase/Database
   - Firebase/Messaging
   - GoogleSignIn
-  - RevealingSplashView
   - SwiftSoup
   - SwiftyJSON
 
@@ -140,7 +138,6 @@ SPEC REPOS:
     - leveldb-library
     - nanopb
     - Protobuf
-    - RevealingSplashView
     - SwiftSoup
     - SwiftyJSON
 
@@ -165,10 +162,9 @@ SPEC CHECKSUMS:
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   Protobuf: 1097ca58584c8d9be81bfbf2c5ff5975648dd87a
-  RevealingSplashView: 40c5a770894459736acdc95655eeba0dd30ce91c
   SwiftSoup: 230991361c5ba249d140161860a3864a28b63860
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 0daa8076e5ca38fc06137a23d77953888deca116
+PODFILE CHECKSUM: 040257dcf9e11ade9a5280f6ed36f75b015065f8
 
 COCOAPODS: 1.5.3
