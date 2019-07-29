@@ -13,7 +13,6 @@
 		26019AC22288A93300953FE2 /* UIPlaygroundFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		26120F7F22D125F3002287CF /* TestVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26120F7E22D125F3002287CF /* TestVC.swift */; };
 		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
-		26157656222198DD0023EC03 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26157655222198DD0023EC03 /* Reachability.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D26252211086200D0DD51 /* ActualDocViewController.swift */; };
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
@@ -122,7 +121,6 @@
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
 		26120F7E22D125F3002287CF /* TestVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestVC.swift; sourceTree = "<group>"; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
-		26157655222198DD0023EC03 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		261D26252211086200D0DD51 /* ActualDocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDocViewController.swift; sourceTree = "<group>"; };
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -477,7 +475,6 @@
 				260DF8952253055900C7413A /* CSBC.entitlements */,
 				26ED796921EB91D50086FB86 /* Info.plist */,
 				266F9914221B3A5C00CA7C4E /* SupportingFiles */,
-				26F64BF72213416100A6326D /* Networking */,
 				26F64BF42213406C00A6326D /* Model */,
 				26F8769E2201078A000641E0 /* View */,
 				26F8769D22010771000641E0 /* Controller */,
@@ -497,14 +494,6 @@
 				26F723402295E073005DEDA7 /* Env.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		26F64BF72213416100A6326D /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				26157655222198DD0023EC03 /* Reachability.swift */,
-			);
-			path = Networking;
 			sourceTree = "<group>";
 		};
 		26F7234422960C0F005DEDA7 /* Home */ = {
@@ -936,7 +925,6 @@
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
 				26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
-				26157656222198DD0023EC03 /* Reachability.swift in Sources */,
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
 				26BE62082273A53F00C6656F /* PageViewController.swift in Sources */,
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,

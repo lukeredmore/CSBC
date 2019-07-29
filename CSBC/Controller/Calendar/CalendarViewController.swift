@@ -17,12 +17,11 @@ class CalendarViewController: UIViewController, UITableViewDataSource, DataEnter
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
-            #selector(AthleticsViewController.handleRefresh(_:)), for: .valueChanged)
+            #selector(self.getCalendarEvents), for: .valueChanged)
         refreshControl.tintColor = .gray
         
         return refreshControl
     }()
-    var firstTimeLoaded = true
     var storedSchoolsToShow : [Bool] = []
     var searchController : UISearchController = UISearchController(searchResultsController: nil)
     var filteredEvents : [[String:String]] = [[:]]
@@ -75,7 +74,7 @@ class CalendarViewController: UIViewController, UITableViewDataSource, DataEnter
         calendarData.userDidSelectSchools()
         setupCalendarTable()
     }
-    func getCalendarEvents() {
+    @objc func getCalendarEvents() {
         Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
             if let html = response.result.value {
                 //let date = Date()
@@ -160,17 +159,6 @@ class CalendarViewController: UIViewController, UITableViewDataSource, DataEnter
         }
     }
     
-    
-    //MARK: Refresh control
-    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        //tableView.dataSource = nil
-        if Reachability.isConnectedToNetwork(){
-            firstTimeLoaded = false
-            getCalendarEvents()
-            tableView.reloadData()
-            //refreshControl.endRefreshing()
-        }
-    }
 }
 
 class HalfSizePresentationController : UIPresentationController {

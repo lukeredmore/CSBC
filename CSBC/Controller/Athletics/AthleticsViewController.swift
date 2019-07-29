@@ -22,7 +22,7 @@ class AthleticsViewController: UIViewController, UITableViewDataSource {
         
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(AthleticsViewController.handleRefresh(_:)), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(self.getAthleticsData), for: .valueChanged)
         refreshControl.tintColor = .gray
         return refreshControl
     }()
@@ -59,7 +59,7 @@ class AthleticsViewController: UIViewController, UITableViewDataSource {
     }
 
     //MARK: Athletics Data Methods
-    func getAthleticsData() {
+    @objc func getAthleticsData() {
         print("we are asking for data")
         let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
         Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
@@ -122,17 +122,6 @@ class AthleticsViewController: UIViewController, UITableViewDataSource {
             return athleticsData.athleticsModelArrayFiltered[section].date
         } else {
             return athleticsData.athleticsModelArray[section].date
-        }
-    }
-    
-    
-    //MARK: Refresh Control
-    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        //tableView.dataSource = nil
-        if Reachability.isConnectedToNetwork(){
-            getAthleticsData()
-            tableView.reloadData()
-            //refreshControl.endRefreshing()
         }
     }
 }
