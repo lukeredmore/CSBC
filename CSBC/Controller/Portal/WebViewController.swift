@@ -11,9 +11,7 @@ import WebKit
 
 /// Loads PlusPortals in WKWebView with custom controls and ability to select school
 class WebViewController: CSBCViewController, WKNavigationDelegate {
-
-    var urlToLoadOnViewWillAppear = 0
-    private var progressKVOhandle: NSKeyValueObservation?
+    
     var portalURLStrings = ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
     @IBOutlet var webView: WKWebView!
     @IBOutlet weak var myProgressView: UIProgressView!
@@ -35,26 +33,20 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
             portalURLStrings = ["setoncchs", "setoncchs", "setoncchs", "setoncchs"]
         }
         self.title = "Portal"
+        myProgressView.trackTintColor = .csbcYellow
         
         webView.navigationDelegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
-        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [myProgressView])
+        setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [myProgressView], barHeight: 5)
         super.viewWillAppear(animated)
-        
-        myProgressView.setProgress(0.0, animated: false)
-        myProgressView.progressTintColor = .blue
-        
-        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])")
-        let urlToRequest = URLRequest(url: urlToLoad!)
-        webView.load(urlToRequest)
     }
-    override func schoolPickerValueChanged(_ sender: UISegmentedControl) {
-        super.schoolPickerValueChanged(sender as! CSBCSegmentedControl)
-        
-        let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])")
-        let urlToRequest = URLRequest(url: urlToLoad!)
-        webView.load(urlToRequest)
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
+        if let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])") {
+            let urlToRequest = URLRequest(url: urlToLoad)
+            webView.load(urlToRequest)
+        }
     }
     
     

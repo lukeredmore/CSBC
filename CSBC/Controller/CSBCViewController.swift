@@ -21,7 +21,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     let schoolsArray = ["Seton","St. John's","All Saints","St. James"]
     let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
     let userDefaults = UserDefaults.standard
-    var schoolPicker : CSBCSegmentedControl? = nil
+    var schoolPicker = CSBCSegmentedControl()
     let loadingSymbol : UIActivityIndicatorView = UIActivityIndicatorView()
     
     
@@ -47,7 +47,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         schoolSelected = getSchoolSelected()
     }
     
-    func setupSchoolPickerAndBarForDefaultBehavior(topMostItems : [UIView], showAllSegments : Bool = false) {
+    func setupSchoolPickerAndBarForDefaultBehavior(topMostItems : [UIView], showAllSegments : Bool = false, barHeight : CGFloat = 8) {
         
         //Container Initialization and Layout
         let schoolPickerContainer = UIView()
@@ -66,15 +66,13 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         view.addSubview(bar)
         view.addConstraints([
             bar.topAnchor.constraint(equalTo: schoolPickerContainer.bottomAnchor),
-            bar.heightAnchor.constraint(equalToConstant: 8),
+            bar.heightAnchor.constraint(equalToConstant: barHeight),
             bar.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bar.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
         for item in topMostItems {
-            view.addConstraint(item.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 53))
+            view.addConstraint(item.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 45 + barHeight))
         }
-        
-        view.layoutIfNeeded()
         
         //Picker Initialization
         let showAllSchools : Bool! = userDefaults.value(forKey: "showAllSchools") as? Bool ?? true
@@ -87,95 +85,56 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
             var indexAtWhichToInsertSegment = 0
             for i in 0..<schoolBools.count {
                 if schoolBools[i] {
-                    schoolPicker?.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
+                    schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
                     indexAtWhichToInsertSegment += 1
                 }
             }
         }
-        schoolPicker!.delegate = self
+        schoolPicker.delegate = self
         
         
         //Picker Layout
-        if schoolPicker!.numberOfSegments != 1 {
-            schoolPicker!.translatesAutoresizingMaskIntoConstraints = false
-            schoolPicker!.tintColor = .white
+        if schoolPicker.numberOfSegments != 1 {
+            schoolPicker.translatesAutoresizingMaskIntoConstraints = false
+            schoolPicker.tintColor = .white
             if #available(iOS 13.0, *) {
-                schoolPicker!.overrideUserInterfaceStyle = .dark
+                schoolPicker.overrideUserInterfaceStyle = .dark
             }
-            schoolPickerContainer.addSubview(schoolPicker!)
+            schoolPickerContainer.addSubview(schoolPicker)
             schoolPickerContainer.addConstraints([
-                schoolPicker!.topAnchor.constraint(equalTo: schoolPickerContainer.topAnchor, constant: 5),
-                schoolPicker!.heightAnchor.constraint(equalToConstant: 27),
-                schoolPicker!.leadingAnchor.constraint(equalTo: schoolPickerContainer.leadingAnchor, constant: 15),
-                schoolPicker!.trailingAnchor.constraint(equalTo: schoolPickerContainer.trailingAnchor, constant: -15)
+                schoolPicker.topAnchor.constraint(equalTo: schoolPickerContainer.topAnchor, constant: 5),
+                schoolPicker.heightAnchor.constraint(equalToConstant: 27),
+                schoolPicker.leadingAnchor.constraint(equalTo: schoolPickerContainer.leadingAnchor, constant: 15),
+                schoolPicker.trailingAnchor.constraint(equalTo: schoolPickerContainer.trailingAnchor, constant: -15)
             ])
             
             schoolPickerContainer.layoutSubviews()
+            view.layoutIfNeeded()
+        } else {
+            view.addConstraints([
+                schoolPickerContainer.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                schoolPickerContainer.heightAnchor.constraint(equalToConstant: 0),
+                schoolPickerContainer.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                schoolPickerContainer.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            ])
+            for item in topMostItems {
+                view.addConstraint(item.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0))
+            }
             view.layoutIfNeeded()
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if schoolPicker != nil {
-            for i in 0..<schoolPicker!.numberOfSegments {
-                if schoolPicker!.titleForSegment(at: i) == schoolSelected.ssString {
-                    print("\(schoolSelected.ssString) was selected for segment \(i)")
-                    schoolPicker!.setSelectedSegmentIndex(i)
-                    break
-                } else {
-                    print("\(schoolSelected.ssString) was not selected for segment \(i)")
-                }
+        for i in 0..<schoolPicker.numberOfSegments {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
+                print("\(schoolSelected.ssString) was selected for segment \(i)")
+                schoolPicker.setSelectedSegmentIndex(i)
+                break
+            } else {
+                print("\(schoolSelected.ssString) was not selected for segment \(i)")
             }
         }
     }
-    
-    /*
-     func shouldIShowAllSchools(schoolPicker : UISegmentedControl, schoolPickerHeightConstraint : NSLayoutConstraint) {
-     if #available(iOS 13.0, *) {
-     schoolPicker.overrideUserInterfaceStyle = .dark
-     }
-     
-     if let showAllSchools : Bool = UserDefaults.standard.value(forKey: "showAllSchools") as! Bool? {
-     if showAllSchools {
-     schoolPicker.removeAllSegments()
-     for i in 0..<schoolsArray.count {
-     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
-     }
-     schoolPickerHeightConstraint.constant = 45
-     schoolPicker.isHidden = false
-     } else {
-     let schoolBools : [Bool] = notificationController.notificationSettings.schools
-     //print(editedSchoolNames)
-     schoolPicker.removeAllSegments()
-     var indexAtWhichToInsertSegment = 0
-     for i in 0..<schoolBools.count {
-     if schoolBools[i] {
-     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
-     indexAtWhichToInsertSegment += 1
-     //print("thing inserted at \(i)")
-     //print("thing again inserted at \(indexAtWhichToInsertSegment)")
-     }
-     }
-     if schoolPicker.numberOfSegments == 1 {
-     schoolPickerHeightConstraint.constant = 0
-     schoolPicker.isHidden = true
-     } else {
-     schoolPickerHeightConstraint.constant = 45
-     schoolPicker.isHidden = false
-     }
-     view.layoutIfNeeded()
-     }
-     } else {
-     schoolPicker.removeAllSegments()
-     for i in 0..<schoolsArray.count {
-     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: i, animated: false)
-     }
-     schoolPickerHeightConstraint.constant = 45
-     schoolPicker.isHidden = false
-     }
-     
-     }
-     */
     
     
     
