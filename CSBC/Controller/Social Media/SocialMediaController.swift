@@ -53,18 +53,15 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
     @IBOutlet var tableView: UITableView!
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Connect"
         tableView.tableFooterView = UIView()
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
         super.viewWillAppear(animated)
     }
-    
     override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         tableView.reloadData()
@@ -77,7 +74,6 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
         return socialArray[schoolSelected.ssInt].count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return socialArray[schoolSelected.ssInt][section].count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

@@ -17,14 +17,14 @@ struct NotificationSettings : Codable {
     
     func printNotifData() {
         print("-----------NOTIFICATION SETTINGS-----------")
-        print("shouldDeliver: ${shouldDeliver}")
-        print("deliveryTime: " + deliveryTime)
+        print("shouldDeliver: \(shouldDeliver)")
+        print("deliveryTime: \(deliveryTime)")
         print("schools: [", terminator: "")
-        print("${schools[0]}, ", terminator: "")
-        print("${schools[1]}, ", terminator: "")
-        print("${schools[2]}, ", terminator: "")
-        print("${schools[3]}] ")
-        print("valuesChangedByUser: ${valuesChangedByUser}")
+        print("\(schools[0]), ", terminator: "")
+        print("\(schools[1]), ", terminator: "")
+        print("\(schools[2]), ", terminator: "")
+        print("\(schools[3])] ")
+        print("valuesChangedByUser: \(valuesChangedByUser)")
         print("-------------------------------------------")
     }
 }
