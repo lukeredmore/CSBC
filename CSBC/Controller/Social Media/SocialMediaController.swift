@@ -68,7 +68,6 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
     }
     
     
-    
     //MARK: TableView Methods
     func numberOfSections(in tableView: UITableView) -> Int {
         return socialArray[schoolSelected.ssInt].count

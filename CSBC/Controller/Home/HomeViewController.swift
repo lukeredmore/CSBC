@@ -27,7 +27,6 @@ class HomeViewController: CSBCViewController, AlertDelegate {
     //Other properties
     var athleticsData = AthleticsDataParser()
     var calendarData = EventsParsing()
-    let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
 
     
     //MARK: View Control
@@ -38,9 +37,7 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         } else {
             print("Application successfully loaded in debug configuration")
         }
-        print("Version", appVersion)
-        
-        let splashView = CSBCSplashView(addToView: view)
+        print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
         
         localAlerts = AlertController(self)
         
@@ -49,6 +46,7 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         collectionView.dataSource = collectionController
         collectionController.configureCollectionViewForScreenSize(self)
         
+        let splashView = CSBCSplashView(addToView: view)
         splashView.startAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -63,7 +61,7 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) { //On device rotate
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         collectionController.configureCollectionViewForScreenSize(self)
     }
@@ -75,10 +73,10 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         localNotifications.subscribeToTopics()
         localNotifications.queueNotifications()
     }
-    func showBannerAlert(withMessage : String) {
+    func showBannerAlert(withMessage alertText: String) {
         view.backgroundColor = .csbcAlertRed
         alertBanner.backgroundColor = .csbcAlertRed
-        alertLabel.text = withMessage
+        alertLabel.text = alertText
         let bannerHeight = ((alertLabel.text?.height(withConstrainedWidth: alertLabel.frame.width, font: UIFont(name: "Gotham-Bold", size: 18.0)!))!) + 15.0
         alertViewHeightConstraint.constant = bannerHeight
         wordmarkMarginHeightConstraint.constant = 9.0//60
@@ -101,14 +99,14 @@ class HomeViewController: CSBCViewController, AlertDelegate {
         switch segue.identifier {
         case "AthleticsSegue":
             let childVC = segue.destination as! AthleticsViewController
-            childVC.athleticsData = athleticsData
+            childVC.athleticsData = self.athleticsData
         case "TodaySegue":
             let childVC = segue.destination as! TodayContainerViewController
             childVC.athleticsData = self.athleticsData
             childVC.calendarData = self.calendarData
         case "CalendarSegue":
             let childVC = segue.destination as! CalendarViewController
-            childVC.calendarData = calendarData
+            childVC.calendarData = self.calendarData
         default:
             break
         }

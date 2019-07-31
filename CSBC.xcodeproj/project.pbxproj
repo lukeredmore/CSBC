@@ -24,6 +24,12 @@
 		264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
 		26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26561567226243BB002149E5 /* SettingsContainerViewController.swift */; };
+		2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */; };
+		2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04722F131C600016DDE /* scchandbook19-20.pdf */; };
+		2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04822F131C700016DDE /* csbccalendar19-20.pdf */; };
+		2659E04F22F131CA00016DDE /* sccdresscode19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04922F131C700016DDE /* sccdresscode19-20.pdf */; };
+		2659E05022F131CA00016DDE /* scccoursedescription19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04A22F131CA00016DDE /* scccoursedescription19-20.pdf */; };
+		2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */; };
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
 		2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660909022CB1EB100118EED /* CSBCSearchController.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
@@ -53,8 +59,8 @@
 		2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699F9DB22331A5600AA1CF3 /* DocumentsViewController.swift */; };
 		26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26AAAE272220F3C100DA3182 /* Main.storyboard */; };
 		26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */; };
-		26ADFE1A22442FA200A557C5 /* saintssickpolicy18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1922442FA100A557C5 /* saintssickpolicy18-19.pdf */; };
-		26ADFE1C22442FA600A557C5 /* saintscafeteriainfo18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1B22442FA600A557C5 /* saintscafeteriainfo18-19.pdf */; };
+		26ADFE1A22442FA200A557C5 /* saintssickpolicy19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */; };
+		26ADFE1C22442FA600A557C5 /* saintscafeteriainf19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1B22442FA600A557C5 /* saintscafeteriainf19-20.pdf */; };
 		26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE412246A1CE00A557C5 /* ContactViewController.swift */; };
 		26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26B75AEC22279B7100D109EC /* DaySchedule.swift */; };
 		26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA1223B050900B92936 /* elementarySchoolDress.html */; };
@@ -82,8 +88,8 @@
 		26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */ = {isa = PBXBuildFile; fileRef = 26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */; };
 		26DD570122BBD16E005E109B /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DD570022BBD16E005E109B /* AlertController.swift */; };
 		26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */; };
-		26E2C88C224052FF00B40E88 /* jameshandbook18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook18-19.pdf */; };
-		26E2C88E2240530600B40E88 /* jamescodeofconduct18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct18-19.pdf */; };
+		26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */; };
+		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
 		26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796421EB91D50086FB86 /* Assets.xcassets */; };
 		26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F64BFE2213937A00A6326D /* ResizeableButton.swift */; };
@@ -92,12 +98,6 @@
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* HTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* HTMLController.swift */; };
 		26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */; };
-		26FD7690223C6509003B57D9 /* sccbellschedule18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768A223C6509003B57D9 /* sccbellschedule18-19.pdf */; };
-		26FD7691223C6509003B57D9 /* csbccalendar18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768B223C6509003B57D9 /* csbccalendar18-19.pdf */; };
-		26FD7692223C6509003B57D9 /* sccdresscode18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768C223C6509003B57D9 /* sccdresscode18-19.pdf */; };
-		26FD7693223C6509003B57D9 /* scccoursedescription18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768D223C6509003B57D9 /* scccoursedescription18-19.pdf */; };
-		26FD7694223C6509003B57D9 /* scchandbook18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768E223C6509003B57D9 /* scchandbook18-19.pdf */; };
-		26FD7695223C6509003B57D9 /* sccmonthlycalendar18-19.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26FD768F223C6509003B57D9 /* sccmonthlycalendar18-19.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -132,6 +132,12 @@
 		264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsTableViewController.swift; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		26561567226243BB002149E5 /* SettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerViewController.swift; sourceTree = "<group>"; };
+		2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule19-20.pdf"; sourceTree = "<group>"; };
+		2659E04722F131C600016DDE /* scchandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scchandbook19-20.pdf"; sourceTree = "<group>"; };
+		2659E04822F131C700016DDE /* csbccalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "csbccalendar19-20.pdf"; sourceTree = "<group>"; };
+		2659E04922F131C700016DDE /* sccdresscode19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccdresscode19-20.pdf"; sourceTree = "<group>"; };
+		2659E04A22F131CA00016DDE /* scccoursedescription19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scccoursedescription19-20.pdf"; sourceTree = "<group>"; };
+		2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccmonthlycalendar19-20.pdf"; sourceTree = "<group>"; };
 		265E65C522AADAE400B3B62C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		2660909022CB1EB100118EED /* CSBCSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchController.swift; sourceTree = "<group>"; };
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
@@ -162,8 +168,8 @@
 		269DF8B822696B7400090884 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		26AAAE272220F3C100DA3182 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAlertsViewController.swift; sourceTree = "<group>"; };
-		26ADFE1922442FA100A557C5 /* saintssickpolicy18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintssickpolicy18-19.pdf"; sourceTree = "<group>"; };
-		26ADFE1B22442FA600A557C5 /* saintscafeteriainfo18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintscafeteriainfo18-19.pdf"; sourceTree = "<group>"; };
+		26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintssickpolicy19-20.pdf"; sourceTree = "<group>"; };
+		26ADFE1B22442FA600A557C5 /* saintscafeteriainf19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintscafeteriainf19-20.pdf"; sourceTree = "<group>"; };
 		26ADFE412246A1CE00A557C5 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
 		26B75AEC22279B7100D109EC /* DaySchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySchedule.swift; sourceTree = "<group>"; };
 		26B90BA1223B050900B92936 /* elementarySchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = elementarySchoolDress.html; sourceTree = "<group>"; };
@@ -191,8 +197,8 @@
 		26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDressDark.html; sourceTree = "<group>"; };
 		26DD570022BBD16E005E109B /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsViewController.swift; sourceTree = "<group>"; };
-		26E2C88B224052FF00B40E88 /* jameshandbook18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook18-19.pdf"; sourceTree = "<group>"; };
-		26E2C88D2240530600B40E88 /* jamescodeofconduct18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jamescodeofconduct18-19.pdf"; sourceTree = "<group>"; };
+		26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook19-20.pdf"; sourceTree = "<group>"; };
+		26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jamescodeofconduct19-20.pdf"; sourceTree = "<group>"; };
 		26ED795A21EB91D40086FB86 /* CSBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26ED795D21EB91D40086FB86 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26ED796421EB91D50086FB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -204,12 +210,6 @@
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* HTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLController.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDelegate.swift; sourceTree = "<group>"; };
-		26FD768A223C6509003B57D9 /* sccbellschedule18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule18-19.pdf"; sourceTree = "<group>"; };
-		26FD768B223C6509003B57D9 /* csbccalendar18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "csbccalendar18-19.pdf"; sourceTree = "<group>"; };
-		26FD768C223C6509003B57D9 /* sccdresscode18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccdresscode18-19.pdf"; sourceTree = "<group>"; };
-		26FD768D223C6509003B57D9 /* scccoursedescription18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scccoursedescription18-19.pdf"; sourceTree = "<group>"; };
-		26FD768E223C6509003B57D9 /* scchandbook18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scchandbook18-19.pdf"; sourceTree = "<group>"; };
-		26FD768F223C6509003B57D9 /* sccmonthlycalendar18-19.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccmonthlycalendar18-19.pdf"; sourceTree = "<group>"; };
 		A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
 		C4D4ABB3891835B241375481 /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -559,16 +559,16 @@
 		26FD7689223C64F6003B57D9 /* PDF Files */ = {
 			isa = PBXGroup;
 			children = (
-				26FD768A223C6509003B57D9 /* sccbellschedule18-19.pdf */,
-				26FD768D223C6509003B57D9 /* scccoursedescription18-19.pdf */,
-				26FD768B223C6509003B57D9 /* csbccalendar18-19.pdf */,
-				26FD768E223C6509003B57D9 /* scchandbook18-19.pdf */,
-				26FD768C223C6509003B57D9 /* sccdresscode18-19.pdf */,
-				26ADFE1B22442FA600A557C5 /* saintscafeteriainfo18-19.pdf */,
-				26ADFE1922442FA100A557C5 /* saintssickpolicy18-19.pdf */,
-				26FD768F223C6509003B57D9 /* sccmonthlycalendar18-19.pdf */,
-				26E2C88B224052FF00B40E88 /* jameshandbook18-19.pdf */,
-				26E2C88D2240530600B40E88 /* jamescodeofconduct18-19.pdf */,
+				2659E04822F131C700016DDE /* csbccalendar19-20.pdf */,
+				2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */,
+				2659E04A22F131CA00016DDE /* scccoursedescription19-20.pdf */,
+				2659E04922F131C700016DDE /* sccdresscode19-20.pdf */,
+				2659E04722F131C600016DDE /* scchandbook19-20.pdf */,
+				2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */,
+				26ADFE1B22442FA600A557C5 /* saintscafeteriainf19-20.pdf */,
+				26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */,
+				26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */,
+				26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */,
 			);
 			path = "PDF Files";
 			sourceTree = "<group>";
@@ -740,40 +740,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				26894D5021EFACFE00691C97 /* Gotham-UltraItalic.otf in Resources */,
-				26E2C88E2240530600B40E88 /* jamescodeofconduct18-19.pdf in Resources */,
+				26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */,
+				2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */,
 				26DD56C222BB3BC5005E109B /* highSchoolDressDark.html in Resources */,
 				26894D4A21EFACFE00691C97 /* Gotham-Thin.otf in Resources */,
 				26894D4B21EFACFE00691C97 /* Gotham-Bold.otf in Resources */,
-				26ADFE1C22442FA600A557C5 /* saintscafeteriainfo18-19.pdf in Resources */,
+				26ADFE1C22442FA600A557C5 /* saintscafeteriainf19-20.pdf in Resources */,
 				26894D4C21EFACFE00691C97 /* Gotham-BookItalic.otf in Resources */,
-				26FD7691223C6509003B57D9 /* csbccalendar18-19.pdf in Resources */,
 				26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */,
 				26894D4D21EFACFE00691C97 /* Gotham-XLight.otf in Resources */,
 				26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */,
+				2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */,
 				26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */,
 				26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */,
 				26894D5121EFACFE00691C97 /* Gotham-ThinItalic.otf in Resources */,
 				26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */,
-				26ADFE1A22442FA200A557C5 /* saintssickpolicy18-19.pdf in Resources */,
+				26ADFE1A22442FA200A557C5 /* saintssickpolicy19-20.pdf in Resources */,
 				26DD56C122BB3BC5005E109B /* elementarySchoolDressDark.html in Resources */,
 				265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */,
-				26FD7692223C6509003B57D9 /* sccdresscode18-19.pdf in Resources */,
 				26B90BA6223B284500B92936 /* highSchoolDress.html in Resources */,
-				26E2C88C224052FF00B40E88 /* jameshandbook18-19.pdf in Resources */,
+				26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */,
+				2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */,
 				26894D4821EFACFE00691C97 /* Gotham-Light.otf in Resources */,
 				26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */,
 				26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */,
 				26DC0B6F222B168C00371B61 /* Montserrat-Regular.otf in Resources */,
+				2659E04F22F131CA00016DDE /* sccdresscode19-20.pdf in Resources */,
 				26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */,
-				26FD7690223C6509003B57D9 /* sccbellschedule18-19.pdf in Resources */,
 				26894D4E21EFACFE00691C97 /* Gotham-XLightItalic.otf in Resources */,
+				2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */,
 				26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */,
+				2659E05022F131CA00016DDE /* scccoursedescription19-20.pdf in Resources */,
 				26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */,
 				26894D4F21EFACFE00691C97 /* gotham.otf in Resources */,
-				26FD7694223C6509003B57D9 /* scchandbook18-19.pdf in Resources */,
 				26894D4921EFACFE00691C97 /* Gotham-Black.otf in Resources */,
-				26FD7695223C6509003B57D9 /* sccmonthlycalendar18-19.pdf in Resources */,
-				26FD7693223C6509003B57D9 /* scccoursedescription18-19.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

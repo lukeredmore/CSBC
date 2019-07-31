@@ -15,15 +15,12 @@ class DaySchedule {
     var dateDayDict : [String:[String:Int]] = [:]
     var dateDayDictArray : [String] = [""]
     
-    let noSchoolDateStrings : [String] = ["10/05/2019", "10/08/2019", "11/12/2019", "11/21/2019", "11/22/2019", "11/23/2019", "12/24/2019", "12/25/2019", "12/26/2019", "12/27/2019", "12/28/2019", "12/31/2019", "01/01/2020", "02/15/2020", "02/18/2020", "03/14/2020", "03/15/2020", "03/18/2020", "04/15/2020", "04/16/2020", "04/17/2020", "04/18/2020", "04/19/2020", "04/22/2020", "05/23/2020", "05/24/2020", "05/27/2020"]
-    let noElementarySchoolDateStrings : [String] = ["11/15/2019"]
-    let noHighSchoolDateStrings : [String] = ["01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "01/25/2020", "06/18/2020", "06/19/2020"]
+    let noSchoolDateStrings : [String] = ["10/11/2019", "10/14/2019", "11/05/2019", "11/11/2019", "11/27/2019", "11/28/2019", "11/29/2019", "12/23/2019", "12/24/2019", "12/25/2019", "12/26/2019", "12/27/2019", "12/30/2019", "12/31/2019", "01/01/2020", "01/20/2020", "02/14/2020", "02/17/2020", "03/12/2020", "03/13/2020", "04/06/2020", "04/07/2020", "04/08/2020", "04/09/2020", "04/10/2020", "04/13/2020", "05/21/2020", "05/22/2020", "05/25/2020"]
+    let noElementarySchoolDateStrings : [String] = ["11/22/2019"]
+    let noHighSchoolDateStrings : [String] = ["01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "06/17/2020", "06/18/2020", "06/19/2020"]
     
-    var snowDateStrings : [String] = [] //["02/22/2019", "02/25/2019", "02/26/2019", "02/27/2019"]
+    var snowDateStrings : [String] = []
     var dayScheduleOverides : [String : Int] = [:]
-    //var snowDateCount = 0
-    
-    //var schoolDates : [String:[String]]!
     
     var restrictedDates : [Date] = []
     var restrictedDatesForHS : [Date] = []
@@ -138,7 +135,7 @@ class DaySchedule {
                 }
                 
             }
-            date += 86400//Calendar.current.date(byAdding: .day, value: 1, to: date)!
+            date = Calendar.current.date(byAdding: .day, value: 1, to: date)!
         }
         
         if dateDayDictArray[0] == "" {
