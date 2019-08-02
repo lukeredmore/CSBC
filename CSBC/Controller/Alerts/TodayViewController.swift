@@ -7,101 +7,21 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
 
-protocol SendScheduleToPageVC: class {
-    func storeSchedules(athletics: AthleticsDataParser, events: EventsDataParser)
-}
-
-class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
-    
-    //var athleticsModelArray : [AthleticsModel]
-    var tableView : UITableView!
+///Programmatically creates today view controller with table view. Doesn't touch the data, except to send it through to the datasource
+class TodayViewController: UIViewController {
     var headerLabel : UILabel!
     var headerView : UIView!
-    var athleticsData = AthleticsDataParser()
-    var calendarData = EventsDataParser()
+    var tableView : UITableView!
+    
+    var dateShown : String!
+    var todaysEvents : [EventsModel] = []
+    var todaysAthletics : AthleticsModel? = nil
     var forSchool : String!
     var dayOfCycle : Int!
-    var todaysEvents : [EventsModel] = []
-    var ogTodaysEvents : [EventsModel] = []
-    var todaysAthletics : AthleticsModel? = nil
-    let sectionNames = ["Events","Sports"]
-    let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    var eventsReadyToLoad = false
-    var athleticsReadyToLoad = false
-    var dateShown : String!
-    var monthDayDateString : String!
-    weak var eventsDelegate : SendScheduleToPageVC? = nil
-    weak var pageViewDidLoadDelegate : PageViewLoadedDelegate? = nil
-    var fmt : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        return fmt
-    }
     
-    override func viewDidAppear(_ animated: Bool) {
-        tableView.register(UINib(nibName: "TodayViewCell", bundle: nil), forCellReuseIdentifier: "todayViewCell")
-        tableView.delegate = self
-        findEvent()
-    }
-    
-    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsDataParser, events : EventsDataParser) {
-        self.dateShown = forDate
-        self.athleticsData = athletics
-        self.calendarData = events
-        self.forSchool = forSchool
-        self.dayOfCycle = forDayOfCycle
-        
-        super.init(nibName: nil, bundle: nil)
-//        view.addSubview(loadingSymbol)
-//        view.bringSubviewToFront(loadingSymbol)
-//        loadingSymbol.startAnimating()
-        tableView = UITableView(frame: CGRect.zero, style: .grouped)
-        createHeader()
-        tableView.tableHeaderView = headerView
-        tableView.tableFooterView = UIView()
-        //tableView.backgroundColor = .clear
-        self.view.addSubview(tableView)
-        setConstraints()
-        
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setConstraints() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-    }
-    
-    func createHeader() {
-        headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
-        headerView.backgroundColor = .clear
-        headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 43))
-        headerLabel.font = UIFont(name: "Gotham-Bold", size: 39)
-        headerLabel.text = getDayOfCycle(dayOfCycle)
-        headerLabel.numberOfLines = 0
-        headerLabel.adjustsFontSizeToFitWidth = true
-        headerLabel.minimumScaleFactor = 0.5
-        if #available(iOS 13.0, *) {
-            headerLabel.textColor = .label
-        } else {
-            headerLabel.textColor = .darkText
-        }
-        headerLabel.textAlignment = .center
-        headerView.addSubview(headerLabel)
-        //headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.frame = CGRect(x: headerLabel.frame.minX + 10, y: headerLabel.frame.minY + 12, width: UIScreen.main.bounds.width - 20, height: 43)
-    }
-    
-    func getDayOfCycle(_ day : Int) -> String {
+    let customDataSource = TodayDataSource()
+    var dayOfCycleText : String {
         if dayOfCycle != 0 {
             return "Today is Day \(dayOfCycle!)"
         } else {
@@ -109,205 +29,64 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
-    func findEvent() {
-        if athleticsData.athleticsModelArray.count > 0 {
-            print("using old athletics data")
-            prepAthleticsDataForTableView()
-        } else {
-            print("getting new athletics data")
-            getAthleticsData()
-        }
+    
+    //MARK: Init Methods
+    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsModel?, events : [EventsModel]) {
+        self.dateShown = forDate
+        self.todaysAthletics = athletics
+        self.todaysEvents = events
+        self.forSchool = forSchool
+        self.dayOfCycle = forDayOfCycle
+        super.init(nibName: nil, bundle: nil)
         
-        if calendarData.eventsModelArray.count > 1 { //&& calendarData.filteredEventArrayNoDuplicates[0] != [:] {
-            print("using old calendar data")
-            prepCalendarDataForTableView()
-        } else {
-            print("getting new calendar data")
-            getCalendarEvents()
-        }
-        
-        
+        createHeaderLabel()
+        createHeaderView()
+        createTableView()
+    }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
-    func getAthleticsData() {
-        let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
-        Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
-            response in
-            if response.result.isSuccess {
-                print("Athletics Data Received")
-                let athleticsJSON : JSON = JSON(response.result.value!)
-                //print("Be prepin")
-                self.athleticsData.parseAthleticsData(json: athleticsJSON)
-                self.prepAthleticsDataForTableView()
-                
-            }
-            
-        }
+    
+    //MARK: Interface Building Methods
+    func createHeaderLabel() {
+        headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 43))
+        headerLabel.font = UIFont(name: "Gotham-Bold", size: 39)
+        headerLabel.text = dayOfCycleText
+        headerLabel.numberOfLines = 0
+        headerLabel.adjustsFontSizeToFitWidth = true
+        headerLabel.minimumScaleFactor = 0.5
+        headerLabel.textColor = UIColor(named: "CSBCDarkText")
+        headerLabel.textAlignment = .center
+        headerLabel.frame = CGRect(x: headerLabel.frame.minX + 10, y: headerLabel.frame.minY + 12, width: UIScreen.main.bounds.width - 20, height: 43)
+    }
+    func createHeaderView() {
+        headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
+        headerView.backgroundColor = .clear
+        headerView.addSubview(headerLabel)
+    }
+    func createTableView() {
+        tableView = UITableView(frame: CGRect.zero, style: .grouped)
+        tableView.tableHeaderView = headerView
+        tableView.tableFooterView = UIView()
+        tableView.allowsSelection = false
+        tableView.register(UINib(nibName: "TodayViewCell", bundle: nil), forCellReuseIdentifier: "todayViewCell")
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
     }
     
-    func prepAthleticsDataForTableView() {
-        todaysAthletics = nil
-        athleticsReadyToLoad = false
-        //var todaysDateString = fmt.string(from: dateToShow)
-        let athleticsDateFormatter = DateFormatter()
-        athleticsDateFormatter.dateFormat = "MMMM dd"
-        monthDayDateString = athleticsDateFormatter.string(from: fmt.date(from: dateShown)!)
-        for dateWithEvents in athleticsData.athleticsModelArray {
-            if dateWithEvents.date.contains(monthDayDateString) {
-                todaysAthletics = dateWithEvents
-            }
-        }
-//        if todaysAthletics.count == 0 {
-//            print("there are no sports today")
-//        } else {
-//            if todaysAthletics[0] == [:] {
-//                todaysAthletics.removeFirst()
-//            }
-//        }
-        athleticsReadyToLoad = true
-        tryToLoadTableView()
-    }
     
-    func getCalendarEvents() {
-        Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value {
-                //let date = Date()
-                //print("data received at \(date)")
-                if html.contains("span") {
-                    self.calendarData.parseHTMLForEvents(html: html)
-                    self.prepCalendarDataForTableView()
-                    
-                }
-            }
-        }
-    }
-    
-    func prepCalendarDataForTableView() {
-        //print("Be preppin")
-        todaysEvents.removeAll()
-        eventsReadyToLoad = false
-        let todaysDateArray = dateShown.components(separatedBy: "/")
-        let dateShownForCalendar = "\(months[Int(todaysDateArray[0])!-1]) \(todaysDateArray[1])"
-        for i in 0..<calendarData.eventsModelArray.count {
-            if calendarData.eventsModelArray[i].date == dateShownForCalendar {
-                todaysEvents.append(calendarData.eventsModelArray[i])
-            }
-        }
-        if todaysEvents.count == 0 {
-            print("there are no events today")
-        }
-        ogTodaysEvents = todaysEvents
-        filterEventsOnlyForSchool()
-        eventsReadyToLoad = true
-        tryToLoadTableView()
-        
-        
-    }
-    
-    func filterEventsOnlyForSchool() {
-        var todaysEventsForSchool : [EventsModel] = []
-        //print(ogTodaysEvents)
-        //print("todaysevents[0] is \(todaysEvents[0])")
-        if ogTodaysEvents.count > 0 {
-            if ogTodaysEvents.count > 1 {
-                for i in 0..<ogTodaysEvents.count {
-                    //print(ogTodaysEvents)
-                    if ogTodaysEvents[i].schools.contains(forSchool) {
-                        todaysEventsForSchool.append(ogTodaysEvents[i])
-                    }
-                }
-            }
-        }
-        
-        
-        todaysEvents = todaysEventsForSchool
+    //MARK: View Control
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        customDataSource.todaysAthletics = self.todaysAthletics
+        customDataSource.todaysEvents = self.todaysEvents
+        tableView.dataSource = customDataSource
         tableView.reloadData()
+        print("TableView loaded")
     }
-    
-    func tryToLoadTableView() {
-        print("Trying to load tableView")
-        //print(todaysEvents)
-        if eventsReadyToLoad && athleticsReadyToLoad {
-            eventsDelegate?.storeSchedules(athletics: athleticsData, events: calendarData)
-            tableView.dataSource = self
-            tableView.reloadData()
-            pageViewDidLoadDelegate?.pageViewDidLoad()
-            print("TableView loaded")
-            //filterEventsOnlyForSchool()
-            //loadingSymbol.stopAnimating()
-            
-        }
-    }
-    
-    
-    //MARK: TableView Methods
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionNames[section]
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            if todaysEvents.count != 0 {
-                return todaysEvents.count
-            } else {
-                return 1
-            }
-        } else {
-            if todaysAthletics != nil {
-                return todaysAthletics!.title.count
-            } else {
-                return 1
-            }
-        }
-        
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "todayViewCell") as! TodayViewCell
-        if #available(iOS 13.0, *) {
-            cell.titleLabel.textColor = .label
-            cell.levelLabel.textColor = .secondaryLabel
-            cell.timeLabel.textColor = .secondaryLabel
-        } else {
-            cell.titleLabel.textColor = .darkText
-            cell.levelLabel.textColor = .darkText
-            cell.timeLabel.textColor = .darkText
-        }
-        if indexPath.section == 1 {
-            if todaysAthletics != nil {
-                cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = todaysAthletics!.title[indexPath.row]
-                cell.timeLabel.text = todaysAthletics!.time[indexPath.row]
-                cell.levelLabel.text = todaysAthletics!.level[indexPath.row]
-            } else {
-                cell.timeLabel.text = "There are no events today"
-                cell.titleLabel.text = nil
-                cell.levelLabel.text = nil
-                cell.titleHeightConstraint.constant = 33
-            }
-        } else {
-            if todaysEvents.count > 0 {
-                cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = todaysEvents[indexPath.row].event
-                cell.timeLabel.text = todaysEvents[indexPath.row].time
-                cell.levelLabel.text = todaysEvents[indexPath.row].schools
-            } else {
-                cell.timeLabel.text = "There are no events today"
-                cell.titleLabel.text = nil
-                cell.levelLabel.text = nil
-                cell.titleHeightConstraint.constant = 33
-            }
-        }
-        cell.layoutIfNeeded()
-        return cell
-    }
-    
 }

@@ -8,44 +8,46 @@
 
 import UIKit
 
-protocol PageViewLoadedDelegate: class {
-    func pageViewDidLoad()
+protocol DateEnteredDelegate: class { //modal menu tells container that custom date was selected
+    func userDidSelectDate(dateToShow: Date)
 }
-protocol PageViewSchoolPickerDelegate: class {
-    func schoolPickerValueDidChange()
+protocol ContainerViewDelegate: class {
+    func storeDateSelected(date : Date) //container tells pager that custom date was updated
+    func schoolPickerValueDidChange() //container tells pager that schoolSelected changed
+}
+protocol PageViewDelegate: class {
+    func scheduleDataDidDownload() //pager tells container that all async tasks completed
+    func showDateAsHeader(dateGiven : Date) //pager tells container the date to show for header
+}
+protocol TodayParserDelegate: class { //parser tells pager to initialize VCs
+    func startupPager()
+    var schoolSelected : SchoolSelected { get }
 }
 
-class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC, DateEnteredDelegate, PageViewLoadedDelegate {
+class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, PageViewDelegate {
+    @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var dateChangerButton: UIBarButtonItem!
     
     var athleticsData = AthleticsDataParser()
     var calendarData = EventsDataParser()
-    weak var pageViewSchoolPickerDelegate : PageViewSchoolPickerDelegate? = nil
-    weak var dateForPageDelegate : DateForPageDelegate? = nil
+    weak var containerDelegate : ContainerViewDelegate? = nil
     var dateToShow = Date()
-    
-    
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var dateChangerButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Today"
-    
+        loadingSymbol.startAnimating()
         setupTapGestureForSettingsButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        loadingSymbol.startAnimating()
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [containerView])
         super.viewWillAppear(animated)
-        
     }
     
     override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
-        loadingSymbol.startAnimating()
-        pageViewSchoolPickerDelegate?.schoolPickerValueDidChange()
-        loadingSymbol.stopAnimating()
+        containerDelegate?.schoolPickerValueDidChange()
     }
     
     func showDateAsHeader(dateGiven : Date) {
@@ -85,7 +87,6 @@ class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC,
     }
     
     func userDidSelectDate(dateToShow: Date) {
-        loadingSymbol.startAnimating()
         self.dateToShow = dateToShow
         let dateString = dateStringFormatter.string(from: dateToShow)
         let todaysRealDateString = dateStringFormatter.string(from: Date())
@@ -97,25 +98,19 @@ class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC,
         } else {
             self.title = "Today"
         }
-        dateForPageDelegate?.storeDateSelected(date: dateToShow)
+        containerDelegate?.storeDateSelected(date: dateToShow)
     }
     
-    func pageViewDidLoad() {
+    func scheduleDataDidDownload() {
         loadingSymbol.stopAnimating()
     }
     
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toPageVC" {
             let childVC = segue.destination as! PageViewController
-            childVC.dateDelegate = self
-            childVC.athleticsData = self.athleticsData
-            childVC.calendarData = self.calendarData
-            print(self.schoolSelected,"in prepare for degueas")
-            dateForPageDelegate = childVC
-            pageViewSchoolPickerDelegate = childVC
+            childVC.pagerDelegate = self
+            containerDelegate = childVC
         } else if segue.identifier == "AlertsSettingsSegue" {
             let childVC = segue.destination as! FilterAlertsViewController
             childVC.delegate = self

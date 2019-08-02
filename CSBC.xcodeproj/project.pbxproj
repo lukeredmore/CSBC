@@ -72,6 +72,8 @@
 		26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620B2273EB2D00C6656F /* TodayViewCell.swift */; };
 		26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26BE620C2273EB2D00C6656F /* TodayViewCell.xib */; };
 		26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620F227403A300C6656F /* TodayContainerViewController.swift */; };
+		26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */; };
+		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
 		26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B67222AE3B300371B61 /* CalendarViewController.swift */; };
 		26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */; };
@@ -181,6 +183,8 @@
 		26BE620B2273EB2D00C6656F /* TodayViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewCell.swift; sourceTree = "<group>"; };
 		26BE620C2273EB2D00C6656F /* TodayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayViewCell.xib; sourceTree = "<group>"; };
 		26BE620F227403A300C6656F /* TodayContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayContainerViewController.swift; sourceTree = "<group>"; };
+		26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataSource.swift; sourceTree = "<group>"; };
+		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
 		26DC0B67222AE3B300371B61 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
@@ -265,7 +269,9 @@
 			children = (
 				26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */,
 				26BE62072273A53F00C6656F /* PageViewController.swift */,
+				26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */,
 				26BE62092273AED600C6656F /* TodayViewController.swift */,
+				26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */,
 				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
 			);
 			path = Alerts;
@@ -912,6 +918,7 @@
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
+				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
@@ -927,6 +934,7 @@
 				264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
 				26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */,
+				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
 				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,

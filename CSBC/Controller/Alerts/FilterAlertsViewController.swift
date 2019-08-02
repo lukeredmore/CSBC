@@ -8,17 +8,11 @@
 
 import UIKit
 
-protocol DateEnteredDelegate: class {
-    func userDidSelectDate(dateToShow: Date)
-}
-
 final class FilterAlertsViewController: ModalMenuViewController {
-
     @IBOutlet var menuView: UIView!
     @IBOutlet var menuViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var datePicker: UIDatePicker!
     
-    //let menuView = UIView()
     weak var delegate: DateEnteredDelegate? = nil
     let daySchedule = DaySchedule()
     let formatter = DateFormatter()
@@ -26,11 +20,11 @@ final class FilterAlertsViewController: ModalMenuViewController {
     var endDate : Date?
     var dateToShow = Date()
     
+    
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenuView(menuView)
-        //menuViewHeightConstraint.constant = UIScreen.main.bounds.height / 2 - 30
         formatter.dateFormat = "MM/dd/yyyy"
         let startDateString = daySchedule.startDateString
         startDate = formatter.date(from: startDateString)!
@@ -43,8 +37,6 @@ final class FilterAlertsViewController: ModalMenuViewController {
         datePicker.setDate(dateToShow, animated: false)
     }
     override func passBackData() {
-        //print(dateToShow)
-        //print(datePicker.date)
         dateToShow = datePicker.date
         delegate?.userDidSelectDate(dateToShow: dateToShow)
     }

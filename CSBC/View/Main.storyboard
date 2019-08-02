@@ -226,6 +226,7 @@
                                 </connections>
                             </containerView>
                         </subviews>
+                        <color key="backgroundColor" name="CSBCAccentGray"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="RNL-8w-G8O" secondAttribute="bottom" id="Lgk-fE-Bci"/>
                             <constraint firstItem="RNL-8w-G8O" firstAttribute="top" secondItem="vPR-6r-deY" secondAttribute="top" priority="999" id="bxH-Ft-idj"/>
