@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 protocol SendScheduleToPageVC: class {
-    func storeSchedules(athletics: AthleticsDataParser, events: EventsParsing)
+    func storeSchedules(athletics: AthleticsDataParser, events: EventsDataParser)
 }
 
 class TodayViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -21,12 +21,12 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     var tableView : UITableView!
     var headerLabel : UILabel!
     var headerView : UIView!
-    var athleticsData : AthleticsDataParser = AthleticsDataParser()
-    var calendarData : EventsParsing = EventsParsing()
+    var athleticsData = AthleticsDataParser()
+    var calendarData = EventsDataParser()
     var forSchool : String!
     var dayOfCycle : Int!
-    var todaysEvents : [[String:String]] = [[:]]
-    var ogTodaysEvents : [[String:String]] = [[:]]
+    var todaysEvents : [EventsModel] = []
+    var ogTodaysEvents : [EventsModel] = []
     var todaysAthletics : AthleticsModel? = nil
     let sectionNames = ["Events","Sports"]
     let months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -48,7 +48,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         findEvent()
     }
     
-    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsDataParser, events : EventsParsing) {
+    init(forDate : String, forSchool : String, forDayOfCycle : Int, athletics : AthleticsDataParser, events : EventsDataParser) {
         self.dateShown = forDate
         self.athleticsData = athletics
         self.calendarData = events
@@ -118,7 +118,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             getAthleticsData()
         }
         
-        if calendarData.filteredEventArrayNoDuplicates.count > 1 { //&& calendarData.filteredEventArrayNoDuplicates[0] != [:] {
+        if calendarData.eventsModelArray.count > 1 { //&& calendarData.filteredEventArrayNoDuplicates[0] != [:] {
             print("using old calendar data")
             prepCalendarDataForTableView()
         } else {
@@ -184,23 +184,17 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     func prepCalendarDataForTableView() {
         //print("Be preppin")
-        todaysEvents = [[:]]
+        todaysEvents.removeAll()
         eventsReadyToLoad = false
         let todaysDateArray = dateShown.components(separatedBy: "/")
         let dateShownForCalendar = "\(months[Int(todaysDateArray[0])!-1]) \(todaysDateArray[1])"
-        for i in 0..<calendarData.filteredEventArrayNoDuplicates.count {
-            if calendarData.filteredEventArrayNoDuplicates[i]["date"] == dateShownForCalendar {
-                todaysEvents.append(calendarData.filteredEventArrayNoDuplicates[i])
+        for i in 0..<calendarData.eventsModelArray.count {
+            if calendarData.eventsModelArray[i].date == dateShownForCalendar {
+                todaysEvents.append(calendarData.eventsModelArray[i])
             }
         }
         if todaysEvents.count == 0 {
             print("there are no events today")
-            //            todaysEvents = [["time":"There are no calendar events today."]]
-        } else {
-            if todaysEvents[0] == [:] {
-                todaysEvents.removeFirst()
-            }
-            
         }
         ogTodaysEvents = todaysEvents
         filterEventsOnlyForSchool()
@@ -211,14 +205,14 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     func filterEventsOnlyForSchool() {
-        var todaysEventsForSchool : [[String:String]] = [[:]]
+        var todaysEventsForSchool : [EventsModel] = []
         //print(ogTodaysEvents)
         //print("todaysevents[0] is \(todaysEvents[0])")
         if ogTodaysEvents.count > 0 {
-            if ogTodaysEvents.count > 1 || ogTodaysEvents[0] != [:] {
+            if ogTodaysEvents.count > 1 {
                 for i in 0..<ogTodaysEvents.count {
                     //print(ogTodaysEvents)
-                    if ogTodaysEvents[i]["schools"]!.contains(forSchool) {
+                    if ogTodaysEvents[i].schools.contains(forSchool) {
                         todaysEventsForSchool.append(ogTodaysEvents[i])
                     }
                 }
@@ -227,9 +221,6 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         
         todaysEvents = todaysEventsForSchool
-        if todaysEvents[0] == [:] {
-            todaysEvents.removeFirst()
-        }
         tableView.reloadData()
     }
     
@@ -271,7 +262,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
         } else {
             if todaysAthletics != nil {
-                return todaysAthletics!.sport.count
+                return todaysAthletics!.title.count
             } else {
                 return 1
             }
@@ -293,7 +284,7 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
         if indexPath.section == 1 {
             if todaysAthletics != nil {
                 cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = "\(todaysAthletics!.gender[indexPath.row])'s \(todaysAthletics!.sport[indexPath.row]) \(todaysAthletics!.homeGame[indexPath.row]) \(todaysAthletics!.opponent[indexPath.row])"
+                cell.titleLabel.text = todaysAthletics!.title[indexPath.row]
                 cell.timeLabel.text = todaysAthletics!.time[indexPath.row]
                 cell.levelLabel.text = todaysAthletics!.level[indexPath.row]
             } else {
@@ -303,11 +294,11 @@ class TodayViewController: UIViewController, UITableViewDataSource, UITableViewD
                 cell.titleHeightConstraint.constant = 33
             }
         } else {
-            if todaysEvents.count > 0 && todaysEvents[0] != [:] {
+            if todaysEvents.count > 0 {
                 cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = todaysEvents[indexPath.row]["event"]
-                cell.timeLabel.text = todaysEvents[indexPath.row]["time"]
-                cell.levelLabel.text = todaysEvents[indexPath.row]["schools"]
+                cell.titleLabel.text = todaysEvents[indexPath.row].event
+                cell.timeLabel.text = todaysEvents[indexPath.row].time
+                cell.levelLabel.text = todaysEvents[indexPath.row].schools
             } else {
                 cell.timeLabel.text = "There are no events today"
                 cell.titleLabel.text = nil

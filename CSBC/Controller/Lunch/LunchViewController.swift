@@ -15,74 +15,66 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     @IBOutlet weak var pdfView: PDFView!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var webView: WKWebView!
-    var loadedPDFURLs : [Int:URL] = [:]
-    var loadedWordURLs : [Int:String] = [:]
+    
+    var dateLabelText : String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM d"
+        return "Today is \(formatter.string(from: Date()))"
+    }
+    var loadedPDFURLs : [Int:URL] {
+        return UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
+    }
+    var loadedWordURLs : [Int:String] {
+        return UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
+    }
     
     
     //MARK: ViewControl
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Lunch"
-        view.backgroundColor = .csbcSuperLightGray
-        webView.navigationDelegate = self
-        
-        loadedPDFURLs = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
-        loadedWordURLs = UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
-        print(loadedPDFURLs)
-        print(loadedWordURLs)
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
+        webView.navigationDelegate = self
+        dateLabel.text = dateLabelText
     }
     override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [webView, pdfView])
-        loadingSymbol.startAnimating()
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM d"
-        dateLabel.text = "Today is \(formatter.string(from: Date()))"
-        Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(reloadPDFView), userInfo: nil, repeats: false)
-        reloadPDFView()
+        super.viewWillAppear(animated)
     }
     
     
     //MARK: Lunch Menu Displayed Methods
     override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
-        reloadPDFView()
+        reloadDocumentView()
     }
-    @objc func reloadPDFView() {
+    @objc func reloadDocumentView() {
         loadingSymbol.startAnimating()
-        if loadedPDFURLs[schoolSelected.ssInt] != nil {
-            self.navigationItem.rightBarButtonItem?.isEnabled = true
-            webView.isHidden = true
-            pdfView.isHidden = false
-            pdfView.displayMode = .singlePageContinuous
-            pdfView.autoScales = true
-            pdfView.document = PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)
-            let defaultScale = pdfView.scaleFactorForSizeToFit - 0.02
-            pdfView.scaleFactor = defaultScale
-            pdfView.maxScaleFactor = 4.0
-            pdfView.minScaleFactor = defaultScale
-            loadingSymbol.stopAnimating()
-        } else if loadedWordURLs[schoolSelected.ssInt] != nil {
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-            pdfView.isHidden = true
-            //print(loadedMSWords[schoolSelectedInt])
-            if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(loadedWordURLs[schoolSelected.ssInt]!)") {
-                let urlToRequest = URLRequest(url: urlToLoad)
-                webView.isHidden = false
-                webView.load(urlToRequest)
-            } else {
-                print("The url could not be loaded")
-                loadingSymbol.startAnimating()
-            }
-        } else {
-            self.navigationItem.rightBarButtonItem?.isEnabled = false
-            print("No data found for this lunch")
-            pdfView.isHidden = true
-            webView.isHidden = true
-            loadingSymbol.startAnimating()
+        webView.isHidden = true
+        pdfView.isHidden = true
+        navigationItem.rightBarButtonItem?.isEnabled = false
+        
+        if let pdfToDisplay = loadedPDFURLs[schoolSelected.ssInt] {
+            configurePDFView(forPDF: PDFDocument(url: pdfToDisplay))
+        } else if let docURLToDisplay = loadedWordURLs[schoolSelected.ssInt] {
+            configureWebView(forDocURLString: docURLToDisplay)
+        }
+    }
+    func configurePDFView(forPDF pdf : PDFDocument?) {
+        pdfView.document = pdf
+        pdfView.displayMode = .singlePageContinuous
+        let pdfScale = pdfView.scaleFactorForSizeToFit - 0.02
+        pdfView.autoScales = true
+        pdfView.scaleFactor = pdfScale
+        pdfView.maxScaleFactor = 4.0
+        pdfView.minScaleFactor = pdfScale
+        pdfView.isHidden = false
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        loadingSymbol.stopAnimating()
+    }
+    func configureWebView(forDocURLString url : String) {
+        if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(url)") {
+            let urlToRequest = URLRequest(url: urlToLoad)
+            webView.load(urlToRequest)
         }
     }
     @objc func shareButtonPressed() {
@@ -106,13 +98,7 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         coordinator.animate(alongsideTransition: nil) { _ in
-            if UIDevice.current.orientation.isLandscape {
-                //print("You went from Portrait to Landscape")
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-            } else {
-                //print("You went from Landscape to Portrait")
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-            }
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = !UIDevice.current.orientation.isLandscape
         }
     }
     @objc func canRotate() -> Void {}
@@ -121,8 +107,10 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     //MARK: WebView Methods
     func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
         self.loadingSymbol.startAnimating()
+        webView.isHidden = true
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         self.loadingSymbol.stopAnimating()
+        webView.isHidden = false
     }
 }

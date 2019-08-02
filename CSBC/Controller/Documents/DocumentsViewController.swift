@@ -11,9 +11,7 @@ import PDFKit
 
 ///Documents screen's table view methods, supplies title of PDF to display to ActualDocVC
 class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
-    
     @IBOutlet var tableView: UITableView!
-    var row = 0
     let documentTitles = [["SCC Parent - Student Handbook", "SCC Bell Schedule", "SCC Course Description and Information Guide", "SCC Monthly Calendar", "CSBC Calendar", "SCC Dress Code"],[""],["All Saints Cafeteria Info","All Saints Illness Policy"],["St. James Parent - Student Handbook","St. James Code of Conduct"]]
     let pdfTitleStrings = [["scchandbook","sccbellschedule","scccoursedescription","sccmonthlycalendar","csbccalendar","sccdresscode"],[],["saintscafeteriainfo","saintssickpolicy"],["jameshandbook","jamescodeofconduct"]]
     
@@ -44,20 +42,19 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        row = indexPath.row
-        tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "toDocument", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
-    // MARK: - Navigation
+    // MARK: Navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDocument" {
             let childVC = segue.destination as! ActualDocViewController
-            if let path = Bundle.main.path(forResource: "\(pdfTitleStrings[schoolSelected.ssInt][row])19-20", ofType: "pdf") {
+            if let path = Bundle.main.path(forResource: "\(pdfTitleStrings[schoolSelected.ssInt][tableView.indexPathForSelectedRow?.row ?? 0])19-20", ofType: "pdf") {
                 let url = URL(fileURLWithPath: path)
                 childVC.documentToDisplay = PDFDocument(url: url)
-            } else { childVC.documentToDisplay = nil }
+            }
         }
      }
 }

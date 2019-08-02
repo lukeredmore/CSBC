@@ -26,7 +26,7 @@ class HomeViewController: CSBCViewController, AlertDelegate {
     
     //Other properties
     var athleticsData = AthleticsDataParser()
-    var calendarData = EventsParsing()
+    var calendarData = EventsDataParser()
 
     
     //MARK: View Control

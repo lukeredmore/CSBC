@@ -20,8 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         
-        let HTMLParser = HTMLController()
-        HTMLParser.downloadAndStoreLunchMenus()
+        LunchHTMLController().downloadAndStoreLunchMenus()
         
         
         

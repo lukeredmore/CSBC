@@ -59,8 +59,8 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
     }
     
-    override func schoolPickerValueChanged(_ sender: UISegmentedControl) {
-        schoolSelected.update(sender)
+    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+        super.schoolPickerValueChanged(sender)
         mailController.schoolSelected = schoolSelected
         
         let imageHeight = 0.4904*UIScreen.main.bounds.width

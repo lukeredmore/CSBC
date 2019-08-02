@@ -84,17 +84,14 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         var includedModelsList : [Int] = []
         var includedIndicesList : [Int] = []
         for date in 0..<arrayShorter.count {
-            for event in 0..<arrayShorter[date].sport.count {
-                if arrayShorter[date].sport[event].lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(date)
-                    includedIndicesList.append(event)
-                } else if arrayShorter[date].opponent[event].lowercased().contains(searchText.lowercased()) {
+            for event in 0..<arrayShorter[date].title.count {
+                if arrayShorter[date].title[event].lowercased().contains(searchText.lowercased()) {
                     includedModelsList.append(date)
                     includedIndicesList.append(event)
                 } else if arrayShorter[date].level[event].lowercased().contains(searchText.lowercased()) {
                     includedModelsList.append(date)
                     includedIndicesList.append(event)
-                } else if arrayShorter[date].gender[event].lowercased().contains(searchText.lowercased()) {
+                } else if arrayShorter[date].time[event].lowercased().contains(searchText.lowercased()) {
                     includedModelsList.append(date)
                     includedIndicesList.append(event)
                 } else if arrayShorter[date].date.lowercased().contains(searchText.lowercased()) {
@@ -106,12 +103,46 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         athleticsParent!.athleticsData.addToFilteredModelArray(modelsToInclude: includedModelsList, indicesToInclude: includedIndicesList)
         athleticsParent!.tableView.reloadData()
     }
-    func filterEventsRowsForSearchedText(_ searchText: String) {
-        eventsParent!.eventsModelArrrayFiltered.removeAll()
-        eventsParent!.eventsModelArrrayFiltered = eventsParent!.eventsModelArray.filter({( model : EventsModel) -> Bool in
-            return model.date.lowercased().contains(searchText.lowercased())||model.event.lowercased().contains(searchText.lowercased())||model.schools.lowercased().contains(searchText.lowercased())
-            
-        })
+    func filterEventsRowsForSearchedText(_ searchText : String) {
+        let arrayShorter = eventsParent!.calendarData.eventsModelArray
+        eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
+        var includedModelsList : [Int] = []
+        for n in 0..<arrayShorter.count {
+            if arrayShorter[n].date.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].day.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].month.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].time.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].event.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].schools.lowercased().contains(searchText.lowercased()) {
+                includedModelsList.append(n)
+            }
+        }
+        eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
+        eventsParent!.tableView.reloadData()
+    }
+    func filterEventsRowsForSchoolsSelected(_ schoolsList : [Bool]) {
+        let arrayShorter = eventsParent!.calendarData.eventsModelArray
+        eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
+        var includedModelsList : [Int] = []
+        for n in 0..<arrayShorter.count {
+            if schoolsList[0] && arrayShorter[n].schools.contains("Seton") {
+                includedModelsList.append(n)
+            } else if schoolsList[1] && arrayShorter[n].schools.contains("John") {
+                includedModelsList.append(n)
+            } else if schoolsList[2] && arrayShorter[n].schools.contains("Saints") {
+                includedModelsList.append(n)
+            } else if schoolsList[3] && arrayShorter[n].schools.contains("James") {
+                includedModelsList.append(n)
+            } else if arrayShorter[n].schools == "" {
+                includedModelsList.append(n)
+            }
+        }
+        eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
         eventsParent!.tableView.reloadData()
     }
     

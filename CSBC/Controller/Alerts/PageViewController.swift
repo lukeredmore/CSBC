@@ -23,7 +23,7 @@ class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource
     weak var dateDelegate : TellDateShownToParentVC? = nil
     var testVar : String!
     var athleticsData = AthleticsDataParser()
-    var calendarData = EventsParsing()
+    var calendarData = EventsDataParser()
     let daySchedule : DaySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
     
     override func viewDidLoad() {
@@ -43,7 +43,7 @@ class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
     }
     
-    func storeSchedules(athletics: AthleticsDataParser, events: EventsParsing) {
+    func storeSchedules(athletics: AthleticsDataParser, events: EventsDataParser) {
         self.athleticsData = athletics
         self.calendarData = events
         reloadInputViews()

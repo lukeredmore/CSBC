@@ -8,27 +8,17 @@
 
 import UIKit
 
+///Contains properties for cells in Athetlics View, and can add data to them given and AthleticsModel and index
 class AthleticsTableViewCell: UITableViewCell {
 
     //MARK: Properties
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var levelLabel: UILabel!
     @IBOutlet weak var timeLabel: UILabel!
-    @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
     
     func addData(model: AthleticsModel, index: Int) {
-        let charactersToFilter : CharacterSet = CharacterSet(charactersIn: ":()1234567890")
-        var titleText : String = "\(model.gender[index])'s \(model.sport[index]) \(model.homeGame[index]) \(model.opponent[index])"
+        let charactersToFilter = CharacterSet(charactersIn: ":()1234567890")
+        var titleText = model.title[index]
         titleText = titleText.components(separatedBy: charactersToFilter).joined()
         titleLabel.text = titleText
         levelLabel.text = model.level[index]

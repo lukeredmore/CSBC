@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EventsModel {
+struct EventsModel: Equatable {
     let date : String
     let day : String
     let month : String

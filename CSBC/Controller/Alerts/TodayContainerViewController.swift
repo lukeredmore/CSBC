@@ -18,7 +18,7 @@ protocol PageViewSchoolPickerDelegate: class {
 class TodayContainerViewController: CSBCViewController, TellDateShownToParentVC, DateEnteredDelegate, PageViewLoadedDelegate {
     
     var athleticsData = AthleticsDataParser()
-    var calendarData = EventsParsing()
+    var calendarData = EventsDataParser()
     weak var pageViewSchoolPickerDelegate : PageViewSchoolPickerDelegate? = nil
     weak var dateForPageDelegate : DateForPageDelegate? = nil
     var dateToShow = Date()

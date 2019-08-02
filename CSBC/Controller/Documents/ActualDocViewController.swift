@@ -23,16 +23,7 @@ class ActualDocViewController: UIViewController {
         self.navigationItem.title = ""
     }
     override func viewWillAppear(_ animated: Bool) {
-        if documentToDisplay != nil {
-            let defaultScale = pdfView.scaleFactorForSizeToFit - 0.07
-            pdfView.document = documentToDisplay!
-            pdfView.displayMode = .singlePageContinuous
-            pdfView.autoScales = true
-            pdfView.scaleFactor = defaultScale
-            pdfView.maxScaleFactor = 4.0
-            pdfView.minScaleFactor = defaultScale
-            view.addSubview(pdfView)
-        }
+        configurePDFToDisplay()
     }
     
     
@@ -69,5 +60,16 @@ class ActualDocViewController: UIViewController {
             }
         }
     }
-
+    func configurePDFToDisplay() {
+        if let doc = documentToDisplay {
+            pdfView.document = doc
+            pdfView.displayMode = .singlePageContinuous
+            pdfView.autoScales = true
+            let defaultScale = pdfView.scaleFactorForSizeToFit - 0.07
+            pdfView.scaleFactor = defaultScale
+            pdfView.maxScaleFactor = 4.0
+            pdfView.minScaleFactor = defaultScale
+            view.addSubview(pdfView)
+        }
+    }
 }

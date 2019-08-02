@@ -12,20 +12,19 @@ import SwiftyJSON
 
 ///Downloads athletics data, outsources parsing, then displays results in a UITableView. It outsources search functions, but can display the filtered (searched) data
 class AthleticsViewController: CSBCViewController, UITableViewDataSource {
-    
-    @IBOutlet weak var tableView: UITableView! //.
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var searchBarContainerView: UIView!
     
     var athleticsData = AthleticsDataParser()
-        
-    lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(self.getAthleticsData), for: .valueChanged)
-        refreshControl.tintColor = .gray
-        return refreshControl
-    }()
     var searchControllerController : CSBCSearchController!
+    var modelArrayForSearch : [AthleticsModel] {
+        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
+            return athleticsData.athleticsModelArrayFiltered
+        } else {
+            return athleticsData.athleticsModelArray
+        }
+    }
     
     
     //MARK: View Control
@@ -66,56 +65,35 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         }
     }
     func setupTable() {
+        let athleticsRefreshControl = UIRefreshControl()
+        athleticsRefreshControl.addTarget(self, action: #selector(self.getAthleticsData), for: .valueChanged)
+        athleticsRefreshControl.tintColor = .gray
+        tableView.refreshControl = athleticsRefreshControl
         tableView.dataSource = self
         tableView.delegate = searchControllerController
-        tableView.refreshControl = refreshControl
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = UITableView.automaticDimension
         tableView.reloadData()
         searchBarTopConstraint.constant = 0
         view.layoutIfNeeded()
+        athleticsRefreshControl.endRefreshing()
         tableView.isHidden = false
         loadingSymbol.stopAnimating()
-        view.backgroundColor = .csbcGreen
-        refreshControl.endRefreshing()
     }
     
     
     //MARK: TableView Data Source Methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-            return athleticsData.athleticsModelArrayFiltered.count
-        } else {
-            return athleticsData.athleticsModelArray.count
-        }
+        return modelArrayForSearch.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-            return athleticsData.athleticsModelArrayFiltered[section].sport.count
-        } else {
-            return athleticsData.athleticsModelArray[section].sport.count
-        }
+        return modelArrayForSearch[section].title.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "athleticsTableCell", for: indexPath) as? AthleticsTableViewCell  else {
-            fatalError("The dequeued cell is not an instance of AthleticsTableViewCell.")
-        }
-        let modelForCurrentCell : AthleticsModel
-        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-            modelForCurrentCell = athleticsData.athleticsModelArrayFiltered[indexPath.section]
-        } else {
-            modelForCurrentCell = athleticsData.athleticsModelArray[indexPath.section]
-        }
-        cell.addData(model: modelForCurrentCell, index: indexPath.row)
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "athleticsTableCell", for: indexPath) as?  AthleticsTableViewCell else { return UITableViewCell() }
+        cell.addData(model: modelArrayForSearch[indexPath.section], index: indexPath.row)
         return cell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-            return athleticsData.athleticsModelArrayFiltered[section].date
-        } else {
-            return athleticsData.athleticsModelArray[section].date
-        }
+        return modelArrayForSearch[section].date
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  HTMLController.swift
+//  LunchHTMLController.swift
 //  CSBC
 //
 //  Created by Luke Redmore on 5/22/19.
@@ -10,16 +10,14 @@ import Foundation
 import SwiftSoup
 import SafariServices
 import Alamofire
-import PDFKit
+//import PDFKit
 
 protocol LoadPDFDelegate: class {
     func tryToLoadPDFs()
 }
 
 /// Finds URLs of, download, and store all the lunch menus
-class HTMLController : UIViewController, URLSessionDownloadDelegate {
-    
-    //weak var delegate : LoadPDFDelegate? = nil
+class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
     var lunchesReady : [Bool] = [false, false, false, false]
     var urls : [String] = ["","","",""]
     var i = 0
@@ -241,35 +239,3 @@ class HTMLController : UIViewController, URLSessionDownloadDelegate {
         }
     }
 }
-
-//            else if nilLoopCounter < 5 { //Try to find calendar from a month earlier
-//            if monthYearArray[2] == "01" || monthYearArray[2] == "1" {
-//                monthYearArray[2] = "13"
-//                monthYearArray[1] = String(Int(monthYearArray[1])! - 1)
-//            }
-//            var newMonth = monthArray[Int(monthYearArray[2])! - 2]
-//            if newMonth == "" {
-//                newMonth = "June"
-//            }
-//            monthYearArray[2] = String(Int(monthYearArray[2])! - 1)
-//            if urls[i].contains("Seton") {
-//                urls[i] = "SetonLunchMenu\(newMonth)\(monthYearArray[1])"
-//                print(urls[i])
-////                print(nilLoopCounter)
-//            } else if urls[i].contains("StJohn") {
-//                urls[i] = "StJohnLunchMenu\(newMonth)\(monthYearArray[1])"
-//                print(urls[i])
-//            } else if urls[i].contains("AllSaints") {
-//                urls[i] = "AllSaintsLunchMenu\(newMonth)\(monthYearArray[1])"
-//                print(urls[i])
-//            } else if urls[i].contains("StJames") {
-//                urls[i] = "StJamesLunchMenu\(newMonth)\(monthYearArray[1])"
-//                print(urls[i])
-//            }
-//            nilLoopCounter += 1
-//            //downloadPDFs()
-//        } else { //Stop trying to find earlier calendar
-//            nilLoopCounter = 0
-//            monthYearArray = monthYearString.components(separatedBy: " ")
-//            i += 1
-//        }

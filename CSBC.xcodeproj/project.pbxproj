@@ -17,7 +17,7 @@
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262843102228A6DB00ADC019 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */; };
 		262843122228C1D500ADC019 /* ColumnFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262843112228C1D500ADC019 /* ColumnFlowLayout.swift */; };
-		262C1166222AC5CD009A359E /* EventsParsing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsParsing.swift */; };
+		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */; };
@@ -96,7 +96,7 @@
 		26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */; };
 		26F723412295E073005DEDA7 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F723402295E073005DEDA7 /* Env.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
-		26F7234822961BDA005DEDA7 /* HTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* HTMLController.swift */; };
+		26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */; };
 		26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
@@ -124,7 +124,7 @@
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		262843112228C1D500ADC019 /* ColumnFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnFlowLayout.swift; sourceTree = "<group>"; };
-		262C1165222AC5CD009A359E /* EventsParsing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsParsing.swift; sourceTree = "<group>"; };
+		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
 		263A63C8223B58150014DA32 /* testCalendarPage.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = testCalendarPage.html; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
@@ -208,7 +208,7 @@
 		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		26F723402295E073005DEDA7 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		26F7234722961BDA005DEDA7 /* HTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLController.swift; sourceTree = "<group>"; };
+		26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchHTMLController.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDelegate.swift; sourceTree = "<group>"; };
 		A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
@@ -484,7 +484,7 @@
 			isa = PBXGroup;
 			children = (
 				2653118022355BD6009C5512 /* Extensions.swift */,
-				262C1165222AC5CD009A359E /* EventsParsing.swift */,
+				262C1165222AC5CD009A359E /* EventsDataParser.swift */,
 				26B75AEC22279B7100D109EC /* DaySchedule.swift */,
 				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
 				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
@@ -499,7 +499,7 @@
 			children = (
 				2628430D2228A4FC00ADC019 /* HomeViewController.swift */,
 				26F7234522960E15005DEDA7 /* NotificationController.swift */,
-				26F7234722961BDA005DEDA7 /* HTMLController.swift */,
+				26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */,
 				263A81F122A5F6D3001D0716 /* NotificationSettings.swift */,
 				26DD570022BBD16E005E109B /* AlertController.swift */,
 				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
@@ -926,7 +926,7 @@
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
 				264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
-				26F7234822961BDA005DEDA7 /* HTMLController.swift in Sources */,
+				26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */,
 				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,
@@ -950,7 +950,7 @@
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
 				264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,
-				262C1166222AC5CD009A359E /* EventsParsing.swift in Sources */,
+				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,
 				26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */,
 				26DC0B79222F275900371B61 /* MapViewController.swift in Sources */,

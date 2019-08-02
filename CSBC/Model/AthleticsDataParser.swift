@@ -25,63 +25,76 @@ class AthleticsDataParser {
         var n = 0
         print(dateToBeat)
         while n < json["data"].count {
-            var homeGameList : [String] = []
-            var genderList : [String] = []
+            var titleList : [String] = []
             var levelList : [String] = []
-            var sportList : [String] = []
-            var opponentList : [String] = []
             var timeList : [String] = []
             while ((currentDate == dateToBeat) && (n < json["data"].count)) {
-                let title = "\(json["data"][n]["title"])"
-                var titleArray = title.components(separatedBy: " ")
+                var titleArray = "\(json["data"][n]["title"])".components(separatedBy: " ")
 //                if titleArray[0] == "POSTPONED:" {
 //                    titleArray.remove(at: 0)
 //                }
                 titleArray.removeLast()
                 titleArray.removeLast()
                 if titleArray[0].contains("(") { //if each data is formatted correctly
-                    if titleArray[3] == "@" {
-                        homeGameList.append("@")
-                    } else {
-                        homeGameList.append("vs.")
-                    }
+                    var gender : String
+                    var sport : String
+                    var homeGame : String
+                    var opponent : String
+                    
                     if titleArray[0] == "(G)" {
-                        genderList.append("Girl")
+                        gender = "Girl"
                     } else {
-                        genderList.append("Boy")
+                        gender = "Boy"
                     }
-                    levelList.append(teamAbbreviations[titleArray[1]] ?? "")
-                    var sport = titleArray[2]
+                    
+                    sport = titleArray[2]
                     if sport == "Outdoor" {
                         sport = "Track & Field"
                     }
-                    sportList.append(sport)
-                    if titleArray.count == 8 {
-                        opponentList.append(titleArray[4] + titleArray[5])
-                    } else if titleArray.count == 9 {
-                        opponentList.append(titleArray[4] + titleArray[5] + titleArray[6])
+                    
+                    if titleArray[3] == "@" {
+                        homeGame = "@"
                     } else {
-                        opponentList.append(titleArray[4])
+                        homeGame = "vs."
                     }
+                    
+                    if titleArray.count == 8 {
+                        opponent = titleArray[4] + titleArray[5]
+                    } else if titleArray.count == 9 {
+                        opponent = titleArray[4] + titleArray[5] + titleArray[6]
+                    } else {
+                        opponent = titleArray[4]
+                    }
+                    opponent = opponent.camelCaseToWords()
+                    
+                    titleList.append("\(gender)'s \(sport) \(homeGame) \(opponent)")
+                    levelList.append(teamAbbreviations[titleArray[1]] ?? "")
                     timeList.append("\(json["data"][n]["start_time"])")
-                    currentDate = "\(json["data"][n+1]["date"])"
-                    dateString = "\(json["data"][n]["date"])".replacingOccurrences(of: ",", with: "")
-                    var dateArray = dateString.components(separatedBy: " ")
-                    dateArray[0] = months[dateArray[0]]!
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "MM dd yyyy"
-                    let date = formatter.date(from: "\(dateArray[0]) \(dateArray[1]) \(dateArray[2])")
-                    formatter.dateFormat = "EEEE, MMMM d"
-                    dateString = formatter.string(from: date!)
+                    
+                    let jsonDateFormatter = DateFormatter()
+                    jsonDateFormatter.dateFormat = "MMM d, yyyy"
+                    let modelDateFormatter = DateFormatter()
+                    modelDateFormatter.dateFormat = "EEEE, MMMM d"
+                    dateString = modelDateFormatter.string(from:
+                        jsonDateFormatter.date(from:
+                            "\(json["data"][n]["date"])"
+                            )!
+                    )
+
+                    if (n < json["data"].count-1) {
+                        currentDate = "\(json["data"][n + 1]["date"]))"
+                    } else {
+                        currentDate = "nil"
+                    }
                 } else {
-                    print("Error in parsing '\(title)'")
+                    print("Error in parsing '\(titleArray)'")
                 }
                 n += 1
                 
             }
             dateToBeat = currentDate
             print("adding new model for \(dateString)")
-            let modelToAppend = AthleticsModel(homeGame: homeGameList, gender: genderList, level: levelList, sport: sportList, opponent: opponentList, time: timeList, date: dateString)
+            let modelToAppend = AthleticsModel(title: titleList, level: levelList, time: timeList, date: dateString)
             modelListToReturn.append(modelToAppend)
             athleticsModelArray = modelListToReturn
         }
@@ -91,11 +104,8 @@ class AthleticsDataParser {
         athleticsModelArrayFiltered.removeAll()
         for modelInt in 0..<modelsToInclude.count {
             let modelToAppend = AthleticsModel(
-                homeGame: [athleticsModelArray[modelsToInclude[modelInt]].homeGame[indicesToInclude[modelInt]]],
-                gender: [athleticsModelArray[modelsToInclude[modelInt]].gender[indicesToInclude[modelInt]]],
+                title: [athleticsModelArray[modelsToInclude[modelInt]].title[indicesToInclude[modelInt]]],
                 level: [athleticsModelArray[modelsToInclude[modelInt]].level[indicesToInclude[modelInt]]],
-                sport: [athleticsModelArray[modelsToInclude[modelInt]].sport[indicesToInclude[modelInt]]],
-                opponent: [athleticsModelArray[modelsToInclude[modelInt]].opponent[indicesToInclude[modelInt]]],
                 time: [athleticsModelArray[modelsToInclude[modelInt]].time[indicesToInclude[modelInt]]],
                 date: athleticsModelArray[modelsToInclude[modelInt]].date)
             athleticsModelArrayFiltered.append(modelToAppend)

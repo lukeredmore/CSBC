@@ -119,11 +119,11 @@ class NotificationController {
                 UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
 //                print("Today is \(date). Today is \(notificationContent).")
             }
-                    center.getPendingNotificationRequests(completionHandler: { requests in
-                        for request in requests {
-                            print(request)
-                        }
-                    })
+//                    center.getPendingNotificationRequests(completionHandler: { requests in
+//                        for request in requests {
+//                            print(request)
+//                        }
+//                    })
         } else {
             print("User has declined to receive notifications")
         }
