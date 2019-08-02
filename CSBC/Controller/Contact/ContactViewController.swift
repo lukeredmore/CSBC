@@ -27,7 +27,7 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     let schoolAddresses = ["70 Seminary Avenue Binghamton, NY 13905", "9 Livingston Street Binghamton NY 13903", "1112 Broad Street Endicott NY 13760", "143 Main Street Johnson City NY 13790"]
     let schoolPhone : [[String]] = [["723.5307", "723.4811"],["723.0703","772.6210"],["748.7423"],["797.5444"]]
     let districtPhone = "723.1547"
-    let schoolPrincipals = ["Matthew Martinkovic", "James Fountaine", "Angela Tierno-Sherwood", "Susan Kitchen"]
+    let schoolPrincipals = ["Matthew Martinkovic", "James Fountaine", "William Pipher", "Susan Kitchen"]
     let hoursOfOperation = [
         ["Morning Bell: 8:13 AM", "Dismissal: 3:00 PM"],
         ["Before School Care: From 7:00 AM","Start: 8:30 AM","Dismissal: 2:45 PM","After School Care: Until 5:45 PM"],

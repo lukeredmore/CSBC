@@ -23,7 +23,7 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
             ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "St. John School"], //t
             ["Catholic Schools of Broome County", "St. John School"] //f
         ],[ //All Saints
-            ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "Angela Tierno-Sherwood, Principal"], // t
+            ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "William Pipher, Principal"], // t
             ["Catholic Schools of Broome County", "All Saints School"] //f
         ],[ //St. James
             ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "St. James School", "Suzy Kitchen, Principal"], //t

@@ -87,10 +87,11 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
             case 7: //Athletics
                 parent!.performSegue(withIdentifier: "AthleticsSegue", sender: parent!)
             case 8: //Give
-                guard let url = URL(string: "https://app.mobilecause.com/form/fi0kKA?vid=hf0o") else { return }
-                UIApplication.shared.open(url)
+                if let url = URL(string: "https://app.mobilecause.com/form/N-9Y0w?vid=1hepr") {
+                    UIApplication.shared.open(url)
+                }
             case 9: //Connect
-                parent!.performSegue(withIdentifier: /*"newTest", sender: parent!)*/"SocialMediaSegue", sender: parent!)
+                parent!.performSegue(withIdentifier: "SocialMediaSegue", sender: parent!)
             case 10: //Dress Code
                 parent!.performSegue(withIdentifier: "UniformsSegue", sender: parent!)
             case 11: //Docs

@@ -15,7 +15,7 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
     @IBOutlet var tableView: UITableView!
     var row = 0
     let documentTitles = [["SCC Parent - Student Handbook", "SCC Bell Schedule", "SCC Course Description and Information Guide", "SCC Monthly Calendar", "CSBC Calendar", "SCC Dress Code"],[""],["All Saints Cafeteria Info","All Saints Illness Policy"],["St. James Parent - Student Handbook","St. James Code of Conduct"]]
-    let pdfTitleStrings = [["scchandbook18-19","sccbellschedule18-19","scccoursedescription18-19","sccmonthlycalendar18-19","csbccalendar18-19","sccdresscode18-19"],[],["saintscafeteriainfo18-19","saintssickpolicy18-19"],["jameshandbook18-19","jamescodeofconduct18-19"]]
+    let pdfTitleStrings = [["scchandbook","sccbellschedule","scccoursedescription","sccmonthlycalendar","csbccalendar","sccdresscode"],[],["saintscafeteriainfo","saintssickpolicy"],["jameshandbook","jamescodeofconduct"]]
     
     
     //MARK: View Control
@@ -54,7 +54,7 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDocument" {
             let childVC = segue.destination as! ActualDocViewController
-            if let path = Bundle.main.path(forResource: pdfTitleStrings[schoolSelected.ssInt][row], ofType: "pdf") {
+            if let path = Bundle.main.path(forResource: "\(pdfTitleStrings[schoolSelected.ssInt][row])19-20", ofType: "pdf") {
                 let url = URL(fileURLWithPath: path)
                 childVC.documentToDisplay = PDFDocument(url: url)
             } else { childVC.documentToDisplay = nil }

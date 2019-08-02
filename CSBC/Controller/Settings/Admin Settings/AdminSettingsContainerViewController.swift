@@ -15,7 +15,7 @@ import FirebaseAuth
 class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegate, GIDSignInUIDelegate, DayOverriddenDelegate {
 
     
-    let allowedUserEmails = ["luke.redmore", "lukeredmore", "lredmore", "lredmore20", "mmartinkovic", "llevis", "skitchen", "isanyshyn", "kehret", "atierno", "wpipher", "krosen", "jfountaine", "kpawlowski"]
+    let allowedUserEmails = ["luke.redmore", "lukeredmore", "lredmore", "lredmore20", "mmartinkovic", "llevis", "skitchen", "isanyshyn", "kehret", "wpipher", "krosen", "jfountaine", "kpawlowski"]
     
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var signInButton: GIDSignInButton!
@@ -141,7 +141,7 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
             return "Seton"
         case "krosen","jfountaine":
             return "St. John's"
-        case "wpipher","atierno","kpawlowski":
+        case "wpipher","kpawlowski":
             return "All Saints"
         case "skitchen","isanyshyn":
             return "St. James"
