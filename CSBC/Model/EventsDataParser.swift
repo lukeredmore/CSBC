@@ -116,9 +116,7 @@ class EventsDataParser {
                 }
             }
             addObjectArrayToUserDefaults(eventsModelArray)
-        } catch {
-            addObjectArrayToUserDefaults([EventsModel]())
-        }
+        } catch { }
     }
     func addToFilteredModelArray(modelsToInclude: [Int]) {
         eventsModelArrayFiltered.removeAll()
@@ -138,6 +136,7 @@ class EventsDataParser {
     }
     
     private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel?]) {
+        print("Events array is being added to UserDefaults")
         let dateTimeToAdd = Date().dateStringWithTime()
         UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
         UserDefaults.standard.set(dateTimeToAdd, forKey: "eventsArrayTime")

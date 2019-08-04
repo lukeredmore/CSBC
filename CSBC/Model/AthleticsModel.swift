@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct AthleticsModel {
+struct AthleticsModel : Codable, Equatable {
     let title : [String]
     let level : [String]
     let time : [String]

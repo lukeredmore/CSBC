@@ -15,14 +15,29 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
     @IBOutlet weak var searchBarContainerView: UIView!
+    @IBOutlet weak var footerLabel: UILabel!
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(refreshData), for: .valueChanged)
+        refreshControl.tintColor = .gray
+        
+        return refreshControl
+    }()
+    var athleticsDataPresent = false
     var athleticsData = AthleticsDataParser()
     var searchControllerController : CSBCSearchController!
-    var modelArrayForSearch : [AthleticsModel] {
-        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-            return athleticsData.athleticsModelArrayFiltered
-        } else {
-            return athleticsData.athleticsModelArray
+    var modelArrayForSearch : [AthleticsModel?] {
+        get {
+            if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
+                return athleticsData.athleticsModelArrayFiltered
+            } else {
+                return athleticsData.athleticsModelArray
+            }
+        }
+        set {
+            athleticsData.athleticsModelArray = newValue
         }
     }
     
@@ -37,46 +52,45 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: self, eventsParent: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        if athleticsData.athleticsModelArray.isEmpty {
-            print("groupedArray is empty on viewWillAppear")
-            tableView.isHidden = true
-            loadingSymbol.startAnimating()
-            searchBarTopConstraint.constant = -56
-            view.layoutIfNeeded()
-            getAthleticsData()
-        } else {
-            print("groupedArray has \(athleticsData.athleticsModelArray.count) values on viewWillAppear")
-            setupTable()
-        }
+        view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        searchBarTopConstraint.constant = -56
+        loadingSymbol.startAnimating()
+        tableView.isHidden = true
+        view.layoutIfNeeded()
+        AthleticsRetriever().retrieveAthleticsArray(completion: setupTable)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        view.backgroundColor = UIColor(named: "CSBCAccentGray")
     }
 
     //MARK: Athletics Data Methods
-    @objc func getAthleticsData() {
-        print("we are asking for data")
-        let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
-        Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
-            response in
-            if response.result.isSuccess {
-                print("Athletics Data Received")
-                let athleticsJSON : JSON = JSON(response.result.value!)
-                self.athleticsData.parseAthleticsData(json: athleticsJSON)
-                self.setupTable()
-            }
-        }
+    @objc func refreshData() {
+        AthleticsRetriever().retrieveAthleticsArray(forceReturn: false, forceRefresh: true, completion: setupTable)
     }
-    func setupTable() {
-        let athleticsRefreshControl = UIRefreshControl()
-        athleticsRefreshControl.addTarget(self, action: #selector(self.getAthleticsData), for: .valueChanged)
-        athleticsRefreshControl.tintColor = .gray
-        tableView.refreshControl = athleticsRefreshControl
+    func setupTable(athleticsArray : [AthleticsModel?]) {
+        if modelArrayForSearch != athleticsArray {
+            modelArrayForSearch = athleticsArray
+        }
+        if athleticsArray == [AthleticsModel]() {
+            print("No data present in Athletics view")
+            athleticsDataPresent = false
+            searchBarTopConstraint.constant = -56
+            footerLabel.text = "No events found"
+        } else {
+            print("Data present in Athletics view")
+            athleticsDataPresent = true
+            searchBarTopConstraint.constant = 0
+            footerLabel.text = ""
+        }
         tableView.dataSource = self
         tableView.delegate = searchControllerController
+        tableView.refreshControl = refreshControl
         tableView.reloadData()
-        searchBarTopConstraint.constant = 0
-        view.layoutIfNeeded()
-        athleticsRefreshControl.endRefreshing()
+        view.backgroundColor = UIColor(named: "CSBCNavBarBackground")
         tableView.isHidden = false
+        view.layoutIfNeeded()
         loadingSymbol.stopAnimating()
+        refreshControl.endRefreshing()
     }
     
     
@@ -85,15 +99,19 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         return modelArrayForSearch.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return modelArrayForSearch[section].title.count
+        guard let rowCountModel = modelArrayForSearch[section] else { return 0 }
+        return rowCountModel.title.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "athleticsTableCell", for: indexPath) as?  AthleticsTableViewCell else { return UITableViewCell() }
-        cell.addData(model: modelArrayForSearch[indexPath.section], index: indexPath.row)
+        if let model = modelArrayForSearch[indexPath.section] {
+            cell.addData(model: model, index: indexPath.row)
+        }
         return cell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return modelArrayForSearch[section].date
+        guard let titleHeaderModel = modelArrayForSearch[section] else { return "" }
+        return titleHeaderModel.date
     }
 }
 

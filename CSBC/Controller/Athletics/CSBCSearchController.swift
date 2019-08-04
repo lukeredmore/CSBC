@@ -70,7 +70,7 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     
     func updateSearchResults(for searchController: UISearchController) {
         if let term = searchController.searchBar.text {
-            if athleticsParent != nil {
+            if athleticsParent != nil && athleticsParent!.athleticsData.athleticsModelArray != [] {
                 filterAthleticsRowsForSearchedText(term)
             } else if eventsParent != nil {
                 filterEventsRowsForSearchedText(term)
@@ -83,20 +83,24 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         athleticsParent!.athleticsData.athleticsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
         var includedIndicesList : [Int] = []
-        for date in 0..<arrayShorter.count {
-            for event in 0..<arrayShorter[date].title.count {
-                if arrayShorter[date].title[event].lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(date)
-                    includedIndicesList.append(event)
-                } else if arrayShorter[date].level[event].lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(date)
-                    includedIndicesList.append(event)
-                } else if arrayShorter[date].time[event].lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(date)
-                    includedIndicesList.append(event)
-                } else if arrayShorter[date].date.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(date)
-                    includedIndicesList.append(event)
+        if arrayShorter.count > 0 {
+            if arrayShorter[0] != nil {
+                for date in 0..<arrayShorter.count {
+                    for event in 0..<arrayShorter[date]!.title.count {
+                        if arrayShorter[date]!.title[event].lowercased().contains(searchText.lowercased()) {
+                            includedModelsList.append(date)
+                            includedIndicesList.append(event)
+                        } else if arrayShorter[date]!.level[event].lowercased().contains(searchText.lowercased()) {
+                            includedModelsList.append(date)
+                            includedIndicesList.append(event)
+                        } else if arrayShorter[date]!.time[event].lowercased().contains(searchText.lowercased()) {
+                            includedModelsList.append(date)
+                            includedIndicesList.append(event)
+                        } else if arrayShorter[date]!.date.lowercased().contains(searchText.lowercased()) {
+                            includedModelsList.append(date)
+                            includedIndicesList.append(event)
+                        }
+                    }
                 }
             }
         }
@@ -107,24 +111,27 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         let arrayShorter = eventsParent!.calendarData.eventsModelArray
         eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
-        if arrayShorter[0] != nil {
-            for n in 0..<arrayShorter.count {
-                if arrayShorter[n]!.date.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.day.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.month.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.time.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.event.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.schools.lowercased().contains(searchText.lowercased()) {
-                    includedModelsList.append(n)
+        if arrayShorter.count > 0 {
+            if arrayShorter[0] != nil {
+                for n in 0..<arrayShorter.count {
+                    if arrayShorter[n]!.date.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    } else if arrayShorter[n]!.day.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    } else if arrayShorter[n]!.month.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    } else if arrayShorter[n]!.time.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    } else if arrayShorter[n]!.event.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    } else if arrayShorter[n]!.schools.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(n)
+                    }
                 }
+                
             }
-            
         }
+        
         eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
         eventsParent!.tableView.reloadData()
     }
@@ -163,21 +170,23 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-        if translation.y > 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != 0 && !searchController.isActive { //scroll up
-            if translation.y < 56 {
-                searchBarTopConstraint.constant = translation.y - 56 //show search bar growing
-            } else if translation.y == 56 {
-                searchBarTopConstraint.constant = 0
+        if eventsParent?.eventsDataPresent ?? false || athleticsParent?.athleticsDataPresent ?? false {
+            let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
+            if translation.y > 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != 0 && !searchController.isActive { //scroll up
+                if translation.y < 56 {
+                    searchBarTopConstraint.constant = translation.y - 56 //show search bar growing
+                } else if translation.y == 56 {
+                    searchBarTopConstraint.constant = 0
+                }
+                self.parent.view.layoutIfNeeded()
+            } else if translation.y < 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != -56 && !searchController.isActive { //scroll down
+                if translation.y > -56 {
+                    searchBarTopConstraint.constant = translation.y //show search bar shrinking
+                } else if translation.y == -56 {
+                    searchBarTopConstraint.constant = -56
+                }
+                self.parent.view.layoutIfNeeded()
             }
-            self.parent.view.layoutIfNeeded()
-        } else if translation.y < 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != -56 && !searchController.isActive { //scroll down
-            if translation.y > -56 {
-                searchBarTopConstraint.constant = translation.y //show search bar shrinking
-            } else if translation.y == -56 {
-                searchBarTopConstraint.constant = -56
-            }
-            self.parent.view.layoutIfNeeded()
         }
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {

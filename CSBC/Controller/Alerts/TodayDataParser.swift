@@ -13,9 +13,9 @@ import SwiftyJSON
 ///Retrieves events and athletics data, parses it, and activates pager when ready. Also parses full data into single days for TodayVC
 class TodayDataParser {
     let delegate : TodayParserDelegate!
-    let athleticsParser = AthleticsDataParser()
     
     var eventsArray : [EventsModel?] = []
+    var athleticsArray : [AthleticsModel?] = []
     
     var eventsReady = false
     var athleticsReady = false
@@ -34,26 +34,10 @@ class TodayDataParser {
             self.eventsReady = true
             self.tryToStartupPager()
         }
-        if athleticsParser.athleticsModelArray.count > 0 {
-            print("using old athletics data")
-            tryToStartupPager()
-        } else {
-            print("getting new athletics data")
-            getAthleticsData()
-        }
-    }
-    func getAthleticsData() {
-        let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
-        Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
-            response in
-            if response.result.isSuccess {
-                print("Athletics Data Received")
-                let athleticsJSON : JSON = JSON(response.result.value!)
-                self.athleticsParser.parseAthleticsData(json: athleticsJSON)
-                self.athleticsReady = true
-                self.tryToStartupPager()
-            }
-            
+        AthleticsRetriever().retrieveAthleticsArray { (athleticsArray) in
+            self.athleticsArray = athleticsArray
+            self.athleticsReady = true
+            self.tryToStartupPager()
         }
     }
     func tryToStartupPager() {
@@ -97,7 +81,7 @@ class TodayDataParser {
         let athleticsDateFormatter = DateFormatter()
         athleticsDateFormatter.dateFormat = "MMMM dd"
         let monthDayDateString = athleticsDateFormatter.string(from: date)
-        for dateWithEvents in athleticsParser.athleticsModelArray {
+        for case let dateWithEvents? in athleticsArray {
             if dateWithEvents.date.contains(monthDayDateString) {
                 allAthleticsToday = dateWithEvents
             }

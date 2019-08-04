@@ -13,6 +13,7 @@ import AuthenticationServices
 
 class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnteredDelegate  {
     
+    var eventsDataPresent = false
     var calendarData = EventsDataParser()
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -57,9 +58,10 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        searchBarTopConstraint.constant = -56
         loadingSymbol.startAnimating()
         tableView.isHidden = true
-        EventsRetriever().retrieveEventsArray(forceReturn: false, forceRefresh: false, callback: setupCalendarTable)
+        EventsRetriever().retrieveEventsArray(completion: setupCalendarTable)
     }
     override func viewWillDisappear(_ animated: Bool) {
         view.backgroundColor = UIColor(named: "CSBCAccentGray")
@@ -74,12 +76,20 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         setupCalendarTable(eventsArray: modelArrayForSearch)
     }
     @objc func refreshData() {
-        let retriever = EventsRetriever()
-        retriever.retrieveEventsArray(forceReturn: false, forceRefresh: true, callback: setupCalendarTable)
+        EventsRetriever().retrieveEventsArray(forceReturn: false, forceRefresh: true, completion: setupCalendarTable)
     }
     func setupCalendarTable(eventsArray: [EventsModel?]) {
         if modelArrayForSearch != eventsArray {
             modelArrayForSearch = eventsArray
+        }
+        if eventsArray == [EventsModel]() {
+            print("No data present in Calendar view")
+            eventsDataPresent = false
+            searchBarTopConstraint.constant = -56
+        } else {
+            print("Data present in Calendar view")
+            eventsDataPresent = true
+            searchBarTopConstraint.constant = 0
         }
         tableView.delegate = searchControllerController
         tableView.dataSource = self
@@ -87,13 +97,12 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         tableView.reloadData()
         tableView.isHidden = false
         view.backgroundColor = UIColor(named: "CSBCNavBarBackground")
-        searchBarTopConstraint.constant = 0
         view.layoutIfNeeded()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
     }
     @IBAction func filterCalendarData(_ sender: Any) {
-        if loadingSymbol.isHidden {
+        if loadingSymbol.isHidden && eventsDataPresent {
             performSegue(withIdentifier: "CalendarSettingsSegue", sender: self)
         }
     }
@@ -129,7 +138,6 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
             childVC.buttonStates = self.storedSchoolsToShow
         }
     }
-    
 }
 
 class HalfSizePresentationController : UIPresentationController {

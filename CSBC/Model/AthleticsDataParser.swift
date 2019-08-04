@@ -12,10 +12,8 @@ import SwiftyJSON
 class AthleticsDataParser {
     let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
     let months = ["Jan":"01", "Feb":"02", "Mar":"03", "Apr":"04", "May":"05", "Jun":"06", "Jul":"07", "Aug":"08", "Sep":"09", "Oct":"10", "Nov":"11", "Dec":"12"]
-    var athleticsModelArray : [AthleticsModel] = []
-    var athleticsModelArrayFiltered : [AthleticsModel] = []
-    
-    init() {}
+    var athleticsModelArray : [AthleticsModel?] = []
+    var athleticsModelArrayFiltered : [AthleticsModel?] = []
     
     func parseAthleticsData(json : JSON) {
         var modelListToReturn : [AthleticsModel] = []
@@ -93,24 +91,33 @@ class AthleticsDataParser {
                 
             }
             dateToBeat = currentDate
-            print("adding new model for \(dateString)")
             let modelToAppend = AthleticsModel(title: titleList, level: levelList, time: timeList, date: dateString)
             modelListToReturn.append(modelToAppend)
             athleticsModelArray = modelListToReturn
+            addObjectArrayToUserDefaults(athleticsModelArray)
         }
     }
     
     func addToFilteredModelArray(modelsToInclude: [Int], indicesToInclude: [Int]) {
         athleticsModelArrayFiltered.removeAll()
-        for modelInt in 0..<modelsToInclude.count {
-            let modelToAppend = AthleticsModel(
-                title: [athleticsModelArray[modelsToInclude[modelInt]].title[indicesToInclude[modelInt]]],
-                level: [athleticsModelArray[modelsToInclude[modelInt]].level[indicesToInclude[modelInt]]],
-                time: [athleticsModelArray[modelsToInclude[modelInt]].time[indicesToInclude[modelInt]]],
-                date: athleticsModelArray[modelsToInclude[modelInt]].date)
-            athleticsModelArrayFiltered.append(modelToAppend)
-            
+        if athleticsModelArray.count > 0 {
+            if athleticsModelArray[0] != nil {
+                for modelInt in modelsToInclude {
+                    let modelToAppend = AthleticsModel(
+                        title: [athleticsModelArray[modelsToInclude[modelInt]]!.title[indicesToInclude[modelInt]]],
+                        level: [athleticsModelArray[modelsToInclude[modelInt]]!.level[indicesToInclude[modelInt]]],
+                        time: [athleticsModelArray[modelsToInclude[modelInt]]!.time[indicesToInclude[modelInt]]],
+                        date: athleticsModelArray[modelsToInclude[modelInt]]!.date)
+                    athleticsModelArrayFiltered.append(modelToAppend)
+                }
+            }
         }
     }
     
+    private func addObjectArrayToUserDefaults(_ athleticsArray: [AthleticsModel?]) {
+        print("Athletics array is being added to UserDefaults")
+        let dateTimeToAdd = Date().dateStringWithTime()
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(athleticsArray), forKey: "athleticsArray")
+        UserDefaults.standard.set(dateTimeToAdd, forKey: "athleticsArrayTime")
+    }
 }

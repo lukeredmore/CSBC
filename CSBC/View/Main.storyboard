@@ -644,11 +644,11 @@
                                 <color key="separatorColor" name="CSBCAccentGray"/>
                                 <color key="sectionIndexBackgroundColor" name="CSBCAccentGray"/>
                                 <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="Dc1-8G-Oig">
-                                    <rect key="frame" x="0.0" y="187" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="187" width="414" height="54"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFp-F5-gqn">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
                                             <state key="normal" title="View More &gt;">
                                                 <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
@@ -986,6 +986,25 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="NI7-50-Ne4">
                                 <rect key="frame" x="0.0" y="64" width="414" height="744"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="Htq-uu-EXj">
+                                    <rect key="frame" x="0.0" y="164" width="414" height="54"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No events found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhf-pH-6k0">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
+                                            <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <color key="backgroundColor" name="CSBCBackground"/>
+                                    <constraints>
+                                        <constraint firstItem="yhf-pH-6k0" firstAttribute="top" secondItem="Htq-uu-EXj" secondAttribute="top" id="BdQ-ya-8Uc"/>
+                                        <constraint firstAttribute="bottom" secondItem="yhf-pH-6k0" secondAttribute="bottom" id="Bsm-8D-EvP"/>
+                                        <constraint firstItem="yhf-pH-6k0" firstAttribute="leading" secondItem="Htq-uu-EXj" secondAttribute="leading" id="exa-40-zrH"/>
+                                        <constraint firstAttribute="trailing" secondItem="yhf-pH-6k0" secondAttribute="trailing" id="uKL-Q3-BQ8"/>
+                                    </constraints>
+                                </view>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="athleticsTableCell" id="pfa-6A-dma" customClass="AthleticsTableViewCell" customModule="CSBC" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="108"/>
@@ -1084,6 +1103,7 @@
                         <viewLayoutGuide key="safeArea" id="LAZ-TS-1wZ"/>
                     </view>
                     <connections>
+                        <outlet property="footerLabel" destination="yhf-pH-6k0" id="PoU-TC-wW1"/>
                         <outlet property="searchBarContainerView" destination="pcf-K4-rMb" id="lqZ-KO-gLU"/>
                         <outlet property="searchBarTopConstraint" destination="xxW-sR-XiG" id="uMW-Qr-nEx"/>
                         <outlet property="tableView" destination="NI7-50-Ne4" id="Wx2-xg-Xtf"/>
