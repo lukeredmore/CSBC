@@ -104,9 +104,6 @@ class HomeViewController: CSBCViewController, AlertDelegate {
             let childVC = segue.destination as! TodayContainerViewController
             childVC.athleticsData = self.athleticsData
             childVC.calendarData = self.calendarData
-        case "CalendarSegue":
-            let childVC = segue.destination as! CalendarViewController
-            childVC.calendarData = self.calendarData
         default:
             break
         }

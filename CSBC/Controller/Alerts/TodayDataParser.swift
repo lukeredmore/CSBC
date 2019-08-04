@@ -13,8 +13,9 @@ import SwiftyJSON
 ///Retrieves events and athletics data, parses it, and activates pager when ready. Also parses full data into single days for TodayVC
 class TodayDataParser {
     let delegate : TodayParserDelegate!
-    let eventsParser = EventsDataParser()
     let athleticsParser = AthleticsDataParser()
+    
+    var eventsArray : [EventsModel?] = []
     
     var eventsReady = false
     var athleticsReady = false
@@ -28,31 +29,17 @@ class TodayDataParser {
     
     //MARK: Retrieve schedules
     func getSchedulesToSendToToday() {
-        if eventsParser.eventsModelArray.count > 0 {
-            print("using old calendar data")
-            tryToStartupPager()
-        } else {
-            print("getting new calendar data")
-            getCalendarEvents()
+        EventsRetriever().retrieveEventsArray { (eventsArray) in
+            self.eventsArray = eventsArray
+            self.eventsReady = true
+            self.tryToStartupPager()
         }
-        
         if athleticsParser.athleticsModelArray.count > 0 {
             print("using old athletics data")
             tryToStartupPager()
         } else {
             print("getting new athletics data")
             getAthleticsData()
-        }
-    }
-    func getCalendarEvents() {
-        Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value {
-                if html.contains("span") {
-                    self.eventsParser.parseHTMLForEvents(html: html)
-                    self.eventsReady = true
-                    self.tryToStartupPager()
-                }
-            }
         }
     }
     func getAthleticsData() {
@@ -82,10 +69,13 @@ class TodayDataParser {
         let fmt = DateFormatter()
         fmt.dateFormat = "MMM dd"
         let dateShownForCalendar = fmt.string(from: date)
-        for i in 0..<eventsParser.eventsModelArray.count {
-            if eventsParser.eventsModelArray[i].date == dateShownForCalendar {
-                allEventsToday.append(eventsParser.eventsModelArray[i])
-                print("At leaset one event is today")
+        for i in 0..<eventsArray.count {
+            if let event = eventsArray[i] {
+                if event.date == dateShownForCalendar {
+                    allEventsToday.append(event)
+                    print("At leaset one event is today")
+                }
+                
             }
         }
         if allEventsToday.count == 0 {

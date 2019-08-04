@@ -107,20 +107,23 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         let arrayShorter = eventsParent!.calendarData.eventsModelArray
         eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
-        for n in 0..<arrayShorter.count {
-            if arrayShorter[n].date.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].day.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].month.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].time.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].event.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].schools.lowercased().contains(searchText.lowercased()) {
-                includedModelsList.append(n)
+        if arrayShorter[0] != nil {
+            for n in 0..<arrayShorter.count {
+                if arrayShorter[n]!.date.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.day.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.month.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.time.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.event.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.schools.lowercased().contains(searchText.lowercased()) {
+                    includedModelsList.append(n)
+                }
             }
+            
         }
         eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
         eventsParent!.tableView.reloadData()
@@ -129,19 +132,22 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         let arrayShorter = eventsParent!.calendarData.eventsModelArray
         eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
-        for n in 0..<arrayShorter.count {
-            if schoolsList[0] && arrayShorter[n].schools.contains("Seton") {
-                includedModelsList.append(n)
-            } else if schoolsList[1] && arrayShorter[n].schools.contains("John") {
-                includedModelsList.append(n)
-            } else if schoolsList[2] && arrayShorter[n].schools.contains("Saints") {
-                includedModelsList.append(n)
-            } else if schoolsList[3] && arrayShorter[n].schools.contains("James") {
-                includedModelsList.append(n)
-            } else if arrayShorter[n].schools == "" {
-                includedModelsList.append(n)
+        if arrayShorter[0] != nil {
+            for n in 0..<arrayShorter.count {
+                if schoolsList[0] && arrayShorter[n]!.schools.contains("Seton") {
+                    includedModelsList.append(n)
+                } else if schoolsList[1] && arrayShorter[n]!.schools.contains("John") {
+                    includedModelsList.append(n)
+                } else if schoolsList[2] && arrayShorter[n]!.schools.contains("Saints") {
+                    includedModelsList.append(n)
+                } else if schoolsList[3] && arrayShorter[n]!.schools.contains("James") {
+                    includedModelsList.append(n)
+                } else if arrayShorter[n]!.schools == "" {
+                    includedModelsList.append(n)
+                }
             }
         }
+        
         eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
         eventsParent!.tableView.reloadData()
     }

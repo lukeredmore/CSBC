@@ -13,8 +13,8 @@ import SwiftSoup
 
 class EventsDataParser {
     let monthDict = ["jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06","jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12"]
-    var eventsModelArray : [EventsModel] = []
-    var eventsModelArrayFiltered : [EventsModel] = []
+    var eventsModelArray : [EventsModel?] = []
+    var eventsModelArrayFiltered : [EventsModel?] = []
     
     
     func parseHTMLForEvents (html : String) {
@@ -110,8 +110,15 @@ class EventsDataParser {
                     eventsModelArray.append(eventToAppend)
                 }
             }
-            eventsModelArray = eventsModelArray.sorted(by: { $0.day < $1.day })
-        } catch {}
+            if eventsModelArray.count > 1 {
+                if eventsModelArray[0] != nil {
+                    eventsModelArray = eventsModelArray.sorted(by: { $0!.day < $1!.day })
+                }
+            }
+            addObjectArrayToUserDefaults(eventsModelArray)
+        } catch {
+            addObjectArrayToUserDefaults([EventsModel]())
+        }
     }
     func addToFilteredModelArray(modelsToInclude: [Int]) {
         eventsModelArrayFiltered.removeAll()
@@ -121,7 +128,18 @@ class EventsDataParser {
             }
             
         }
-        eventsModelArrayFiltered = eventsModelArrayFiltered.sorted(by: { $0.day < $1.day })
+        if eventsModelArrayFiltered.count > 1 {
+            if eventsModelArrayFiltered[0] != nil {
+                eventsModelArrayFiltered = eventsModelArrayFiltered.sorted(by: { $0!.day < $1!.day })
+            }
+        }
+        
+        
     }
     
+    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel?]) {
+        let dateTimeToAdd = Date().dateStringWithTime()
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
+        UserDefaults.standard.set(dateTimeToAdd, forKey: "eventsArrayTime")
+    }
 }

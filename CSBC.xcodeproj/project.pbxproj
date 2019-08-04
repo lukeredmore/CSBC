@@ -31,6 +31,7 @@
 		2659E05022F131CA00016DDE /* scccoursedescription19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04A22F131CA00016DDE /* scccoursedescription19-20.pdf */; };
 		2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */; };
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
+		266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266076DA22F685430088CF16 /* EventsRetriever.swift */; };
 		2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660909022CB1EB100118EED /* CSBCSearchController.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
@@ -141,6 +142,7 @@
 		2659E04A22F131CA00016DDE /* scccoursedescription19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scccoursedescription19-20.pdf"; sourceTree = "<group>"; };
 		2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccmonthlycalendar19-20.pdf"; sourceTree = "<group>"; };
 		265E65C522AADAE400B3B62C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		266076DA22F685430088CF16 /* EventsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRetriever.swift; sourceTree = "<group>"; };
 		2660909022CB1EB100118EED /* CSBCSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchController.swift; sourceTree = "<group>"; };
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
@@ -290,6 +292,7 @@
 			children = (
 				26DC0B67222AE3B300371B61 /* CalendarViewController.swift */,
 				26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */,
+				266076DA22F685430088CF16 /* EventsRetriever.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -916,6 +919,7 @@
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
+				266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,

@@ -77,16 +77,16 @@ extension SFSafariViewController {
 extension UserDefaults {
     
     /**
-     Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
-     */
+    Returns the codable object associated with the specified key.
+    */
     func object<T: Codable>(_ type: T.Type, with key: String, usingDecoder decoder: JSONDecoder = JSONDecoder()) -> T? {
         guard let data = self.value(forKey: key) as? Data else { return nil }
         return try? decoder.decode(type.self, from: data)
     }
     
     /**
-     Returns the codable object associated with the specified key.
-     */
+    Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
+    */
     func set<T: Codable>(object: T, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) {
         let data = try? encoder.encode(object)
         self.set(data, forKey: key)
@@ -130,6 +130,11 @@ extension Date {
         fmt.dateFormat = "MM/dd/yyyy"
         return fmt.string(from: self)
     }
+    func dateStringWithTime() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
+        return fmt.string(from: self)
+    }
     func timeString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "hh:mm a"
@@ -152,6 +157,11 @@ extension String {
             }
             return $0 + String($1)
         }
+    }
+    func toDateWithTime() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
+        return dateFormatter.date(from: self)
     }
 }
 

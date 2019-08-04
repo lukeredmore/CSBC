@@ -17,20 +17,25 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
-            #selector(self.getCalendarEvents), for: .valueChanged)
+            #selector(refreshData), for: .valueChanged)
         refreshControl.tintColor = .gray
         
         return refreshControl
     }()
     var storedSchoolsToShow : [Bool] = [true, true, true, true]
     var searchController : UISearchController = UISearchController(searchResultsController: nil)
-    var modelArrayForSearch : [EventsModel] {
-        if /*!searchControllerController.searchController.isActive &&*/ searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
-            print("\nI'm showing the full version\n")
-            return calendarData.eventsModelArray
-        } else {
-            print("\nI'm showing the filtered version\n")
-            return calendarData.eventsModelArrayFiltered
+    var modelArrayForSearch : [EventsModel?] {
+        get {
+            if /*!searchControllerController.searchController.isActive &&*/ searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
+                print("\nI'm showing the full version\n")
+                return calendarData.eventsModelArray
+            } else {
+                print("\nI'm showing the filtered version\n")
+                return calendarData.eventsModelArrayFiltered
+            }
+        }
+        set {
+            calendarData.eventsModelArray = newValue
         }
     }
     
@@ -52,15 +57,9 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = UIColor(named: "CSBCAccentGray")
-        if calendarData.eventsModelArray.count < 2 { //events.isEmpty {
-            print("eventsModelArray is empty on viewWillAppear")
-            tableView.isHidden = true
-            loadingSymbol.startAnimating()
-            getCalendarEvents()
-        } else {
-            print("eventsModelArray has \(calendarData.eventsModelArray.count) values on viewWillAppear")
-            setupCalendarTable()
-        }
+        loadingSymbol.startAnimating()
+        tableView.isHidden = true
+        EventsRetriever().retrieveEventsArray(forceReturn: false, forceRefresh: false, callback: setupCalendarTable)
     }
     override func viewWillDisappear(_ animated: Bool) {
         view.backgroundColor = UIColor(named: "CSBCAccentGray")
@@ -72,19 +71,16 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         self.storedSchoolsToShow = schoolsToShow
         print("I'm supposed to show \(schoolsToShow)")
         searchControllerController.filterEventsRowsForSchoolsSelected(schoolsToShow)
-        setupCalendarTable()
+        setupCalendarTable(eventsArray: modelArrayForSearch)
     }
-    @objc func getCalendarEvents() {
-        Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value {
-                if html.contains("span") {
-                    self.calendarData.parseHTMLForEvents(html: html)
-                    self.setupCalendarTable()
-                }
-            }
+    @objc func refreshData() {
+        let retriever = EventsRetriever()
+        retriever.retrieveEventsArray(forceReturn: false, forceRefresh: true, callback: setupCalendarTable)
+    }
+    func setupCalendarTable(eventsArray: [EventsModel?]) {
+        if modelArrayForSearch != eventsArray {
+            modelArrayForSearch = eventsArray
         }
-    }
-    func setupCalendarTable() {
         tableView.delegate = searchControllerController
         tableView.dataSource = self
         tableView.refreshControl = refreshControl
@@ -118,7 +114,9 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "calendarTableCell", for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
-        cell.addData(model: modelArrayForSearch[indexPath.row])
+        if let model = modelArrayForSearch[indexPath.row] {
+            cell.addData(model: model)
+        }
         return cell
     }
     
