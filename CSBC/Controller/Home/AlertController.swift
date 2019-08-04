@@ -153,27 +153,13 @@ class AlertController {
                         print("Error adding snow day to database:", error!)
                     } else {
                         print("Snow day successfully added")
+                        self.getSnowDatesAndOverridesAndQueueNotifications()
                     }
                 }
-                self.getSnowDatesAndOverridesAndQueueNotifications()
             } else {
                 print("Snow day on \(dateValueString) already in database")
             }
-        } else {
-            print("Adding snow day on \(dateValueString) to database")
-            Database.database().reference().child("SnowDays").updateChildValues(dateToAddDict) {
-                (error, reference) in
-                if error != nil {
-                    print("Error adding snow day to database:", error!)
-                } else {
-                    print("Snow day successfully added")
-                }
-            }
-            self.getSnowDatesAndOverridesAndQueueNotifications()
         }
-        
-        
-        
         
     }
 }

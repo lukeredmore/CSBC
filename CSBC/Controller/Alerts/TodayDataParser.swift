@@ -114,7 +114,4 @@ class TodayDataParser {
         }
         return allAthleticsToday
     }
-    
-    
-    
 }
