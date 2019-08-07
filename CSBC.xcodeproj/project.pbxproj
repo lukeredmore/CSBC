@@ -77,6 +77,7 @@
 		26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */; };
 		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
+		26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C7648E22FB6A4F0001FBBB /* TodayView.swift */; };
 		26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B67222AE3B300371B61 /* CalendarViewController.swift */; };
 		26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */; };
 		26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */; };
@@ -190,6 +191,7 @@
 		26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataSource.swift; sourceTree = "<group>"; };
 		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
+		26C7648E22FB6A4F0001FBBB /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		26DC0B67222AE3B300371B61 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				26BE62092273AED600C6656F /* TodayViewController.swift */,
 				26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */,
 				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
+				26C7648E22FB6A4F0001FBBB /* TodayView.swift */,
 			);
 			path = Alerts;
 			sourceTree = "<group>";
@@ -960,6 +963,7 @@
 				26BE62042272B65C00C6656F /* SetDeliveryTimeViewController.swift in Sources */,
 				26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */,
 				26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */,
+				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsReceiver.swift in Sources */,

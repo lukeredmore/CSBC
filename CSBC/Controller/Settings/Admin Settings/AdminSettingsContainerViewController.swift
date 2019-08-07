@@ -23,7 +23,7 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     @IBOutlet weak var testLabel: UILabel!
     
     var daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
-    var usersSchool : String = ""
+    private var usersSchool = SchoolSelected(string: "Seton", int: 0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,7 +56,7 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
         if shouldBeSignedIn {
             signOutButton.titleLabel?.text = "Sign Out"
             let childVC = children[0] as! AdminSettingsTableViewController
-            childVC.dayLabel.text = "\(daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] ?? 0)"
+            childVC.dayLabel.text = "\(daySchedule.getDay(forSchool: usersSchool, forDate: Date()))"
         } else {
             signOutButton.titleLabel?.text = "."
         }
@@ -69,9 +69,9 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     //MARK: Admin Actions
     func adminDidOverrideDay(day: Int) {
         if let childVC = children[0] as? AdminSettingsTableViewController {
-            if let originalDay = daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] {
+            if let originalDay = daySchedule.getDayOptional(forSchool: usersSchool.ssString, forDate: dateStringFormatter.string(from: Date())) {
                 var dictToStore = UserDefaults.standard.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] ?? ["Seton":0,"John":0,"Saints":0,"James":0]
-                dictToStore[usersSchool] = day - originalDay + dictToStore[usersSchool]!
+                dictToStore[usersSchool.ssString] = day - originalDay + dictToStore[usersSchool.ssString]!
                 
                 let messagesDB = Database.database().reference().child("DayScheduleOverrides")
                 print("Adding day schedule override to database")
@@ -135,18 +135,18 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
             print ("Error signing out: %@", signOutError)
         }
     }
-    func determinePrioritiesForUser(userID : String) -> String {
+    func determinePrioritiesForUser(userID : String) -> SchoolSelected {
         switch userID {
         case "luke.redmore","lredmore","lredmore20","mmartinkovic","llevis":
-            return "Seton"
+            return SchoolSelected(string: "Seton", int: 0)
         case "krosen","jfountaine":
-            return "St. John's"
+            return SchoolSelected(string: "St. John's", int: 1)
         case "wpipher","kpawlowski":
-            return "All Saints"
+            return SchoolSelected(string: "All Saints", int: 2)
         case "skitchen","isanyshyn":
-            return "St. James"
+            return SchoolSelected(string: "St. James", int: 3)
         default:
-            return "Seton"
+            return SchoolSelected(string: "Seton", int: 4)
         }
     }
     
@@ -155,14 +155,14 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NotificationComposerSegue" {
             let childVC = segue.destination as! ComposerViewController
-            childVC.usersSchool = usersSchool
+            childVC.usersSchool = usersSchool.ssString
             childVC.eventCalled = .notification
         }
         if segue.identifier == "OverrideDayScheduleSegue" {
             let childVC = segue.destination as! SetDeliveryTimeViewController
             childVC.dayOverrideDelegate = self
             //print(daySchedule.dateDayDict[usersSchool]![fmt.string(from: Date())] ?? 0)
-            childVC.dayToShow = daySchedule.dateDayDict[usersSchool]![dateStringFormatter.string(from: Date())] ?? 0
+            childVC.dayToShow = daySchedule.getDay(forSchool: usersSchool, forDate: Date())
         }
     }
     

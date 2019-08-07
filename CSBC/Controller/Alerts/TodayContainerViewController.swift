@@ -18,6 +18,7 @@ protocol ContainerViewDelegate: class {
 protocol PageViewDelegate: class {
     func scheduleDataDidDownload() //pager tells container that all async tasks completed
     func showDateAsHeader(dateGiven : Date) //pager tells container the date to show for header
+    var dateToShow : Date { get } //the date shown
 }
 protocol TodayParserDelegate: class { //parser tells pager to initialize VCs
     func startupPager()

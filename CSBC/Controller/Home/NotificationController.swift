@@ -81,22 +81,22 @@ class NotificationController {
                 var notificationContent4 = ""
                 
                 if notificationSettings!.schools[0] && !daySchedule.restrictedDatesForHS.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.dateDayDict["Seton"]![date] {
+                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: "Seton", forDate: date) {
                         notificationContent1 = "Day \(dayOfCycle) at Seton, "
                     }
                 }
                 if notificationSettings!.schools[1] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.dateDayDict["St. John's"]![date] {
+                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: "St. John's", forDate: date) {
                         notificationContent2 = "Day \(dayOfCycle) at St. John's, "
                     }
                 }
                 if notificationSettings!.schools[2] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.dateDayDict["All Saints"]![date] {
+                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: "All Saints", forDate: date) {
                         notificationContent3 = "Day \(dayOfCycle) at All Saints, "
                     }
                 }
                 if notificationSettings!.schools[3] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.dateDayDict["St. James"]![date] {
+                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: "St. James", forDate: date) {
                         notificationContent4 = "Day \(dayOfCycle) at St. James, "
                     }
                 }

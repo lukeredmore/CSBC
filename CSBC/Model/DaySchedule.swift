@@ -12,7 +12,7 @@ import Foundation
 class DaySchedule {
     let startDateString : String = "09/04/2019" //first day of school
     let endDateString : String = "06/19/2020" //last day of school
-    var dateDayDict : [String:[String:Int]] = [:]
+    private var dateDayDict : [String:[String:Int]] = [:]
     var dateDayDictArray : [String] = [""]
     
     let noSchoolDateStrings : [String] = ["10/11/2019", "10/14/2019", "11/05/2019", "11/11/2019", "11/27/2019", "11/28/2019", "11/29/2019", "12/23/2019", "12/24/2019", "12/25/2019", "12/26/2019", "12/27/2019", "12/30/2019", "12/31/2019", "01/01/2020", "01/20/2020", "02/14/2020", "02/17/2020", "03/12/2020", "03/13/2020", "04/06/2020", "04/07/2020", "04/08/2020", "04/09/2020", "04/10/2020", "04/13/2020", "05/21/2020", "05/22/2020", "05/25/2020"]
@@ -158,5 +158,25 @@ class DaySchedule {
         if !dateDayDictArray.contains(dateString) {
             dateDayDictArray.append(dateString)
         }
+    }
+    
+    func getDay(forSchool schoolOptional: SchoolSelected?, forDate dateOptional: Date?) -> Int {
+        if let school = schoolOptional, let date = dateOptional {
+            let dateString = dateStringFormatter.string(from: date)
+            guard let schoolSchedule = dateDayDict[school.ssString] else { return 0 }
+            return schoolSchedule[dateString] ?? 0
+        } else { return 0 }
+    }
+    func getDay(forSchool schoolOptional: SchoolSelected?, forDate dateStringOptional: String?) -> Int {
+        if let school = schoolOptional, let dateString = dateStringOptional {
+            guard let schoolSchedule = dateDayDict[school.ssString] else { return 0 }
+            return schoolSchedule[dateString] ?? 0
+        } else { return 0 }
+    }
+    func getDayOptional(forSchool schoolOptional: String?, forDate dateStringOptional: String?) -> Int? {
+        if let school = schoolOptional, let dateString = dateStringOptional {
+            guard let schoolSchedule = dateDayDict[school] else { return nil }
+            return schoolSchedule[dateString] ?? nil
+        } else { return nil }
     }
 }
