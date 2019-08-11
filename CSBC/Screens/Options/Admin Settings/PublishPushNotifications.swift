@@ -11,7 +11,7 @@ import Alamofire
 
 protocol PublishPushNotificationsDelegate: class {
     func notificationDidPublishSucessfully()
-    func notificationFailedToPublish(error : Error)
+    func notificationFailedToPublish(withError : Error)
 }
 
 /// Takes a given notification and publishes it with preconfigured settings and reports to a delegate (the composer)
@@ -27,11 +27,11 @@ class PublishPushNotifications {
         self.messageToSend = withMessage
         self.schoolConditional = findConditionalForSchool(school: toSchool)
         
-        if Env.isProduction() {
-            headers["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
-        } else {
-            headers["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
-        }
+        #if DEBUG
+        headers["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
+        #else
+        headers["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
+        #endif
     }
     
     func findConditionalForSchool(school : String) -> String {
@@ -70,7 +70,7 @@ class PublishPushNotifications {
                 self.delegate?.notificationDidPublishSucessfully()
             } else {
                 print("Error sending notification:", response.error!)
-                self.delegate?.notificationFailedToPublish(error: response.error!)
+                self.delegate?.notificationFailedToPublish(withError: response.error!)
             }
         }
         

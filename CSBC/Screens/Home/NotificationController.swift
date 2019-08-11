@@ -154,7 +154,7 @@ class NotificationController {
         }
     }
     
-    func defineNotificationSettings() -> NotificationSettings! {
+    func defineNotificationSettings() -> NotificationSettings {
         let userDefinedSettingsExist =
             userDefaults.value(forKey: "shouldDeliverNotifications") != nil &&
             userDefaults.value(forKey: "timeOfNotificationDeliver") != nil &&

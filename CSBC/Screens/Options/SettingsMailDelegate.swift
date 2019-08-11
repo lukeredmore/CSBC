@@ -11,7 +11,7 @@ import MessageUI
 
 
 ///Mail delegate methods for SettingsTableViewController
-class SettingsViewDelegate: NSObject, MFMailComposeViewControllerDelegate {
+class SettingsMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     
     let parent : SettingsViewController!
     

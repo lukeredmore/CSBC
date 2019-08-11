@@ -35,7 +35,7 @@ open class CSBCSplashView: UIView {
         
         self.addSubview(imageView)
         
-        self.backgroundColor = UIColor.white
+        self.backgroundColor = UIColor(named: "CSBCBackground")
         parentView.addSubview(self)
         
     }

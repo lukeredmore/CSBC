@@ -6,7 +6,7 @@
 //  Copyright © 2019 Catholic Schools of Broome County. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import Alamofire
 
 class EventsRetriever {
@@ -47,14 +47,14 @@ class EventsRetriever {
     private func getEventsDataFromOnline(completion : @escaping ([EventsModel?]) -> Void) {
         print("We are asking for Events data")
         Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value {
+            if let html = response.result.value, response.error != nil {
                 if html.contains("span") {
                     EventsDataParser().parseHTMLForEvents(html: html)
                     self.retrieveEventsArray(forceReturn: false, forceRefresh: false, completion: completion)
                 }
             } else {
                 print("Error on request to CSBCSaints.org: ")
-                print(response.error)
+                print(response.error!)
                 self.retrieveEventsArray(forceReturn: true, forceRefresh: false, completion: completion)
             }
         }

@@ -10,7 +10,7 @@ import UIKit
 import SafariServices
 
 /// Initial VC, segues into main screens of app, handles and displays critical alert methods
-class HomeViewController: CSBCViewController, AlertDelegate {
+final class HomeViewController: CSBCViewController, AlertDelegate {
     
     //Collection Setup Properties
     @IBOutlet var collectionView: UICollectionView!
@@ -32,11 +32,11 @@ class HomeViewController: CSBCViewController, AlertDelegate {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        if Env.isProduction() {
-            print("Application successfully loaded in production configuration")
-        } else {
-            print("Application successfully loaded in debug configuration")
-        }
+        #if DEBUG
+        print("Application successfully loaded in debug configuration")
+        #else
+        print("Application successfully loaded in production configuration")
+        #endif
         print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
         
         localAlerts = AlertController(self)

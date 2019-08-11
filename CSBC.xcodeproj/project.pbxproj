@@ -23,7 +23,6 @@
 		264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */; };
 		264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
-		26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26561567226243BB002149E5 /* SettingsContainerViewController.swift */; };
 		2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */; };
 		2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04722F131C600016DDE /* scchandbook19-20.pdf */; };
 		2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04822F131C700016DDE /* csbccalendar19-20.pdf */; };
@@ -68,7 +67,7 @@
 		26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA1223B050900B92936 /* elementarySchoolDress.html */; };
 		26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA3223B282C00B92936 /* middleSchoolDress.html */; };
 		26B90BA6223B284500B92936 /* highSchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA5223B284500B92936 /* highSchoolDress.html */; };
-		26BE62042272B65C00C6656F /* SetDeliveryTimeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62032272B65C00C6656F /* SetDeliveryTimeViewController.swift */; };
+		26BE62042272B65C00C6656F /* ModalPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62032272B65C00C6656F /* ModalPickerViewController.swift */; };
 		26BE62082273A53F00C6656F /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62072273A53F00C6656F /* PageViewController.swift */; };
 		26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62092273AED600C6656F /* TodayViewController.swift */; };
 		26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620B2273EB2D00C6656F /* TodayViewCell.swift */; };
@@ -84,7 +83,6 @@
 		26DC0B6F222B168C00371B61 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */; };
 		26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */; };
 		26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */; };
-		26DC0B75222F1E7300371B61 /* ContactInfoRegularCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B74222F1E7300371B61 /* ContactInfoRegularCell.swift */; };
 		26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */; };
 		26DC0B79222F275900371B61 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B78222F275900371B61 /* MapViewController.swift */; };
 		26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */; };
@@ -97,12 +95,10 @@
 		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
 		26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796421EB91D50086FB86 /* Assets.xcassets */; };
-		26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F64BFE2213937A00A6326D /* ResizeableButton.swift */; };
 		26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */; };
-		26F723412295E073005DEDA7 /* Env.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F723402295E073005DEDA7 /* Env.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */; };
-		26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */; };
+		26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,7 +132,6 @@
 		264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsContainerViewController.swift; sourceTree = "<group>"; };
 		264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsTableViewController.swift; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
-		26561567226243BB002149E5 /* SettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerViewController.swift; sourceTree = "<group>"; };
 		2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule19-20.pdf"; sourceTree = "<group>"; };
 		2659E04722F131C600016DDE /* scchandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scchandbook19-20.pdf"; sourceTree = "<group>"; };
 		2659E04822F131C700016DDE /* csbccalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "csbccalendar19-20.pdf"; sourceTree = "<group>"; };
@@ -182,7 +177,7 @@
 		26B90BA1223B050900B92936 /* elementarySchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = elementarySchoolDress.html; sourceTree = "<group>"; };
 		26B90BA3223B282C00B92936 /* middleSchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDress.html; sourceTree = "<group>"; };
 		26B90BA5223B284500B92936 /* highSchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = highSchoolDress.html; sourceTree = "<group>"; };
-		26BE62032272B65C00C6656F /* SetDeliveryTimeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetDeliveryTimeViewController.swift; sourceTree = "<group>"; };
+		26BE62032272B65C00C6656F /* ModalPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPickerViewController.swift; sourceTree = "<group>"; };
 		26BE62072273A53F00C6656F /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		26BE62092273AED600C6656F /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		26BE620B2273EB2D00C6656F /* TodayViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewCell.swift; sourceTree = "<group>"; };
@@ -198,7 +193,6 @@
 		26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.otf"; sourceTree = "<group>"; };
 		26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterCalendarViewController.swift; sourceTree = "<group>"; };
-		26DC0B74222F1E7300371B61 /* ContactInfoRegularCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoRegularCell.swift; sourceTree = "<group>"; };
 		26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactInfoMapCell.swift; sourceTree = "<group>"; };
 		26DC0B78222F275900371B61 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotation.swift; sourceTree = "<group>"; };
@@ -214,12 +208,10 @@
 		26ED796421EB91D50086FB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26ED796721EB91D50086FB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26ED796921EB91D50086FB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CSBC/Info.plist; sourceTree = SOURCE_ROOT; };
-		26F64BFE2213937A00A6326D /* ResizeableButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizeableButton.swift; sourceTree = "<group>"; };
-		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
-		26F723402295E073005DEDA7 /* Env.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Env.swift; sourceTree = "<group>"; };
+		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = "../New Group/ComposerViewController.swift"; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchHTMLController.swift; sourceTree = "<group>"; };
-		26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewDelegate.swift; sourceTree = "<group>"; };
+		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
 		A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
 		C4D4ABB3891835B241375481 /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -270,18 +262,17 @@
 			path = UIPlaygroundFrameworkTests;
 			sourceTree = "<group>";
 		};
-		260A433F222739580022ACA1 /* Alerts */ = {
+		260A433F222739580022ACA1 /* Today */ = {
 			isa = PBXGroup;
 			children = (
+				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
+				26BE62092273AED600C6656F /* TodayViewController.swift */,
 				26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */,
 				26BE62072273A53F00C6656F /* PageViewController.swift */,
-				26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */,
-				26BE62092273AED600C6656F /* TodayViewController.swift */,
-				26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */,
-				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
-				26C7648E22FB6A4F0001FBBB /* TodayView.swift */,
+				2637A68422FF0F2E0097EDD1 /* Model */,
+				2637A68322FF0F240097EDD1 /* SupplementaryView */,
 			);
-			path = Alerts;
+			path = Today;
 			sourceTree = "<group>";
 		};
 		2616777F223A9A1500A988D0 /* Uniforms */ = {
@@ -297,7 +288,8 @@
 			children = (
 				26DC0B67222AE3B300371B61 /* CalendarViewController.swift */,
 				26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */,
-				266076DA22F685430088CF16 /* EventsRetriever.swift */,
+				2637A68922FF11D40097EDD1 /* Model */,
+				2637A68822FF11C80097EDD1 /* SupplementaryView */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -310,16 +302,141 @@
 			path = PrivateFiles;
 			sourceTree = "<group>";
 		};
-		2656156422624351002149E5 /* Settings */ = {
+		2637A68322FF0F240097EDD1 /* SupplementaryView */ = {
+			isa = PBXGroup;
+			children = (
+				26C7648E22FB6A4F0001FBBB /* TodayView.swift */,
+				26BE620B2273EB2D00C6656F /* TodayViewCell.swift */,
+				26BE620C2273EB2D00C6656F /* TodayViewCell.xib */,
+			);
+			path = SupplementaryView;
+			sourceTree = "<group>";
+		};
+		2637A68422FF0F2E0097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26B75AEC22279B7100D109EC /* DaySchedule.swift */,
+				26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */,
+				26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A68522FF10770097EDD1 /* SupplementaryView */ = {
+			isa = PBXGroup;
+			children = (
+				26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */,
+			);
+			path = SupplementaryView;
+			sourceTree = "<group>";
+		};
+		2637A68622FF10800097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2682D3D922D05BF000072492 /* ContactMailDelegate.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A68722FF10950097EDD1 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				26DC0B78222F275900371B61 /* MapViewController.swift */,
+				26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
+		2637A68822FF11C80097EDD1 /* SupplementaryView */ = {
+			isa = PBXGroup;
+			children = (
+				26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */,
+			);
+			path = SupplementaryView;
+			sourceTree = "<group>";
+		};
+		2637A68922FF11D40097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				266076DA22F685430088CF16 /* EventsRetriever.swift */,
+				262C1165222AC5CD009A359E /* EventsDataParser.swift */,
+				2663CD02223448F300E22281 /* EventsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A68A22FF157F0097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A68B22FF159C0097EDD1 /* SupplementaryView */ = {
+			isa = PBXGroup;
+			children = (
+				2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */,
+				262843112228C1D500ADC019 /* ColumnFlowLayout.swift */,
+				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
+				267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */,
+			);
+			path = SupplementaryView;
+			sourceTree = "<group>";
+		};
+		2637A68C22FF15C50097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				266A4DBA22F700FE00C3B773 /* AthleticsReceiver.swift */,
+				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
+				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A68D22FF15D20097EDD1 /* Supplementary View */ = {
+			isa = PBXGroup;
+			children = (
+				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
+			);
+			path = "Supplementary View";
+			sourceTree = "<group>";
+		};
+		2637A68E22FF16200097EDD1 /* Superclasses */ = {
+			isa = PBXGroup;
+			children = (
+				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
+				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
+			);
+			path = Superclasses;
+			sourceTree = "<group>";
+		};
+		2637A68F22FF16A90097EDD1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26DD570022BBD16E005E109B /* AlertController.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2637A69022FF94780097EDD1 /* Reusable */ = {
+			isa = PBXGroup;
+			children = (
+				26BE62032272B65C00C6656F /* ModalPickerViewController.swift */,
+				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
+			);
+			path = Reusable;
+			sourceTree = "<group>";
+		};
+		2656156422624351002149E5 /* Options */ = {
 			isa = PBXGroup;
 			children = (
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
-				26561567226243BB002149E5 /* SettingsContainerViewController.swift */,
-				26F9F2E522DFB4820051981D /* SettingsViewDelegate.swift */,
-				26BE62032272B65C00C6656F /* SetDeliveryTimeViewController.swift */,
+				26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */,
+				2637A69022FF94780097EDD1 /* Reusable */,
 				26F9F2E722DFB52E0051981D /* Admin Settings */,
 			);
-			path = Settings;
+			path = Options;
 			sourceTree = "<group>";
 		};
 		266F9914221B3A5C00CA7C4E /* SupportingFiles */ = {
@@ -332,8 +449,10 @@
 				26DC0B6B222AF53800371B61 /* Montserrat */,
 				266F9915221B3A8C00CA7C4E /* Gotham */,
 				26ED795D21EB91D40086FB86 /* AppDelegate.swift */,
-				26ED796421EB91D50086FB86 /* Assets.xcassets */,
+				2653118022355BD6009C5512 /* Extensions.swift */,
+				26AAAE272220F3C100DA3182 /* Main.storyboard */,
 				26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */,
+				26ED796421EB91D50086FB86 /* Assets.xcassets */,
 				265E65C522AADAE400B3B62C /* Colors.xcassets */,
 			);
 			path = SupportingFiles;
@@ -370,6 +489,7 @@
 			isa = PBXGroup;
 			children = (
 				26C529B322248A8A00267ECA /* LunchViewController.swift */,
+				2637A68A22FF157F0097EDD1 /* Model */,
 			);
 			path = Lunch;
 			sourceTree = "<group>";
@@ -433,7 +553,8 @@
 			isa = PBXGroup;
 			children = (
 				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
-				266A4DBA22F700FE00C3B773 /* AthleticsReceiver.swift */,
+				2637A68C22FF15C50097EDD1 /* Model */,
+				2637A68D22FF15D20097EDD1 /* Supplementary View */,
 				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
 			);
 			path = Athletics;
@@ -442,10 +563,10 @@
 		26C529B0222308D200267ECA /* Contact */ = {
 			isa = PBXGroup;
 			children = (
-				26DC0B78222F275900371B61 /* MapViewController.swift */,
-				26DC0B7A222F2B1100371B61 /* MapAnnotation.swift */,
-				2682D3D922D05BF000072492 /* ContactMailDelegate.swift */,
 				26ADFE412246A1CE00A557C5 /* ContactViewController.swift */,
+				2637A68622FF10800097EDD1 /* Model */,
+				2637A68522FF10770097EDD1 /* SupplementaryView */,
+				2637A68722FF10950097EDD1 /* Map */,
 			);
 			path = Contact;
 			sourceTree = "<group>";
@@ -488,25 +609,10 @@
 				260DF8952253055900C7413A /* CSBC.entitlements */,
 				26ED796921EB91D50086FB86 /* Info.plist */,
 				266F9914221B3A5C00CA7C4E /* SupportingFiles */,
-				26F64BF42213406C00A6326D /* Model */,
-				26F8769E2201078A000641E0 /* View */,
-				26F8769D22010771000641E0 /* Controller */,
+				2637A68E22FF16200097EDD1 /* Superclasses */,
+				26F8769D22010771000641E0 /* Screens */,
 			);
 			path = CSBC;
-			sourceTree = "<group>";
-		};
-		26F64BF42213406C00A6326D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				2653118022355BD6009C5512 /* Extensions.swift */,
-				262C1165222AC5CD009A359E /* EventsDataParser.swift */,
-				26B75AEC22279B7100D109EC /* DaySchedule.swift */,
-				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
-				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
-				2663CD02223448F300E22281 /* EventsModel.swift */,
-				26F723402295E073005DEDA7 /* Env.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		26F7234422960C0F005DEDA7 /* Home */ = {
@@ -514,50 +620,29 @@
 			children = (
 				2628430D2228A4FC00ADC019 /* HomeViewController.swift */,
 				26F7234522960E15005DEDA7 /* NotificationController.swift */,
-				26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */,
 				263A81F122A5F6D3001D0716 /* NotificationSettings.swift */,
-				26DD570022BBD16E005E109B /* AlertController.swift */,
-				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
-				267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */,
+				2637A68F22FF16A90097EDD1 /* Model */,
+				2637A68B22FF159C0097EDD1 /* SupplementaryView */,
 			);
 			path = Home;
 			sourceTree = "<group>";
 		};
-		26F8769D22010771000641E0 /* Controller */ = {
+		26F8769D22010771000641E0 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
-				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
 				26F7234422960C0F005DEDA7 /* Home */,
-				2616777F223A9A1500A988D0 /* Uniforms */,
+				260A433F222739580022ACA1 /* Today */,
 				2699F9D82233144100AA1CF3 /* Portal */,
-				262C1164222AC5B9009A359E /* Calendar */,
-				260A433F222739580022ACA1 /* Alerts */,
 				26C529B0222308D200267ECA /* Contact */,
-				26C21D8E221BADC4001E7915 /* Athletics */,
-				266F9916221B3ABC00CA7C4E /* Documents */,
+				262C1164222AC5B9009A359E /* Calendar */,
 				266F9918221B3AE800CA7C4E /* Lunch */,
+				26C21D8E221BADC4001E7915 /* Athletics */,
 				266F9919221B3AF800CA7C4E /* Social Media */,
-				2656156422624351002149E5 /* Settings */,
+				2616777F223A9A1500A988D0 /* Uniforms */,
+				266F9916221B3ABC00CA7C4E /* Documents */,
+				2656156422624351002149E5 /* Options */,
 			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		26F8769E2201078A000641E0 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				26AAAE272220F3C100DA3182 /* Main.storyboard */,
-				26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */,
-				26BE620B2273EB2D00C6656F /* TodayViewCell.swift */,
-				26BE620C2273EB2D00C6656F /* TodayViewCell.xib */,
-				2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */,
-				262843112228C1D500ADC019 /* ColumnFlowLayout.swift */,
-				26DC0B74222F1E7300371B61 /* ContactInfoRegularCell.swift */,
-				26DC0B76222F1E8700371B61 /* ContactInfoMapCell.swift */,
-				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
-				26F64BFE2213937A00A6326D /* ResizeableButton.swift */,
-			);
-			path = View;
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		26F9F2E722DFB52E0051981D /* Admin Settings */ = {
@@ -565,7 +650,6 @@
 			children = (
 				264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */,
 				264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */,
-				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
 				2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */,
 			);
 			path = "Admin Settings";
@@ -663,6 +747,7 @@
 				26ED795621EB91D40086FB86 /* Sources */,
 				26ED795721EB91D40086FB86 /* Frameworks */,
 				26BE62022272590000C6656F /* Connect to appropriate Firebase project */,
+				26C7649022FB9A500001FBBB /* Increment build number */,
 				26ED795821EB91D40086FB86 /* Resources */,
 				1DFD672DCB463EEB4BD07774 /* [CP] Embed Pods Frameworks */,
 				60167DF5E69B64F647CBBEC6 /* [CP] Copy Pods Resources */,
@@ -851,6 +936,24 @@
 			shellPath = /bin/sh;
 			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\necho \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\necho \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\necho \"Using ${GOOGLESERVICE_INFO_PROD}\"\ncp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\necho \"Using ${GOOGLESERVICE_INFO_DEV}\"\ncp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
+		26C7649022FB9A500001FBBB /* Increment build number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Increment build number";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
+		};
 		60167DF5E69B64F647CBBEC6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -919,11 +1022,9 @@
 			files = (
 				26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */,
 				262843102228A6DB00ADC019 /* CollectionViewCell.swift in Sources */,
-				26DC0B75222F1E7300371B61 /* ContactInfoRegularCell.swift in Sources */,
 				26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */,
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
-				26F64BFF2213937A00A6326D /* ResizeableButton.swift in Sources */,
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
@@ -936,7 +1037,6 @@
 				26712F4322C9071300C30493 /* HomeCollectionViewDataSource.swift in Sources */,
 				2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */,
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
-				26561568226243BB002149E5 /* SettingsContainerViewController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
 				26BE62082273A53F00C6656F /* PageViewController.swift in Sources */,
@@ -955,14 +1055,13 @@
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
-				26F723412295E073005DEDA7 /* Env.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
 				262843122228C1D500ADC019 /* ColumnFlowLayout.swift in Sources */,
 				26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */,
 				26DD570122BBD16E005E109B /* AlertController.swift in Sources */,
-				26BE62042272B65C00C6656F /* SetDeliveryTimeViewController.swift in Sources */,
+				26BE62042272B65C00C6656F /* ModalPickerViewController.swift in Sources */,
 				26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */,
-				26F9F2E622DFB4820051981D /* SettingsViewDelegate.swift in Sources */,
+				26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */,
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
@@ -1223,7 +1322,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;
@@ -1248,7 +1347,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 4;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;

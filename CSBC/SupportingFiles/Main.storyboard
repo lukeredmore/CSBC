@@ -1348,7 +1348,7 @@
         <!--Options-->
         <scene sceneID="CS9-Fh-YbX">
             <objects>
-                <viewController title="Options" id="Oys-ro-Gov" customClass="SettingsContainerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Options" id="Oys-ro-Gov" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lwb-n9-k5A">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1380,9 +1380,7 @@
                         <viewLayoutGuide key="safeArea" id="Yvz-Z3-8E6"/>
                     </view>
                     <connections>
-                        <segue destination="68z-26-hIV" kind="presentation" identifier="SetDeliveryTimeSegue" id="nl0-tJ-7go"/>
                         <segue destination="09q-c3-Ada" kind="show" identifier="AdminSettingsSegue" id="3th-XF-zny"/>
-                        <segue destination="TOw-7h-n1g" kind="presentation" identifier="ReportIssueSegue" id="o3v-7B-XJb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7AB-nC-rtf" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1451,7 +1449,9 @@
                                 <rect key="frame" x="310" y="4.5" width="84" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
-                                <state key="normal" title="Sign Out"/>
+                                <state key="normal" title="Sign Out">
+                                    <color key="titleColor" name="CSBCNavBarText"/>
+                                </state>
                                 <connections>
                                     <action selector="signOutTapped:" destination="09q-c3-Ada" eventType="touchUpInside" id="bw5-NS-DeB"/>
                                 </connections>
@@ -1463,8 +1463,8 @@
                         <outlet property="signInButton" destination="wqx-co-rS3" id="QfP-g2-llt"/>
                         <outlet property="signOutButton" destination="GDi-Yl-S2o" id="fTr-r7-Ml9"/>
                         <outlet property="testLabel" destination="Zw1-aG-iAo" id="60N-0O-ieR"/>
-                        <segue destination="68z-26-hIV" kind="presentation" identifier="OverrideDayScheduleSegue" id="pqm-TP-Tjd"/>
-                        <segue destination="TOw-7h-n1g" kind="presentation" identifier="NotificationComposerSegue" id="c4i-zB-7td"/>
+                        <segue destination="68z-26-hIV" kind="presentation" identifier="" id="pqm-TP-Tjd"/>
+                        <segue destination="TOw-7h-n1g" kind="presentation" identifier="" id="c4i-zB-7td"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DJX-hb-zXy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1474,7 +1474,7 @@
         <!--Composer View Controller-->
         <scene sceneID="20z-re-fdY">
             <objects>
-                <viewController id="TOw-7h-n1g" customClass="ComposerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ComposerViewScene" id="TOw-7h-n1g" customClass="ComposerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="e3h-q8-mpB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1488,13 +1488,13 @@
                                 <color key="barTintColor" name="CSBCNavBarFlipside"/>
                                 <items>
                                     <navigationItem id="O8Z-VI-xHt">
-                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="stop" id="Wmk-vX-f4g">
+                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="Wmk-vX-f4g">
                                             <color key="tintColor" name="CSBCNavBarText"/>
                                             <connections>
                                                 <action selector="cancelButtonPressed:" destination="TOw-7h-n1g" id="nzb-BR-XwU"/>
                                             </connections>
                                         </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Send" id="zqU-wa-Bjo">
+                                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="zqU-wa-Bjo">
                                             <color key="tintColor" name="CSBCNavBarText"/>
                                             <connections>
                                                 <action selector="sendButtonPressed:" destination="TOw-7h-n1g" id="gwl-Zh-mMW"/>
@@ -1580,40 +1580,30 @@
                                 </cells>
                             </tableViewSection>
                             <tableViewSection id="L5c-v9-KIh">
-                                <string key="footerTitle">Change this if the day for your school is wrong under 'Today'. A day of zero indicates no school today. Note that after a snow day, the schedule will automatically adjust.</string>
+                                <string key="footerTitle">Change this if the day for your school is wrong under 'Today'. A day of zero indicates no school today. Note that this will only work on a school day. After a snow day, the schedule will automatically adjust.</string>
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kqK-Q4-69x">
-                                        <rect key="frame" x="0.0" y="98" width="414" height="44"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="w2b-xJ-P8A" detailTextLabel="LgF-yD-FWR" rowHeight="51" style="IBUITableViewCellStyleValue1" id="6Z3-kQ-Vja">
+                                        <rect key="frame" x="0.0" y="98" width="414" height="51"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kqK-Q4-69x" id="1ou-M0-oTI">
-                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="44"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="6Z3-kQ-Vja" id="6vw-mW-DII">
+                                            <rect key="frame" x="0.0" y="0.0" width="382.5" height="51"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Override Day Schedule" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vR9-b5-Wym">
-                                                    <rect key="frame" x="20" y="11" width="336.5" height="22"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Override Day Schedule" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="w2b-xJ-P8A">
+                                                    <rect key="frame" x="20" y="14" width="216.5" height="24.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CustomGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="6" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7sZ-1H-kwY">
-                                                    <rect key="frame" x="366.5" y="11" width="16" height="22"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="16" id="C94-cC-IkZ"/>
-                                                    </constraints>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="6" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LgF-yD-FWR">
+                                                    <rect key="frame" x="362.5" y="14" width="12" height="24.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" name="CustomGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
-                                            <constraints>
-                                                <constraint firstItem="7sZ-1H-kwY" firstAttribute="top" secondItem="1ou-M0-oTI" secondAttribute="topMargin" id="3po-n2-tpI"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="7sZ-1H-kwY" secondAttribute="bottom" id="8fg-gC-Gzo"/>
-                                                <constraint firstItem="vR9-b5-Wym" firstAttribute="top" secondItem="1ou-M0-oTI" secondAttribute="topMargin" id="BEI-s0-6wH"/>
-                                                <constraint firstItem="vR9-b5-Wym" firstAttribute="leading" secondItem="1ou-M0-oTI" secondAttribute="leadingMargin" id="Ouq-W8-zQA"/>
-                                                <constraint firstAttribute="trailing" secondItem="7sZ-1H-kwY" secondAttribute="trailing" id="skG-av-H29"/>
-                                                <constraint firstItem="7sZ-1H-kwY" firstAttribute="leading" secondItem="vR9-b5-Wym" secondAttribute="trailing" constant="10" id="spp-cT-4cT"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="vR9-b5-Wym" secondAttribute="bottom" id="xeV-AY-mqZ"/>
-                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -1625,7 +1615,7 @@
                         </connections>
                     </tableView>
                     <connections>
-                        <outlet property="dayLabel" destination="7sZ-1H-kwY" id="o9u-qi-B0y"/>
+                        <outlet property="dayLabel" destination="LgF-yD-FWR" id="zAM-wc-KoA"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2iu-wM-w8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2016,7 +2006,7 @@
         <!--Set Delivery Time View Controller-->
         <scene sceneID="cJQ-Ga-fIc">
             <objects>
-                <viewController storyboardIdentifier="SetDeliveryTimeViewController" title="Set Delivery Time View Controller" id="68z-26-hIV" customClass="SetDeliveryTimeViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SetDeliveryTimeViewScene" title="Set Delivery Time View Controller" id="68z-26-hIV" customClass="ModalPickerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="K5h-Og-hy7">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2024,8 +2014,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zSm-VQ-3Ev">
                                 <rect key="frame" x="0.0" y="626" width="414" height="216"/>
                                 <subviews>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="nYR-y6-maZ">
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="time" minuteInterval="5" useCurrentDate="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYR-y6-maZ">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="216"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="-978263999.57293701">
+                                            <!--1970-01-01 12:00:00 +0000-->
+                                        </date>
                                     </datePicker>
                                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cgH-AM-PKO">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="216"/>
@@ -2097,9 +2090,5 @@
             <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="pqm-TP-Tjd"/>
-        <segue reference="c4i-zB-7td"/>
-    </inferredMetricsTieBreakers>
     <color key="tintColor" name="CSBCNavBarBackground"/>
 </document>

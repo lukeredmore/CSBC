@@ -33,6 +33,9 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     var notificationController = NotificationController()
     var notificationSettings : NotificationSettings!
     
+    var deliveryTimeSegue : UIStoryboardSegue?
+    var reportIssueSegue : UIStoryboardSegue?
+    
     
     //MARK: View Control
     override func viewDidLoad() {
@@ -41,11 +44,11 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         let currentYear = fmtYear.string(from: Date())
         copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
         
-        if Env.isProduction() {
-            versionLabel.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
-        } else {
-            versionLabel.text = "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)a"
-        }
+        #if DEBUG
+        versionLabel.text = "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)a"
+        #else
+        versionLabel.text = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        #endif
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -68,10 +71,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         notificationController.storeNotificationSettings(notificationSettings)
         notificationController.subscribeToTopics()
     }
-    func performSegueFromContainer(identifier : String) {
-        let masterVC = parent as! SettingsContainerViewController
-        masterVC.performSegue(withIdentifier: identifier, sender: masterVC)
-    }
+    
     
     func getNotificationPreferences() {
         for i in 0..<4 { //Schools switches
@@ -137,15 +137,18 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 2 && indexPath.row == 1 {
-            performSegueFromContainer(identifier: "SetDeliveryTimeSegue")
+            let setDeliveryTimeVC = ModalPickerViewController.instantiateForTime(
+                delegate: self,
+                timeToShow: fmt.date(from: notificationSettings!.deliveryTime)!)
+            self.present(setDeliveryTimeVC, animated: true, completion: nil)
         }
         if indexPath.section == 3 && indexPath.row == 0 {
-            let mailDelegate = SettingsViewDelegate(self)
-            mailDelegate.presentMailVC()
-            //performSegueFromContainer(identifier: "ReportIssueSegue")
+            SettingsMailDelegate(self).presentMailVC() //working atm
+            /*let reportIssueVC = ComposerViewController.instantiate()
+            self.present(reportIssueVC, animated: true, completion: nil)*/
         }
         if indexPath.section == 4 {
-            performSegueFromContainer(identifier: "AdminSettingsSegue")
+            parent!.performSegue(withIdentifier: "AdminSettingsSegue", sender: parent)
         }
     }
 
