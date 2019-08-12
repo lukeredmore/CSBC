@@ -12,19 +12,19 @@ import WebKit
 
 ///Displays the lunch menu for a given school in either Google Drive Viewer through a WKWebView or through a PDFView, based on what information is supplied to the VC on init
 class LunchViewController: CSBCViewController, WKNavigationDelegate {
-    @IBOutlet weak var pdfView: PDFView!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var webView: WKWebView!
+    @IBOutlet weak private var pdfView: PDFView!
+    @IBOutlet weak private var dateLabel: UILabel!
+    @IBOutlet weak private var webView: WKWebView!
     
-    var dateLabelText : String {
+    private var dateLabelText : String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM d"
         return "Today is \(formatter.string(from: Date()))"
     }
-    var loadedPDFURLs : [Int:URL] {
+    private var loadedPDFURLs : [Int:URL] {
         return UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
     }
-    var loadedWordURLs : [Int:String] {
+    private var loadedWordURLs : [Int:String] {
         return UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
     }
     
@@ -43,11 +43,11 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
     
     //MARK: Lunch Menu Displayed Methods
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         reloadDocumentView()
     }
-    @objc func reloadDocumentView() {
+    @objc private func reloadDocumentView() {
         loadingSymbol.startAnimating()
         webView.isHidden = true
         pdfView.isHidden = true
@@ -59,7 +59,7 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
             configureWebView(forDocURLString: docURLToDisplay)
         }
     }
-    func configurePDFView(forPDF pdf : PDFDocument?) {
+    private func configurePDFView(forPDF pdf : PDFDocument?) {
         pdfView.document = pdf
         pdfView.displayMode = .singlePageContinuous
         let pdfScale = pdfView.scaleFactorForSizeToFit - 0.02
@@ -71,13 +71,13 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         navigationItem.rightBarButtonItem?.isEnabled = true
         loadingSymbol.stopAnimating()
     }
-    func configureWebView(forDocURLString url : String) {
+    private func configureWebView(forDocURLString url : String) {
         if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(url)") {
             let urlToRequest = URLRequest(url: urlToLoad)
             webView.load(urlToRequest)
         }
     }
-    @objc func shareButtonPressed() {
+    @objc private func shareButtonPressed() {
         if loadedPDFURLs[schoolSelected.ssInt] != nil && loadingSymbol.isHidden == true {
             let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)?.documentURL! as Any], applicationActivities: nil)
             DispatchQueue.main.async {

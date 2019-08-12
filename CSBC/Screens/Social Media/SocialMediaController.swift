@@ -11,10 +11,10 @@ import UIKit
 
 ///All methods, delegates and data for Connect view
 class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
-    let tableHeaders = ["Twitter", "Facebook", "Instagram"]
-    let headerDeepLinkPrefixes = ["twitter://user?screen_name=", "fb://profile/", "instagram://user?username="]
-    let headerSafariPrefixes = ["https://twitter.com/", "https://facebook.com/", "https://instagram.com/"]
-    let socialArray = [
+    private let tableHeaders = ["Twitter", "Facebook", "Instagram"]
+    private let headerDeepLinkPrefixes = ["twitter://user?screen_name=", "fb://profile/", "instagram://user?username="]
+    private let headerSafariPrefixes = ["https://twitter.com/", "https://facebook.com/", "https://instagram.com/"]
+    private let socialArray = [
         [ //Seton
             ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "Seton Catholic Central", "Matthew Martinkovic, Principal", "SCC Student Council", "SCC Key Club", "SCC Fan Club", "SCC Junior Fan Club"], //t
             ["Catholic Schools of Broome County", "Seton Catholic Central", "SCC Junior Fan Club"], //f
@@ -31,7 +31,7 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
             ["St. James School", "Suzy Kitchen"] //i
         ]
     ]
-    let socialURLArray = [
+    private let socialURLArray = [
         [ //Seton
             ["CatholicSchools", "CatholicSchPres", "SetonCatholicNY", "SCCPrincipal", "studentcouncSCC", "scckeyclub", "sccgreenhouse", "SCCJrFanClub"], //t
             ["103950839670987", "197877966951594", "608965236166888"], //f
@@ -48,9 +48,9 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
             ["stjamesschooljc", "stjamesjcprincipal"] //i
         ]
     ]
-    var selectedSocial : [[String]] = [[]]
-    var selectedSocialURL : [[String]] = [[]]
-    @IBOutlet var tableView: UITableView!
+    private var selectedSocial : [[String]] = [[]]
+    private var selectedSocialURL : [[String]] = [[]]
+    @IBOutlet private var tableView: UITableView!
     
     
     override func viewDidLoad() {

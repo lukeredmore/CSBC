@@ -11,107 +11,70 @@ import Alamofire
 
 /// Configures composer view for user compose and prepares message to be sent
 class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushNotificationsDelegate {
-    @IBOutlet weak var textView: UITextView!
+    @IBOutlet weak private var textView: UITextView!
     
-    var expectedPlaceholderColor : UIColor {
+    private var expectedPlaceholderColor : UIColor {
         if #available(iOS 13.0, *) {
             return .placeholderText
         } else {
             return .darkGray
         }
     }
-    var expectedTextColor : UIColor {
+    private var expectedTextColor : UIColor {
         if #available(iOS 13.0, *) {
             return .label
         } else {
             return .black
         }
     }
+    private var usersSchool : String? = nil
+    private let notificationSample = "Enter a message"
+    private let reportSample = "Please give a detailed description of the issue you would like to report or the suggestion you would like to submit:"
     
-
-   
-    var usersSchool : String? = nil
-    let notificationSample = "Enter a message"
-    let reportSample = "Please give a detailed description of the issue you would like to report or the suggestion you would like to submit:"
     
-    internal static func instantiate(school : String? = nil) -> ComposerViewController {
+    static func instantiate(school : String? = nil) -> ComposerViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComposerViewScene") as! ComposerViewController
         vc.usersSchool = school
         return vc
     }
     
+    
+    //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.delegate = self
     }
-    
     override func viewWillAppear(_ animated: Bool) {
         textView.text = usersSchool != nil ? notificationSample : reportSample
         textView.textColor = expectedPlaceholderColor
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if ("\(textView.text!)" == notificationSample || "\(textView.text!)" == reportSample) && textView.textColor == expectedPlaceholderColor {
-            textView.text = ""
-            textView.textColor = expectedTextColor
-        }
-        textView.becomeFirstResponder()
-    }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" {
-            textView.text = usersSchool != nil ? notificationSample : reportSample
-            textView.textColor = expectedPlaceholderColor
-        }
-        textView.resignFirstResponder()
-    }
-    
-//    func textViewShouldReturn(textView: UITextView!) -> Bool {
-//        print("return key pressed")
-//        textView.resignFirstResponder()
-//        performFinalAction()
-//        return false
-//    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.resignFirstResponder()
-            performFinalAction()
-            return false
-        }
-        return true
-    }
-
-    
-    @IBAction func cancelButtonPressed(_ sender: Any) {
+    //MARK: Action Methods
+    @IBAction private func cancelButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
-    @IBAction func sendButtonPressed(_ sender: Any) {
+    @IBAction private func sendButtonPressed(_ sender: Any) {
         performFinalAction()
     }
-    
-    func performFinalAction() {
+    private func performFinalAction() {
         if textView.text != "", textView.text != nil, textView.text != notificationSample, textView.text != reportSample {
             usersSchool != nil ? self.sendNotification() : self.sendReport()
         }
     }
-    
-    
-    func sendNotification() {
-        if textView.text != "Enter a message" && usersSchool != nil {
+    private func sendNotification() {
+        if textView.text != "Enter a message" {
             let notificationSender = PublishPushNotifications(withMessage: "\(textView.text!)", toSchool: usersSchool!)
             notificationSender.delegate = self
             notificationSender.sendNotification()
         }
-        
     }
-    func sendReport() {
+    private func sendReport() {
         print("sent")
     }
     
     
-    //MARK: Delegate methods
+    //MARK: PublishPushNotificationDelegate Methods
     func notificationDidPublishSucessfully() {
         let alert = UIAlertController(title: "Notification sucessfully sent", message: "", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
@@ -127,5 +90,35 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
         }))
         self.present(alert, animated: true)
     }
-
+    
+    
+    //MARK: UITextViewDelegate Methods
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if ("\(textView.text!)" == notificationSample || "\(textView.text!)" == reportSample) && textView.textColor == expectedPlaceholderColor {
+            textView.text = ""
+            textView.textColor = expectedTextColor
+        }
+        textView.becomeFirstResponder()
+    }
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text == "" {
+            textView.text = usersSchool != nil ? notificationSample : reportSample
+            textView.textColor = expectedPlaceholderColor
+        }
+        textView.resignFirstResponder()
+    }
+//    func textViewShouldReturn(textView: UITextView!) -> Bool {
+//        print("return key pressed")
+//        textView.resignFirstResponder()
+//        performFinalAction()
+//        return false
+//    }
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.resignFirstResponder()
+            performFinalAction()
+            return false
+        }
+        return true
+    }
 }

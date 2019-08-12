@@ -14,14 +14,14 @@ protocol DataEnteredDelegate: class {
 
 final class FilterCalendarViewController: ModalMenuViewController {
     
-    @IBOutlet var menuView: UIView!
-    @IBOutlet var menuViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var filterSwitches: [UISwitch]!
+    @IBOutlet private var menuView: UIView!
+    @IBOutlet private var menuViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var filterSwitches: [UISwitch]!
     
-    //let menuView = UIView()
-    let button = UIButton()
+    //private let menuView = UIView()
+    private let button = UIButton()
     weak var delegate: DataEnteredDelegate? = nil
-    var editedSchoolsToShow : [Bool] = []
+    private var editedSchoolsToShow : [Bool] = []
     var buttonStates : [Bool] = []
     
     //MARK: View Control
@@ -30,7 +30,7 @@ final class FilterCalendarViewController: ModalMenuViewController {
         setupMenuView(menuView)
     }
     override func viewWillAppear(_ animated: Bool) {
-        for i in 0..<buttonStates.count {
+        for i in buttonStates.indices {
             filterSwitches[i].setOn(buttonStates[i], animated: false)
         }
     }

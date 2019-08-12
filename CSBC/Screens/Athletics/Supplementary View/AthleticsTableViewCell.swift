@@ -12,9 +12,9 @@ import UIKit
 class AthleticsTableViewCell: UITableViewCell {
 
     //MARK: Properties
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var levelLabel: UILabel!
-    @IBOutlet weak var timeLabel: UILabel!
+    @IBOutlet weak private var titleLabel: UILabel!
+    @IBOutlet weak private var levelLabel: UILabel!
+    @IBOutlet weak private var timeLabel: UILabel!
     
     func addData(model: AthleticsModel, index: Int) {
         let charactersToFilter = CharacterSet(charactersIn: ":()1234567890")

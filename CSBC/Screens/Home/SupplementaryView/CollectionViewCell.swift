@@ -11,8 +11,8 @@ import UIKit
 class CollectionViewCell: UICollectionViewCell {
     
 
-    @IBOutlet var buttonImage: UIImageView!
-    @IBOutlet var buttonLabel: UILabel!
+    @IBOutlet private var buttonImage: UIImageView!
+    @IBOutlet private var buttonLabel: UILabel!
     
     func displayContent(image: UIImage, title: String) {
         buttonImage.image = image

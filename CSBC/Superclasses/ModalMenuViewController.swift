@@ -47,13 +47,13 @@ class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDe
         view.addSubview(superMenuView)
     }
     
-    func configure() {
+    private func configure() {
         modalPresentationStyle = .custom
         transitioningDelegate = self
     }
     
     
-    @objc func handleTap(_ sender: UITapGestureRecognizer) {
+    @objc private func handleTap(_ sender: UITapGestureRecognizer) {
         passBackData()
         dismiss(animated: true, completion: nil)
     }

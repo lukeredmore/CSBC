@@ -11,32 +11,32 @@ import UIKit
 ///Contains most methods for contacts page, including table data, delegates, and parallax effect. For some reason, trying to split up these methods results in the table data disappearing after loading
 class ContactViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var copyrightLabel: UILabel!
+    @IBOutlet weak private var tableView: UITableView!
+    @IBOutlet weak private var copyrightLabel: UILabel!
     
-    var imageView = UIImageView()
-    var yearFormatter : DateFormatter {
+    private var imageView = UIImageView()
+    private var yearFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy"
         return fmt
     }
     
-    let sectionHeaders = ["Map","Contact","Hours of Operation"]
-    let mapImageArray = ["setonMap","saintsMap","saintsMap","jamesMap"]
-    let schoolNames = ["Seton Catholic Central", "St. John the Evangelist", "All Saints School", "St. James School"]
-    let schoolAddresses = ["70 Seminary Avenue Binghamton, NY 13905", "9 Livingston Street Binghamton NY 13903", "1112 Broad Street Endicott NY 13760", "143 Main Street Johnson City NY 13790"]
-    let schoolPhone : [[String]] = [["723.5307", "723.4811"],["723.0703","772.6210"],["748.7423"],["797.5444"]]
-    let districtPhone = "723.1547"
-    let schoolPrincipals = ["Matthew Martinkovic", "James Fountaine", "William Pipher", "Susan Kitchen"]
-    let hoursOfOperation = [
+    private let sectionHeaders = ["Map","Contact","Hours of Operation"]
+    private let mapImageArray = ["setonMap","saintsMap","saintsMap","jamesMap"]
+    private let schoolNames = ["Seton Catholic Central", "St. John the Evangelist", "All Saints School", "St. James School"]
+    private let schoolAddresses = ["70 Seminary Avenue Binghamton, NY 13905", "9 Livingston Street Binghamton NY 13903", "1112 Broad Street Endicott NY 13760", "143 Main Street Johnson City NY 13790"]
+    private let schoolPhone : [[String]] = [["723.5307", "723.4811"],["723.0703","772.6210"],["748.7423"],["797.5444"]]
+    private let districtPhone = "723.1547"
+    private let schoolPrincipals = ["Matthew Martinkovic", "James Fountaine", "William Pipher", "Susan Kitchen"]
+    private let hoursOfOperation = [
         ["Morning Bell: 8:13 AM", "Dismissal: 3:00 PM"],
         ["Before School Care: From 7:00 AM","Start: 8:30 AM","Dismissal: 2:45 PM","After School Care: Until 5:45 PM"],
         ["Before School Care: From 7:00 AM","Start: 8:20 AM","Dismissal: 2:45 PM","After School Care: Until 6:00 PM"],
         ["Before School Care: From 7:00 AM","Start: 8:20 AM","Dismissal: 3:00 PM","After School Care: Until 6:00 PM"]
     ]
     
-    let buildingImageArray = ["setonBuilding","johnBuilding","saintsBuilding","jamesBuilding"]
-    var mailController : ContactMailDelegate!
+    private let buildingImageArray = ["setonBuilding","johnBuilding","saintsBuilding","jamesBuilding"]
+    private var mailController : ContactMailDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +59,7 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
     }
     
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         mailController.schoolSelected = schoolSelected
         

@@ -19,13 +19,13 @@ protocol AlertDelegate: class {
 
 /// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
-    weak var delegate : AlertDelegate? = nil
-    let defaults = UserDefaults.standard
-    var closedData : [String] = []
-    var snowDatesChecked = false
-    var dayOverridesChecked = false
-    var shouldSnowDatesReinit = false
-    var shouldOverridesReinit = false
+    weak private var delegate : AlertDelegate? = nil
+    private let defaults = UserDefaults.standard
+    private var closedData : [String] = []
+    private var snowDatesChecked = false
+    private var dayOverridesChecked = false
+    private var shouldSnowDatesReinit = false
+    private var shouldOverridesReinit = false
     
     init(_ delegate : AlertDelegate) {
         self.delegate = delegate
@@ -33,7 +33,7 @@ class AlertController {
         getSnowDatesAndOverridesAndQueueNotifications()
     }
     
-    func getSnowDatesAndOverridesAndQueueNotifications() {
+    private func getSnowDatesAndOverridesAndQueueNotifications() {
         Database.database().reference().child("SnowDays").observeSingleEvent(of: .value) { (snapshot) in
             if let value = snapshot.value as? NSDictionary {
                 let newSnowDays : [String] = value.allValues as! [String]
@@ -69,7 +69,7 @@ class AlertController {
             self.dayOverridesChecked = true
         }
     }
-    func tryToReinit() {
+    private func tryToReinit() {
         if (snowDatesChecked && dayOverridesChecked && (shouldSnowDatesReinit || shouldOverridesReinit)) {
             print("reinitializing Notifications")
             self.delegate?.reinitNotifications()
@@ -107,7 +107,7 @@ class AlertController {
             }
         }
     }
-    func checkForAlertFromWBNG() {
+    private func checkForAlertFromWBNG() {
         var districtStatus : String?
         print("Checking for alert from WBNG")
         Alamofire.request("http://ftpcontent6.worldnow.com/wbng/newsticker/closings.html").responseString(queue: nil, encoding: .utf8) { response in
@@ -116,7 +116,7 @@ class AlertController {
                     do {
                         let doc = try SwiftSoup.parse(html)
                         let element = try doc.select("font").array()
-                        for i in 0..<element.count {
+                        for i in element.indices {
                             let value = try element[i].text()
                             if value.contains("Catholic") && value.contains("Broome") {
                                 districtStatus = try element[i+1].text()
@@ -137,7 +137,7 @@ class AlertController {
             }
         }
     }
-    func addSnowDateToDatabase(date : Date) {
+    private func addSnowDateToDatabase(date : Date) {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
         let dateValueString = fmt.string(from: date)

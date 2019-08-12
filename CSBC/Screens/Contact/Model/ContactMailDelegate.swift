@@ -13,10 +13,10 @@ import MessageUI
 ///Methods to display mail composer in Contacts view
 class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     
-    let principalEmails = ["mmartinkovic","jfountaine","wpipher","skitchen"]
+    private let principalEmails = ["mmartinkovic","jfountaine","wpipher","skitchen"]
     
     var schoolSelected : SchoolSelected!
-    let parent : ContactViewController!
+    private let parent : ContactViewController!
 
     init(parent: ContactViewController, schoolSelected: SchoolSelected) {
         self.parent = parent
@@ -32,7 +32,7 @@ class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
             self.showSendMailErrorAlert()
         }
     }
-    func configuredMailComposeViewController() -> MFMailComposeViewController {
+    private func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
 
@@ -42,7 +42,7 @@ class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
 
         return mailComposerVC
     }
-    func showSendMailErrorAlert() {
+    private func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device cannot send email. Please check your email configuration and try again.", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .cancel)
         sendMailErrorAlert.addAction(okButton)

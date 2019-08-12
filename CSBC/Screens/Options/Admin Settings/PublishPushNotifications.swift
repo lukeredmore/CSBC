@@ -17,10 +17,10 @@ protocol PublishPushNotificationsDelegate: class {
 /// Takes a given notification and publishes it with preconfigured settings and reports to a delegate (the composer)
 class PublishPushNotifications {
  
-    var messageToSend : String!
-    var schoolConditional : String!
-    var notificationTitle : String!
-    var headers : HTTPHeaders = ["Content-Type":"application/json"]
+    private var messageToSend : String!
+    private var schoolConditional : String!
+    private var notificationTitle : String!
+    private var headers : HTTPHeaders = ["Content-Type":"application/json"]
     weak var delegate : PublishPushNotificationsDelegate?
     
     init(withMessage : String, toSchool : String) {
@@ -34,7 +34,7 @@ class PublishPushNotifications {
         #endif
     }
     
-    func findConditionalForSchool(school : String) -> String {
+    private func findConditionalForSchool(school : String) -> String {
         switch school {
         case "Seton":
             notificationTitle = "Seton Catholic Central"

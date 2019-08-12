@@ -11,12 +11,12 @@ import UIKit
 ///Creates and organizes TodayVCs to be swiped through. Requests data through TodayDataParser, and populates TodayVC
 class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, ContainerViewDelegate, TodayParserDelegate {
     weak var pagerDelegate : PageViewDelegate? = nil
-    var todayParser : TodayDataParser? = nil
+    private var todayParser : TodayDataParser? = nil
     
-    var dateSentToCurrentPageVC = Date()
-    var dateSentToPreviousPageVC = Date()
-    var dateSentToNextPageVC = Date()
-    let daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
+    private var dateSentToCurrentPageVC = Date()
+    private var dateSentToPreviousPageVC = Date()
+    private var dateSentToNextPageVC = Date()
+    private let daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
     
     
     //MARK: View Control

@@ -12,14 +12,14 @@ import UIKit
 /// Home screen UICollectionView data source and delegate
 class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    let buttonImages : [String] = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
-    var columnLayout = ColumnFlowLayout(
+    private let buttonImages : [String] = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
+    private var columnLayout = ColumnFlowLayout(
         cellsPerRow: 3,
         minimumInteritemSpacing: (UIScreen.main.bounds.width)/15.88,
         minimumLineSpacing: (UIScreen.main.bounds.height-133)/15.88,
         sectionInset: UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
     )
-    var parent : HomeViewController? = nil
+    private var parent : HomeViewController? = nil
     
     func configureCollectionViewForScreenSize(_ parent: HomeViewController) {
         self.parent = parent

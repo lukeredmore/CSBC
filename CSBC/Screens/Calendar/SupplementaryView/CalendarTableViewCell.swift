@@ -10,21 +10,11 @@ import UIKit
 
 class CalendarTableViewCell: UITableViewCell {
 
-    @IBOutlet var eventLabel: UILabel!
-    @IBOutlet var dayLabel: UILabel!
-    @IBOutlet var monthLabel: UILabel!
-    @IBOutlet var timeLabel: UILabel!
-    @IBOutlet var schoolsLabel: UILabel!
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        // Configure the view for the selected state
-    }
+    @IBOutlet private var eventLabel: UILabel!
+    @IBOutlet private var dayLabel: UILabel!
+    @IBOutlet private var monthLabel: UILabel!
+    @IBOutlet private var timeLabel: UILabel!
+    @IBOutlet private var schoolsLabel: UILabel!
     
     func addData(model: EventsModel) {
         eventLabel.text = model.event.uppercased()

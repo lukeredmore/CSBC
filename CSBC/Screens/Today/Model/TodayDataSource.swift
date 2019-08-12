@@ -10,11 +10,15 @@ import UIKit
 
 ///Populates TodayViewController with pre-parsed data received by TodayViewController
 class TodayDataSource: NSObject, UITableViewDataSource {
-    var todaysEvents: [EventsModel] = []
+    var todaysEvents = [EventsModel]()
     var todaysAthletics: AthleticsModel? = nil
     
-    let sectionNames = ["Events","Sports"]
+    private let sectionNames = ["Events","Sports"]
     
+    init(todaysEvents : [EventsModel], todaysAthletics : AthleticsModel?) {
+        self.todaysEvents = todaysEvents
+        self.todaysAthletics = todaysAthletics
+    }
     
     //MARK: TableView Methods
     func numberOfSections(in tableView: UITableView) -> Int {

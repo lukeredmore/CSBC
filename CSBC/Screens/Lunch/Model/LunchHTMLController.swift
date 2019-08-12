@@ -18,16 +18,16 @@ protocol LoadPDFDelegate: class {
 
 /// Finds URLs of, download, and store all the lunch menus
 class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
-    var lunchesReady : [Bool] = [false, false, false, false]
-    var urls : [String] = ["","","",""]
-    var i = 0
-    let destination: DownloadRequest.DownloadFileDestination = { _, _ in
+    private var lunchesReady : [Bool] = [false, false, false, false]
+    private var urls : [String] = ["","","",""]
+    private var i = 0
+    private let destination: DownloadRequest.DownloadFileDestination = { _, _ in
         let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let fileURL = documentsURL.appendingPathComponent("Lunch Menu.pdf")
         return (fileURL, [.removePreviousFile, .createIntermediateDirectories])
     }
-    var loadedPDFURLs : [Int:URL] = [:]
-    var loadedWordURLs : [Int:String] = [:]
+    private var loadedPDFURLs : [Int:URL] = [:]
+    private var loadedWordURLs : [Int:String] = [:]
     
     func downloadAndStoreLunchMenus() {
         lunchesReady = [false, false, false, false]
@@ -84,11 +84,11 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
         saintsTask.resume()
         jamesTask.resume()
     }
-    func parseSetonLunchHTML(html : String) {
+    private func parseSetonLunchHTML(html : String) {
         do {
             let doc = try SwiftSoup.parse(html)
             let allAInfo = try doc.select("a").array()
-            for i in 0..<allAInfo.count {
+            for i in allAInfo.indices {
                 let aValue = try allAInfo[i].html()
                 if aValue.contains("Menu") {
                     //print(aValue)
@@ -107,11 +107,11 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             }
         } catch {}
     }
-    func parseJohnLunchHTML(html : String) {
+    private func parseJohnLunchHTML(html : String) {
         do {
             let doc = try SwiftSoup.parse(html)
             let allAInfo = try doc.select("a").array()
-            for i in 0..<allAInfo.count {
+            for i in allAInfo.indices {
                 let aValue = try allAInfo[i].html()
                 if aValue.contains("</b>") == false && aValue.contains("Lunch") && aValue.contains("Elementary") {
                     //print(aValue)
@@ -130,11 +130,11 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             }
         } catch {}
     }
-    func parseSaintsLunchHTML(html : String) {
+    private func parseSaintsLunchHTML(html : String) {
         do {
             let doc = try SwiftSoup.parse(html)
             let allAInfo = try doc.select("div").array()
-            for i in 0..<allAInfo.count {
+            for i in allAInfo.indices {
                 let divClass = try allAInfo[i].attr("class")
                 if divClass == "et_pb_blurb_description" {
                     let lunchJS = try allAInfo[i].html()
@@ -153,11 +153,11 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             }
         } catch {}
     }
-    func parseJamesLunchHTML(html : String) {
+    private func parseJamesLunchHTML(html : String) {
         do {
             let doc = try SwiftSoup.parse(html)
             let allAInfo = try doc.select("div").array()
-            for i in 0..<allAInfo.count {
+            for i in allAInfo.indices {
                 let divClass = try allAInfo[i].attr("class")
                 if divClass == "et_pb_blurb_description" {
                     let lunchJS = try allAInfo[i].html()
@@ -176,7 +176,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
         } catch {}
     }
     
-    func tryToLoadPDFs() {
+    private func tryToLoadPDFs() {
         if lunchesReady == [true, true, true, true] {
             print("Starting document downloads")
             i = 0
@@ -184,7 +184,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             downloadPDFs()
         }
     }
-    func downloadPDFs() {
+    private func downloadPDFs() {
         let urlSplit = urls[i].components(separatedBy: ".")
         if urlSplit.last == "pdf" {
             guard let url = URL(string: urls[i]) else { return }
@@ -193,7 +193,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             downloadTask.resume()
             print(urls[i], " downloading")
 //            Alamofire.download(URL(string: urls[i])!, to: destination).response { response in
-//                if response.error == nil, let _ = response.destinationURL?.path {
+//                if response.error == nil, private let _ = response.destinationURL?.path {
 //                    self.pdfDownloadCompletionHandler(response: response.destinationURL!)
 //                }
 //            }
@@ -227,7 +227,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             UserDefaults.standard.set(object: loadedPDFURLs, forKey: "PDFLocations")
         }
     }
-    func msWordDownloadCompletionhandler(url : String) {
+    private func msWordDownloadCompletionhandler(url : String) {
         loadedWordURLs[i] = url
         i += 1
         if i < 4 {

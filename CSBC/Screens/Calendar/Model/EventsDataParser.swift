@@ -12,10 +12,10 @@ import SwiftSoup
 
 
 class EventsDataParser {
-    let monthDict = ["jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06","jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12"]
+    private let monthDict = ["jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06","jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12"]
     var eventsModelArray : [EventsModel?] = []
     var eventsModelArrayFiltered : [EventsModel?] = []
-    
+   
     
     func parseHTMLForEvents (html : String) {
         do {
@@ -23,7 +23,7 @@ class EventsDataParser {
             let doc = try SwiftSoup.parse(html)
             let allPInfo = try doc.select("p").array()
             
-            for i in 0..<allPInfo.count {
+            for i in allPInfo.indices {
                 let pClass = try allPInfo[i].attr("class")
                 if pClass == "desc_trig_outter" {
                     let text = try allPInfo[i].html()
@@ -35,7 +35,7 @@ class EventsDataParser {
             formatter.dateFormat = "MM/dd"
             let fmt = DateFormatter()
             fmt.dateFormat = "MMMM dd"
-            for n in 0..<infoOrganizedByEvent.count {
+            for n in infoOrganizedByEvent.indices {
                 var dateString = String()
                 var day = String()
                 var month = String()
@@ -46,7 +46,7 @@ class EventsDataParser {
                 
                 let eventDoc = try SwiftSoup.parse(infoOrganizedByEvent[n])
                 let titleInfo = try eventDoc.select("span").array()
-                for i in 0..<titleInfo.count {
+                for i in titleInfo.indices {
                     let tag = try titleInfo[i].attr("itemprop")
                     if tag == "name" {
                         event = try titleInfo[i].text()
@@ -54,7 +54,7 @@ class EventsDataParser {
                 }
                 
                 let timeInfo = try eventDoc.select("em").array()
-                for i in 0..<timeInfo.count {
+                for i in timeInfo.indices {
                     let classTag = try timeInfo[i].attr("class")
                     if classTag == "date" {
                         day = try timeInfo[i].text()
@@ -118,27 +118,25 @@ class EventsDataParser {
             addObjectArrayToUserDefaults(eventsModelArray)
         } catch { }
     }
+    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel?]) {
+        print("Events array is being added to UserDefaults")
+        let dateTimeToAdd = Date().dateStringWithTime()
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
+        UserDefaults.standard.set(dateTimeToAdd, forKey: "eventsArrayTime")
+    }
+    
+    
     func addToFilteredModelArray(modelsToInclude: [Int]) {
         eventsModelArrayFiltered.removeAll()
         for modelInt in modelsToInclude {
             if !eventsModelArrayFiltered.contains(eventsModelArray[modelInt]) {
                 eventsModelArrayFiltered.append(eventsModelArray[modelInt])
             }
-            
         }
         if eventsModelArrayFiltered.count > 1 {
             if eventsModelArrayFiltered[0] != nil {
                 eventsModelArrayFiltered = eventsModelArrayFiltered.sorted(by: { $0!.day < $1!.day })
             }
         }
-        
-        
-    }
-    
-    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel?]) {
-        print("Events array is being added to UserDefaults")
-        let dateTimeToAdd = Date().dateStringWithTime()
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
-        UserDefaults.standard.set(dateTimeToAdd, forKey: "eventsArrayTime")
     }
 }

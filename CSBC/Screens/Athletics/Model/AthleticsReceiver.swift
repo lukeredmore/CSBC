@@ -11,7 +11,7 @@ import Alamofire
 import SwiftyJSON
 
 class AthleticsRetriever {
-    let preferences = UserDefaults.standard
+    private let preferences = UserDefaults.standard
     
     func retrieveAthleticsArray(forceReturn : Bool = false, forceRefresh: Bool = false, completion : @escaping ([AthleticsModel?]) -> Void) {
         if forceRefresh {
@@ -57,7 +57,7 @@ class AthleticsRetriever {
                 self.retrieveAthleticsArray(forceReturn: false, forceRefresh: false, completion: completion)
             } else {
                 print("Error on request to ScheduleGalaxy: ")
-                print(response.error)
+                print(response.error!)
                 self.retrieveAthleticsArray(forceReturn: true, forceRefresh: false, completion: completion)
             }
         }

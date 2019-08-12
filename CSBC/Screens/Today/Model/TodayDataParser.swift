@@ -12,13 +12,13 @@ import SwiftyJSON
 
 ///Retrieves events and athletics data, parses it, and activates pager when ready. Also parses full data into single days for TodayVC
 class TodayDataParser {
-    let delegate : TodayParserDelegate!
+    private let delegate : TodayParserDelegate!
     
-    var eventsArray : [EventsModel?] = []
-    var athleticsArray : [AthleticsModel?] = []
+    private var eventsArray : [EventsModel?] = []
+    private var athleticsArray : [AthleticsModel?] = []
     
-    var eventsReady = false
-    var athleticsReady = false
+    private var eventsReady = false
+    private var athleticsReady = false
     
     
     init(delegate: TodayParserDelegate) {
@@ -28,7 +28,7 @@ class TodayDataParser {
     
     
     //MARK: Retrieve schedules
-    func getSchedulesToSendToToday() {
+    private func getSchedulesToSendToToday() {
         EventsRetriever().retrieveEventsArray { (eventsArray) in
             self.eventsArray = eventsArray
             self.eventsReady = true
@@ -40,7 +40,7 @@ class TodayDataParser {
             self.tryToStartupPager()
         }
     }
-    func tryToStartupPager() {
+    private func tryToStartupPager() {
         if eventsReady && athleticsReady {
             delegate.startupPager()
         }
@@ -53,7 +53,7 @@ class TodayDataParser {
         let fmt = DateFormatter()
         fmt.dateFormat = "MMM dd"
         let dateShownForCalendar = fmt.string(from: date)
-        for i in 0..<eventsArray.count {
+        for i in eventsArray.indices {
             if let event = eventsArray[i] {
                 if event.date == dateShownForCalendar {
                     allEventsToday.append(event)
@@ -69,7 +69,7 @@ class TodayDataParser {
         
         //Filter for schoolSelected
         var filteredEventsForSchoolsToday : [EventsModel] = []
-        for i in 0..<allEventsToday.count {
+        for i in allEventsToday.indices {
             if allEventsToday[i].schools.contains(delegate.schoolSelected.ssString) || allEventsToday[i].schools == "" {
                 filteredEventsForSchoolsToday.append(allEventsToday[i])
             }

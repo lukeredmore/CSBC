@@ -26,12 +26,12 @@ protocol TodayParserDelegate: class { //parser tells pager to initialize VCs
 }
 
 class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, PageViewDelegate {
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var dateChangerButton: UIBarButtonItem!
+    @IBOutlet weak private var containerView: UIView!
+    @IBOutlet weak private var dateChangerButton: UIBarButtonItem!
     
-    var athleticsData = AthleticsDataParser()
-    var calendarData = EventsDataParser()
-    weak var containerDelegate : ContainerViewDelegate? = nil
+    private var athleticsData = AthleticsDataParser()
+    private var calendarData = EventsDataParser()
+    weak private var containerDelegate : ContainerViewDelegate? = nil
     var dateToShow = Date()
     
     override func viewDidLoad() {
@@ -46,7 +46,7 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
         super.viewWillAppear(animated)
     }
     
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         containerDelegate?.schoolPickerValueDidChange()
     }
@@ -63,7 +63,7 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
         
     }
     
-    func setupTapGestureForSettingsButton() {
+    private func setupTapGestureForSettingsButton() {
         let multiTapGesture = UITapGestureRecognizer()
         multiTapGesture.numberOfTapsRequired = 2
         multiTapGesture.addTarget(self, action: #selector(dateChangerDoubleTapped))
@@ -75,13 +75,13 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
         dateChangerButton.customView?.addGestureRecognizer(multiTapGesture)
     }
     
-    @objc func dateFilterSelected(_ sender: Any) {
+    @objc private func dateFilterSelected(_ sender: Any) {
         if loadingSymbol.isHidden {
             performSegue(withIdentifier: "AlertsSettingsSegue", sender: self)
         }
     }
     
-    @objc func dateChangerDoubleTapped() {
+    @objc private func dateChangerDoubleTapped() {
         if dateStringFormatter.string(from: dateToShow) != dateStringFormatter.string(from: Date()) && loadingSymbol.isHidden {
             userDidSelectDate(dateToShow: Date())
         }

@@ -12,7 +12,7 @@ import Contacts
 
 class MapAnnotation: NSObject, MKAnnotation {
     let title: String?
-    let discipline: String
+    private let discipline: String
     let coordinate: CLLocationCoordinate2D
     
     init(title: String, discipline: String, coordinate: CLLocationCoordinate2D) {

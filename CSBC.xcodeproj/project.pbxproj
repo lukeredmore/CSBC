@@ -407,6 +407,7 @@
 			children = (
 				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
 				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
+				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
 			);
 			path = Superclasses;
 			sourceTree = "<group>";
@@ -555,7 +556,6 @@
 				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
 				2637A68C22FF15C50097EDD1 /* Model */,
 				2637A68D22FF15D20097EDD1 /* Supplementary View */,
-				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
 			);
 			path = Athletics;
 			sourceTree = "<group>";

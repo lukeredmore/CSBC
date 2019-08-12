@@ -13,7 +13,7 @@ import Firebase
 class AdminSettingsTableViewController: UITableViewController, DayOverriddenDelegate {
 
     @IBOutlet weak var dayLabel: UILabel!
-    let notificationController = NotificationController()
+    private let notificationController = NotificationController()
     var usersSchool : String? = nil
     var originalDay : Int? = nil
     

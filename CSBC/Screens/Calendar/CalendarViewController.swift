@@ -15,7 +15,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     
     var eventsDataPresent = false
     var calendarData = EventsDataParser()
-    lazy var refreshControl: UIRefreshControl = {
+    lazy private var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
             #selector(refreshData), for: .valueChanged)
@@ -23,9 +23,9 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         
         return refreshControl
     }()
-    var storedSchoolsToShow : [Bool] = [true, true, true, true]
-    var searchController : UISearchController = UISearchController(searchResultsController: nil)
-    var modelArrayForSearch : [EventsModel?] {
+    private var storedSchoolsToShow : [Bool] = [true, true, true, true]
+    private var searchController : UISearchController = UISearchController(searchResultsController: nil)
+    private var modelArrayForSearch : [EventsModel?] {
         get {
             if /*!searchControllerController.searchController.isActive &&*/ searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
                 print("\nI'm showing the full version\n")
@@ -41,10 +41,10 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }
     
     @IBOutlet var tableView: UITableView!
-    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var searchBarContainerView: UIView!
+    @IBOutlet weak private var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var searchBarContainerView: UIView!
     
-    var searchControllerController : CSBCSearchController!
+    private var searchControllerController : CSBCSearchController!
     
     
     override func viewDidLoad() {
@@ -75,10 +75,10 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         searchControllerController.filterEventsRowsForSchoolsSelected(schoolsToShow)
         setupCalendarTable(eventsArray: modelArrayForSearch)
     }
-    @objc func refreshData() {
+    @objc private func refreshData() {
         EventsRetriever().retrieveEventsArray(forceReturn: false, forceRefresh: true, completion: setupCalendarTable)
     }
-    func setupCalendarTable(eventsArray: [EventsModel?]) {
+    private func setupCalendarTable(eventsArray: [EventsModel?]) {
         if modelArrayForSearch != eventsArray {
             modelArrayForSearch = eventsArray
         }
@@ -101,7 +101,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
     }
-    @IBAction func filterCalendarData(_ sender: Any) {
+    @IBAction private func filterCalendarData(_ sender: Any) {
         if loadingSymbol.isHidden && eventsDataPresent {
             performSegue(withIdentifier: "CalendarSettingsSegue", sender: self)
         }
@@ -141,7 +141,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
 }
 
 class HalfSizePresentationController : UIPresentationController {
-    func frameOfPresentedViewInContainerView() -> CGRect {
+    private func frameOfPresentedViewInContainerView() -> CGRect {
         return CGRect(x: 0, y: 0, width: containerView!.bounds.width, height: containerView!.bounds.height/2)
     }
 }

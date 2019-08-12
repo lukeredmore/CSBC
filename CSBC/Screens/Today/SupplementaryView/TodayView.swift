@@ -11,12 +11,12 @@ import UIKit
 
 //Create view programatically for TodayViewController
 class TodayView: UIView {
-    var headerLabel : UILabel!
-    var headerView : UIView!
+    private var headerLabel : UILabel!
+    private var headerView : UIView!
     var tableView : UITableView!
-    let dayOfCycle : Int!
+    private let dayOfCycle : Int!
     
-    var dayOfCycleText : String {
+    private var dayOfCycleText : String {
         if dayOfCycle > 0 && dayOfCycle < 7 {
             return "Today is Day \(dayOfCycle!)"
         } else {
@@ -36,7 +36,7 @@ class TodayView: UIView {
     }
     
     //MARK: Interface Building Methods
-    func createHeaderLabel() {
+    private func createHeaderLabel() {
         headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 43))
         headerLabel.font = UIFont(name: "Gotham-Bold", size: 39)
         headerLabel.text = dayOfCycleText
@@ -47,12 +47,12 @@ class TodayView: UIView {
         headerLabel.textAlignment = .center
         headerLabel.frame = CGRect(x: headerLabel.frame.minX + 10, y: headerLabel.frame.minY + 12, width: UIScreen.main.bounds.width - 20, height: 43)
     }
-    func createHeaderView() {
+    private func createHeaderView() {
         headerView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         headerView.backgroundColor = .clear
         headerView.addSubview(headerLabel)
     }
-    func createTableView() {
+    private func createTableView() {
         tableView = UITableView(frame: CGRect.zero, style: .grouped)
         tableView.tableHeaderView = headerView
         tableView.tableFooterView = UIView()

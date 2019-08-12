@@ -12,12 +12,12 @@ import WebKit
 /// Picks dress code html file to load and shows it in a web view
 class UniformsViewController: CSBCViewController, WKNavigationDelegate {
 
-    @IBOutlet var differentSchoolPicker: UISegmentedControl!
-    @IBOutlet var webView: WKWebView!
-    @IBOutlet var maskView: UIView!
+    @IBOutlet private var differentSchoolPicker: UISegmentedControl!
+    @IBOutlet private var webView: WKWebView!
+    @IBOutlet private var maskView: UIView!
     
-    var schoolSelectedToDisplay = 0
-    let dressCodeHTMLs = ["highSchoolDress","middleSchoolDress","elementarySchoolDress"]
+    private var schoolSelectedToDisplay = 0
+    private let dressCodeHTMLs = ["highSchoolDress","middleSchoolDress","elementarySchoolDress"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,11 +46,11 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
         schoolSelected.update(differentSchoolPicker)
     }
     
-    @IBAction func schoolPickerValueChanged(_ sender: Any) {
+    @IBAction private func schoolPickerValueChanged(_ sender: Any) {
         schoolSelectedToDisplay = differentSchoolPicker.selectedSegmentIndex
         updateDressCodeShown()
     }
-    func updateDressCodeShown() {
+    private func updateDressCodeShown() {
         var isDark = ""
         if #available(iOS 12.0, *) {
             if traitCollection.userInterfaceStyle == .dark {
@@ -59,7 +59,7 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
         }
         let url = Bundle.main.url(forResource: "\(dressCodeHTMLs[schoolSelectedToDisplay])\(isDark)", withExtension: "html")!
         webView.loadFileURL(url, allowingReadAccessTo: url)
-        //let url = URL(string: "https://csbcsaints.org/calendar")
+        //private let url = URL(string: "https://csbcsaints.org/calendar")
         let urlToRequest = URLRequest(url: url)
         webView.load(urlToRequest)
     }

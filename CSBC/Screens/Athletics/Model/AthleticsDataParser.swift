@@ -10,8 +10,8 @@ import Foundation
 import SwiftyJSON
 
 class AthleticsDataParser {
-    let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
-    let months = ["Jan":"01", "Feb":"02", "Mar":"03", "Apr":"04", "May":"05", "Jun":"06", "Jul":"07", "Aug":"08", "Sep":"09", "Oct":"10", "Nov":"11", "Dec":"12"]
+    private let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
+    private let months = ["Jan":"01", "Feb":"02", "Mar":"03", "Apr":"04", "May":"05", "Jun":"06", "Jul":"07", "Aug":"08", "Sep":"09", "Oct":"10", "Nov":"11", "Dec":"12"]
     var athleticsModelArray : [AthleticsModel?] = []
     var athleticsModelArrayFiltered : [AthleticsModel?] = []
     
@@ -93,9 +93,15 @@ class AthleticsDataParser {
             dateToBeat = currentDate
             let modelToAppend = AthleticsModel(title: titleList, level: levelList, time: timeList, date: dateString)
             modelListToReturn.append(modelToAppend)
-            athleticsModelArray = modelListToReturn
-            addObjectArrayToUserDefaults(athleticsModelArray)
         }
+        athleticsModelArray = modelListToReturn
+        addObjectArrayToUserDefaults(athleticsModelArray)
+    }
+    private func addObjectArrayToUserDefaults(_ athleticsArray: [AthleticsModel?]) {
+        print("Athletics array is being added to UserDefaults")
+        let dateTimeToAdd = Date().dateStringWithTime()
+        UserDefaults.standard.set(try? PropertyListEncoder().encode(athleticsArray), forKey: "athleticsArray")
+        UserDefaults.standard.set(dateTimeToAdd, forKey: "athleticsArrayTime")
     }
     
     func addToFilteredModelArray(modelsToInclude: [Int], indicesToInclude: [Int]) {
@@ -114,10 +120,5 @@ class AthleticsDataParser {
         }
     }
     
-    private func addObjectArrayToUserDefaults(_ athleticsArray: [AthleticsModel?]) {
-        print("Athletics array is being added to UserDefaults")
-        let dateTimeToAdd = Date().dateStringWithTime()
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(athleticsArray), forKey: "athleticsArray")
-        UserDefaults.standard.set(dateTimeToAdd, forKey: "athleticsArrayTime")
-    }
+    
 }

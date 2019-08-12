@@ -83,7 +83,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
             let schoolBools : [Bool] = notificationController.notificationSettings.schools
             schoolPicker = CSBCSegmentedControl()
             var indexAtWhichToInsertSegment = 0
-            for i in 0..<schoolBools.count {
+            for i in schoolBools.indices {
                 if schoolBools[i] {
                     schoolPicker.insertSegment(withTitle: schoolsArray[i], at: indexAtWhichToInsertSegment, animated: false)
                     indexAtWhichToInsertSegment += 1
@@ -142,7 +142,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         schoolSelected.update(sender)
     }
     
-    func getSchoolSelected() -> SchoolSelected {
+    private func getSchoolSelected() -> SchoolSelected {
         return SchoolSelected(string: userDefaults.string(forKey: "schoolSelected") ?? "Seton", int: schoolsMap[userDefaults.string(forKey: "schoolSelected") ?? "Seton"] ?? 0)
     }
     
@@ -198,7 +198,7 @@ class CSBCSegmentedControl : UISegmentedControl {
         schoolPickerValueChanged(self)
     }
     
-    @objc func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    @objc private func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         print("runs on programmatic change")
         print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
         delegate?.schoolPickerValueChanged(sender)

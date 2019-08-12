@@ -13,11 +13,11 @@ import SwiftyJSON
 ///Downloads athletics data, outsources parsing, then displays results in a UITableView. It outsources search functions, but can display the filtered (searched) data
 class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var searchBarContainerView: UIView!
-    @IBOutlet weak var footerLabel: UILabel!
+    @IBOutlet weak private var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var searchBarContainerView: UIView!
+    @IBOutlet weak private var footerLabel: UILabel!
     
-    lazy var refreshControl: UIRefreshControl = {
+    lazy private var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
             #selector(refreshData), for: .valueChanged)
@@ -27,8 +27,8 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     }()
     var athleticsDataPresent = false
     var athleticsData = AthleticsDataParser()
-    var searchControllerController : CSBCSearchController!
-    var modelArrayForSearch : [AthleticsModel?] {
+    private var searchControllerController : CSBCSearchController!
+    private var modelArrayForSearch : [AthleticsModel?] {
         get {
             if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
                 return athleticsData.athleticsModelArrayFiltered
@@ -64,10 +64,10 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     }
 
     //MARK: Athletics Data Methods
-    @objc func refreshData() {
+    @objc private func refreshData() {
         AthleticsRetriever().retrieveAthleticsArray(forceReturn: false, forceRefresh: true, completion: setupTable)
     }
-    func setupTable(athleticsArray : [AthleticsModel?]) {
+    private func setupTable(athleticsArray : [AthleticsModel?]) {
         if modelArrayForSearch != athleticsArray {
             modelArrayForSearch = athleticsArray
         }

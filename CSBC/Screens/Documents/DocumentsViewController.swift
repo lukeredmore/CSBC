@@ -11,9 +11,9 @@ import PDFKit
 
 ///Documents screen's table view methods, supplies title of PDF to display to ActualDocVC
 class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
-    @IBOutlet var tableView: UITableView!
-    let documentTitles = [["SCC Parent - Student Handbook", "SCC Bell Schedule", "SCC Course Description and Information Guide", "SCC Monthly Calendar", "CSBC Calendar", "SCC Dress Code"],[""],["All Saints Cafeteria Info","All Saints Illness Policy"],["St. James Parent - Student Handbook","St. James Code of Conduct"]]
-    let pdfTitleStrings = [["scchandbook","sccbellschedule","scccoursedescription","sccmonthlycalendar","csbccalendar","sccdresscode"],[],["saintscafeteriainfo","saintssickpolicy"],["jameshandbook","jamescodeofconduct"]]
+    @IBOutlet private var tableView: UITableView!
+    private let documentTitles = [["SCC Parent - Student Handbook", "SCC Bell Schedule", "SCC Course Description and Information Guide", "SCC Monthly Calendar", "CSBC Calendar", "SCC Dress Code"],[""],["All Saints Cafeteria Info","All Saints Illness Policy"],["St. James Parent - Student Handbook","St. James Code of Conduct"]]
+    private let pdfTitleStrings = [["scchandbook","sccbellschedule","scccoursedescription","sccmonthlycalendar","csbccalendar","sccdresscode"],[],["saintscafeteriainfo","saintssickpolicy"],["jameshandbook","jamescodeofconduct"]]
     
     
     //MARK: View Control
@@ -26,7 +26,7 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
         super.viewWillAppear(animated)
     }
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         tableView.reloadData()
     }

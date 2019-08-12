@@ -17,26 +17,26 @@ protocol DayOverriddenDelegate: class {
 
 ///Modal VC where both the notification delivery time and day override can be picked
 final class ModalPickerViewController: ModalMenuViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    @IBOutlet weak var menuView: UIView!
-    @IBOutlet weak var menuViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var menuView: UIView!
+    @IBOutlet weak private var menuViewHeightConstraint: NSLayoutConstraint!
     
-    @IBOutlet weak var timePicker: UIDatePicker!
-    weak var timeEnteredDelegate: TimeEnteredDelegate?
-    var timeToShow : Date?
+    @IBOutlet weak private var timePicker: UIDatePicker!
+    weak private var timeEnteredDelegate: TimeEnteredDelegate?
+    private var timeToShow : Date?
     
-    @IBOutlet weak var dayPicker: UIPickerView!
-    weak var dayOverrideDelegate: DayOverriddenDelegate?
-    var dayToShow : Int?
+    @IBOutlet weak private var dayPicker: UIPickerView!
+    weak private var dayOverrideDelegate: DayOverriddenDelegate?
+    private var dayToShow : Int?
     
     
     //MARK: Init Methods
-    internal static func instantiateForDayOverride(delegate : DayOverriddenDelegate, dayToShow : Int) -> ModalPickerViewController {
+    static func instantiateForDayOverride(delegate : DayOverriddenDelegate, dayToShow : Int) -> ModalPickerViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetDeliveryTimeViewScene") as! ModalPickerViewController
         vc.dayOverrideDelegate = delegate
         vc.dayToShow = dayToShow
         return vc
     }
-    internal static func instantiateForTime(delegate : TimeEnteredDelegate, timeToShow : Date) -> ModalPickerViewController {
+    static func instantiateForTime(delegate : TimeEnteredDelegate, timeToShow : Date) -> ModalPickerViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SetDeliveryTimeViewScene") as! ModalPickerViewController
         vc.timeEnteredDelegate = delegate
         vc.timeToShow = timeToShow

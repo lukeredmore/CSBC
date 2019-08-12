@@ -32,7 +32,7 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
             setupSearchController(searchBarContainerView)
         }
     }
-    func setupSearchController(_ searchBarContainerView : UIView) {
+    private func setupSearchController(_ searchBarContainerView : UIView) {
         
         //tableView.tableHeaderView = searchController.searchBar
         searchBarContainerView.addSubview(searchController.searchBar)
@@ -78,15 +78,15 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
             
         }
     }
-    func filterAthleticsRowsForSearchedText(_ searchText: String) {
+    private func filterAthleticsRowsForSearchedText(_ searchText: String) {
         let arrayShorter = athleticsParent!.athleticsData.athleticsModelArray
         athleticsParent!.athleticsData.athleticsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
         var includedIndicesList : [Int] = []
         if arrayShorter.count > 0 {
             if arrayShorter[0] != nil {
-                for date in 0..<arrayShorter.count {
-                    for event in 0..<arrayShorter[date]!.title.count {
+                for date in arrayShorter.indices {
+                    for event in arrayShorter[date]!.title.indices {
                         if arrayShorter[date]!.title[event].lowercased().contains(searchText.lowercased()) {
                             includedModelsList.append(date)
                             includedIndicesList.append(event)
@@ -107,13 +107,13 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         athleticsParent!.athleticsData.addToFilteredModelArray(modelsToInclude: includedModelsList, indicesToInclude: includedIndicesList)
         athleticsParent!.tableView.reloadData()
     }
-    func filterEventsRowsForSearchedText(_ searchText : String) {
+    private func filterEventsRowsForSearchedText(_ searchText : String) {
         let arrayShorter = eventsParent!.calendarData.eventsModelArray
         eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
         if arrayShorter.count > 0 {
             if arrayShorter[0] != nil {
-                for n in 0..<arrayShorter.count {
+                for n in arrayShorter.indices {
                     if arrayShorter[n]!.date.lowercased().contains(searchText.lowercased()) {
                         includedModelsList.append(n)
                     } else if arrayShorter[n]!.day.lowercased().contains(searchText.lowercased()) {
@@ -140,7 +140,7 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
         var includedModelsList : [Int] = []
         if arrayShorter[0] != nil {
-            for n in 0..<arrayShorter.count {
+            for n in arrayShorter.indices {
                 if schoolsList[0] && arrayShorter[n]!.schools.contains("Seton") {
                     includedModelsList.append(n)
                 } else if schoolsList[1] && arrayShorter[n]!.schools.contains("John") {

@@ -13,7 +13,7 @@ import MessageUI
 ///Mail delegate methods for SettingsTableViewController
 class SettingsMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     
-    let parent : SettingsViewController!
+    private let parent : SettingsViewController!
     
     init(_ parent: SettingsViewController) {
         self.parent = parent
@@ -28,7 +28,7 @@ class SettingsMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
             self.showSendMailErrorAlert()
         }
     }
-    func configuredMailComposeViewController() -> MFMailComposeViewController {
+    private func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
         
@@ -38,7 +38,7 @@ class SettingsMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
         
         return mailComposerVC
     }
-    func showSendMailErrorAlert() {
+    private func showSendMailErrorAlert() {
         let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device could not send email. Please check your email configuration and try again.", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .cancel)
         sendMailErrorAlert.addAction(okButton)

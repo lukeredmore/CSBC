@@ -9,15 +9,15 @@
 import UIKit
 
 final class FilterAlertsViewController: ModalMenuViewController {
-    @IBOutlet var menuView: UIView!
-    @IBOutlet var menuViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet var datePicker: UIDatePicker!
+    @IBOutlet private var menuView: UIView!
+    @IBOutlet private var menuViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet private var datePicker: UIDatePicker!
     
     weak var delegate: DateEnteredDelegate? = nil
-    let daySchedule = DaySchedule()
-    let formatter = DateFormatter()
-    var startDate : Date?
-    var endDate : Date?
+    private let daySchedule = DaySchedule()
+    private let formatter = DateFormatter()
+    private var startDate : Date?
+    private var endDate : Date?
     var dateToShow = Date()
     
     

@@ -15,18 +15,14 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
     //Collection Setup Properties
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
-    let collectionController = HomeCollectionViewDataSource()
+    private let collectionController = HomeCollectionViewDataSource()
     
     //Alert Setup Properties
-    @IBOutlet weak var alertLabel: UILabel!
-    @IBOutlet weak var alertViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var wordmarkMarginHeightConstraint: NSLayoutConstraint!
-    @IBOutlet weak var alertBanner: UIView!
-    var localAlerts : AlertController?
-    
-    //Other properties
-    var athleticsData = AthleticsDataParser()
-    var calendarData = EventsDataParser()
+    @IBOutlet weak private var alertLabel: UILabel!
+    @IBOutlet weak private var alertViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var wordmarkMarginHeightConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var alertBanner: UIView!
+    private var localAlerts : AlertController?
 
     
     //MARK: View Control
@@ -95,25 +91,11 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
 
     
     // MARK: - Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        switch segue.identifier {
-        case "AthleticsSegue":
-            let childVC = segue.destination as! AthleticsViewController
-            childVC.athleticsData = self.athleticsData
-        case "TodaySegue":
-            let childVC = segue.destination as! TodayContainerViewController
-            childVC.athleticsData = self.athleticsData
-            childVC.calendarData = self.calendarData
-        default:
-            break
-        }
-    }
     func showNewsInSafariView() {
         if let url = URL(string: "https://csbcsaints.org/news") {
             let safariView = SFSafariViewController(url: url)
             safariView.configureForCSBC()
             self.present(safariView, animated: true, completion: nil)
         }
-        
     }
 }

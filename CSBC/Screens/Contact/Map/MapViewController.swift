@@ -13,12 +13,12 @@ import MapKit
 ///Displays location of selected building in Apple Maps, along with an annotation and optional directions (through Maps app)
 class MapViewController: CSBCViewController {
     
-    @IBOutlet var mapView: MKMapView!
+    @IBOutlet private var mapView: MKMapView!
     
-    var givenLatitude : Double = 0.000
-    var givenLongitude : Double = 0.000
-    let locationDictionary : [String:[Double]] = ["Seton Catholic Central":[42.098485, -75.928579], "All Saints School":[42.100491, -76.050103], "St. John's School":[42.092430, -75.908342], "St. James School":[42.115512, -75.969542]]
-    let fullSchoolsArray = ["Seton Catholic Central","St. John's School","All Saints School","St. James School"]
+    private var givenLatitude : Double = 0.000
+    private var givenLongitude : Double = 0.000
+    private let locationDictionary : [String:[Double]] = ["Seton Catholic Central":[42.098485, -75.928579], "All Saints School":[42.100491, -76.050103], "St. John's School":[42.092430, -75.908342], "St. James School":[42.115512, -75.969542]]
+    private let fullSchoolsArray = ["Seton Catholic Central","St. John's School","All Saints School","St. James School"]
     
     
     //MARK: View Control
@@ -37,7 +37,7 @@ class MapViewController: CSBCViewController {
     }
     
     
-    func centerMapOnLocation(_ location: CLLocation) {
+    private func centerMapOnLocation(_ location: CLLocation) {
         let coordinateRegion = MKCoordinateRegion(
             center: location.coordinate,
             latitudinalMeters: 1000,
@@ -46,14 +46,14 @@ class MapViewController: CSBCViewController {
     }
 
     
-    @IBAction func directionsButtonPressed(_ sender: Any) {
+    @IBAction private func directionsButtonPressed(_ sender: Any) {
         let urlString = "http://maps.apple.com/?daddr=\(givenLatitude)+\(givenLongitude)&dirflg=d&t=m"
         UIApplication.shared.open(URL(string: urlString)!)
         
     }
     
     
-    @IBAction func doneButtonPressed(_ sender: Any) {
+    @IBAction private func doneButtonPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     

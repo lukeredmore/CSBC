@@ -13,14 +13,14 @@ import FirebaseAuth
 
 /// Container of admin settings. Contains admin authentication methods, hides/shows admin settings,
 class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegate, GIDSignInUIDelegate {
-    let allowedUserEmails = ["luke.redmore", "lukeredmore", "lredmore", "lredmore20", "mmartinkovic", "llevis", "skitchen", "isanyshyn", "kehret", "wpipher", "krosen", "jfountaine", "kpawlowski"]
+    private let allowedUserEmails = ["luke.redmore", "lukeredmore", "lredmore", "lredmore20", "mmartinkovic", "llevis", "skitchen", "isanyshyn", "kehret", "wpipher", "krosen", "jfountaine", "kpawlowski"]
     
-    @IBOutlet weak var containerView: UIView!
-    @IBOutlet weak var signInButton: GIDSignInButton!
-    @IBOutlet weak var signOutButton: UIButton!
-    @IBOutlet weak var testLabel: UILabel!
+    @IBOutlet weak private var containerView: UIView!
+    @IBOutlet weak private var signInButton: GIDSignInButton!
+    @IBOutlet weak private var signOutButton: UIButton!
+    @IBOutlet weak private var testLabel: UILabel!
     
-    var daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
+    private var daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
     private var usersSchool = SchoolSelected(string: "Seton", int: 0)
     
     override func viewDidLoad() {
@@ -46,11 +46,11 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     
     
     //MARK: Sign In Methods
-    func configureLogin(forUserID id : String) {
+    private func configureLogin(forUserID id : String) {
         usersSchool = determinePrioritiesForUser(userID: id)
         showAdminSettings(true)
     }
-    func determinePrioritiesForUser(userID : String) -> SchoolSelected {
+    private func determinePrioritiesForUser(userID : String) -> SchoolSelected {
         switch userID {
         case "luke.redmore","lredmore","lredmore20","mmartinkovic","llevis":
             return SchoolSelected(string: "Seton", int: 0)
@@ -64,12 +64,12 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
             return SchoolSelected(string: "Seton", int: 4)
         }
     }
-    func showAdminSettings(_ shouldBeSignedIn : Bool) {
+    private func showAdminSettings(_ shouldBeSignedIn : Bool) {
         let childVC = children[0] as! AdminSettingsTableViewController
         if shouldBeSignedIn {
             signOutButton.titleLabel?.text = "Sign Out"
             childVC.usersSchool = usersSchool.ssString
-            if let dayToSend = daySchedule.getDayOptional(forSchool: usersSchool.ssString, forDate: dateStringFormatter.string(from: Date())) {
+            if let dayToSend = daySchedule.getDayOptional(forSchool: usersSchool.ssString, forDateString: dateStringFormatter.string(from: Date())) {
                 childVC.dayLabel.text = "\(dayToSend)"
                 childVC.originalDay = dayToSend
             } else {
@@ -92,10 +92,10 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     
     
     //MARK: Sign Out Methods
-    @IBAction func signOutTapped(_ sender: Any) {
+    @IBAction private func signOutTapped(_ sender: Any) {
         signOut()
     }
-    func signOut() {
+    private func signOut() {
         GIDSignIn.sharedInstance()?.disconnect()
         do {
             try Auth.auth().signOut()

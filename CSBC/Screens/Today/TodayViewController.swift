@@ -11,20 +11,16 @@ import UIKit
 ///Programmatically creates today view controller with table view. Doesn't touch the data, except to send it through to the datasource
 class TodayViewController: UIViewController {
     let date : Date!
-    var todaysEvents : [EventsModel] = []
-    var todaysAthletics : AthleticsModel? = nil
-    var forSchool : String!
-    let todayView : TodayView!
+    private let todayView : TodayView!
     
-    let todayDataSource = TodayDataSource()
+    private let todayDataSource : TodayDataSource!
     
     
     //MARK: Init Methods
     init(date : Date, dayOfCycle : Int, athleticsModel : AthleticsModel?, eventsModel : [EventsModel]) {
         self.date = date
-        self.todaysAthletics = athleticsModel
-        self.todaysEvents = eventsModel
         self.todayView = TodayView(forDay: dayOfCycle)
+        self.todayDataSource = TodayDataSource(todaysEvents: eventsModel, todaysAthletics: athleticsModel)
         super.init(nibName: nil, bundle: nil)
     }
     required init?(coder aDecoder: NSCoder) {
@@ -35,8 +31,6 @@ class TodayViewController: UIViewController {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        todayDataSource.todaysAthletics = self.todaysAthletics
-        todayDataSource.todaysEvents = self.todaysEvents
         todayView.tableView.dataSource = todayDataSource
         todayView.tableView.reloadData()
         view = todayView

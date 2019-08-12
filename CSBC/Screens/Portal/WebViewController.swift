@@ -12,10 +12,10 @@ import WebKit
 /// Loads PlusPortals in WKWebView with custom controls and ability to select school
 class WebViewController: CSBCViewController, WKNavigationDelegate {
     
-    var portalURLStrings = ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
-    @IBOutlet var webView: WKWebView!
-    @IBOutlet weak var myProgressView: UIProgressView!
-    var compileDate : Date {
+    private var portalURLStrings = ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
+    @IBOutlet private var webView: WKWebView!
+    @IBOutlet weak private var myProgressView: UIProgressView!
+    private var compileDate : Date {
         let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as? String ?? "Info.plist"
         if let infoPath = Bundle.main.path(forResource: bundleName, ofType: nil),
             let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
@@ -41,7 +41,7 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [myProgressView], barHeight: 5)
         super.viewWillAppear(animated)
     }
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
+    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         super.schoolPickerValueChanged(sender)
         if let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])") {
             let urlToRequest = URLRequest(url: urlToLoad)
@@ -64,16 +64,16 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
     
     
     //MARK: Custom WebView Action Buttons
-    @objc func removeProgressBar() {
+    @objc private func removeProgressBar() {
         myProgressView.progressTintColor = .csbcYellow
     }
-    @IBAction func backButtonPressed(_ sender: Any) {
+    @IBAction private func backButtonPressed(_ sender: Any) {
         webView.goBack()
     }
-    @IBAction func forwardButtonPressed(_ sender: Any) {
+    @IBAction private func forwardButtonPressed(_ sender: Any) {
         webView.goForward()
     }
-    @IBAction func refreshButtonPressed(_ sender: Any) {
+    @IBAction private func refreshButtonPressed(_ sender: Any) {
         webView.reload()
         myProgressView.setProgress(0.0, animated: false)
         myProgressView.progressTintColor = .blue

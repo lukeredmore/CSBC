@@ -10,7 +10,7 @@ import Foundation
 import Alamofire
 
 class EventsRetriever {
-    let preferences = UserDefaults.standard
+    private let preferences = UserDefaults.standard
     
     func retrieveEventsArray(forceReturn : Bool = false, forceRefresh: Bool = false, completion : @escaping ([EventsModel?]) -> Void) {
         if forceRefresh {
@@ -47,7 +47,7 @@ class EventsRetriever {
     private func getEventsDataFromOnline(completion : @escaping ([EventsModel?]) -> Void) {
         print("We are asking for Events data")
         Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value, response.error != nil {
+            if let html = response.result.value, response.error == nil {
                 if html.contains("span") {
                     EventsDataParser().parseHTMLForEvents(html: html)
                     self.retrieveEventsArray(forceReturn: false, forceRefresh: false, completion: completion)

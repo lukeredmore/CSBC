@@ -11,30 +11,30 @@ import UIKit
 ///Controls all settings switches and receives time from datePicker. Updates Firebase through NotificationController
 class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     
-    @IBOutlet weak var deliverNotificationsSwitch: UISwitch!
-    @IBOutlet weak var deliveryTimeLabel: UILabel!
-    @IBOutlet weak var deliveryTimeCell: UITableViewCell!
-    @IBOutlet var settingsSwitch: [UISwitch]!
-    @IBOutlet weak var copyrightLabel: UILabel!
-    @IBOutlet weak var versionLabel: UILabel!
-    let userDefaults = UserDefaults.standard
-    var fmtYear : DateFormatter {
+    @IBOutlet weak private var deliverNotificationsSwitch: UISwitch!
+    @IBOutlet weak private var deliveryTimeLabel: UILabel!
+    @IBOutlet weak private var deliveryTimeCell: UITableViewCell!
+    @IBOutlet private var settingsSwitch: [UISwitch]!
+    @IBOutlet weak private var copyrightLabel: UILabel!
+    @IBOutlet weak private var versionLabel: UILabel!
+    private let userDefaults = UserDefaults.standard
+    private var fmtYear : DateFormatter {
         let fmtYear = DateFormatter()
         fmtYear.dateFormat = "yyyy"
         return fmtYear
     }
-    var fmt : DateFormatter {
+    private var fmt : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "h:mm a"
         fmt.amSymbol = "AM"
         fmt.pmSymbol = "PM"
         return fmt
     }
-    var notificationController = NotificationController()
-    var notificationSettings : NotificationSettings!
+    private var notificationController = NotificationController()
+    private var notificationSettings : NotificationSettings!
     
-    var deliveryTimeSegue : UIStoryboardSegue?
-    var reportIssueSegue : UIStoryboardSegue?
+    private var deliveryTimeSegue : UIStoryboardSegue?
+    private var reportIssueSegue : UIStoryboardSegue?
     
     
     //MARK: View Control
@@ -73,7 +73,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     }
     
     
-    func getNotificationPreferences() {
+    private func getNotificationPreferences() {
         for i in 0..<4 { //Schools switches
             settingsSwitch[i].isOn = notificationSettings.schools[i]
         }
@@ -91,7 +91,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     
     
     //MARK: Button Listeners
-    @IBAction func settingsSwitchToggled(_ sender: Any) { //school switches
+    @IBAction private func settingsSwitchToggled(_ sender: Any) { //school switches
         notificationSettings.valuesChangedByUser = true
         
         let tag = (sender as AnyObject).tag - 1
@@ -104,13 +104,13 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         }
         
     }
-    @IBAction func showAllSchoolsSwitchToggled(_ sender: Any) { //turn on showAllSchools if schools are all off or all on
+    @IBAction private func showAllSchoolsSwitchToggled(_ sender: Any) { //turn on showAllSchools if schools are all off or all on
         if (!settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn && !settingsSwitch[4].isOn) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) {
             settingsSwitch[4].setOn(true, animated: true)
             userDefaults.set(true, forKey: "showAllSchools")
         }
     }
-    @IBAction func notificationOptInToggled(_ sender: Any) { //deliver notiications switch
+    @IBAction private func notificationOptInToggled(_ sender: Any) { //deliver notiications switch
         notificationSettings.valuesChangedByUser = true
 
         deliveryTimeCell.isHidden = !deliverNotificationsSwitch.isOn
@@ -144,7 +144,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         }
         if indexPath.section == 3 && indexPath.row == 0 {
             SettingsMailDelegate(self).presentMailVC() //working atm
-            /*let reportIssueVC = ComposerViewController.instantiate()
+            /*private let reportIssueVC = ComposerViewController.instantiate()
             self.present(reportIssueVC, animated: true, completion: nil)*/
         }
         if indexPath.section == 4 {

@@ -11,7 +11,7 @@ import PDFKit
 
 ///Displays PDF supplied by parent
 class ActualDocViewController: UIViewController {
-    @IBOutlet weak var pdfView: PDFView!
+    @IBOutlet weak private var pdfView: PDFView!
     var documentToDisplay : PDFDocument?
     
     
@@ -52,7 +52,7 @@ class ActualDocViewController: UIViewController {
     
     
     //MARK: PDF Methods
-    @objc func shareButtonPressed() {
+    @objc private func shareButtonPressed() {
         if documentToDisplay != nil {
             let activityViewController = UIActivityViewController(activityItems: [self.documentToDisplay?.documentURL! as Any], applicationActivities: nil)
             DispatchQueue.main.async {
@@ -60,7 +60,7 @@ class ActualDocViewController: UIViewController {
             }
         }
     }
-    func configurePDFToDisplay() {
+    private func configurePDFToDisplay() {
         if let doc = documentToDisplay {
             pdfView.document = doc
             pdfView.displayMode = .singlePageContinuous

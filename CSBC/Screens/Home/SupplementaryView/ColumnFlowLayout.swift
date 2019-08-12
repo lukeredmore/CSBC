@@ -25,7 +25,7 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepare() {
+    override  func prepare() {
         super.prepare()
         
         guard let collectionView = collectionView else { return }
@@ -34,7 +34,7 @@ class ColumnFlowLayout: UICollectionViewFlowLayout {
         itemSize = CGSize(width: itemWidth, height: itemWidth)
     }
     
-    override func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
+    override  func invalidationContext(forBoundsChange newBounds: CGRect) -> UICollectionViewLayoutInvalidationContext {
         let context = super.invalidationContext(forBoundsChange: newBounds) as! UICollectionViewFlowLayoutInvalidationContext
         context.invalidateFlowLayoutDelegateMetrics = newBounds.size != collectionView?.bounds.size
         return context
