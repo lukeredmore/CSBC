@@ -23,7 +23,7 @@ class PublishPushNotifications {
     private var headers : HTTPHeaders = ["Content-Type":"application/json"]
     weak var delegate : PublishPushNotificationsDelegate?
     
-    init(withMessage : String, toSchool : String) {
+    init(withMessage : String, toSchool : Schools) {
         self.messageToSend = withMessage
         self.schoolConditional = findConditionalForSchool(school: toSchool)
         
@@ -34,23 +34,20 @@ class PublishPushNotifications {
         #endif
     }
     
-    private func findConditionalForSchool(school : String) -> String {
+    private func findConditionalForSchool(school : Schools) -> String {
         switch school {
-        case "Seton":
+        case .seton:
             notificationTitle = "Seton Catholic Central"
             return "setonNotifications"
-        case "St. John's":
+        case .john:
             notificationTitle = "St. John School"
             return "johnNotifications"
-        case "All Saints":
+        case .saints:
             notificationTitle = "All Saints School"
             return "saintsNotifications"
-        case "St. James":
+        case .james:
             notificationTitle = "St. James School"
             return "jamesNotifications"
-        default:
-            notificationTitle = school
-            return ""
         }
     }
     

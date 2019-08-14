@@ -22,7 +22,7 @@ protocol PageViewDelegate: class {
 }
 protocol TodayParserDelegate: class { //parser tells pager to initialize VCs
     func startupPager()
-    var schoolSelected : SchoolSelected { get }
+    var schoolSelected : Schools { get }
 }
 
 class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, PageViewDelegate {
@@ -46,8 +46,7 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
         super.viewWillAppear(animated)
     }
     
-    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
+    override func schoolPickerValueChanged() {
         containerDelegate?.schoolPickerValueDidChange()
     }
     

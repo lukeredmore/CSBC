@@ -112,7 +112,7 @@ class EventsDataParser {
             }
             if eventsModelArray.count > 1 {
                 if eventsModelArray[0] != nil {
-                    eventsModelArray = eventsModelArray.sorted(by: { $0!.day < $1!.day })
+                    eventsModelArray = eventsModelArray.sorted { $0!.day < $1!.day }
                 }
             }
             addObjectArrayToUserDefaults(eventsModelArray)
@@ -135,7 +135,7 @@ class EventsDataParser {
         }
         if eventsModelArrayFiltered.count > 1 {
             if eventsModelArrayFiltered[0] != nil {
-                eventsModelArrayFiltered = eventsModelArrayFiltered.sorted(by: { $0!.day < $1!.day })
+                eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.day < $1!.day }
             }
         }
     }

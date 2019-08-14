@@ -43,8 +43,7 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
     
     //MARK: Lunch Menu Displayed Methods
-    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
+    override func schoolPickerValueChanged() {
         reloadDocumentView()
     }
     @objc private func reloadDocumentView() {
@@ -53,9 +52,9 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         pdfView.isHidden = true
         navigationItem.rightBarButtonItem?.isEnabled = false
         
-        if let pdfToDisplay = loadedPDFURLs[schoolSelected.ssInt] {
+        if let pdfToDisplay = loadedPDFURLs[schoolSelected.rawValue] {
             configurePDFView(forPDF: PDFDocument(url: pdfToDisplay))
-        } else if let docURLToDisplay = loadedWordURLs[schoolSelected.ssInt] {
+        } else if let docURLToDisplay = loadedWordURLs[schoolSelected.rawValue] {
             configureWebView(forDocURLString: docURLToDisplay)
         }
     }
@@ -78,8 +77,8 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         }
     }
     @objc private func shareButtonPressed() {
-        if loadedPDFURLs[schoolSelected.ssInt] != nil && loadingSymbol.isHidden == true {
-            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.ssInt]!)?.documentURL! as Any], applicationActivities: nil)
+        if loadedPDFURLs[schoolSelected.rawValue] != nil && loadingSymbol.isHidden == true {
+            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.rawValue]!)?.documentURL! as Any], applicationActivities: nil)
             DispatchQueue.main.async {
                 self.present(activityViewController, animated: true, completion: nil)
             }

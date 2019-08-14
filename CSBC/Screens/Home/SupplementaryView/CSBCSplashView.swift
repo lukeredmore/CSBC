@@ -44,42 +44,17 @@ open class CSBCSplashView: UIView {
     
     
     //MARK: Animations
-//    func startAnimation() {
-//        //Shrink animation
-//        UIView.animate(withDuration: 0.45, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 10, options: UIView.AnimationOptions(), animations: {
-//            self.imageView.transform = CGAffineTransform(scaleX: 0.75,y: 0.75)
-//
-//            //When animation completes, grow the image
-//        }, completion: { finished in
-//            self.playZoomOutAnimation()
-//        })
-//
-//    }
-//    private func playZoomOutAnimation() {
-//        //Grow and fade animation
-//        UIView.animate(withDuration: 0.45, animations:{
-//            self.imageView.transform = CGAffineTransform(scaleX: 20, y: 20)
-//            self.alpha = 0
-//
-//            //When animation completes remote self from super view
-//        }, completion: { finished in
-//            self.removeFromSuperview()
-//        })
-//
-//    }
     func startAnimation() {
         //Shrink animation
         UIView.animate(withDuration: 0.45, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 10, options: [], animations: {
             self.imageView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
-        }, completion: nil)
+        })
         
         //Zoom out animation
         UIView.animate(withDuration: 0.45, delay: 0.95, options: [], animations: {
             self.imageView.transform = CGAffineTransform(scaleX: 20, y: 20)
             self.alpha = 0
-        }, completion: { finished in
-            self.removeFromSuperview()
-        })
+        }) { finished in self.removeFromSuperview() }
     }
     
 }

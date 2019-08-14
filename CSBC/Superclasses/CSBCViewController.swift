@@ -10,8 +10,17 @@ import UIKit
 
 /// Default superclass for View Controllers in CSBC with access to common methods (setting up segmented control and finding the selected school)
 class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
-    
-    var schoolSelected = SchoolSelected(string: "Seton", int: 0)
+    var schoolSelected : Schools {
+        get {
+            return Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
+        }
+        set {
+            let ssInt = newValue.rawValue
+            UserDefaults.standard.set(ssInt, forKey:"schoolSelected")
+            print("schoolSelected stored as \(newValue.ssString): \(ssInt)")
+            schoolPickerValueChanged()
+        }
+    }
     var dateStringFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
@@ -44,7 +53,6 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
             loadingSymbol.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30)
         ])
         
-        schoolSelected = getSchoolSelected()
     }
     
     func setupSchoolPickerAndBarForDefaultBehavior(topMostItems : [UIView], showAllSegments : Bool = false, barHeight : CGFloat = 8) {
@@ -136,44 +144,12 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         }
     }
     
-    
-    
-    func schoolPickerValueChanged(_ sender : CSBCSegmentedControl) {
-        schoolSelected.update(sender)
-    }
-    
-    private func getSchoolSelected() -> SchoolSelected {
-        return SchoolSelected(string: userDefaults.string(forKey: "schoolSelected") ?? "Seton", int: schoolsMap[userDefaults.string(forKey: "schoolSelected") ?? "Seton"] ?? 0)
-    }
-    
+    func schoolPickerValueChanged() { }
 }
 
-
-class CSBCPageViewController : UIPageViewController {
-    var schoolSelected = SchoolSelected(string: "Seton", int: 0)
-    var dateStringFormatter : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy"
-        return fmt
-    }
-    let threeLetterMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
-    let schoolsArray = ["Seton","St. John's","All Saints","St. James"]
-    let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
-    let userDefaults = UserDefaults.standard
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        schoolSelected = getSchoolSelected()
-    }
-    
-    func getSchoolSelected() -> SchoolSelected {
-        return SchoolSelected(string: userDefaults.string(forKey: "schoolSelected") ?? "Seton", int: schoolsMap[userDefaults.string(forKey: "schoolSelected") ?? "Seton"] ?? 0)
-    }
-}
 
 protocol CSBCSegmentedControlDelegate : class {
-    func schoolPickerValueChanged(_ sender : CSBCSegmentedControl)
+    func schoolPickerValueChanged()
 }
 class CSBCSegmentedControl : UISegmentedControl {
     
@@ -200,26 +176,11 @@ class CSBCSegmentedControl : UISegmentedControl {
     
     @objc private func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
         print("runs on programmatic change")
-        print(sender.titleForSegment(at: sender.selectedSegmentIndex)!)
-        delegate?.schoolPickerValueChanged(sender)
-    }
-}
-
-class SchoolSelected {
-    var ssString : String = "Seton"
-    var ssInt : Int = 0
-    let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
-    let schoolsArray = ["Seton","St. John's","All Saints","St. James"]
-    
-    init(string : String, int : Int) {
-        self.ssString = string
-        self.ssInt = int
-    }
-    
-    func update(_ schoolPicker : UISegmentedControl) {
-        ssString = schoolPicker.titleForSegment(at: schoolPicker.selectedSegmentIndex) ?? "Seton"
-        ssInt = schoolsMap[ssString] ?? 0
-        UserDefaults.standard.set(schoolsArray[ssInt], forKey: "schoolSelected")
-        print("schoolSelected stored as \(schoolsArray[ssInt])")
+        let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
+        let ssString = sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "Seton"
+        let ssInt = schoolsMap[ssString] ?? 0
+        UserDefaults.standard.set(ssInt, forKey:"schoolSelected")
+        print("schoolSelected stored as \(ssString): \(ssInt)")
+        delegate?.schoolPickerValueChanged()
     }
 }

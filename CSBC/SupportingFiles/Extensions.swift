@@ -36,7 +36,7 @@ extension UISearchBar {
         if #available(iOS 13.0, *) {
             return searchTextField
         } else {
-            return subviews.first?.subviews.first(where: { $0.isKind(of: UITextField.self) }) as! UITextField
+            return subviews.first?.subviews.first { $0.isKind(of: UITextField.self) } as! UITextField
         }
     }
 }

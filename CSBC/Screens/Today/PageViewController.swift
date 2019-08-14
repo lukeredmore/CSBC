@@ -9,7 +9,11 @@
 import UIKit
 
 ///Creates and organizes TodayVCs to be swiped through. Requests data through TodayDataParser, and populates TodayVC
-class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, ContainerViewDelegate, TodayParserDelegate {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, ContainerViewDelegate, TodayParserDelegate {
+    var schoolSelected : Schools {
+        return Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
+    }
+    
     weak var pagerDelegate : PageViewDelegate? = nil
     private var todayParser : TodayDataParser? = nil
     
@@ -39,8 +43,6 @@ class PageViewController: CSBCPageViewController, UIPageViewControllerDataSource
     }
     
     func schoolPickerValueDidChange() {
-        schoolSelected = getSchoolSelected()
-        
         if todayParser != nil {
             if viewControllers!.count > 0 {
                 guard let currentDate = (viewControllers![0] as! TodayViewController).date else { fatalError("Date is nil") }

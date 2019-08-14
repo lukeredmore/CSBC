@@ -62,22 +62,21 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
         super.viewWillAppear(animated)
     }
-    override func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
+    override func schoolPickerValueChanged() {
         tableView.reloadData()
     }
     
     
     //MARK: TableView Methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        return socialArray[schoolSelected.ssInt].count
+        return socialArray[schoolSelected.rawValue].count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return socialArray[schoolSelected.ssInt][section].count
+        return socialArray[schoolSelected.rawValue][section].count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "socialMediaTableCell", for: indexPath)
-        cell.textLabel!.text = socialArray[schoolSelected.ssInt][indexPath.section][indexPath.row]
+        cell.textLabel!.text = socialArray[schoolSelected.rawValue][indexPath.section][indexPath.row]
         return cell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -86,7 +85,7 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let appPrefix : String = headerDeepLinkPrefixes[indexPath.section]
         let safariPrefix : String = headerSafariPrefixes[indexPath.section]
-        let screenName : String = socialURLArray[schoolSelected.ssInt][indexPath.section][indexPath.row]
+        let screenName : String = socialURLArray[schoolSelected.rawValue][indexPath.section][indexPath.row]
         let appURL = NSURL(string: "\(appPrefix)\(screenName)")!
         let webURL = NSURL(string: "\(safariPrefix)\(screenName)")!
         

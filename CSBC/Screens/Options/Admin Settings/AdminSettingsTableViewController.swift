@@ -14,7 +14,7 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
 
     @IBOutlet weak var dayLabel: UILabel!
     private let notificationController = NotificationController()
-    var usersSchool : String? = nil
+    var usersSchool : Schools? = nil
     var originalDay : Int? = nil
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +45,7 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
     func adminDidOverrideDay(day: Int) {
         if originalDay != nil, usersSchool != nil {
             var dictToStore = UserDefaults.standard.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] ?? ["Seton":0,"John":0,"Saints":0,"James":0]
-            dictToStore[usersSchool!] = day - originalDay! + dictToStore[usersSchool!]!
+            dictToStore[usersSchool!.singleString] = day - originalDay! + dictToStore[usersSchool!.singleString]!
             
             print("Adding day schedule override to database")
             Database.database().reference().child("DayScheduleOverrides").updateChildValues(dictToStore) {

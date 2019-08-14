@@ -80,7 +80,7 @@ class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDe
         guard let toVC = toViewController else { return }
         isPresenting.toggle()
         
-        if isPresenting == true {
+        if isPresenting {
             containerView.addSubview(toVC.view)
             
             superMenuView.frame.origin.y += menuHeight
@@ -89,16 +89,12 @@ class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDe
             UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
                 self.superMenuView.frame.origin.y -= self.menuHeight
                 self.backdropView.alpha = 1
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
+            }) { transitionContext.completeTransition($0) }
         } else {
             UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
                 self.superMenuView.frame.origin.y += self.menuHeight
                 self.backdropView.alpha = 0
-            }, completion: { (finished) in
-                transitionContext.completeTransition(true)
-            })
+            }) { transitionContext.completeTransition($0) }
         }
     }
 }

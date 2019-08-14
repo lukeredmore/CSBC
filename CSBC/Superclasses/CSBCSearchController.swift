@@ -196,9 +196,9 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         } else {
             searchBarTopConstraint.constant = 0
         }
-        UIView.animate(withDuration: 0.1, animations: {
+        UIView.animate(withDuration: 0.1) {
             self.parent.view.layoutIfNeeded()
-        })
+        }
     }
     
     

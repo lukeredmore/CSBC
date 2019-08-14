@@ -29,9 +29,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Messaging.messaging().delegate = self as? MessagingDelegate
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
             if granted {
-                DispatchQueue.main.async(execute: {
+                DispatchQueue.main.async {
                     UIApplication.shared.registerForRemoteNotifications()
-                })
+                }
             }
         }
         
@@ -54,22 +54,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         return true
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        InstanceID.instanceID().instanceID(handler: { (result, error) in
+        InstanceID.instanceID().instanceID { (result, error) in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
             } else if let result = result {
                 print("Device registered for remote notifiations. Remote instance ID token: \(result.token)")
-            }
-        })
-        Messaging.messaging().apnsToken = deviceToken
-        InstanceID.instanceID().instanceID { (result, _) in
-            if result != nil {
+                Messaging.messaging().apnsToken = deviceToken
                 print("Initilizing notifications")
                 let notificationController = NotificationController()
                 notificationController.subscribeToTopics()
                 notificationController.queueNotifications()
             }
         }
+//        Messaging.messaging().apnsToken = deviceToken
+//        InstanceID.instanceID().instanceID { (result, _) in
+//            if result != nil {
+//                print("Initilizing notifications")
+//                let notificationController = NotificationController()
+//                notificationController.subscribeToTopics()
+//                notificationController.queueNotifications()
+//            }
+//        }
     }
 
     

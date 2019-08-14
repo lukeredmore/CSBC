@@ -10,19 +10,14 @@ import UIKit
 
 ///Controls all settings switches and receives time from datePicker. Updates Firebase through NotificationController
 class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
-    
     @IBOutlet weak private var deliverNotificationsSwitch: UISwitch!
     @IBOutlet weak private var deliveryTimeLabel: UILabel!
     @IBOutlet weak private var deliveryTimeCell: UITableViewCell!
     @IBOutlet private var settingsSwitch: [UISwitch]!
     @IBOutlet weak private var copyrightLabel: UILabel!
     @IBOutlet weak private var versionLabel: UILabel!
+    
     private let userDefaults = UserDefaults.standard
-    private var fmtYear : DateFormatter {
-        let fmtYear = DateFormatter()
-        fmtYear.dateFormat = "yyyy"
-        return fmtYear
-    }
     private var fmt : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "h:mm a"
@@ -41,8 +36,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     override func viewDidLoad() {
         super.viewDidLoad()
         notificationSettings = notificationController.notificationSettings
-        let currentYear = fmtYear.string(from: Date())
-        copyrightLabel.text = "© \(currentYear) Catholic Schools of Broome County"
+        copyrightLabel.text = "© \(Date().yearString()) Catholic Schools of Broome County"
         
         #if DEBUG
         versionLabel.text = "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)a"

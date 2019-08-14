@@ -15,10 +15,10 @@ class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     
     private let principalEmails = ["mmartinkovic","jfountaine","wpipher","skitchen"]
     
-    var schoolSelected : SchoolSelected!
+    var schoolSelected : Schools!
     private let parent : ContactViewController!
 
-    init(parent: ContactViewController, schoolSelected: SchoolSelected) {
+    init(parent: ContactViewController, schoolSelected: Schools) {
         self.parent = parent
         self.schoolSelected = schoolSelected
     }
@@ -36,7 +36,7 @@ class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
 
-        mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected!.ssInt])@syrdiocese.org"])
+        mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected.rawValue])@syrdiocese.org"])
         mailComposerVC.setSubject("")
         mailComposerVC.setMessageBody("", isHTML: false)
 

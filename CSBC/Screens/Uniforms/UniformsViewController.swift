@@ -34,16 +34,13 @@ class UniformsViewController: CSBCViewController, WKNavigationDelegate {
     override func viewWillAppear(_ animated: Bool) {
         maskView.isHidden = false
         loadingSymbol.startAnimating()
-        if schoolSelected.ssInt > 0 {
+        if schoolSelected.rawValue > 0 {
             schoolSelectedToDisplay = 2
         } else {
-            schoolSelectedToDisplay = schoolSelected.ssInt
+            schoolSelectedToDisplay = schoolSelected.rawValue
         }
-        differentSchoolPicker.selectedSegmentIndex = schoolSelected.ssInt
+        differentSchoolPicker.selectedSegmentIndex = schoolSelected.rawValue
         updateDressCodeShown()
-    }
-    override func viewWillDisappear(_ animated: Bool) {
-        schoolSelected.update(differentSchoolPicker)
     }
     
     @IBAction private func schoolPickerValueChanged(_ sender: Any) {

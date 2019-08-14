@@ -23,7 +23,7 @@ class MapViewController: CSBCViewController {
     
     //MARK: View Control
     override func viewWillAppear(_ animated: Bool) {
-        let header = fullSchoolsArray[schoolSelected.ssInt]
+        let header = fullSchoolsArray[schoolSelected.rawValue]
         givenLatitude = locationDictionary[header]![0]
         givenLongitude = locationDictionary[header]![1]
         let initialLocation = CLLocation(latitude: givenLatitude, longitude: givenLongitude)

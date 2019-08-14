@@ -435,16 +435,18 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© 2019 Catholic Schools of Broome County" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6RF-tp-G9B">
                                             <rect key="frame" x="37" y="0.0" width="340" height="23"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="340" id="14Q-rK-JSz"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="6RF-tp-G9B" firstAttribute="leading" secondItem="dOL-6v-u8R" secondAttribute="leading" constant="37" id="FN5-we-rOO"/>
-                                        <constraint firstItem="6RF-tp-G9B" firstAttribute="centerX" secondItem="dOL-6v-u8R" secondAttribute="centerX" id="aNy-Wf-Vpa"/>
-                                        <constraint firstItem="6RF-tp-G9B" firstAttribute="top" secondItem="dOL-6v-u8R" secondAttribute="top" id="gYu-r2-wIU"/>
-                                        <constraint firstAttribute="bottom" secondItem="6RF-tp-G9B" secondAttribute="bottom" constant="13" id="yrn-Xk-hor"/>
+                                        <constraint firstAttribute="bottom" secondItem="6RF-tp-G9B" secondAttribute="bottom" constant="13" id="MVM-HV-Hp4"/>
+                                        <constraint firstItem="6RF-tp-G9B" firstAttribute="top" secondItem="dOL-6v-u8R" secondAttribute="top" id="gzh-lh-h3x"/>
+                                        <constraint firstItem="6RF-tp-G9B" firstAttribute="centerX" secondItem="dOL-6v-u8R" secondAttribute="centerX" id="oz8-04-9I3"/>
                                     </constraints>
                                 </view>
                                 <prototypes>
@@ -458,36 +460,34 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hBR-3e-Nn8">
                                                     <rect key="frame" x="20" y="5" width="80" height="80"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="80" id="Iqk-NZ-yFN"/>
-                                                        <constraint firstAttribute="height" constant="80" id="nUV-2S-B7l"/>
+                                                        <constraint firstAttribute="height" constant="80" id="UeM-Mr-vNr"/>
+                                                        <constraint firstAttribute="width" constant="80" id="x3d-cC-c1E"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70 Seminary Avenue Binghamton, NY 13905" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oR-5X-FN8">
-                                                    <rect key="frame" x="110" y="30" width="212.5" height="49"/>
-                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="School Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zaQ-5e-wfT">
-                                                    <rect key="frame" x="110" y="11" width="259.5" height="23"/>
+                                                    <rect key="frame" x="110" y="11" width="115" height="22"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="23" id="PDM-AU-yx4"/>
+                                                        <constraint firstAttribute="height" constant="22" id="HUF-jf-965"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70 Seminary Avenue Binghamton, NY 13905" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oR-5X-FN8">
+                                                    <rect key="frame" x="110" y="36" width="252.5" height="44"/>
+                                                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="zaQ-5e-wfT" firstAttribute="top" secondItem="cK1-Eb-Ec9" secondAttribute="topMargin" id="6Ui-Bw-x2s"/>
-                                                <constraint firstItem="hBR-3e-Nn8" firstAttribute="leading" secondItem="cK1-Eb-Ec9" secondAttribute="leadingMargin" id="A5j-Zk-MUH"/>
-                                                <constraint firstItem="zaQ-5e-wfT" firstAttribute="leading" secondItem="7oR-5X-FN8" secondAttribute="leading" id="DwR-7y-DTd"/>
-                                                <constraint firstItem="7oR-5X-FN8" firstAttribute="top" secondItem="cK1-Eb-Ec9" secondAttribute="topMargin" constant="19" id="Pus-nB-xIo"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="7oR-5X-FN8" secondAttribute="trailing" constant="52" id="fWW-RK-Ger"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="zaQ-5e-wfT" secondAttribute="trailing" constant="5" id="h1V-nW-UYP"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="hBR-3e-Nn8" secondAttribute="bottom" constant="-6" id="ihe-HF-Eo4"/>
-                                                <constraint firstItem="zaQ-5e-wfT" firstAttribute="leading" secondItem="hBR-3e-Nn8" secondAttribute="trailing" constant="10" id="nwT-Eh-oOO"/>
-                                                <constraint firstItem="7oR-5X-FN8" firstAttribute="bottom" secondItem="cK1-Eb-Ec9" secondAttribute="bottomMargin" id="vmc-5g-PXu"/>
-                                                <constraint firstItem="hBR-3e-Nn8" firstAttribute="centerY" secondItem="cK1-Eb-Ec9" secondAttribute="centerY" id="z2b-9W-GgO"/>
+                                                <constraint firstItem="zaQ-5e-wfT" firstAttribute="top" secondItem="cK1-Eb-Ec9" secondAttribute="topMargin" id="1De-KM-55G"/>
+                                                <constraint firstItem="hBR-3e-Nn8" firstAttribute="centerY" secondItem="cK1-Eb-Ec9" secondAttribute="centerY" id="2aF-NK-UDb"/>
+                                                <constraint firstItem="zaQ-5e-wfT" firstAttribute="leading" secondItem="hBR-3e-Nn8" secondAttribute="trailing" constant="10" id="4HD-pX-KCo"/>
+                                                <constraint firstItem="hBR-3e-Nn8" firstAttribute="leading" secondItem="cK1-Eb-Ec9" secondAttribute="leading" constant="20" id="Jgy-T0-erL"/>
+                                                <constraint firstAttribute="bottom" secondItem="7oR-5X-FN8" secondAttribute="bottom" constant="10" id="NXj-kl-hCY"/>
+                                                <constraint firstItem="7oR-5X-FN8" firstAttribute="leading" secondItem="hBR-3e-Nn8" secondAttribute="trailing" constant="10" id="cIV-T2-VDx"/>
+                                                <constraint firstItem="7oR-5X-FN8" firstAttribute="top" secondItem="zaQ-5e-wfT" secondAttribute="bottom" constant="3" id="idB-kH-3si"/>
+                                                <constraint firstAttribute="trailing" secondItem="7oR-5X-FN8" secondAttribute="trailing" constant="20" id="rAQ-h0-IQA"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -533,10 +533,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="wqz-Vg-OK6" firstAttribute="leading" secondItem="xiX-QZ-X5N" secondAttribute="leading" id="Fy4-R8-qEE"/>
-                            <constraint firstItem="wqz-Vg-OK6" firstAttribute="top" secondItem="MIV-4S-hYb" secondAttribute="top" priority="999" id="WWW-gj-MTM"/>
-                            <constraint firstAttribute="trailing" secondItem="wqz-Vg-OK6" secondAttribute="trailing" id="qw9-sy-cwu"/>
-                            <constraint firstAttribute="bottom" secondItem="wqz-Vg-OK6" secondAttribute="bottom" id="t9J-Sg-NtN"/>
+                            <constraint firstAttribute="bottom" secondItem="wqz-Vg-OK6" secondAttribute="bottom" id="Mc3-bb-XrJ"/>
+                            <constraint firstItem="wqz-Vg-OK6" firstAttribute="top" secondItem="MIV-4S-hYb" secondAttribute="top" priority="999" id="OAz-g1-TM4"/>
+                            <constraint firstAttribute="trailing" secondItem="wqz-Vg-OK6" secondAttribute="trailing" id="SsM-S9-kVM"/>
+                            <constraint firstItem="wqz-Vg-OK6" firstAttribute="leading" secondItem="xiX-QZ-X5N" secondAttribute="leading" id="jYE-gc-N00"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="MIV-4S-hYb"/>
                     </view>
@@ -548,7 +548,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iha-j5-jlT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3575" y="708"/>
+            <point key="canvasLocation" x="3573.913043478261" y="707.8125"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="ynE-ke-Ad7">
@@ -603,7 +603,6 @@
                             <constraint firstItem="DyX-LF-6n7" firstAttribute="trailing" secondItem="KAR-ag-EUL" secondAttribute="trailing" id="Pkt-3a-DE3"/>
                             <constraint firstItem="DyX-LF-6n7" firstAttribute="leading" secondItem="KAR-ag-EUL" secondAttribute="leading" id="Tym-pB-ES5"/>
                             <constraint firstItem="f8P-Kr-jx2" firstAttribute="leading" secondItem="KAR-ag-EUL" secondAttribute="leading" id="UYI-6g-IWN"/>
-                            <constraint firstItem="f8P-Kr-jx2" firstAttribute="top" secondItem="suP-YT-3Ol" secondAttribute="bottom" id="ZOr-qO-DvW"/>
                             <constraint firstItem="f8P-Kr-jx2" firstAttribute="trailing" secondItem="KAR-ag-EUL" secondAttribute="trailing" id="ZeM-xa-nAg"/>
                             <constraint firstAttribute="bottom" secondItem="f8P-Kr-jx2" secondAttribute="bottom" id="e4Z-xi-dZf"/>
                             <constraint firstItem="DyX-LF-6n7" firstAttribute="top" secondItem="KAR-ag-EUL" secondAttribute="top" id="jXh-o4-9iO"/>
@@ -950,7 +949,7 @@
                             <constraint firstItem="C93-3y-3lh" firstAttribute="leading" secondItem="fv0-s6-5ih" secondAttribute="leading" id="AJR-Jw-rg0"/>
                             <constraint firstItem="UBh-Bt-68A" firstAttribute="bottom" secondItem="C93-3y-3lh" secondAttribute="bottom" id="Dd6-wa-7ax"/>
                             <constraint firstAttribute="trailing" secondItem="Unc-2p-ucw" secondAttribute="trailing" id="JQy-ml-zAy"/>
-                            <constraint firstItem="Unc-2p-ucw" firstAttribute="top" secondItem="UBh-Bt-68A" secondAttribute="top" id="XTd-Kj-HYJ"/>
+                            <constraint firstItem="Unc-2p-ucw" firstAttribute="top" secondItem="UBh-Bt-68A" secondAttribute="top" priority="999" id="XTd-Kj-HYJ"/>
                             <constraint firstAttribute="trailing" secondItem="rhA-MH-MmZ" secondAttribute="trailing" id="hFu-rc-VoI"/>
                             <constraint firstItem="C93-3y-3lh" firstAttribute="top" secondItem="Ff1-Rl-lTQ" secondAttribute="bottom" id="k8t-RQ-Izt"/>
                             <constraint firstAttribute="bottom" secondItem="rhA-MH-MmZ" secondAttribute="bottom" id="kyD-2p-7Ta"/>
@@ -960,7 +959,7 @@
                             <constraint firstItem="rhA-MH-MmZ" firstAttribute="leading" secondItem="fv0-s6-5ih" secondAttribute="leading" id="rHf-V5-OQj"/>
                             <constraint firstItem="Unc-2p-ucw" firstAttribute="leading" secondItem="fv0-s6-5ih" secondAttribute="leading" id="t9G-vS-TaH"/>
                             <constraint firstItem="Ff1-Rl-lTQ" firstAttribute="left" secondItem="fv0-s6-5ih" secondAttribute="left" id="xFs-7g-Ohn"/>
-                            <constraint firstItem="Ff1-Rl-lTQ" firstAttribute="top" secondItem="UBh-Bt-68A" secondAttribute="top" id="xih-h6-NEK"/>
+                            <constraint firstItem="Ff1-Rl-lTQ" firstAttribute="top" secondItem="UBh-Bt-68A" secondAttribute="top" priority="999" id="xih-h6-NEK"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="UBh-Bt-68A"/>
                     </view>
@@ -1460,9 +1459,9 @@
                     </navigationItem>
                     <connections>
                         <outlet property="containerView" destination="xLj-Mz-kfH" id="tMP-PL-exg"/>
+                        <outlet property="messageLabel" destination="Zw1-aG-iAo" id="60N-0O-ieR"/>
                         <outlet property="signInButton" destination="wqx-co-rS3" id="QfP-g2-llt"/>
                         <outlet property="signOutButton" destination="GDi-Yl-S2o" id="fTr-r7-Ml9"/>
-                        <outlet property="testLabel" destination="Zw1-aG-iAo" id="60N-0O-ieR"/>
                         <segue destination="68z-26-hIV" kind="presentation" identifier="" id="pqm-TP-Tjd"/>
                         <segue destination="TOw-7h-n1g" kind="presentation" identifier="" id="c4i-zB-7td"/>
                     </connections>

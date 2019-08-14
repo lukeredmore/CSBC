@@ -26,19 +26,18 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [tableView])
         super.viewWillAppear(animated)
     }
-    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
+    override func schoolPickerValueChanged() {
         tableView.reloadData()
     }
     
 
     //MARK: Table Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return documentTitles[schoolSelected.ssInt].count
+        return documentTitles[schoolSelected.rawValue].count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "documentsTableCell", for: indexPath)
-        cell.textLabel!.text = documentTitles[schoolSelected.ssInt][indexPath.row]
+        cell.textLabel!.text = documentTitles[schoolSelected.rawValue][indexPath.row]
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -51,7 +50,7 @@ class DocumentsViewController: CSBCViewController, UITableViewDataSource, UITabl
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toDocument" {
             let childVC = segue.destination as! ActualDocViewController
-            if let path = Bundle.main.path(forResource: "\(pdfTitleStrings[schoolSelected.ssInt][tableView.indexPathForSelectedRow?.row ?? 0])19-20", ofType: "pdf") {
+            if let path = Bundle.main.path(forResource: "\(pdfTitleStrings[schoolSelected.rawValue][tableView.indexPathForSelectedRow?.row ?? 0])19-20", ofType: "pdf") {
                 let url = URL(fileURLWithPath: path)
                 childVC.documentToDisplay = PDFDocument(url: url)
             }

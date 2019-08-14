@@ -46,24 +46,24 @@ class AthleticsDataParser {
                     }
                     
                     sport = titleArray[2]
+                    var subsequentOffset = 0
                     if sport == "Outdoor" {
                         sport = "Track & Field"
+                    } else if sport == "Cross" {
+                        sport = "Cross Country"
+                        subsequentOffset = 1
                     }
                     
-                    if titleArray[3] == "@" {
+                    if titleArray.contains("@") {
                         homeGame = "@"
                     } else {
                         homeGame = "vs."
                     }
                     
-                    if titleArray.count == 8 {
-                        opponent = titleArray[4] + titleArray[5]
-                    } else if titleArray.count == 9 {
-                        opponent = titleArray[4] + titleArray[5] + titleArray[6]
-                    } else {
-                        opponent = titleArray[4]
-                    }
-                    opponent = opponent.camelCaseToWords()
+                    opponent = titleArray[(4 + subsequentOffset)..<(titleArray.count-2)]
+                        .joined()
+                        .camelCaseToWords()
+                        .replacingOccurrences(of: "- ", with: "-")
                     
                     titleList.append("\(gender)'s \(sport) \(homeGame) \(opponent)")
                     levelList.append(teamAbbreviations[titleArray[1]] ?? "")
@@ -108,7 +108,7 @@ class AthleticsDataParser {
         athleticsModelArrayFiltered.removeAll()
         if athleticsModelArray.count > 0 {
             if athleticsModelArray[0] != nil {
-                for modelInt in modelsToInclude {
+                for modelInt in modelsToInclude.indices {
                     let modelToAppend = AthleticsModel(
                         title: [athleticsModelArray[modelsToInclude[modelInt]]!.title[indicesToInclude[modelInt]]],
                         level: [athleticsModelArray[modelsToInclude[modelInt]]!.level[indicesToInclude[modelInt]]],
@@ -119,6 +119,4 @@ class AthleticsDataParser {
             }
         }
     }
-    
-    
 }

@@ -27,12 +27,12 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
             return .black
         }
     }
-    private var usersSchool : String? = nil
+    private var usersSchool : Schools? = nil
     private let notificationSample = "Enter a message"
     private let reportSample = "Please give a detailed description of the issue you would like to report or the suggestion you would like to submit:"
     
     
-    static func instantiate(school : String? = nil) -> ComposerViewController {
+    static func instantiate(school : Schools? = nil) -> ComposerViewController {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ComposerViewScene") as! ComposerViewController
         vc.usersSchool = school
         return vc
@@ -63,7 +63,7 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
         }
     }
     private func sendNotification() {
-        if textView.text != "Enter a message" {
+        if textView.text != "Enter a message" && usersSchool != nil {
             let notificationSender = PublishPushNotifications(withMessage: "\(textView.text!)", toSchool: usersSchool!)
             notificationSender.delegate = self
             notificationSender.sendNotification()
@@ -77,18 +77,16 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
     //MARK: PublishPushNotificationDelegate Methods
     func notificationDidPublishSucessfully() {
         let alert = UIAlertController(title: "Notification sucessfully sent", message: "", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true)
+        let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
+        alert.addAction(alertAction)
+        present(alert, animated: true)
     }
     func notificationFailedToPublish(withError error: Error) {
         print("Error sending notification:", error)
         let alert = UIAlertController(title: "An error occurred", message: "The message could not be sent. Please check your connection and try again.", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
-            self.dismiss(animated: true, completion: nil)
-        }))
-        self.present(alert, animated: true)
+        let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
+        alert.addAction(alertAction)
+        present(alert, animated: true)
     }
     
     

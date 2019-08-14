@@ -11,8 +11,15 @@ import UIKit
 ///Contains most methods for contacts page, including table data, delegates, and parallax effect. For some reason, trying to split up these methods results in the table data disappearing after loading
 class ContactViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
     
-    @IBOutlet weak private var tableView: UITableView!
-    @IBOutlet weak private var copyrightLabel: UILabel!
+    @IBOutlet weak private var tableView: UITableView! {
+        didSet {
+            tableView.delegate = self
+            tableView.dataSource = self
+        }
+    }
+    @IBOutlet weak private var copyrightLabel: UILabel! {
+        didSet { copyrightLabel.text = "© \(Date().yearString()) Catholic Schools of Broome County" }
+    }
     
     private var imageView = UIImageView()
     private var yearFormatter : DateFormatter {
@@ -41,17 +48,12 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Contact"
-        copyrightLabel.text = "© " + Date().yearString() + " Catholic Schools of Broome County"
         
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         view.addSubview(imageView)
         
         mailController = ContactMailDelegate(parent: self, schoolSelected: schoolSelected)
-        
-        tableView.delegate = self//tableController
-        tableView.dataSource = self//tableController
-        tableView.reloadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -59,8 +61,7 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         super.viewWillAppear(animated)
     }
     
-    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
+    override func schoolPickerValueChanged() {
         mailController.schoolSelected = schoolSelected
         
         let imageHeight = 0.4904*UIScreen.main.bounds.width
@@ -70,7 +71,8 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
                     width: UIScreen.main.bounds.size.width,
                     height: imageHeight)
         tableView.contentInset.top = imageHeight
-        imageView.image = UIImage(named: buildingImageArray[schoolSelected.ssInt])!
+        imageView.image = UIImage(named: buildingImageArray[schoolSelected.rawValue])!
+        tableView.setContentOffset(CGPoint(x: 0, y: -184), animated: false)
         tableView.reloadData()
     }
     
@@ -81,9 +83,9 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         case 0:
             return 1
         case 1:
-            return schoolPhone[schoolSelected.ssInt].count + 2
+            return schoolPhone[schoolSelected.rawValue].count + 2
         case 2:
-            return hoursOfOperation[schoolSelected.ssInt].count
+            return hoursOfOperation[schoolSelected.rawValue].count
         default:
             return 1
         }
@@ -98,40 +100,38 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let mapCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoMapCell") as! ContactInfoMapCell
-            mapCell.mapImageView.image = UIImage(named: mapImageArray[schoolSelected.ssInt])
-            mapCell.buildingLabel.text = schoolNames[schoolSelected.ssInt]
-            mapCell.addressLabel.text = schoolAddresses[schoolSelected.ssInt]
+            mapCell.mapImageView.image = UIImage(named: mapImageArray[schoolSelected.rawValue])
+            mapCell.buildingLabel.text = schoolNames[schoolSelected.rawValue]
+            mapCell.addressLabel.text = schoolAddresses[schoolSelected.rawValue]
             return mapCell
             
         } else if indexPath.section == 1 {
             let regularCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoRegularCell")
             
             if indexPath.row == 0 {
-                regularCell!.textLabel?.text = "Main: 607.\(schoolPhone[schoolSelected.ssInt][0])"
+                regularCell!.textLabel?.text = "Main: 607.\(schoolPhone[schoolSelected.rawValue][0])"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
             } else if indexPath.row == 1 {
                 regularCell!.textLabel?.text = "District: 607.\(districtPhone)"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
-            } else if schoolPhone[schoolSelected.ssInt].count == 2 {
+            } else if schoolPhone[schoolSelected.rawValue].count == 2 {
                 if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "Fax: 607.\(schoolPhone[schoolSelected.ssInt][1])"
+                    regularCell!.textLabel?.text = "Fax: 607.\(schoolPhone[schoolSelected.rawValue][1])"
                     regularCell!.imageView!.image = UIImage(named: "faxIcon")
                 } else if indexPath.row == 3 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.ssInt]), Principal"
+                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.rawValue]), Principal"
                     regularCell!.imageView!.image = UIImage(named: "mailIcon")
                 }
-            } else {
-                if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.ssInt]), Principal"
+            } else if indexPath.row == 2 {
+                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.rawValue]), Principal"
                     regularCell!.imageView!.image = UIImage(named: "mailIcon")
                 }
-            }
             
             return regularCell!
             
         } else {
             let hoursCell = tableView.dequeueReusableCell(withIdentifier: "hoursOfOperationCell")
-            hoursCell!.textLabel?.text = hoursOfOperation[schoolSelected.ssInt][indexPath.row]
+            hoursCell!.textLabel?.text = hoursOfOperation[schoolSelected.rawValue][indexPath.row]
             //regularCell!.imageView?.image = nil
             return hoursCell!
             
@@ -144,14 +144,14 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             performSegue(withIdentifier: "showMapSegue", sender: self)
-        } else if schoolPhone[schoolSelected.ssInt].count == 2 && indexPath.section == 1 {
+        } else if schoolPhone[schoolSelected.rawValue].count == 2 && indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][0])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][0])")!)
             case 1:
                 UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
             case 2:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][1])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][1])")!)
             case 3:
                 mailController.presentMailVC()
             default:
@@ -160,7 +160,7 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.ssInt][0])")!)
+                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][0])")!)
             case 1:
                 UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
             case 2:

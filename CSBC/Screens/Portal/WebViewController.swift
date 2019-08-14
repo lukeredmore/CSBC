@@ -41,9 +41,8 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [myProgressView], barHeight: 5)
         super.viewWillAppear(animated)
     }
-    override  func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        super.schoolPickerValueChanged(sender)
-        if let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.ssInt])") {
+    override func schoolPickerValueChanged() {
+        if let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.rawValue])") {
             let urlToRequest = URLRequest(url: urlToLoad)
             webView.load(urlToRequest)
         }
