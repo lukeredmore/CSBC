@@ -84,25 +84,24 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     private func filterAthleticsRowsForSearchedText(_ searchText: String) {
         let arrayShorter = athleticsParent!.athleticsData.athleticsModelArray
         athleticsParent!.athleticsData.athleticsModelArrayFiltered.removeAll()
+        
         var includedModelsList : [Int] = []
         var includedIndicesList : [Int] = []
-        if arrayShorter.count > 0 {
-            if arrayShorter[0] != nil {
-                for date in arrayShorter.indices {
-                    for event in arrayShorter[date]!.title.indices {
-                        if arrayShorter[date]!.title[event].lowercased().contains(searchText.lowercased()) {
-                            includedModelsList.append(date)
-                            includedIndicesList.append(event)
-                        } else if arrayShorter[date]!.level[event].lowercased().contains(searchText.lowercased()) {
-                            includedModelsList.append(date)
-                            includedIndicesList.append(event)
-                        } else if arrayShorter[date]!.time[event].lowercased().contains(searchText.lowercased()) {
-                            includedModelsList.append(date)
-                            includedIndicesList.append(event)
-                        } else if arrayShorter[date]!.date.lowercased().contains(searchText.lowercased()) {
-                            includedModelsList.append(date)
-                            includedIndicesList.append(event)
-                        }
+        if arrayShorter.count > 0, arrayShorter[0] != nil {
+            for date in arrayShorter.indices {
+                for event in arrayShorter[date]!.title.indices {
+                    if arrayShorter[date]!.title[event].lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(date)
+                        includedIndicesList.append(event)
+                    } else if arrayShorter[date]!.level[event].lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(date)
+                        includedIndicesList.append(event)
+                    } else if arrayShorter[date]!.time[event].lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(date)
+                        includedIndicesList.append(event)
+                    } else if arrayShorter[date]!.date.lowercased().contains(searchText.lowercased()) {
+                        includedModelsList.append(date)
+                        includedIndicesList.append(event)
                     }
                 }
             }

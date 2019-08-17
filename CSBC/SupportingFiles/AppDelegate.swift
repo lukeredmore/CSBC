@@ -11,6 +11,7 @@ import Firebase
 import FirebaseInstanceID
 import UserNotifications
 
+///Configure Firebase, download Lunch Menus, queue local notifications, setup UI defaults
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
 
@@ -19,9 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        
         LunchHTMLController().downloadAndStoreLunchMenus()
-        
         
         
         //Notifications
@@ -66,15 +65,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 notificationController.queueNotifications()
             }
         }
-//        Messaging.messaging().apnsToken = deviceToken
-//        InstanceID.instanceID().instanceID { (result, _) in
-//            if result != nil {
-//                print("Initilizing notifications")
-//                let notificationController = NotificationController()
-//                notificationController.subscribeToTopics()
-//                notificationController.queueNotifications()
-//            }
-//        }
     }
 
     
@@ -85,26 +75,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        //let userInfo = notification.request.content.userInfo
-        //print(userInfo)
-        
-        // Change this to your preferred presentation option
         completionHandler(.alert)
     }
     
-    func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
-    }
+    func applicationWillResignActive(_ application: UIApplication) { }
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    }
+    func applicationDidEnterBackground(_ application: UIApplication) { }
 
-    func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
-    }
+    func applicationWillEnterForeground(_ application: UIApplication) { }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
@@ -140,12 +118,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         
     }
-    
-//    var completionHandlers = [String : () -> Void]()
-//    private func application(_ application: UIApplication, handleEventsForBackgroundURLSession identifier: String, completionHandler: @escaping () -> Void) {
-//
-//        completionHandlers[identifier] = completionHandler
-//    }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if let rootViewController = self.topViewControllerWithRootViewController(rootViewController: window?.rootViewController) {

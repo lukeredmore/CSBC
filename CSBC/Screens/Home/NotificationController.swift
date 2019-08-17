@@ -56,11 +56,7 @@ class NotificationController {
             let notifTimeAsDate = timeFormatter.date(from: notificationSettings!.deliveryTime) //Get time of notif deliver as date
             let notif24HTimeString = timeFormatterIn24H.string(from: notifTimeAsDate!) //rewrite in 24h
             print(notif24HTimeString)
-            let timeComponentsStrings = notif24HTimeString.components(separatedBy: ":") //convert to components
-            print(timeComponentsStrings)
-            for i in timeComponentsStrings {
-                timeComponents.append(Int(i)!)
-            }
+            let timeComponents = notif24HTimeString.components(separatedBy: ":").map { Int($0)! } //convert to components
             print(timeComponents)
             
             let daySchedule = DaySchedule(forSeton: notificationSettings!.schools[0], forJohn: notificationSettings!.schools[1], forSaints: notificationSettings!.schools[2], forJames: notificationSettings!.schools[3])
