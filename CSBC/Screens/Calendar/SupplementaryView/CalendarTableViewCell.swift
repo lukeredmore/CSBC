@@ -17,11 +17,12 @@ class CalendarTableViewCell: UITableViewCell {
     @IBOutlet private var schoolsLabel: UILabel!
     
     func addData(model: EventsModel) {
+        let date = Calendar.current.date(from: model.date)
+        
         eventLabel.text = model.event.uppercased()
-        dayLabel.text = model.day
-        schoolsLabel.text = model.schools
+        dayLabel.text = date?.dayString()
+        monthLabel.text = date?.monthAbbreviationString().uppercased()
         timeLabel.text = model.time
-        monthLabel.text = model.month
+        schoolsLabel.text = model.schools
     }
-
 }

@@ -28,7 +28,7 @@ extension UIColor {
             return UIColor(named: "CSBCLightGreen")!
         } else {
             return UIColor(red: 44/255, green: 117/255, blue: 90/255, alpha: 1.0) }
-        }
+    }
 }
 
 extension UISearchBar {
@@ -45,14 +45,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
 }
@@ -77,16 +77,16 @@ extension SFSafariViewController {
 extension UserDefaults {
     
     /**
-    Returns the codable object associated with the specified key.
-    */
+     Returns the codable object associated with the specified key.
+     */
     func object<T: Codable>(_ type: T.Type, with key: String, usingDecoder decoder: JSONDecoder = JSONDecoder()) -> T? {
         guard let data = self.value(forKey: key) as? Data else { return nil }
         return try? decoder.decode(type.self, from: data)
     }
     
     /**
-    Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
-    */
+     Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
+     */
     func set<T: Codable>(object: T, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) {
         let data = try? encoder.encode(object)
         self.set(data, forKey: key)
@@ -94,52 +94,62 @@ extension UserDefaults {
 }
 
 extension Date {
-    
+    ///Returns "yyyy" (2001)
     func yearString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "yyyy"
         return fmt.string(from: self)
     }
+    ///Returns "MM" (02)
     func monthNumberString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM"
         return fmt.string(from: self)
     }
+    ///Returns "MMMM" (February)
     func monthNameString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MMMM"
         return fmt.string(from: self)
     }
+    ///Returns "MMM" (Mar)
     func monthAbbreviationString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MMM"
         return fmt.string(from: self)
     }
+    ///Returns "MMMM yyyy" (December 2012)
     func monthYearString() -> String {
-            let fmt = DateFormatter()
-            fmt.dateFormat = "MMMM yyyy"
-            return fmt.string(from: self)
-        }
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MMMM yyyy"
+        return fmt.string(from: self)
+    }
+    ///Returns "dd" (02)
     func dayString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "dd"
         return fmt.string(from: self)
     }
+    
+    ///Returns "MM/dd/yyyy" (01/09/2002)
     func dateString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
         return fmt.string(from: self)
     }
+    /// Returns "MM/dd/yyyy HH:mm:ss" (01/09/02 23:55:02)
     func dateStringWithTime() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
         return fmt.string(from: self)
     }
+    ///Returns "hh:mm a" (01:14 PM)
     func timeString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "hh:mm a"
         return fmt.string(from: self)
     }
+    ///Returns "EEEE" (Monday)
     func dayOfWeekString() -> String {
         let fmt = DateFormatter()
         fmt.dateFormat = "EEEE"
@@ -158,10 +168,16 @@ extension String {
             return $0 + String($1)
         }
     }
+    ///Returns date if self is formatted as "MM/dd/yyyy HH:mm:ss"
     func toDateWithTime() -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
         return dateFormatter.date(from: self)
+    }
+}
+extension Int {
+    var stringValue : String? {
+        return String(self)
     }
 }
 

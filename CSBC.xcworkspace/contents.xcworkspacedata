@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:MyPlayground.playground">
+      location = "group:/Users/lukeredmore/Developer/CSBC/MyPlaygound.playground">
    </FileRef>
    <FileRef
       location = "group:CSBC.xcodeproj">

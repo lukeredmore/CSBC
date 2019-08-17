@@ -12,80 +12,54 @@ import SwiftSoup
 
 
 class EventsDataParser {
-    private let monthDict = ["jan":"01","feb":"02","mar":"03","apr":"04","may":"05","jun":"06","jul":"07","aug":"08","sep":"09","oct":"10","nov":"11","dec":"12"]
-    var eventsModelArray : [EventsModel?] = []
-    var eventsModelArrayFiltered : [EventsModel?] = []
+    
+    var eventsModelArray = [EventsModel?]() //set by Calendar vc
+    private(set) var eventsModelArrayFiltered = [EventsModel?]()
     
     
-    func parseHTMLForEvents (html : String) {
-        var infoOrganizedByEvent : [String] = []
+    func parseHTMLForEvents(fromString htmlString : String) {
+        eventsModelArray.removeAll()
+        guard let eventArrayElements = try? SwiftSoup.parse(htmlString).select("#evcal_list .eventon_list_event").array()
+            else { return }
         
-        guard let allPInfo = try? SwiftSoup.parse(html).select("p").array() else { return }
-        for i in allPInfo.indices {
-            if let pClass = try? allPInfo[i].attr("class"), pClass == "desc_trig_outter" {
-                guard let text = try? allPInfo[i].html() else { return }
-                infoOrganizedByEvent.append(text)
-            }
-        }
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd"
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MMMM dd"
-        for n in infoOrganizedByEvent.indices {
-            var dateString, day, month, time, event, schools, eventMonth: String?
+        for event in eventArrayElements {
+            guard let cell = try? event.select(".desc_trig_outter").first()
+                else { print("No parseable cell could be found here. Continuing on."); continue }
             
-            guard let eventDoc = try? SwiftSoup.parse(infoOrganizedByEvent[n]) else { return }
-            guard let titleInfo = try? eventDoc.select("span").array() else { return }
-            for i in titleInfo.indices {
-                if let tag = try? titleInfo[i].attr("itemprop"), tag == "name" {
-                    event = try! titleInfo[i].text()
-                }
-                
-                guard let timeInfo = try? eventDoc.select("em").array() else { return }
-                for i in timeInfo.indices {
-                    guard let classTag = try? timeInfo[i].attr("class") else { return }
-                    if classTag == "date" {
-                        day = try! timeInfo[i].text()
-                    }
-                    else if classTag == "month" {
-                        let text = try! timeInfo[i].text()
-                        eventMonth = monthDict[text] == nil ? monthDict[text]! : text
-                        month = text.uppercased()
-                    }
-                    else if classTag == "evcal_time" {
-                        guard let text = try? timeInfo[i].text().components(separatedBy: " ")[0] else { return }
-                        time = text == "(All" ? "All Day" : text
-                    }
-                    if let dataFilterTag = try? timeInfo[i].attr("data-filter"), dataFilterTag == "event_type" {
-                        let text = try! timeInfo[i].text()
-                        schools = schools == nil ? text : "\(schools!) \(text)"
-                    }
-                    if eventMonth?.count == 2 {
-                        let originalDateString = "\(eventMonth!)/\(day ?? "")"
-                        let date : Date = formatter.date(from: originalDateString)!
-                        dateString = fmt.string(from: date)
-                    } else {
-                        eventMonth = eventMonth?.capitalized
-                        dateString = "\(eventMonth!) \(day ?? "")"
-                    }
-                    
-                    let eventToAppend = EventsModel(
-                        date: dateString ?? "",
-                        day: day ?? "",
-                        month: month ?? "",
-                        time: time ?? "",
-                        event: event ?? "",
-                        schools: schools ?? ""
-                    )
-                    if !eventsModelArray.contains(eventToAppend) {
-                        eventsModelArray.append(eventToAppend)
-                    }
-                }
-                if eventsModelArray.count > 1, eventsModelArray[0] != nil {
-                    eventsModelArray = eventsModelArray.sorted { $0!.day < $1!.day }
-                }
+            //Required parameters
+            guard
+                let eventTitle = try? cell.select(".evcal_event_title").first()?.text(),
+                let day = try? cell.select(".evo_start .date").first()?.text(),
+                let dayInt = Int(day)
+                else { print("One or more of the required parameters cannot be found. Continuing on."); continue }
+            
+            //Optional parameters
+            let schools = try? cell.select(".ett1").first()?.text().replacingOccurrences(of: "Schools:", with: "")
+            var timeString = try? cell.select(".evcal_time").first()?.text().uppercased()
+            if timeString != nil, timeString!.contains("(ALL DAY") {
+                timeString = "All Day"
             }
+            
+            
+            let dateComponents = DateComponents(
+                year: Calendar.current.component(.year, from: Date()),
+                month: Calendar.current.component(.month, from: Date()),
+                day: dayInt)
+            
+            
+            let eventToAppend = EventsModel(
+                event: eventTitle,
+                date: dateComponents,
+                time: timeString,
+                schools: schools)
+            
+            if !eventsModelArray.contains(eventToAppend) {
+                eventsModelArray.append(eventToAppend)
+            }
+
+        }
+        if eventsModelArray.count > 1, eventsModelArray[0] != nil {
+            eventsModelArray = eventsModelArray.sorted { $0!.date.day! < $1!.date.day! }
         }
         addObjectArrayToUserDefaults(eventsModelArray)
     }
@@ -97,15 +71,11 @@ class EventsDataParser {
     }
     
     
-    func addToFilteredModelArray(modelsToInclude: [Int]) {
+    func setFilteredModelArray(toArray filteredArray: [EventsModel?]) {
         eventsModelArrayFiltered.removeAll()
-        for modelInt in modelsToInclude {
-            if !eventsModelArrayFiltered.contains(eventsModelArray[modelInt]) {
-                eventsModelArrayFiltered.append(eventsModelArray[modelInt])
-            }
-        }
-        if eventsModelArrayFiltered.count > 1, eventsModelArrayFiltered[0] != nil {
-            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.day < $1!.day }
+        eventsModelArrayFiltered = filteredArray
+        if eventsModelArrayFiltered.count > 1 && eventsModelArrayFiltered[0] != nil {
+            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.date.day! < $1!.date.day! }
         }
     }
 }

@@ -78,6 +78,9 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
             
         }
     }
+    
+    
+    //MARK: Actual filtering
     private func filterAthleticsRowsForSearchedText(_ searchText: String) {
         let arrayShorter = athleticsParent!.athleticsData.athleticsModelArray
         athleticsParent!.athleticsData.athleticsModelArrayFiltered.removeAll()
@@ -108,57 +111,31 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         athleticsParent!.tableView.reloadData()
     }
     private func filterEventsRowsForSearchedText(_ searchText : String) {
-        let arrayShorter = eventsParent!.calendarData.eventsModelArray
-        eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
-        var includedModelsList : [Int] = []
-        if arrayShorter.count > 0 {
-            if arrayShorter[0] != nil {
-                for n in arrayShorter.indices {
-                    if arrayShorter[n]!.date.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    } else if arrayShorter[n]!.day.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    } else if arrayShorter[n]!.month.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    } else if arrayShorter[n]!.time.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    } else if arrayShorter[n]!.event.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    } else if arrayShorter[n]!.schools.lowercased().contains(searchText.lowercased()) {
-                        includedModelsList.append(n)
-                    }
-                }
-                
-            }
+        let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
+            $0?.event.lowercased().contains(searchText.lowercased()) ?? false ||
+            $0?.date.day!.stringValue!.contains(searchText.lowercased()) ?? false ||
+            $0?.time?.lowercased().contains(searchText.lowercased()) ?? false ||
+            $0?.schools?.lowercased().contains(searchText.lowercased()) ?? false
         }
         
-        eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
+        eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)
         eventsParent!.tableView.reloadData()
     }
     func filterEventsRowsForSchoolsSelected(_ schoolsList : [Bool]) {
-        let arrayShorter = eventsParent!.calendarData.eventsModelArray
-        eventsParent!.calendarData.eventsModelArrayFiltered.removeAll()
-        var includedModelsList : [Int] = []
-        if arrayShorter[0] != nil {
-            for n in arrayShorter.indices {
-                if schoolsList[0] && arrayShorter[n]!.schools.contains("Seton") {
-                    includedModelsList.append(n)
-                } else if schoolsList[1] && arrayShorter[n]!.schools.contains("John") {
-                    includedModelsList.append(n)
-                } else if schoolsList[2] && arrayShorter[n]!.schools.contains("Saints") {
-                    includedModelsList.append(n)
-                } else if schoolsList[3] && arrayShorter[n]!.schools.contains("James") {
-                    includedModelsList.append(n)
-                } else if arrayShorter[n]!.schools == "" {
-                    includedModelsList.append(n)
-                }
-            }
+        let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
+            (schoolsList[0] && $0?.schools?.contains("Seton") ?? false) ||
+            (schoolsList[1] && $0?.schools?.contains("John") ?? false) ||
+            (schoolsList[2] && $0?.schools?.contains("Saints") ?? false) ||
+            (schoolsList[3] && $0?.schools?.contains("James") ?? false) ||
+            ($0?.schools == "")
         }
         
-        eventsParent!.calendarData.addToFilteredModelArray(modelsToInclude: includedModelsList)
+        eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)
         eventsParent!.tableView.reloadData()
     }
     
+    
+    //MARK: Table and Scroll Delegate Methods
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }

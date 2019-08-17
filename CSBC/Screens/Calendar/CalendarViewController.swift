@@ -27,7 +27,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     private var searchController : UISearchController = UISearchController(searchResultsController: nil)
     private var modelArrayForSearch : [EventsModel?] {
         get {
-            if /*!searchControllerController.searchController.isActive &&*/ searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
+            if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
                 return calendarData.eventsModelArray
             } else {
                 return calendarData.eventsModelArrayFiltered

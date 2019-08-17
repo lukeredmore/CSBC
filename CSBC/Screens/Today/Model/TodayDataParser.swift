@@ -49,32 +49,38 @@ class TodayDataParser {
     
     //MARK: Parse schedules for TodayVC
     func events(forDate date : Date) -> [EventsModel] {
-        var allEventsToday : [EventsModel] = []
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MMM dd"
-        let dateShownForCalendar = fmt.string(from: date)
-        for i in eventsArray.indices {
-            if let event = eventsArray[i] {
-                if event.date == dateShownForCalendar {
-                    allEventsToday.append(event)
-                    print("At leaset one event is today")
-                }
-                
-            }
-        }
-        if allEventsToday.count == 0 {
-            print("There are no events today")
-            return allEventsToday
-        }
+        let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
+//        var allEventsToday : [EventsModel] = []
+//        let fmt = DateFormatter()
+//        fmt.dateFormat = "MMM dd"
+//        let dateShownForCalendar = fmt.string(from: date)
         
-        //Filter for schoolSelected
-        var filteredEventsForSchoolsToday : [EventsModel] = []
-        for i in allEventsToday.indices {
-            if allEventsToday[i].schools.contains(delegate.schoolSelected.ssString) || allEventsToday[i].schools == "" {
-                filteredEventsForSchoolsToday.append(allEventsToday[i])
-            }
-        }
-        return filteredEventsForSchoolsToday
+        return eventsArray.filter { (event) -> Bool in
+            event?.date == dateComponents && (event?.schools?.contains(delegate.schoolSelected.ssString) ?? false || event?.schools == "" )
+        } as! [EventsModel]
+        
+//        for i in eventsArray.indices {
+//            if let event = eventsArray[i] {
+//                if event.date == dateComponents {
+//                    allEventsToday.append(event)
+//                    print("At leaset one event is today")
+//                }
+//
+//            }
+//        }
+//        if allEventsToday.count == 0 {
+//            print("There are no events today")
+//            return allEventsToday
+//        }
+//
+//        //Filter for schoolSelected
+//        var filteredEventsForSchoolsToday : [EventsModel] = []
+//        for i in allEventsToday.indices {
+//            if allEventsToday[i].schools.contains(delegate.schoolSelected.ssString) || allEventsToday[i].schools == "" {
+//                filteredEventsForSchoolsToday.append(allEventsToday[i])
+//            }
+//        }
+//        return filteredEventsForSchoolsToday
     }
     func athletics(forDate date : Date) -> AthleticsModel? {
         var allAthleticsToday : AthleticsModel? = nil

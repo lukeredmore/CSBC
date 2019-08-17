@@ -47,9 +47,9 @@ class EventsRetriever {
     private func getEventsDataFromOnline(completion : @escaping ([EventsModel?]) -> Void) {
         print("We are asking for Events data")
         Alamofire.request("https://csbcsaints.org/calendar").responseString(queue: nil, encoding: .utf8) { response in
-            if let html = response.result.value, response.error == nil {
-                if html.contains("span") {
-                    EventsDataParser().parseHTMLForEvents(html: html)
+            if let htmlString = response.result.value, response.error == nil {
+                if htmlString.contains("span") {
+                    EventsDataParser().parseHTMLForEvents(fromString: htmlString)
                     self.retrieveEventsArray(forceReturn: false, forceRefresh: false, completion: completion)
                 }
             } else {

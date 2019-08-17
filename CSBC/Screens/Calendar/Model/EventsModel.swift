@@ -9,10 +9,8 @@
 import Foundation
 
 struct EventsModel: Codable, Equatable {
-    let date : String
-    let day : String
-    let month : String
-    let time : String
     let event : String
-    let schools : String
+    let date : DateComponents
+    let time : String?
+    let schools : String?
 }
