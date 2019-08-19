@@ -174,10 +174,22 @@ extension String {
         dateFormatter.dateFormat = "MM/dd/yyyy HH:mm:ss"
         return dateFormatter.date(from: self)
     }
+    ///Returns date if self is formatted as "MMM"
+    func toDateWithMonth() -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM"
+        return dateFormatter.date(from: self)
+    }
 }
 extension Int {
     var stringValue : String? {
         return String(self)
+    }
+}
+
+extension DateComponents: Comparable {
+    public static func < (lhs: DateComponents, rhs: DateComponents) -> Bool {
+        Calendar.current.date(from: lhs)! < Calendar.current.date(from: rhs)!
     }
 }
 

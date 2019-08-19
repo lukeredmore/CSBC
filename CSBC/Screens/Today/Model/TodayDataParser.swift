@@ -29,11 +29,11 @@ class TodayDataParser {
     
     //MARK: Retrieve schedules
     private func getSchedulesToSendToToday() {
-        EventsRetriever().retrieveEventsArray { (eventsArray) in
-            self.eventsArray = eventsArray
+        EventsRetriever(delegate: delegate) { (eventsArray) in
+            self.eventsArray += eventsArray
             self.eventsReady = true
             self.tryToStartupPager()
-        }
+        }.retrieveEventsArray()
         AthleticsRetriever().retrieveAthleticsArray { (athleticsArray) in
             self.athleticsArray = athleticsArray
             self.athleticsReady = true

@@ -20,7 +20,7 @@ protocol PageViewDelegate: class {
     func showDateAsHeader(dateGiven : Date) //pager tells container the date to show for header
     var dateToShow : Date { get } //the date shown
 }
-protocol TodayParserDelegate: class { //parser tells pager to initialize VCs
+protocol TodayParserDelegate: JSParsingDelegate { //parser tells pager to initialize VCs
     func startupPager()
     var schoolSelected : Schools { get }
 }
@@ -29,8 +29,6 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
     @IBOutlet weak private var containerView: UIView!
     @IBOutlet weak private var dateChangerButton: UIBarButtonItem!
     
-    private var athleticsData = AthleticsDataParser()
-    private var calendarData = EventsDataParser()
     weak private var containerDelegate : ContainerViewDelegate? = nil
     var dateToShow = Date()
     

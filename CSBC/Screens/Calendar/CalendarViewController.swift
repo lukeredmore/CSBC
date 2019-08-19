@@ -44,6 +44,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     
     private var searchControllerController : CSBCSearchController!
     
+    lazy var eventsRetriever = EventsRetriever(delegate: self, completion: setupCalendarTable)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -59,7 +60,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         searchBarTopConstraint.constant = -56
         loadingSymbol.startAnimating()
         tableView.isHidden = true
-        EventsRetriever().retrieveEventsArray(completion: setupCalendarTable)
+        eventsRetriever.retrieveEventsArray()
     }
     override func viewWillDisappear(_ animated: Bool) {
         view.backgroundColor = UIColor(named: "CSBCAccentGray")
@@ -74,7 +75,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         setupCalendarTable(eventsArray: modelArrayForSearch)
     }
     @objc private func refreshData() {
-        EventsRetriever().retrieveEventsArray(forceReturn: false, forceRefresh: true, completion: setupCalendarTable)
+        eventsRetriever.retrieveEventsArray(forceReturn: false, forceRefresh: true)
     }
     private func setupCalendarTable(eventsArray: [EventsModel?]) {
         if modelArrayForSearch != eventsArray {

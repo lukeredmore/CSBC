@@ -18,9 +18,9 @@ class EventsDataParser {
     
     
     func parseHTMLForEvents(fromString htmlString : String) {
-        eventsModelArray.removeAll()
+//        eventsModelArray.removeAll()
         guard let eventArrayElements = try? SwiftSoup.parse(htmlString).select("#evcal_list .eventon_list_event").array()
-            else { return }
+            else { print("Events list could not be found"); return }
         
         for event in eventArrayElements {
             guard let cell = try? event.select(".desc_trig_outter").first()
@@ -29,6 +29,11 @@ class EventsDataParser {
             //Required parameters
             guard
                 let eventTitle = try? cell.select(".evcal_event_title").first()?.text(),
+                let year = try? cell.select(".evcal_cblock").attr("data-syr"),
+                let yearInt = Int(year),
+                let month = try? cell.select(".evo_start .month").first()?.text(),
+                let monthAsDate = month.toDateWithMonth()?.monthNumberString(),
+                let monthInt = Int(monthAsDate),
                 let day = try? cell.select(".evo_start .date").first()?.text(),
                 let dayInt = Int(day)
                 else { print("One or more of the required parameters cannot be found. Continuing on."); continue }
@@ -42,10 +47,9 @@ class EventsDataParser {
             
             
             let dateComponents = DateComponents(
-                year: Calendar.current.component(.year, from: Date()),
-                month: Calendar.current.component(.month, from: Date()),
+                year: yearInt,
+                month: monthInt,
                 day: dayInt)
-            
             
             let eventToAppend = EventsModel(
                 event: eventTitle,
@@ -59,7 +63,7 @@ class EventsDataParser {
 
         }
         if eventsModelArray.count > 1, eventsModelArray[0] != nil {
-            eventsModelArray = eventsModelArray.sorted { $0!.date.day! < $1!.date.day! }
+            eventsModelArray = eventsModelArray.sorted { $0!.date < $1!.date }
         }
         addObjectArrayToUserDefaults(eventsModelArray)
     }
@@ -75,7 +79,7 @@ class EventsDataParser {
         eventsModelArrayFiltered.removeAll()
         eventsModelArrayFiltered = filteredArray
         if eventsModelArrayFiltered.count > 1 && eventsModelArrayFiltered[0] != nil {
-            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.date.day! < $1!.date.day! }
+            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.date < $1!.date }
         }
     }
 }
