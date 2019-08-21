@@ -6,29 +6,45 @@
 //  Copyright © 2019 Catholic Schools of Broome County. All rights reserved.
 //
 
-import Foundation
 import UIKit
-import UserNotifications
 import SafariServices
 
 extension UIColor {
-    static var csbcGreen: UIColor  {
-        if #available(iOS 13.0, *) {
-            return UIColor(named: "CSBCNavBarBackground")!
-        } else {
-            return UIColor(red: 21/255, green: 71/255, blue: 52/255, alpha: 1)
-        }
-    }
-    static var csbcGreenForSafariViewController: UIColor { return UIColor(hue: 152/360, saturation: 100/100, brightness: 20/100, alpha: 1) }
-    static var csbcAlertRed: UIColor { return UIColor(red: 221/255, green: 51/255, blue: 51/255, alpha: 1.0) }
-    static var csbcYellow: UIColor { return UIColor(red: 246/255, green: 190/255, blue: 0/255, alpha: 1.0) }
-    static var csbcSuperLightGray: UIColor { return UIColor(red: 239/255, green: 239/255, blue: 239/255, alpha: 1.0) }
-    static var csbcLightGreen: UIColor {
-        if #available(iOS 13.0, *) {
-            return UIColor(named: "CSBCLightGreen")!
-        } else {
-            return UIColor(red: 44/255, green: 117/255, blue: 90/255, alpha: 1.0) }
-    }
+    ///Light: System light gray; Dark: Black
+    static var csbcAccentGray: UIColor { return UIColor(named: "CSBCAccentGray")! }
+    
+    ///Universal: Nice-looking red
+    static var csbcAlertRed: UIColor { return UIColor(named: "CSBCAlertRed")! }
+    
+    ///Light: White; Dark: Black
+    static var csbcBackground: UIColor { return UIColor(named: "CSBCBackground")! }
+    
+    ///Light: White; Dark: Dark gray
+    static var csbcCardView: UIColor { return UIColor(named: "CSBCCardView")! }
+    
+    ///Light: Black; Dark: White
+    static var csbcDefaultText: UIColor { return UIColor(named: "CSBCDefaultText")! }
+    
+    ///Light: 666 gray; Dark: White
+    static var csbcGrayLabel: UIColor { return UIColor(named: "CSBCGrayLabel")! }
+    
+    ///Light: Light CSBC green; Dark: Dark gray
+    static var csbcLightGreen: UIColor { return UIColor(named: "CSBCLightGreen")! }
+    
+    ///Light: CSBC green; Dark: Black
+    static var csbcNavBarBackground: UIColor  { return UIColor(named: "CSBCNavBarBackground")! }
+    
+    ///Light: CSBC green; Dark: Dark gray
+    static var csbcNavBarFlipside: UIColor { return UIColor(named: "CSBCNavBarFlipside")! }
+    
+    ///Light: White; Dark: CSBC green, slightly lightened
+    static var csbcNavBarText: UIColor { return UIColor(named: "CSBCNavBarText")! }
+
+    ///Light: CSBC green modified for SFSafariVC; Dark: Black
+    static var csbcSafariVCBar: UIColor { return UIColor(named: "CSBCSafariVCBar")! }
+    
+    ///Universal: Logo yellow
+    static var csbcYellow: UIColor { return UIColor(named: "CSBCYellow")! }
 }
 
 extension UISearchBar {
@@ -45,14 +61,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-        
+
         return ceil(boundingBox.height)
     }
-    
+
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-        
+
         return ceil(boundingBox.width)
     }
 }
@@ -68,8 +84,8 @@ extension UIView {
 }
 extension SFSafariViewController {
     func configureForCSBC() {
-        self.preferredBarTintColor = UIColor(named: "CSBCNavBarBackground")!
-        self.preferredControlTintColor = UIColor(named: "CSBCNavBarText")!
+        self.preferredBarTintColor = .csbcSafariVCBar
+        self.preferredControlTintColor = .csbcNavBarText
         self.modalTransitionStyle = .coverVertical
         self.modalPresentationStyle = .overCurrentContext
     }

@@ -43,7 +43,7 @@ class TodayView: UIView {
         headerLabel.numberOfLines = 0
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.minimumScaleFactor = 0.5
-        headerLabel.textColor = UIColor(named: "CSBCDarkText")
+        headerLabel.textColor = .csbcDefaultText
         headerLabel.textAlignment = .center
         headerLabel.frame = CGRect(x: headerLabel.frame.minX + 10, y: headerLabel.frame.minY + 12, width: UIScreen.main.bounds.width - 20, height: 43)
     }

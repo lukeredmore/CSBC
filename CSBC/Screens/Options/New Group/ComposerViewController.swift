@@ -21,11 +21,7 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
         }
     }
     private var expectedTextColor : UIColor {
-        if #available(iOS 13.0, *) {
-            return .label
-        } else {
-            return .black
-        }
+        return .csbcDefaultText
     }
     private var usersSchool : Schools? = nil
     private let notificationSample = "Enter a message"

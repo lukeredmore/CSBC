@@ -27,7 +27,7 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .csbcGreen
+        view.backgroundColor = .csbcNavBarBackground
         if Date() < compileDate + 345600 {
             print("This date is too early")
             portalURLStrings = ["setoncchs", "setoncchs", "setoncchs", "setoncchs"]

@@ -7,14 +7,13 @@
 //
 
 import UIKit
-import Alamofire
 import SafariServices
-import AuthenticationServices
 
 class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnteredDelegate  {
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet weak private var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var searchBarContainerView: UIView!
     
-    var eventsDataPresent = false
-    var calendarData = EventsDataParser()
     lazy private var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
@@ -23,8 +22,8 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         
         return refreshControl
     }()
-    private var storedSchoolsToShow : [Bool] = [true, true, true, true]
-    private var searchController : UISearchController = UISearchController(searchResultsController: nil)
+    
+    private var searchControllerController : CSBCSearchController!
     private var modelArrayForSearch : [EventsModel?] {
         get {
             if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
@@ -38,32 +37,30 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         }
     }
     
-    @IBOutlet var tableView: UITableView!
-    @IBOutlet weak private var searchBarTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak private var searchBarContainerView: UIView!
-    
-    private var searchControllerController : CSBCSearchController!
-    
     lazy var eventsRetriever = EventsRetriever(delegate: self, completion: setupCalendarTable)
-    
+    private(set) var eventsDataPresent = false
+    private(set) var calendarData = EventsDataParser()
+    private var storedSchoolsToShow : [Bool] = [true, true, true, true]
+
+    //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Calendar"
         
-        self.navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.shadowImage = UIImage()
         
         searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: nil, eventsParent: self)
         
     }
     override func viewWillAppear(_ animated: Bool) {
-        view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        view.backgroundColor = .csbcAccentGray
         searchBarTopConstraint.constant = -56
         loadingSymbol.startAnimating()
         tableView.isHidden = true
         eventsRetriever.retrieveEventsArray()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        view.backgroundColor = .csbcAccentGray
     }
     
     
@@ -95,7 +92,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         tableView.refreshControl = refreshControl
         tableView.reloadData()
         tableView.isHidden = false
-        view.backgroundColor = UIColor(named: "CSBCNavBarBackground")
+        view.backgroundColor = .csbcNavBarBackground
         view.layoutIfNeeded()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()

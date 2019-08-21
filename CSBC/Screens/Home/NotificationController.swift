@@ -22,17 +22,11 @@ class NotificationController {
         fmt.pmSymbol = "PM"
         return fmt
     }
-    private var timeFormatterIn24H : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "HH:mm"
-        return fmt
-    }
     private var dateStringFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
         return fmt
     }
-    private var timeComponents : [Int] = []
     private let dayScheduleLite = DaySchedule()
     var notificationSettings : NotificationSettings!
     
@@ -50,16 +44,18 @@ class NotificationController {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
-        if notificationSettings?.shouldDeliver ?? false && Date() < dateStringFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
+        if notificationSettings.shouldDeliver && Date() < dateStringFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
             print("Notifications queuing")
             
-            let notifTimeAsDate = timeFormatter.date(from: notificationSettings!.deliveryTime) //Get time of notif deliver as date
-            let notif24HTimeString = timeFormatterIn24H.string(from: notifTimeAsDate!) //rewrite in 24h
-            print(notif24HTimeString)
-            let timeComponents = notif24HTimeString.components(separatedBy: ":").map { Int($0)! } //convert to components
-            print(timeComponents)
+            var timeComponents : DateComponents
             
-            let daySchedule = DaySchedule(forSeton: notificationSettings!.schools[0], forJohn: notificationSettings!.schools[1], forSaints: notificationSettings!.schools[2], forJames: notificationSettings!.schools[3])
+            if let notifTimeAsDate = timeFormatter.date(from: notificationSettings.deliveryTime) {
+                timeComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: notifTimeAsDate)
+            } else {
+                timeComponents = DateComponents(hour: 07, minute: 00, second: 00)
+            }
+            
+            let daySchedule = DaySchedule(forSeton: notificationSettings.schools[0], forJohn: notificationSettings.schools[1], forSaints: notificationSettings.schools[2], forJames: notificationSettings.schools[3])
             var allSchoolDays : [String] = daySchedule.dateDayDictArray
             while dateStringFormatter.date(from: allSchoolDays.first!)! < Date() { //Remove past dates
                 allSchoolDays.removeFirst()
@@ -76,22 +72,22 @@ class NotificationController {
                 var notificationContent3 = ""
                 var notificationContent4 = ""
                 
-                if notificationSettings!.schools[0] && !daySchedule.restrictedDatesForHS.contains(dateStringFormatter.date(from: date)!) {
+                if notificationSettings.schools[0] && !daySchedule.restrictedDatesForHS.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.getDayOptional(forSchool: .seton, forDateString: date) {
                         notificationContent1 = "Day \(dayOfCycle) at Seton, "
                     }
                 }
-                if notificationSettings!.schools[1] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
+                if notificationSettings.schools[1] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.getDayOptional(forSchool: .john, forDateString: date) {
                         notificationContent2 = "Day \(dayOfCycle) at St. John's, "
                     }
                 }
-                if notificationSettings!.schools[2] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
+                if notificationSettings.schools[2] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.getDayOptional(forSchool: .saints, forDateString: date) {
                         notificationContent3 = "Day \(dayOfCycle) at All Saints, "
                     }
                 }
-                if notificationSettings!.schools[3] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
+                if notificationSettings.schools[3] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
                     if let dayOfCycle = daySchedule.getDayOptional(forSchool: .james, forDateString: date) {
                         notificationContent4 = "Day \(dayOfCycle) at St. James, "
                     }
@@ -107,7 +103,7 @@ class NotificationController {
                 
                 //WHEN
                 let dateArray = date.components(separatedBy: "/")
-                let dateComponents = DateComponents(year: Int(dateArray[2]), month: Int(dateArray[0]), day: Int(dateArray[1]), hour: timeComponents[0], minute: timeComponents[1], second: 00)
+                let dateComponents = DateComponents(year: Int(dateArray[2]), month: Int(dateArray[0]), day: Int(dateArray[1]), hour: timeComponents.hour, minute: timeComponents.minute, second: timeComponents.second)
                 let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
                 
                 //REQUEST

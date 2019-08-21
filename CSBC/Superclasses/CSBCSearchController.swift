@@ -34,7 +34,7 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     }
     private func setupSearchController(_ searchBarContainerView : UIView) {
         
-        //tableView.tableHeaderView = searchController.searchBar
+        searchBarContainerView.backgroundColor = .csbcNavBarBackground
         searchBarContainerView.addSubview(searchController.searchBar)
         searchBarContainerView.bringSubviewToFront(searchController.searchBar)
         searchController.searchBar.sizeToFit()
@@ -42,16 +42,19 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.searchBar.tintColor = .white
         searchController.searchBar.isTranslucent = false
-        searchController.searchBar.barTintColor = .csbcGreen
+        searchController.searchBar.barTintColor = .csbcNavBarBackground
         searchController.searchBar.searchField.clearButtonMode = .always
         searchController.searchBar.searchField.backgroundColor = .csbcLightGreen
         searchController.searchBar.searchField.textColor = .white
+        
         searchController.searchBar.searchField.attributedPlaceholder = NSAttributedString(
-            string: searchController.searchBar.searchField.placeholder ?? "",
-            attributes: [
-                NSAttributedString.Key.foregroundColor : UIColor.white
-            ]
-        )
+                string: searchController.searchBar.searchField.placeholder ?? "",
+                attributes: [
+                    NSAttributedString.Key.foregroundColor : UIColor.white
+                ]
+            )
+        
+        
         if let leftView = searchController.searchBar.searchField.leftView as? UIImageView {
             leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
             leftView.tintColor = UIColor.white

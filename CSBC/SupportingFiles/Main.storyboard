@@ -475,7 +475,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="70 Seminary Avenue Binghamton, NY 13905" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7oR-5X-FN8">
                                                     <rect key="frame" x="110" y="36" width="252.5" height="44"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1135,7 +1135,7 @@
                                                     <rect key="frame" x="20" y="0.0" width="354.5" height="47.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="20"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1271,7 +1271,7 @@
                                                     <rect key="frame" x="20" y="0.0" width="354.5" height="65"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="22"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1564,7 +1564,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send A Notification" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KjR-cK-gtH">
                                                     <rect key="frame" x="20" y="11" width="354.5" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1592,14 +1592,14 @@
                                                     <rect key="frame" x="20" y="14" width="216.5" height="24.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="6" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="LgF-yD-FWR">
                                                     <rect key="frame" x="362.5" y="14" width="12" height="24.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1670,7 +1670,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seton Catholic Central" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jvw-PI-3Ok">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1705,7 +1705,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="St. John the Evangelist" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="puS-CS-R6e">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1740,7 +1740,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Saints School" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OeL-oz-gw5">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1775,7 +1775,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="St. James School" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F4I-V1-qmK">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1814,7 +1814,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show info for all schools:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-o2-Rf8" userLabel="Show all schools">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1854,7 +1854,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Day Schedule Notifications" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ECF-tr-aiQ" userLabel="Show all schools">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1880,7 +1880,7 @@
                                                     <rect key="frame" x="20" y="13" width="126.5" height="24.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="7:00 AM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TxT-NH-Fbh">
@@ -1908,7 +1908,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report an Issue" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDj-dS-QpV" userLabel="Report an Issue">
                                                     <rect key="frame" x="20" y="11" width="148" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1930,7 +1930,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly4-ch-mFx">
                                                     <rect key="frame" x="20" y="11" width="69" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-08-acR">
@@ -1965,7 +1965,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Admin Settings" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSC-pj-TH5" userLabel="Admin Settings">
                                                     <rect key="frame" x="20" y="11" width="143.5" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
-                                                    <color key="textColor" name="CustomGrayLabel"/>
+                                                    <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2073,6 +2073,9 @@
         <namedColor name="CSBCCardView">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="CSBCGrayLabel">
+            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="CSBCNavBarBackground">
             <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
@@ -2084,9 +2087,6 @@
         </namedColor>
         <namedColor name="CSBCNavBarText">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CustomGrayLabel">
-            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <color key="tintColor" name="CSBCNavBarBackground"/>

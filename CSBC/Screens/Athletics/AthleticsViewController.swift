@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import Alamofire
-import SwiftyJSON
 
 ///Downloads athletics data, outsources parsing, then displays results in a UITableView. It outsources search functions, but can display the filtered (searched) data
 class AthleticsViewController: CSBCViewController, UITableViewDataSource {
@@ -27,6 +25,7 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     }()
     var athleticsDataPresent = false
     var athleticsData = AthleticsDataParser()
+    
     private var searchControllerController : CSBCSearchController!
     private var modelArrayForSearch : [AthleticsModel?] {
         get {
@@ -52,15 +51,15 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: self, eventsParent: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
-        view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        view.backgroundColor = .csbcAccentGray
         searchBarTopConstraint.constant = -56
         loadingSymbol.startAnimating()
         tableView.isHidden = true
-        view.layoutIfNeeded()
+//        view.layoutIfNeeded()
         AthleticsRetriever().retrieveAthleticsArray(completion: setupTable)
     }
     override func viewWillDisappear(_ animated: Bool) {
-        view.backgroundColor = UIColor(named: "CSBCAccentGray")
+        view.backgroundColor = .csbcAccentGray
     }
 
     //MARK: Athletics Data Methods
@@ -82,12 +81,12 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
             searchBarTopConstraint.constant = 0
             footerLabel.text = ""
         }
-        tableView.dataSource = self
         tableView.delegate = searchControllerController
+        tableView.dataSource = self
         tableView.refreshControl = refreshControl
         tableView.reloadData()
-        view.backgroundColor = UIColor(named: "CSBCNavBarBackground")
         tableView.isHidden = false
+        view.backgroundColor = .csbcNavBarBackground
         view.layoutIfNeeded()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()

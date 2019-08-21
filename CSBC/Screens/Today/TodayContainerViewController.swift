@@ -66,7 +66,7 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
         multiTapGesture.addTarget(self, action: #selector(dateChangerDoubleTapped))
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
         button.addTarget(self, action: #selector(dateFilterSelected(_:)), for: .touchUpInside)
-        button.setTitleColor(UIColor(named: "CSBCNavBarText"), for: .normal)
+        button.setTitleColor(.csbcNavBarText, for: .normal)
         button.setTitle("•••", for: .normal)
         dateChangerButton.customView = button
         dateChangerButton.customView?.addGestureRecognizer(multiTapGesture)

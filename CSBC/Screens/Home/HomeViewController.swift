@@ -82,8 +82,8 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
         alertLabel.text = ""
         alertViewHeightConstraint.constant = 0
         wordmarkMarginHeightConstraint.constant = 5
-        view.backgroundColor = .csbcGreen
-        alertBanner.backgroundColor = .csbcGreen
+        view.backgroundColor = .csbcNavBarBackground
+        alertBanner.backgroundColor = .csbcNavBarBackground
         view.layoutIfNeeded()
         alertLabel.isHidden = true
     }

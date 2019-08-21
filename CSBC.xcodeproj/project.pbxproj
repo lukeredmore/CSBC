@@ -497,12 +497,12 @@
 			path = Lunch;
 			sourceTree = "<group>";
 		};
-		266F9919221B3AF800CA7C4E /* Social Media */ = {
+		266F9919221B3AF800CA7C4E /* Connect */ = {
 			isa = PBXGroup;
 			children = (
 				266F9912221B004D00CA7C4E /* SocialMediaController.swift */,
 			);
-			path = "Social Media";
+			path = Connect;
 			sourceTree = "<group>";
 		};
 		2699F9D82233144100AA1CF3 /* Portal */ = {
@@ -638,7 +638,7 @@
 				262C1164222AC5B9009A359E /* Calendar */,
 				266F9918221B3AE800CA7C4E /* Lunch */,
 				26C21D8E221BADC4001E7915 /* Athletics */,
-				266F9919221B3AF800CA7C4E /* Social Media */,
+				266F9919221B3AF800CA7C4E /* Connect */,
 				2616777F223A9A1500A988D0 /* Uniforms */,
 				266F9916221B3ABC00CA7C4E /* Documents */,
 				2656156422624351002149E5 /* Options */,

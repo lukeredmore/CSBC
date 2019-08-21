@@ -18,7 +18,7 @@ class ActualDocViewController: UIViewController {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .csbcSuperLightGray
+        view.backgroundColor = .csbcAccentGray
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
         self.navigationItem.title = ""
     }
