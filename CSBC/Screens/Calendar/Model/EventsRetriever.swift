@@ -151,10 +151,11 @@ extension CalendarViewController: JSParsingDelegate {
         }
     }
 }
-extension PageViewController {
+extension PageViewController: JSParsingDelegate {
     func loadCalendar(forNumberOfMonthsInFuture number : Int, parent : EventsRetriever) {
         var jsSource = ""
         
+        print("here")
         for _ in 0..<number {
             jsSource += "document.getElementById('evcal_next').click();"
         }
@@ -168,8 +169,8 @@ extension PageViewController {
         myConfiguration.preferences.javaScriptEnabled = true
         
         let webView = WKWebView(frame: .zero, configuration: myConfiguration)
-        webView.isHidden = true
-        //        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
+//        webView.isHidden = true
+        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
         webView.navigationDelegate = parent
         
         view.addSubview(webView)

@@ -37,7 +37,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         }
     }
     
-    lazy var eventsRetriever = EventsRetriever(delegate: self, completion: setupCalendarTable)
+    private lazy var eventsRetriever = EventsRetriever(delegate: self, completion: setupCalendarTable)
     private(set) var eventsDataPresent = false
     private(set) var calendarData = EventsDataParser()
     private var storedSchoolsToShow : [Bool] = [true, true, true, true]

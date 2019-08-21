@@ -1,5 +1,5 @@
 //
-//  AthleticsReceiver.swift
+//  AthleticsRetriever.swift
 //  CSBC
 //
 //  Created by Luke Redmore on 8/4/19.
@@ -12,11 +12,17 @@ import SwiftyJSON
 
 class AthleticsRetriever {
     private let preferences = UserDefaults.standard
+    let completion : ([AthleticsModel?]) -> Void
+    let dataParser = AthleticsDataParser()
     
-    func retrieveAthleticsArray(forceReturn : Bool = false, forceRefresh: Bool = false, completion : @escaping ([AthleticsModel?]) -> Void) {
+    init(completion: @escaping ([AthleticsModel?]) -> Void) {
+        self.completion = completion
+    }
+    
+    func retrieveAthleticsArray(forceReturn : Bool = false, forceRefresh: Bool = false) {
         if forceRefresh {
             print("Athletics Data is being refreshed")
-            getAthleticsDataFromOnline(completion: completion)
+            getAthleticsDataFromOnline()
         } else if forceReturn {
             print("Athletics Data is being force returned")
             if let json = preferences.value(forKey:"athleticsArray") as? Data {
@@ -37,15 +43,15 @@ class AthleticsRetriever {
                     return completion(try! PropertyListDecoder().decode([AthleticsModel?].self, from: json))
                 } else {
                     print("Athletics data found, but is old. Will refresh online.")
-                    getAthleticsDataFromOnline(completion: completion)
+                    getAthleticsDataFromOnline()
                 }
             } else {
                 print("No local Athletics data found in UserDefaults. Looking online.")
-                getAthleticsDataFromOnline(completion: completion)
+                getAthleticsDataFromOnline()
             }
         }
     }
-    private func getAthleticsDataFromOnline(completion : @escaping ([AthleticsModel?]) -> Void) {
+    private func getAthleticsDataFromOnline() {
         print("we are asking for Athletis data")
         let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
         Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
@@ -53,12 +59,12 @@ class AthleticsRetriever {
             if response.result.isSuccess {
                 print("Athletics Data Received")
                 let athleticsJSON : JSON = JSON(response.result.value!)
-                AthleticsDataParser().parseAthleticsData(json: athleticsJSON)
-                self.retrieveAthleticsArray(forceReturn: false, forceRefresh: false, completion: completion)
+                dataParser.parseAthleticsData(json: athleticsJSON)
+                self.retrieveAthleticsArray()
             } else {
                 print("Error on request to ScheduleGalaxy: ")
                 print(response.error!)
-                self.retrieveAthleticsArray(forceReturn: true, forceRefresh: false, completion: completion)
+                self.retrieveAthleticsArray(forceReturn: true, forceRefresh: false)
             }
         }
     }

@@ -20,6 +20,18 @@ class TodayDataParser {
     private var eventsReady = false
     private var athleticsReady = false
     
+    private lazy var eventsRetriever = EventsRetriever(delegate: delegate) { (eventsArray) in
+        self.eventsArray += eventsArray
+        self.eventsReady = true
+        self.tryToStartupPager()
+    }
+    private lazy var athleticsRetriever = AthleticsRetriever { (athleticsArray) in
+        self.athleticsArray = athleticsArray
+        self.athleticsReady = true
+        self.tryToStartupPager()
+    }
+    
+    
     
     init(delegate: TodayParserDelegate) {
         self.delegate = delegate
@@ -29,16 +41,8 @@ class TodayDataParser {
     
     //MARK: Retrieve schedules
     private func getSchedulesToSendToToday() {
-        EventsRetriever(delegate: delegate) { (eventsArray) in
-            self.eventsArray += eventsArray
-            self.eventsReady = true
-            self.tryToStartupPager()
-        }.retrieveEventsArray()
-        AthleticsRetriever().retrieveAthleticsArray { (athleticsArray) in
-            self.athleticsArray = athleticsArray
-            self.athleticsReady = true
-            self.tryToStartupPager()
-        }
+        eventsRetriever.retrieveEventsArray()
+        athleticsRetriever.retrieveAthleticsArray()
     }
     private func tryToStartupPager() {
         if eventsReady && athleticsReady {
@@ -53,7 +57,7 @@ class TodayDataParser {
         
         return eventsArray.filter {
             $0?.date == dateComponents && ($0?.schools?.contains(delegate.schoolSelected.ssString) ?? false || $0?.schools == "" )
-        } as! [EventsModel]
+            } as! [EventsModel]
     }
     func athletics(forDate date : Date) -> AthleticsModel? {
         var allAthleticsToday : AthleticsModel? = nil

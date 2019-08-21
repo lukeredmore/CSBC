@@ -36,7 +36,7 @@
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
-		266A4DBB22F700FE00C3B773 /* AthleticsReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A4DBA22F700FE00C3B773 /* AthleticsReceiver.swift */; };
+		266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */; };
 		266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */; };
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
 		267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */; };
@@ -145,7 +145,7 @@
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
-		266A4DBA22F700FE00C3B773 /* AthleticsReceiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsReceiver.swift; sourceTree = "<group>"; };
+		266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsRetriever.swift; sourceTree = "<group>"; };
 		266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsModel.swift; sourceTree = "<group>"; };
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
 		267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSplashView.swift; sourceTree = "<group>"; };
@@ -388,7 +388,7 @@
 		2637A68C22FF15C50097EDD1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				266A4DBA22F700FE00C3B773 /* AthleticsReceiver.swift */,
+				266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */,
 				26858BC42226292700ADDD1F /* AthleticsDataParser.swift */,
 				266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */,
 			);
@@ -1067,7 +1067,7 @@
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
-				266A4DBB22F700FE00C3B773 /* AthleticsReceiver.swift in Sources */,
+				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
 				264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,

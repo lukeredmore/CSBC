@@ -23,6 +23,8 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         
         return refreshControl
     }()
+    
+    private lazy var athleticsRetriever = AthleticsRetriever(completion: setupTable)
     var athleticsDataPresent = false
     var athleticsData = AthleticsDataParser()
     
@@ -56,7 +58,7 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         loadingSymbol.startAnimating()
         tableView.isHidden = true
 //        view.layoutIfNeeded()
-        AthleticsRetriever().retrieveAthleticsArray(completion: setupTable)
+        athleticsRetriever.retrieveAthleticsArray()
     }
     override func viewWillDisappear(_ animated: Bool) {
         view.backgroundColor = .csbcAccentGray
@@ -64,7 +66,7 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
 
     //MARK: Athletics Data Methods
     @objc private func refreshData() {
-        AthleticsRetriever().retrieveAthleticsArray(forceReturn: false, forceRefresh: true, completion: setupTable)
+        athleticsRetriever.retrieveAthleticsArray(forceReturn: false, forceRefresh: true)
     }
     private func setupTable(athleticsArray : [AthleticsModel?]) {
         if modelArrayForSearch != athleticsArray {
