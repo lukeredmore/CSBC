@@ -1,7 +1,16 @@
-var jsSource = ""
 
-let number = 2
+var number : Int? = nil
 
-for _ in 0..<number {
-    jsSource += "document.getElementById('evcal_next').click();"
+if let num = number, num == 5 {
+    print("right number")
+} else {
+    print("no")
+}
+
+if let num = number {
+    if num == 5 {
+    print("right number")
+    }
+} else {
+    print("no")
 }

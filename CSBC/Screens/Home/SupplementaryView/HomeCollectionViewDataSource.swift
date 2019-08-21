@@ -12,22 +12,21 @@ import UIKit
 /// Home screen UICollectionView data source and delegate
 class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    private let buttonImages : [String] = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
+    private let buttonImages = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
     private var columnLayout = ColumnFlowLayout(
         cellsPerRow: 3,
         minimumInteritemSpacing: (UIScreen.main.bounds.width)/15.88,
         minimumLineSpacing: (UIScreen.main.bounds.height-133)/15.88,
         sectionInset: UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
     )
-    private var parent : HomeViewController? = nil
+    private let parent : HomeViewController!
     
-    func configureCollectionViewForScreenSize(_ parent: HomeViewController) {
+    init(forParentVC parent : HomeViewController) {
         self.parent = parent
-        if UIDevice.current.orientation.isLandscape {
-            columnLayout.cellsPerRow = 4
-        } else {
-            columnLayout.cellsPerRow = 3
-        }
+    }
+    
+    func configureCollectionViewForCurrentScreenSize() {
+        columnLayout.cellsPerRow = UIDevice.current.orientation.isLandscape ? 4 : 3
         columnLayout.minimumInteritemSpacing = (UIScreen.main.bounds.width)/9
         columnLayout.minimumLineSpacing = (UIScreen.main.bounds.height-133)/12
         if UIScreen.main.bounds.width == 1366 {
@@ -62,6 +61,13 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CollectionViewCell
         let image = UIImage(named: buttonImages[indexPath.row])
         let title = buttonImages[indexPath.row]
+        
+//        if let timeOfStuffDownloaded = UserDefaults.standard.string(forKey: "athleticsArrayTime"), let timeDate = timeOfStuffDownloaded.toDateWithTime() {
+//            let timeFormatter = DateFormatter()
+//            timeFormatter.dateFormat = "HH:mm:ss"
+//            title = timeFormatter.string(from: timeDate)
+//        }
+        
         cell.displayContent(image: image!, title: title)
         return cell
     }
@@ -70,34 +76,34 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         if parent != nil {
-            let tag : Int = indexPath.row + 1
+            let tag = indexPath.row + 1
             switch tag {
             case 1: //Today
-                parent!.performSegue(withIdentifier: "TodaySegue", sender: parent!)
+                parent.performSegue(withIdentifier: "TodaySegue", sender: parent)
             case 2: //Portal
-                parent!.performSegue(withIdentifier: "WebSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "WebSegue", sender: parent)
             case 3: //Contact
-                parent!.performSegue(withIdentifier: "ContactSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "ContactSegue", sender: parent)
             case 4: //Calendar
-                parent!.performSegue(withIdentifier: "CalendarSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "CalendarSegue", sender: parent)
             case 5: //News
-                parent!.showNewsInSafariView()
+                parent.showNewsInSafariView()
             case 6: //Lunch
-                parent!.performSegue(withIdentifier: "LunchSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "LunchSegue", sender: parent)
             case 7: //Athletics
-                parent!.performSegue(withIdentifier: "AthleticsSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "AthleticsSegue", sender: parent)
             case 8: //Give
                 if let url = URL(string: "https://app.mobilecause.com/form/N-9Y0w?vid=1hepr") {
                     UIApplication.shared.open(url)
                 }
             case 9: //Connect
-                parent!.performSegue(withIdentifier: "SocialMediaSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "SocialMediaSegue", sender: parent)
             case 10: //Dress Code
-                parent!.performSegue(withIdentifier: "UniformsSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "UniformsSegue", sender: parent)
             case 11: //Docs
-                parent!.performSegue(withIdentifier: "DocumentsSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "DocumentsSegue", sender: parent)
             case 12: //Options
-                parent!.performSegue(withIdentifier: "SettingsSegue", sender: parent!)
+                parent.performSegue(withIdentifier: "SettingsSegue", sender: parent)
             default:
                 break
             }

@@ -40,7 +40,7 @@ class NotificationController {
         notificationSettings = defineNotificationSettings()
     }
     
-    func queueNotifications() {
+    func queueNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
@@ -119,7 +119,7 @@ class NotificationController {
         } else {
             print("User has declined to receive notifications")
         }
-        
+        completion?(UIBackgroundFetchResult.newData)
     }
     
     func subscribeToTopics() {

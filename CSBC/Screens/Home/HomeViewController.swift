@@ -15,14 +15,14 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
     //Collection Setup Properties
     @IBOutlet var collectionView: UICollectionView!
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
-    private let collectionController = HomeCollectionViewDataSource()
+    private lazy var collectionController = HomeCollectionViewDataSource(forParentVC: self)
     
     //Alert Setup Properties
     @IBOutlet weak private var alertLabel: UILabel!
     @IBOutlet weak private var alertViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var wordmarkMarginHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak private var alertBanner: UIView!
-    private var localAlerts : AlertController?
+    private lazy var alertController = AlertController(delegate: self)
 
     
     //MARK: View Control
@@ -34,23 +34,21 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
         print("Application successfully loaded in production configuration")
         #endif
         print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
-        
-        localAlerts = AlertController(self)
-        
+                
         //Setup CollectionView
         collectionView.delegate = collectionController
         collectionView.dataSource = collectionController
-        collectionController.configureCollectionViewForScreenSize(self)
+        collectionController.configureCollectionViewForCurrentScreenSize()
         
         CSBCSplashView(addToView: view).startAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        localAlerts?.checkForAlert()
+        alertController.checkForAlert()
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
     override func viewDidAppear(_ animated: Bool) {
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -58,15 +56,15 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        collectionController.configureCollectionViewForScreenSize(self)
+        collectionController.configureCollectionViewForCurrentScreenSize()
     }
     
     
     //MARK: Alert Delegate Methods
-    func reinitNotifications() {
+    func reinitNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         let localNotifications = NotificationController()
         localNotifications.subscribeToTopics()
-        localNotifications.queueNotifications()
+        localNotifications.queueNotifications(completion: completion)
     }
     func showBannerAlert(withMessage alertText: String) {
         view.backgroundColor = .csbcAlertRed

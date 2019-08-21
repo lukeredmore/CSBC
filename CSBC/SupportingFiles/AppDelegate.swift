@@ -26,10 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //Notifications
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self as? MessagingDelegate
+        Messaging.messaging().subscribe(toTopic: "appUser") { error in
+            if error == nil {
+                print("Subscribed to 'appUser'")
+            } else {
+                print(error!)
+            }
+        }
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
             if granted {
                 DispatchQueue.main.async {
-                    UIApplication.shared.registerForRemoteNotifications()
+                    application.registerForRemoteNotifications()
                 }
             }
         }
@@ -67,7 +74,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
     }
 
-    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        print("Updating local notifications in background")
+        let _ = AlertController(delegate: HomeViewController(), completion: completionHandler)
+        
+    }
     
     // Receive displayed notifications for iOS 10 devices.
     func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {

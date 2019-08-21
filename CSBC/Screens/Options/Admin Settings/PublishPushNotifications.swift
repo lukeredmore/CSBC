@@ -73,4 +73,26 @@ class PublishPushNotifications {
         
         
     }
+    
+    static func notifyOthersOfDayScheduleUpdate() {
+        var dataNotifHeaders : HTTPHeaders = ["Content-Type":"application/json"]
+        #if DEBUG
+        dataNotifHeaders["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
+        #else
+        dataNotifHeaders["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
+        #endif
+        let params : [String : Any] = [
+        "condition": "'appUser' in topics || 'setonNotifications' in topics",
+        "priority": "high",
+        "content_available": true
+        ]
+        
+        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: dataNotifHeaders).responseJSON { (response) in
+            if response.error == nil {
+                print("Sucessfully notified users of new data")
+            } else {
+                print("Error sending data notification:", response.error!)
+            }
+        }
+    }
 }

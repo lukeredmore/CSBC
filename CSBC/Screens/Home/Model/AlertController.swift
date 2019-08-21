@@ -14,12 +14,13 @@ import SwiftSoup
 protocol AlertDelegate: class {
     func showBannerAlert(withMessage: String)
     func removeBannerAlert()
-    func reinitNotifications()
+    func reinitNotifications(completion : ((UIBackgroundFetchResult) -> Void)?)
 }
 
 /// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
-    weak private var delegate : AlertDelegate? = nil
+    weak private var delegate : AlertDelegate!
+    private var completion : ((UIBackgroundFetchResult) -> Void)?
     private let defaults = UserDefaults.standard
     private var closedData : [String] = []
     private var snowDatesChecked = false
@@ -27,31 +28,35 @@ class AlertController {
     private var shouldSnowDatesReinit = false
     private var shouldOverridesReinit = false
     
-    init(_ delegate : AlertDelegate) {
+    init(delegate : AlertDelegate, completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         self.delegate = delegate
-        self.delegate?.removeBannerAlert()
+        self.completion = completion
+        self.delegate.removeBannerAlert()
         getSnowDatesAndOverridesAndQueueNotifications()
     }
     
     private func getSnowDatesAndOverridesAndQueueNotifications() {
         Database.database().reference().child("SnowDays").observeSingleEvent(of: .value) { (snapshot) in
-            if let value = snapshot.value as? NSDictionary {
-                let newSnowDays : [String] = value.allValues as! [String]
-                if let ogSnowDays : [String] = self.defaults.array(forKey: "snowDays") as? [String] {
-                    if newSnowDays.sorted() != ogSnowDays.sorted() {
-                        self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
-                        self.shouldSnowDatesReinit = true
-                        self.tryToReinit()
-                    }
-                } else {
-                    self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
-                    self.shouldSnowDatesReinit = true
-                    self.tryToReinit()
-                }
+            guard let newSnowDays = (snapshot.value as? NSDictionary)?.allValues as? [String] else {
+                self.snowDatesChecked = true
+                self.tryToReinit()
+                return
+            }
+            guard let ogSnowDays = self.defaults.array(forKey: "snowDays") as? [String] else {
+                self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
+                self.shouldSnowDatesReinit = true
+                self.snowDatesChecked = true
+                self.tryToReinit()
+                return
+            }
+            if ogSnowDays.sorted() != newSnowDays.sorted() {
+                self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
+                self.shouldSnowDatesReinit = true
             }
             self.snowDatesChecked = true
+            self.tryToReinit()
         }
-
+        
         Database.database().reference().child("DayScheduleOverrides").observeSingleEvent(of: .value) { (snapshot) in
             if let newOverrides = snapshot.value as? [String : Int] {
                 if let ogOverrides = self.defaults.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] {
@@ -72,7 +77,9 @@ class AlertController {
     private func tryToReinit() {
         if (snowDatesChecked && dayOverridesChecked && (shouldSnowDatesReinit || shouldOverridesReinit)) {
             print("reinitializing Notifications")
-            self.delegate?.reinitNotifications()
+            self.delegate.reinitNotifications(completion: completion)
+        } else {
+            completion?(UIBackgroundFetchResult.noData)
         }
     }
     
@@ -92,7 +99,7 @@ class AlertController {
                         }
                         if self.closedData[0] != "" {
                             print("An alert was found")
-                            self.delegate?.showBannerAlert(withMessage: self.closedData[0])
+                            self.delegate.showBannerAlert(withMessage: self.closedData[0])
                             if self.closedData[0].contains("closed") || self.closedData[0].contains("Closed") {
                                 print("Today is a snow day")
                                 self.addSnowDateToDatabase(date: Date())
@@ -126,13 +133,13 @@ class AlertController {
                     } catch {}
                     if let status = districtStatus {
                         if status.contains("Closed") || status.contains("closed") {
-                            self.delegate?.showBannerAlert(withMessage: "The Catholic Schools of Broome County are closed today.")
+                            self.delegate.showBannerAlert(withMessage: "The Catholic Schools of Broome County are closed today.")
                             self.addSnowDateToDatabase(date: Date())
                         }
                     }
                 } else {
                     print("No alerts found")
-                    self.delegate?.removeBannerAlert()
+                    self.delegate.removeBannerAlert()
                 }
             }
         }
@@ -154,6 +161,7 @@ class AlertController {
                     } else {
                         print("Snow day successfully added")
                         self.getSnowDatesAndOverridesAndQueueNotifications()
+                        PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
                     }
                 }
             } else {
@@ -162,4 +170,6 @@ class AlertController {
         }
         
     }
+    
+    
 }

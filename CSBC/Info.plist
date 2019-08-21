@@ -46,7 +46,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>163</string>
+	<string>15</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fb</string>
@@ -86,6 +86,10 @@
 		<string>Gotham-XLight.otf</string>
 		<string>Gotham-XLightItalic.otf</string>
 		<string>gotham.otf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

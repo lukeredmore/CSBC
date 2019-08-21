@@ -59,7 +59,7 @@ class AthleticsRetriever {
             if response.result.isSuccess {
                 print("Athletics Data Received")
                 let athleticsJSON : JSON = JSON(response.result.value!)
-                dataParser.parseAthleticsData(json: athleticsJSON)
+                self.dataParser.parseAthleticsData(json: athleticsJSON)
                 self.retrieveAthleticsArray()
             } else {
                 print("Error on request to ScheduleGalaxy: ")
