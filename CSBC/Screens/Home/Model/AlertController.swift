@@ -58,20 +58,24 @@ class AlertController {
         }
         
         Database.database().reference().child("DayScheduleOverrides").observeSingleEvent(of: .value) { (snapshot) in
-            if let newOverrides = snapshot.value as? [String : Int] {
-                if let ogOverrides = self.defaults.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] {
-                    if newOverrides != ogOverrides {
-                        self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
-                        self.shouldOverridesReinit = true
-                        self.tryToReinit()
-                    }
-                } else {
-                    self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
-                    self.shouldOverridesReinit = true
-                    self.tryToReinit()
-                }
+            guard let newOverrides = snapshot.value as? [String:Int] else {
+                self.dayOverridesChecked = true
+                self.tryToReinit()
+                return
+            }
+            guard let ogOverrides = self.defaults.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] else {
+                self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
+                self.shouldOverridesReinit = true
+                self.dayOverridesChecked = true
+                self.tryToReinit()
+                return
+            }
+            if newOverrides != ogOverrides {
+                self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
+                self.shouldOverridesReinit = true
             }
             self.dayOverridesChecked = true
+            self.tryToReinit()
         }
     }
     private func tryToReinit() {
@@ -100,7 +104,7 @@ class AlertController {
                         if self.closedData[0] != "" {
                             print("An alert was found")
                             self.delegate.showBannerAlert(withMessage: self.closedData[0])
-                            if self.closedData[0].contains("closed") || self.closedData[0].contains("Closed") {
+                            if self.closedData[0].lowercased().contains("closed") {
                                 print("Today is a snow day")
                                 self.addSnowDateToDatabase(date: Date())
                             }
@@ -162,6 +166,7 @@ class AlertController {
                         print("Snow day successfully added")
                         self.getSnowDatesAndOverridesAndQueueNotifications()
                         PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
+                        PublishPushNotifications.sendAlertNotification(withMessage: "The Catholic Schools of Broome County will be closed today, \(dateValueString).")
                     }
                 }
             } else {

@@ -16,7 +16,7 @@ protocol PublishPushNotificationsDelegate: class {
 
 /// Takes a given notification and publishes it with preconfigured settings and reports to a delegate (the composer)
 class PublishPushNotifications {
- 
+
     private var messageToSend : String!
     private var schoolConditional : String!
     private var notificationTitle : String!
@@ -58,7 +58,7 @@ class PublishPushNotifications {
                 "body": "\(self.messageToSend!)",
                 "sound": "default"
                 ],
-                "condition": "'\(self.schoolConditional!)' in topics",
+              "condition": "'\(self.schoolConditional!)' in topics",
                 "priority": "high"
         ]
         Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
@@ -66,7 +66,7 @@ class PublishPushNotifications {
             if response.error == nil {
                 self.delegate?.notificationDidPublishSucessfully()
             } else {
-                print("Error sending notification:", response.error!)
+                print("Error sending notification: ", response.error!)
                 self.delegate?.notificationFailedToPublish(withError: response.error!)
             }
         }
@@ -81,18 +81,47 @@ class PublishPushNotifications {
         #else
         dataNotifHeaders["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
         #endif
+        
         let params : [String : Any] = [
-        "condition": "'appUser' in topics || 'setonNotifications' in topics",
-        "priority": "high",
-        "content_available": true
+            "condition": "'appUser' in topics || 'setonNotifications' in topics",
+            "priority": "high",
+            "content_available": true
         ]
         
         Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: dataNotifHeaders).responseJSON { (response) in
             if response.error == nil {
                 print("Sucessfully notified users of new data")
             } else {
-                print("Error sending data notification:", response.error!)
+                print("Error sending data notification: ", response.error!)
             }
         }
+    }
+    
+    static func sendAlertNotification(withMessage alertText: String) {
+        var alertNotifHeaders : HTTPHeaders = ["Content-Type":"application/json"]
+        #if DEBUG
+        alertNotifHeaders["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
+        #else
+        alertNotifHeaders["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
+        #endif
+        
+        let params : [String : Any] =
+            [ "notification": [
+                "title": "Alert",
+                "body": "\(alertText)",
+                "sound": "default"
+                ],
+              "condition": "'appUser' in topics || 'setonNotifications' in topics",
+              "priority": "high"
+        ]
+        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: alertNotifHeaders).responseJSON { (response) in
+            if response.error == nil {
+                print("Sucessfully notified users of new data")
+            } else {
+                print("Error sending data notification: ", response.error!)
+            }
+        }
+        
+        
     }
 }

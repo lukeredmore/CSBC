@@ -58,6 +58,7 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
                     self.dayLabel.text = "\(day)"
                     self.originalDay = day
                     self.notificationController.reinit()
+                    PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
                 }
             }
         }
