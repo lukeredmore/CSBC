@@ -304,10 +304,10 @@
             </objects>
             <point key="canvasLocation" x="-2970" y="739"/>
         </scene>
-        <!--Web View Controller-->
+        <!--Portal-->
         <scene sceneID="DDa-DT-86a">
             <objects>
-                <viewController id="gie-Ly-Bvm" customClass="WebViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Portal" id="gie-Ly-Bvm" customClass="WebViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Pt-4l-7ZW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -318,7 +318,7 @@
                                     <constraint firstAttribute="height" constant="3" id="STK-xR-mS3"/>
                                 </constraints>
                                 <color key="progressTintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <color key="trackTintColor" name="CSBCBackground"/>
+                                <color key="trackTintColor" name="CSBCYellow"/>
                             </progressView>
                             <wkWebView contentMode="scaleToFill" allowsBackForwardNavigationGestures="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KFt-l1-ckV">
                                 <rect key="frame" x="0.0" y="3" width="414" height="722"/>
@@ -395,6 +395,7 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" name="CSBCNavBarBackground"/>
+                        <color key="tintColor" name="CSBCNavBarText"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Spv-Bl-Xhb" secondAttribute="trailing" id="7F3-tN-yHn"/>
                             <constraint firstItem="HD5-xx-ABe" firstAttribute="trailing" secondItem="KFt-l1-ckV" secondAttribute="trailing" id="CfB-E7-kum"/>
@@ -2080,13 +2081,16 @@
             <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarFlipside">
-            <color red="0.082000002264976501" green="0.27799999713897705" blue="0.20399999618530273" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarText">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarText">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CSBCYellow">
+            <color red="0.96470588235294119" green="0.74509803921568629" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
     <color key="tintColor" name="CSBCNavBarBackground"/>

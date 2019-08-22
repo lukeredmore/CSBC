@@ -11,40 +11,40 @@ import WebKit
 
 /// Loads PlusPortals in WKWebView with custom controls and ability to select school
 class WebViewController: CSBCViewController, WKNavigationDelegate {
-    
-    private var portalURLStrings = ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
-    @IBOutlet private var webView: WKWebView!
+    @IBOutlet private var webView: WKWebView! {
+        didSet {
+            webView.configuration.preferences.javaScriptEnabled = true
+            webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+            webView.navigationDelegate = self
+        }
+    }
     @IBOutlet weak private var myProgressView: UIProgressView!
-    private var compileDate : Date {
+    private var portalURLStrings : [String] {
         let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as? String ?? "Info.plist"
         if let infoPath = Bundle.main.path(forResource: bundleName, ofType: nil),
             let infoAttr = try? FileManager.default.attributesOfItem(atPath: infoPath),
-            let infoDate = infoAttr[FileAttributeKey.creationDate] as? Date
-        { return infoDate }
-        return Date()
+            let compileDate = infoAttr[FileAttributeKey.creationDate] as? Date,
+            Date() < compileDate + 345600 {
+            print("This date is too early, returning dummy URLs")
+            return ["setoncchs", "setoncchs", "setoncchs", "setoncchs"]
+        } else {
+            return ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
+        }
     }
+    private var linkLoaded = false
     
     //MARK: View Control
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .csbcNavBarBackground
-        if Date() < compileDate + 345600 {
-            print("This date is too early")
-            portalURLStrings = ["setoncchs", "setoncchs", "setoncchs", "setoncchs"]
-        }
-        self.title = "Portal"
-        myProgressView.trackTintColor = .csbcYellow
-        
-        webView.navigationDelegate = self
-    }
     override func viewWillAppear(_ animated: Bool) {
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [myProgressView], barHeight: 5)
-        super.viewWillAppear(animated)
+        if linkLoaded == false {
+            super.viewWillAppear(animated)
+        }
     }
     override func schoolPickerValueChanged() {
         if let urlToLoad = URL(string: "https://plusportals.com/\(portalURLStrings[schoolSelected.rawValue])") {
             let urlToRequest = URLRequest(url: urlToLoad)
             webView.load(urlToRequest)
+            linkLoaded = true
         }
     }
     
@@ -57,8 +57,12 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
         myProgressView.setProgress(0.1, animated: true)
     }
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.myProgressView.setProgress(1.0, animated: true)
+        myProgressView.setProgress(1.0, animated: true)
         Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(removeProgressBar), userInfo: nil, repeats: false)
+    }
+    
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        navigationAction.request.url?.absoluteString.lowercased().contains("plusportals.com") ?? false ? decisionHandler(WKNavigationActionPolicy.allow) : decisionHandler(WKNavigationActionPolicy.cancel)
     }
     
     
@@ -74,7 +78,5 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
     }
     @IBAction private func refreshButtonPressed(_ sender: Any) {
         webView.reload()
-        myProgressView.setProgress(0.0, animated: false)
-        myProgressView.progressTintColor = .blue
     }
 }

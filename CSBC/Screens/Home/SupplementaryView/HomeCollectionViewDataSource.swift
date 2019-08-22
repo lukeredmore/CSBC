@@ -20,6 +20,7 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
         sectionInset: UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
     )
     private let parent : HomeViewController!
+    var lastSeguedWebView : WebViewController?
     
     init(forParentVC parent : HomeViewController) {
         self.parent = parent
@@ -72,6 +73,8 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
         return cell
     }
     
+    
+    
     //MARK: Delegate Methods
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -81,7 +84,7 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
             case 1: //Today
                 parent.performSegue(withIdentifier: "TodaySegue", sender: parent)
             case 2: //Portal
-                parent.performSegue(withIdentifier: "WebSegue", sender: parent)
+                lastSeguedWebView != nil ? parent.navigationController?.pushViewController(lastSeguedWebView!, animated: true) : parent.performSegue(withIdentifier: "WebSegue", sender: parent)
             case 3: //Contact
                 parent.performSegue(withIdentifier: "ContactSegue", sender: parent)
             case 4: //Calendar

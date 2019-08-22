@@ -95,4 +95,9 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
             self.present(safariView, animated: true, completion: nil)
         }
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "WebSegue", let portalVC = segue.destination as? WebViewController {
+            collectionController.lastSeguedWebView = portalVC
+        }
+    }
 }
