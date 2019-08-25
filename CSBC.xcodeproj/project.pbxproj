@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00F9EE4AB8FBEBD6F2BCEF68 /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */; };
 		26019ABB2288A93300953FE2 /* UIPlaygroundFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 26019AB22288A93200953FE2 /* UIPlaygroundFramework.framework */; };
 		26019AC02288A93300953FE2 /* UIPlaygroundFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26019ABF2288A93300953FE2 /* UIPlaygroundFrameworkTests.swift */; };
 		26019AC22288A93300953FE2 /* UIPlaygroundFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -100,6 +99,9 @@
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */; };
 		26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */; };
+		3D43EC522961A605A27924AF /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E51269742684D1554CF4BD0 /* Pods_CSBC.framework */; };
+		A06DE38AB3BADB061DD7921C /* Pods_UIPlaygroundFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CCB5CD59FE6F89482CE60E /* Pods_UIPlaygroundFramework.framework */; };
+		B14EC4CE423D636DE4B5B72F /* Pods_UIPlaygroundFrameworkTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 20C83BB3D7B62D0DE08E3732 /* Pods_UIPlaygroundFrameworkTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +115,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05CCB5CD59FE6F89482CE60E /* Pods_UIPlaygroundFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIPlaygroundFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0640ED63646B53607ABCABEB /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
+		20C83BB3D7B62D0DE08E3732 /* Pods_UIPlaygroundFrameworkTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_UIPlaygroundFrameworkTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26019AB22288A93200953FE2 /* UIPlaygroundFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIPlaygroundFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIPlaygroundFramework.h; sourceTree = "<group>"; };
 		26019AB52288A93200953FE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -213,9 +218,12 @@
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchHTMLController.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
-		A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
-		C4D4ABB3891835B241375481 /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
+		362ED63952D07A387752C4FB /* Pods-UIPlaygroundFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPlaygroundFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-UIPlaygroundFramework/Pods-UIPlaygroundFramework.release.xcconfig"; sourceTree = "<group>"; };
+		5E51269742684D1554CF4BD0 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		650220A5BFC6E1488C0FE0CD /* Pods-UIPlaygroundFrameworkTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPlaygroundFrameworkTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UIPlaygroundFrameworkTests/Pods-UIPlaygroundFrameworkTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8F41FAF637BF5C40717434E0 /* Pods-UIPlaygroundFrameworkTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPlaygroundFrameworkTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-UIPlaygroundFrameworkTests/Pods-UIPlaygroundFrameworkTests.release.xcconfig"; sourceTree = "<group>"; };
+		F2ACD8D95D9994A126E7BCC1 /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
+		FF9532504F63B18ECB06C889 /* Pods-UIPlaygroundFramework.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPlaygroundFramework.debug.xcconfig"; path = "Pods/Target Support Files/Pods-UIPlaygroundFramework/Pods-UIPlaygroundFramework.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +231,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A06DE38AB3BADB061DD7921C /* Pods_UIPlaygroundFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				26019ABB2288A93300953FE2 /* UIPlaygroundFramework.framework in Frameworks */,
+				B14EC4CE423D636DE4B5B72F /* Pods_UIPlaygroundFrameworkTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00F9EE4AB8FBEBD6F2BCEF68 /* Pods_CSBC.framework in Frameworks */,
+				3D43EC522961A605A27924AF /* Pods_CSBC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,8 +599,8 @@
 				26019AB32288A93200953FE2 /* UIPlaygroundFramework */,
 				26019ABE2288A93300953FE2 /* UIPlaygroundFrameworkTests */,
 				26ED795B21EB91D40086FB86 /* Products */,
-				5FC023C78269DBBDF1EA2280 /* Frameworks */,
-				E0C653A4C4E098606172C7B1 /* Pods */,
+				2D6BC27D971C762C26ABF5A9 /* Pods */,
+				C2EAD5979CE2019D9D081DC1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -673,21 +683,27 @@
 			path = "PDF Files";
 			sourceTree = "<group>";
 		};
-		5FC023C78269DBBDF1EA2280 /* Frameworks */ = {
+		2D6BC27D971C762C26ABF5A9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A9E6B5994646649D69BE9EC6 /* Pods_CSBC.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		E0C653A4C4E098606172C7B1 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C4D4ABB3891835B241375481 /* Pods-CSBC.debug.xcconfig */,
-				C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */,
+				0640ED63646B53607ABCABEB /* Pods-CSBC.debug.xcconfig */,
+				F2ACD8D95D9994A126E7BCC1 /* Pods-CSBC.release.xcconfig */,
+				FF9532504F63B18ECB06C889 /* Pods-UIPlaygroundFramework.debug.xcconfig */,
+				362ED63952D07A387752C4FB /* Pods-UIPlaygroundFramework.release.xcconfig */,
+				650220A5BFC6E1488C0FE0CD /* Pods-UIPlaygroundFrameworkTests.debug.xcconfig */,
+				8F41FAF637BF5C40717434E0 /* Pods-UIPlaygroundFrameworkTests.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C2EAD5979CE2019D9D081DC1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5E51269742684D1554CF4BD0 /* Pods_CSBC.framework */,
+				05CCB5CD59FE6F89482CE60E /* Pods_UIPlaygroundFramework.framework */,
+				20C83BB3D7B62D0DE08E3732 /* Pods_UIPlaygroundFrameworkTests.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -708,6 +724,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26019AC72288A93300953FE2 /* Build configuration list for PBXNativeTarget "UIPlaygroundFramework" */;
 			buildPhases = (
+				94D3F2A338DFB48E3DA81059 /* [CP] Check Pods Manifest.lock */,
 				26019AAD2288A93200953FE2 /* Headers */,
 				26019AAE2288A93200953FE2 /* Sources */,
 				26019AAF2288A93200953FE2 /* Frameworks */,
@@ -726,6 +743,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26019AC82288A93300953FE2 /* Build configuration list for PBXNativeTarget "UIPlaygroundFrameworkTests" */;
 			buildPhases = (
+				76A9D5E47DEB09CF6E12F3ED /* [CP] Check Pods Manifest.lock */,
 				26019AB62288A93300953FE2 /* Sources */,
 				26019AB72288A93300953FE2 /* Frameworks */,
 				26019AB82288A93300953FE2 /* Resources */,
@@ -744,14 +762,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 26ED796C21EB91D50086FB86 /* Build configuration list for PBXNativeTarget "CSBC" */;
 			buildPhases = (
-				D44D280AD66A9F650E0EA7E5 /* [CP] Check Pods Manifest.lock */,
+				B9F42D46ACEB2E1A1E6FD721 /* [CP] Check Pods Manifest.lock */,
 				26ED795621EB91D40086FB86 /* Sources */,
 				26ED795721EB91D40086FB86 /* Frameworks */,
 				26BE62022272590000C6656F /* Connect to appropriate Firebase project */,
 				26C7649022FB9A500001FBBB /* Increment build number */,
 				26ED795821EB91D40086FB86 /* Resources */,
-				1DFD672DCB463EEB4BD07774 /* [CP] Embed Pods Frameworks */,
-				60167DF5E69B64F647CBBEC6 /* [CP] Copy Pods Resources */,
+				ADDCDCF9EC64D0D4571AA364 /* [CP] Embed Pods Frameworks */,
+				2D3628A86986A512B8798C16 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -881,44 +899,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1DFD672DCB463EEB4BD07774 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CSBC/Pods-CSBC-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSoup.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CSBC/Pods-CSBC-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		26BE62022272590000C6656F /* Connect to appropriate Firebase project */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -955,7 +935,7 @@
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
 		};
-		60167DF5E69B64F647CBBEC6 /* [CP] Copy Pods Resources */ = {
+		2D3628A86986A512B8798C16 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -977,7 +957,91 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CSBC/Pods-CSBC-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D44D280AD66A9F650E0EA7E5 /* [CP] Check Pods Manifest.lock */ = {
+		76A9D5E47DEB09CF6E12F3ED /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UIPlaygroundFrameworkTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94D3F2A338DFB48E3DA81059 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-UIPlaygroundFramework-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		ADDCDCF9EC64D0D4571AA364 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-CSBC/Pods-CSBC-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftSoup/SwiftSoup.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Protobuf.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftSoup.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CSBC/Pods-CSBC-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B9F42D46ACEB2E1A1E6FD721 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1102,6 +1166,7 @@
 /* Begin XCBuildConfiguration section */
 		26019AC32288A93300953FE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF9532504F63B18ECB06C889 /* Pods-UIPlaygroundFramework.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -1130,6 +1195,7 @@
 		};
 		26019AC42288A93300953FE2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 362ED63952D07A387752C4FB /* Pods-UIPlaygroundFramework.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
@@ -1158,6 +1224,7 @@
 		};
 		26019AC52288A93300953FE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 650220A5BFC6E1488C0FE0CD /* Pods-UIPlaygroundFrameworkTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
@@ -1177,6 +1244,7 @@
 		};
 		26019AC62288A93300953FE2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F41FAF637BF5C40717434E0 /* Pods-UIPlaygroundFrameworkTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
@@ -1316,7 +1384,7 @@
 		};
 		26ED796D21EB91D50086FB86 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4D4ABB3891835B241375481 /* Pods-CSBC.debug.xcconfig */;
+			baseConfigurationReference = 0640ED63646B53607ABCABEB /* Pods-CSBC.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1339,83 +1407,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.5.1;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-l\"c++\"",
-					"-l\"icucore\"",
-					"-l\"sqlite3\"",
-					"-l\"z\"",
-					"-framework",
-					"\"Alamofire\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"Crashlytics\"",
-					"-framework",
-					"\"FIRAnalyticsConnector\"",
-					"-framework",
-					"\"Fabric\"",
-					"-framework",
-					"\"FirebaseAnalytics\"",
-					"-framework",
-					"\"FirebaseAuth\"",
-					"-framework",
-					"\"FirebaseCore\"",
-					"-framework",
-					"\"FirebaseCoreDiagnostics\"",
-					"-framework",
-					"\"FirebaseDatabase\"",
-					"-framework",
-					"\"FirebaseInstanceID\"",
-					"-framework",
-					"\"FirebaseMessaging\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"GTMSessionFetcher\"",
-					"-framework",
-					"\"GoogleAppMeasurement\"",
-					"-framework",
-					"\"GoogleDataTransport\"",
-					"-framework",
-					"\"GoogleDataTransportCCTSupport\"",
-					"-framework",
-					"\"GoogleSignIn\"",
-					"-framework",
-					"\"GoogleToolboxForMac\"",
-					"-framework",
-					"\"GoogleUtilities\"",
-					"-framework",
-					"\"LocalAuthentication\"",
-					"-framework",
-					"\"Protobuf\"",
-					"-framework",
-					"\"SafariServices\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"StoreKit\"",
-					"-framework",
-					"\"SwiftSoup\"",
-					"-framework",
-					"\"SwiftyJSON\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-framework",
-					"\"leveldb\"",
-					"-framework",
-					"\"nanopb\"",
-					"-weak_framework",
-					"\"UserNotifications\"",
-					"$(inherited)",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1426,7 +1417,7 @@
 		};
 		26ED796E21EB91D50086FB86 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4B724DF832A0CC6430E149E /* Pods-CSBC.release.xcconfig */;
+			baseConfigurationReference = F2ACD8D95D9994A126E7BCC1 /* Pods-CSBC.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1449,83 +1440,6 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				MARKETING_VERSION = 1.5.1;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					"-ObjC",
-					"-l\"c++\"",
-					"-l\"icucore\"",
-					"-l\"sqlite3\"",
-					"-l\"z\"",
-					"-framework",
-					"\"Alamofire\"",
-					"-framework",
-					"\"CFNetwork\"",
-					"-framework",
-					"\"CoreGraphics\"",
-					"-framework",
-					"\"CoreText\"",
-					"-framework",
-					"\"Crashlytics\"",
-					"-framework",
-					"\"FIRAnalyticsConnector\"",
-					"-framework",
-					"\"Fabric\"",
-					"-framework",
-					"\"FirebaseAnalytics\"",
-					"-framework",
-					"\"FirebaseAuth\"",
-					"-framework",
-					"\"FirebaseCore\"",
-					"-framework",
-					"\"FirebaseCoreDiagnostics\"",
-					"-framework",
-					"\"FirebaseDatabase\"",
-					"-framework",
-					"\"FirebaseInstanceID\"",
-					"-framework",
-					"\"FirebaseMessaging\"",
-					"-framework",
-					"\"Foundation\"",
-					"-framework",
-					"\"GTMSessionFetcher\"",
-					"-framework",
-					"\"GoogleAppMeasurement\"",
-					"-framework",
-					"\"GoogleDataTransport\"",
-					"-framework",
-					"\"GoogleDataTransportCCTSupport\"",
-					"-framework",
-					"\"GoogleSignIn\"",
-					"-framework",
-					"\"GoogleToolboxForMac\"",
-					"-framework",
-					"\"GoogleUtilities\"",
-					"-framework",
-					"\"LocalAuthentication\"",
-					"-framework",
-					"\"Protobuf\"",
-					"-framework",
-					"\"SafariServices\"",
-					"-framework",
-					"\"Security\"",
-					"-framework",
-					"\"StoreKit\"",
-					"-framework",
-					"\"SwiftSoup\"",
-					"-framework",
-					"\"SwiftyJSON\"",
-					"-framework",
-					"\"SystemConfiguration\"",
-					"-framework",
-					"\"UIKit\"",
-					"-framework",
-					"\"leveldb\"",
-					"-framework",
-					"\"nanopb\"",
-					"-weak_framework",
-					"\"UserNotifications\"",
-					"$(inherited)",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

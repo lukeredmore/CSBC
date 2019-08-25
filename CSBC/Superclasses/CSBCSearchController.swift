@@ -114,10 +114,10 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     }
     private func filterEventsRowsForSearchedText(_ searchText : String) {
         let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
-            $0?.event.lowercased().contains(searchText.lowercased()) ?? false ||
-            $0?.date.day!.stringValue!.contains(searchText.lowercased()) ?? false ||
-            $0?.time?.lowercased().contains(searchText.lowercased()) ?? false ||
-            $0?.schools?.lowercased().contains(searchText.lowercased()) ?? false
+            $0.event.lowercased().contains(searchText.lowercased()) ||
+            $0.date.day!.stringValue!.contains(searchText.lowercased()) ||
+            $0.time?.lowercased().contains(searchText.lowercased()) ?? false ||
+            $0.schools?.lowercased().contains(searchText.lowercased()) ?? false
         }
         
         eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)
@@ -125,11 +125,11 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     }
     func filterEventsRowsForSchoolsSelected(_ schoolsList : [Bool]) {
         let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
-            (schoolsList[0] && $0?.schools?.contains("Seton") ?? false) ||
-            (schoolsList[1] && $0?.schools?.contains("John") ?? false) ||
-            (schoolsList[2] && $0?.schools?.contains("Saints") ?? false) ||
-            (schoolsList[3] && $0?.schools?.contains("James") ?? false) ||
-            ($0?.schools == "")
+            (schoolsList[0] && $0.schools?.contains("Seton") ?? false) ||
+            (schoolsList[1] && $0.schools?.contains("John") ?? false) ||
+            (schoolsList[2] && $0.schools?.contains("Saints") ?? false) ||
+            (schoolsList[3] && $0.schools?.contains("James") ?? false) ||
+            ($0.schools == "")
         }
         
         eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)

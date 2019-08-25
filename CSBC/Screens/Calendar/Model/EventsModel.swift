@@ -8,9 +8,16 @@
 
 import Foundation
 
-struct EventsModel: Codable, Equatable {
+struct EventsModel: Codable, Hashable, Comparable {
+    
     let event : String
     let date : DateComponents
     let time : String?
     let schools : String?
+    
+    static func < (lhs : EventsModel, rhs : EventsModel) -> Bool {
+        return lhs.date < rhs.date
+    }
 }
+
+

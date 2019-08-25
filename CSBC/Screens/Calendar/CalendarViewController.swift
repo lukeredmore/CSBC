@@ -24,7 +24,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }()
     
     private var searchControllerController : CSBCSearchController!
-    private var modelArrayForSearch : [EventsModel?] {
+    private var modelArrayForSearch : [EventsModel] {
         get {
             if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
                 return calendarData.eventsModelArray
@@ -74,9 +74,14 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     @objc private func refreshData() {
         eventsRetriever.retrieveEventsArray(forceReturn: false, forceRefresh: true)
     }
-    private func setupCalendarTable(eventsArray: [EventsModel?]) {
+    private func setupCalendarTable(eventsArray: [EventsModel], keepExistingData shouldKeep : Bool = false) {
         if modelArrayForSearch != eventsArray {
-            modelArrayForSearch = eventsArray
+            if shouldKeep {
+                let eventsArrayAsSet = Set(calendarData.eventsModelArray).union(Set(eventsArray))
+                modelArrayForSearch = eventsArrayAsSet.sorted()
+            } else {
+                modelArrayForSearch = eventsArray
+            }
         }
         if eventsArray == [EventsModel]() {
             print("No data present in Calendar view")
@@ -119,9 +124,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "calendarTableCell", for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
-        if let model = modelArrayForSearch[indexPath.row] {
-            cell.addData(model: model)
-        }
+        cell.addData(model: modelArrayForSearch[indexPath.row])
         return cell
     }
     

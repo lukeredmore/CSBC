@@ -28,7 +28,7 @@ class WebViewController: CSBCViewController, WKNavigationDelegate {
             print("This date is too early, returning dummy URLs")
             return ["setoncchs", "setoncchs", "setoncchs", "setoncchs"]
         } else {
-            return ["setoncchs", "setoncchs", "SCASS", "StJamesMS"]
+            return ["setoncchs", "SJS", "SCASS", "StJamesMS"]
         }
     }
     private var linkLoaded = false

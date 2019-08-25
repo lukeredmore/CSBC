@@ -13,7 +13,7 @@ import FirebaseAuth
 
 
 /// Container of admin settings. Contains admin authentication methods, hides/shows admin settings,
-class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegate, GIDSignInUIDelegate {
+class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegate {
     private let allowedUserEmails : [String:Schools] = [
         "lredmore": .seton, "lredmore20": .seton, "kehret": .seton, "ecarter": .seton, "mmartinkovic": .seton, "llevis": .seton,
         "jfountaine": .john, "krosen": .john,
@@ -23,17 +23,15 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     @IBOutlet weak private var containerView: UIView!
     @IBOutlet weak private var signInButton: GIDSignInButton! {
         didSet {
-            if #available(iOS 12.0, *) {
-                if traitCollection.userInterfaceStyle == .dark {
-                    signInButton.colorScheme = GIDSignInButtonColorScheme(rawValue: 0)!
-                } else {
-                    signInButton.colorScheme = GIDSignInButtonColorScheme(rawValue: 1)!
-                }
+            if #available(iOS 12.0, *), traitCollection.userInterfaceStyle == .dark {
+                signInButton.colorScheme = .dark
+            } else {
+                signInButton.colorScheme = .light
             }
             
             GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
             GIDSignIn.sharedInstance().delegate = self
-            GIDSignIn.sharedInstance().uiDelegate = self
+            GIDSignIn.sharedInstance()?.presentingViewController = self
         }
     }
     @IBOutlet weak private var signOutButton: UIButton!

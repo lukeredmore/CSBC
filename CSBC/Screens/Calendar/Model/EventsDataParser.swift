@@ -13,13 +13,13 @@ import SwiftSoup
 
 class EventsDataParser {
     
-    var eventsModelArray = [EventsModel?]() //set by Calendar vc
-    private(set) var eventsModelArrayFiltered = [EventsModel?]()
+    var eventsModelArray = [EventsModel]() //set by Calendar vc
+    private(set) var eventsModelArrayFiltered = [EventsModel]()
     
     
-    func parseHTMLForEvents(fromString htmlString : String) {
+    func parseHTMLForEvents(fromString htmlString : String?) {
 //        eventsModelArray.removeAll()
-        guard let eventArrayElements = try? SwiftSoup.parse(htmlString).select("#evcal_list .eventon_list_event").array()
+        guard let eventArrayElements = try? SwiftSoup.parse(htmlString ?? "").select("#evcal_list .eventon_list_event").array()
             else { print("Events list could not be found"); return }
         
         for event in eventArrayElements {
@@ -62,12 +62,12 @@ class EventsDataParser {
             }
 
         }
-        if eventsModelArray.count > 1, eventsModelArray[0] != nil {
-            eventsModelArray = eventsModelArray.sorted { $0!.date < $1!.date }
+        if eventsModelArray.count > 1 {
+            eventsModelArray = eventsModelArray.sorted()
         }
         addObjectArrayToUserDefaults(eventsModelArray)
     }
-    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel?]) {
+    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel]) {
         print("Events array is being added to UserDefaults")
         let dateTimeToAdd = Date().dateStringWithTime()
         UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
@@ -75,11 +75,11 @@ class EventsDataParser {
     }
     
     
-    func setFilteredModelArray(toArray filteredArray: [EventsModel?]) {
+    func setFilteredModelArray(toArray filteredArray: [EventsModel]) {
         eventsModelArrayFiltered.removeAll()
         eventsModelArrayFiltered = filteredArray
-        if eventsModelArrayFiltered.count > 1 && eventsModelArrayFiltered[0] != nil {
-            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted { $0!.date < $1!.date }
+        if eventsModelArrayFiltered.count > 1 {
+            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted()
         }
     }
 }

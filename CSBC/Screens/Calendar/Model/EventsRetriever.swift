@@ -16,10 +16,15 @@ protocol JSParsingDelegate : class {
 class EventsRetriever : NSObject, WKNavigationDelegate {
     private let preferences = UserDefaults.standard
     weak var delegate : JSParsingDelegate!
-    let completion : ([EventsModel?]) -> Void
+    let completion : ([EventsModel], Bool) -> Void
     let dataParser = EventsDataParser()
     
-    var monthCount = 0
+    var monthCount = 0 {
+        didSet {
+            print("month count is ", monthCount)
+        }
+    }
+    private let maxMonthsInFutureExclusive = 2
     
     var monthCheckingString : String {
         let dateComponents = DateComponents(month: monthCount)
@@ -29,7 +34,7 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
         return monthFormatter.string(from: date!).lowercased()
     }
     
-    init(delegate: JSParsingDelegate, completion: @escaping ([EventsModel?]) -> Void) {
+    init(delegate: JSParsingDelegate, completion: @escaping ([EventsModel], Bool) -> Void) {
         self.delegate = delegate
         self.completion = completion
         super.init()
@@ -43,21 +48,20 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
             print("Events Data is being force returned")
             if let json = preferences.value(forKey:"eventsArray") as? Data {
                 print("Force return found an old JSON value")
-                let optionalModel = try? PropertyListDecoder().decode([EventsModel?].self, from: json)
-                return completion(optionalModel ?? [EventsModel]())
+                let optionalModel = try? PropertyListDecoder().decode([EventsModel].self, from: json)
+                completion(optionalModel ?? [EventsModel](), true)
             } else {
                 print("Force return returned an empty array")
-                return completion([EventsModel]())
+                completion([EventsModel](), false)
             }
         } else {
             print("Attempting to retrieve stored Events data.")
             if let eventsArrayTimeString = preferences.string(forKey: "eventsArrayTime"),
-                let json = preferences.value(forKey:"eventsArray") as? Data { //If both events values are defined
+                let json = preferences.value(forKey:"eventsArray") as? Data,
+                let eventsArray = try? PropertyListDecoder().decode([EventsModel].self, from: json) { //If both events values are defined
+                completion(eventsArray, monthCount < maxMonthsInFutureExclusive)
                 let eventsArrayTime = eventsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
-                if eventsArrayTime > Date() {
-                    print("Up-to-date Events data found, no need to look online.")
-                    return completion(try! PropertyListDecoder().decode([EventsModel?].self, from: json))
-                } else {
+                if eventsArrayTime < Date() {
                     print("Events data found, but is old. Will refresh online.")
                     getEventsDataFromOnline()
                 }
@@ -74,26 +78,29 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
     
     
     func scrapeWKWebViewUntilCurrentMonthIsFound(forWebView webView : WKWebView) {
-        //            "document.querySelector('#evcal_list').outerHTML.toString()"
+//        "document.querySelector('#evcal_list').outerHTML.toString()"
         webView.evaluateJavaScript("document.documentElement.outerHTML.toString()") {
             response, error in
             if let responseString = response as? String {
-                if !responseString.contains(self.monthCheckingString) {
+                if !responseString.contains(self.monthCheckingString), self.monthCount < self.maxMonthsInFutureExclusive {
                     print("\(self.monthCheckingString) has not let been loaded by WKWebView. Checking again.")
                     self.scrapeWKWebViewUntilCurrentMonthIsFound(forWebView: webView)
                 } else {
-                    self.htmlStringWasScrapedFromCalendar(htmlString: response as! String)
+                    self.htmlStringWasScrapedFromCalendar(htmlString: responseString)
                     webView.removeFromSuperview()
                 }
+            } else {
+                self.htmlStringWasScrapedFromCalendar(htmlString: nil)
+                webView.removeFromSuperview()
             }
         }
     }
-    func htmlStringWasScrapedFromCalendar(htmlString: String) {
+    func htmlStringWasScrapedFromCalendar(htmlString: String?) {
         print("Data for month of \(monthCheckingString) has been scraped. Now parsing.")
         dataParser.parseHTMLForEvents(fromString: htmlString)
-        self.retrieveEventsArray()
+        self.retrieveEventsArray(forceReturn: true)
         monthCount += 1
-        if monthCount < 2 {
+        if monthCount < maxMonthsInFutureExclusive {
             print("Now scraping for month of \(monthCheckingString)")
             delegate.loadCalendar(forNumberOfMonthsInFuture: monthCount, parent: self)
         } else { print("All data has been collected") }
@@ -117,6 +124,7 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
     }
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
         print("WKWebView didFail: Force returning")
+        print("WKWebView Error: \(error)")
         retrieveEventsArray(forceReturn: true, forceRefresh: false)
         webView.removeFromSuperview()
     }
@@ -141,6 +149,7 @@ extension CalendarViewController: JSParsingDelegate {
         myConfiguration.preferences.javaScriptEnabled = true
         
         let webView = WKWebView(frame: .zero, configuration: myConfiguration)
+        webView.isHidden = true
         //        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
         webView.navigationDelegate = parent
         
@@ -169,8 +178,8 @@ extension PageViewController: JSParsingDelegate {
         myConfiguration.preferences.javaScriptEnabled = true
         
         let webView = WKWebView(frame: .zero, configuration: myConfiguration)
-//        webView.isHidden = true
-        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
+        webView.isHidden = true
+//        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
         webView.navigationDelegate = parent
         
         view.addSubview(webView)

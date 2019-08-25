@@ -36,11 +36,13 @@ class AthleticsRetriever {
         } else {
             print("Attempting to retrieve stored Athletics data.")
             if let athleticsArrayTimeString = preferences.string(forKey: "athleticsArrayTime"),
-                let json = preferences.value(forKey:"athleticsArray") as? Data { //If both values exist
+                let json = preferences.value(forKey:"athleticsArray") as? Data,
+                let athleticsArray = try? PropertyListDecoder().decode([AthleticsModel?].self, from: json) { //If both values exist
                 let athleticsArrayTime = athleticsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
+                completion(athleticsArray)
                 if athleticsArrayTime > Date() {
                     print("Up-to-date Athletics data found, no need to look online.")
-                    return completion(try! PropertyListDecoder().decode([AthleticsModel?].self, from: json))
+                    return
                 } else {
                     print("Athletics data found, but is old. Will refresh online.")
                     getAthleticsDataFromOnline()
