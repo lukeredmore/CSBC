@@ -37,7 +37,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             date: dateSentToCurrentPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToCurrentPageVC),
             athleticsModel: todayParser?.athletics(forDate: dateSentToCurrentPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToCurrentPageVC) ?? [EventsModel]())
+            eventsModel: todayParser?.events(forDate: dateSentToCurrentPageVC))
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
         reloadInputViews()
     }
@@ -69,7 +69,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             date: date,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: date),
             athleticsModel: todayParser?.athletics(forDate: date),
-            eventsModel: todayParser?.events(forDate: date) ?? [EventsModel]())
+            eventsModel: todayParser?.events(forDate: date))
         dateSentToPreviousPageVC = date
         dateSentToNextPageVC = date
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
@@ -81,7 +81,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             date: dateSentToPreviousPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToPreviousPageVC),
             athleticsModel: todayParser?.athletics(forDate: dateSentToPreviousPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToPreviousPageVC) ?? [EventsModel]())
+            eventsModel: todayParser?.events(forDate: dateSentToPreviousPageVC))
         return controller
     }
     
@@ -91,7 +91,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
             date: dateSentToNextPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToNextPageVC),
             athleticsModel: todayParser?.athletics(forDate: dateSentToNextPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToNextPageVC) ?? [EventsModel]())
+            eventsModel: todayParser?.events(forDate: dateSentToNextPageVC))
         return controller
     }
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {

@@ -10,13 +10,13 @@ import UIKit
 
 ///Populates TodayViewController with pre-parsed data received by TodayViewController
 class TodayDataSource: NSObject, UITableViewDataSource {
-    var todaysEvents = [EventsModel]()
-    var todaysAthletics: AthleticsModel? = nil
+    var todaysEventsSet : Set<EventsModel>?
+    var todaysAthletics: AthleticsModel?
     
     private let sectionNames = ["Events","Sports"]
     
-    init(todaysEvents : [EventsModel], todaysAthletics : AthleticsModel?) {
-        self.todaysEvents = todaysEvents
+    init(todaysEvents : Set<EventsModel>?, todaysAthletics : AthleticsModel?) {
+        self.todaysEventsSet = todaysEvents
         self.todaysAthletics = todaysAthletics
     }
     
@@ -28,21 +28,19 @@ class TodayDataSource: NSObject, UITableViewDataSource {
         return sectionNames[section]
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            if todaysEvents.count != 0 {
-                return todaysEvents.count
-            } else {
-                return 1
-            }
-        } else {
-            if todaysAthletics != nil {
-                return todaysAthletics!.title.count
-            } else {
-                return 1
-            }
+        switch section {
+        case 0:
+            guard let todaysEventsCount = todaysEventsSet?.count else { break }
+            return todaysEventsCount
+        case 1:
+            guard let todaysAthleticsCount = todaysAthletics?.title.count else { break }
+            return todaysAthleticsCount
+        default: break
         }
+        return 1
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let todaysEventsArray = todaysEventsSet?.sorted()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "todayViewCell") as? TodayViewCell else { return UITableViewCell() }
         if #available(iOS 13.0, *) {
             cell.titleLabel.textColor = .label
@@ -66,11 +64,11 @@ class TodayDataSource: NSObject, UITableViewDataSource {
                 cell.titleHeightConstraint.constant = 33
             }
         } else {
-            if todaysEvents.count > 0 {
+            if let todaysEventsArray = todaysEventsArray {
                 cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = todaysEvents[indexPath.row].event
-                cell.timeLabel.text = todaysEvents[indexPath.row].time
-                cell.levelLabel.text = todaysEvents[indexPath.row].schools
+                cell.titleLabel.text = todaysEventsArray[indexPath.row].event
+                cell.timeLabel.text = todaysEventsArray[indexPath.row].time
+                cell.levelLabel.text = todaysEventsArray[indexPath.row].schools
             } else {
                 cell.timeLabel.text = "There are no events today"
                 cell.titleLabel.text = nil

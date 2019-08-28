@@ -10,7 +10,6 @@ import Foundation
 import SwiftSoup
 import SafariServices
 import Alamofire
-//import PDFKit
 
 protocol LoadPDFDelegate: class {
     func tryToLoadPDFs()
@@ -191,7 +190,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             let urlSession = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue())
             let downloadTask = urlSession.downloadTask(with: url)
             downloadTask.resume()
-            print(urls[i], " downloading")
+//            print(urls[i], " downloading")
 //            Alamofire.download(URL(string: urls[i])!, to: destination).response { response in
 //                if response.error == nil, private let _ = response.destinationURL?.path {
 //                    self.pdfDownloadCompletionHandler(response: response.destinationURL!)
@@ -204,7 +203,7 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
     }
     
     func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
-        print("downloadLocation:", location)
+//        print("downloadLocation:", location)
         guard let url = downloadTask.originalRequest?.url else { return }
         let documentsPath = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
         let destinationURL = documentsPath.appendingPathComponent(url.lastPathComponent)
@@ -215,11 +214,10 @@ class LunchHTMLController: NSObject, URLSessionDownloadDelegate {
             try FileManager.default.copyItem(at: location, to: destinationURL)
             print("PDF \(i + 1) downloaded")
             loadedPDFURLs[i] = destinationURL
-            i += 1
         } catch let error {
-            print("Copy Error: \(error.localizedDescription)")
-            i += 1
+            print("Copy Error on PDF \(i + 1): \(error.localizedDescription)")
         }
+        i += 1
         if i < 4 {
             downloadPDFs()
         } else {

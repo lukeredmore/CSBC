@@ -16,7 +16,7 @@ protocol JSParsingDelegate : class {
 class EventsRetriever : NSObject, WKNavigationDelegate {
     private let preferences = UserDefaults.standard
     weak var delegate : JSParsingDelegate!
-    let completion : ([EventsModel], Bool) -> Void
+    let completion : (Set<EventsModel>, Bool) -> Void
     let dataParser = EventsDataParser()
     
     var monthCount = 0 {
@@ -34,7 +34,7 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
         return monthFormatter.string(from: date!).lowercased()
     }
     
-    init(delegate: JSParsingDelegate, completion: @escaping ([EventsModel], Bool) -> Void) {
+    init(delegate: JSParsingDelegate, completion: @escaping (Set<EventsModel>, Bool) -> Void) {
         self.delegate = delegate
         self.completion = completion
         super.init()
@@ -48,18 +48,18 @@ class EventsRetriever : NSObject, WKNavigationDelegate {
             print("Events Data is being force returned")
             if let json = preferences.value(forKey:"eventsArray") as? Data {
                 print("Force return found an old JSON value")
-                let optionalModel = try? PropertyListDecoder().decode([EventsModel].self, from: json)
-                completion(optionalModel ?? [EventsModel](), true)
+                let optionalModel = (try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json)) ?? []
+                completion(optionalModel, true)
             } else {
                 print("Force return returned an empty array")
-                completion([EventsModel](), false)
+                completion([], false)
             }
         } else {
             print("Attempting to retrieve stored Events data.")
             if let eventsArrayTimeString = preferences.string(forKey: "eventsArrayTime"),
                 let json = preferences.value(forKey:"eventsArray") as? Data,
-                let eventsArray = try? PropertyListDecoder().decode([EventsModel].self, from: json) { //If both events values are defined
-                completion(eventsArray, monthCount < maxMonthsInFutureExclusive)
+                let eventsArray = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json) { //If both events values are defined
+                completion(Set(eventsArray), monthCount < maxMonthsInFutureExclusive)
                 let eventsArrayTime = eventsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
                 if eventsArrayTime < Date() {
                     print("Events data found, but is old. Will refresh online.")

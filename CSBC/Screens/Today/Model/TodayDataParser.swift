@@ -14,14 +14,14 @@ import SwiftyJSON
 class TodayDataParser {
     private let delegate : TodayParserDelegate!
     
-    private var eventsArray : [EventsModel] = []
+    private var eventsArray : Set<EventsModel> = []
     private var athleticsArray : [AthleticsModel?] = []
     
     private var eventsReady = false
     private var athleticsReady = false
     
     private lazy var eventsRetriever = EventsRetriever(delegate: delegate) { (eventsArray, bool) in
-        self.eventsArray += eventsArray
+        self.eventsArray = self.eventsArray.union(eventsArray)
         self.eventsReady = true
         self.tryToStartupPager()
     }
@@ -52,12 +52,14 @@ class TodayDataParser {
     
     
     //MARK: Parse schedules for TodayVC
-    func events(forDate date : Date) -> [EventsModel] {
+    func events(forDate date : Date) -> Set<EventsModel>? {
         let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
         
-        return eventsArray.filter {
-            $0.date == dateComponents && ($0.schools?.contains(delegate.schoolSelected.ssString) ?? false || $0.schools == "" )
-            }
+        let setToReturn = eventsArray.filter {
+        $0.date == dateComponents && ($0.schools?.contains(delegate.schoolSelected.ssString) ?? false || $0.schools == "" )
+        }
+        
+        return setToReturn.count > 0 ? setToReturn : nil
     }
     func athletics(forDate date : Date) -> AthleticsModel? {
         var allAthleticsToday : AthleticsModel? = nil

@@ -17,7 +17,7 @@ class TodayViewController: UIViewController {
     
     
     //MARK: Init Methods
-    init(date : Date, dayOfCycle : Int, athleticsModel : AthleticsModel?, eventsModel : [EventsModel]) {
+    init(date : Date, dayOfCycle : Int, athleticsModel : AthleticsModel?, eventsModel : Set<EventsModel>?) {
         self.date = date
         self.todayView = TodayView(forDay: dayOfCycle)
         self.todayDataSource = TodayDataSource(todaysEvents: eventsModel, todaysAthletics: athleticsModel)

@@ -13,8 +13,8 @@ import SwiftSoup
 
 class EventsDataParser {
     
-    var eventsModelArray = [EventsModel]() //set by Calendar vc
-    private(set) var eventsModelArrayFiltered = [EventsModel]()
+    var eventsModelArray : Set<EventsModel> = [] //set by Calendar vc
+    private(set) var eventsModelArrayFiltered : Set<EventsModel> = []
     
     
     func parseHTMLForEvents(fromString htmlString : String?) {
@@ -57,17 +57,11 @@ class EventsDataParser {
                 time: timeString,
                 schools: schools)
             
-            if !eventsModelArray.contains(eventToAppend) {
-                eventsModelArray.append(eventToAppend)
-            }
-
-        }
-        if eventsModelArray.count > 1 {
-            eventsModelArray = eventsModelArray.sorted()
+            eventsModelArray.insert(eventToAppend)
         }
         addObjectArrayToUserDefaults(eventsModelArray)
     }
-    private func addObjectArrayToUserDefaults(_ eventsArray: [EventsModel]) {
+    private func addObjectArrayToUserDefaults(_ eventsArray: Set<EventsModel>) {
         print("Events array is being added to UserDefaults")
         let dateTimeToAdd = Date().dateStringWithTime()
         UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
@@ -75,12 +69,9 @@ class EventsDataParser {
     }
     
     
-    func setFilteredModelArray(toArray filteredArray: [EventsModel]) {
+    func setFilteredModelArray(toArray filteredArray: Set<EventsModel>) {
         eventsModelArrayFiltered.removeAll()
         eventsModelArrayFiltered = filteredArray
-        if eventsModelArrayFiltered.count > 1 {
-            eventsModelArrayFiltered = eventsModelArrayFiltered.sorted()
-        }
     }
 }
 

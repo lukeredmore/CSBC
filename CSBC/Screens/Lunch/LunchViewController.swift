@@ -14,7 +14,9 @@ import WebKit
 class LunchViewController: CSBCViewController, WKNavigationDelegate {
     @IBOutlet weak private var pdfView: PDFView!
     @IBOutlet weak private var dateLabel: UILabel!
-    @IBOutlet weak private var webView: WKWebView!
+    @IBOutlet weak private var webView: WKWebView! {
+        didSet { webView.navigationDelegate = self }
+    }
     
     private var dateLabelText : String {
         let formatter = DateFormatter()
@@ -22,10 +24,10 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         return "Today is \(formatter.string(from: Date()))"
     }
     private var loadedPDFURLs : [Int:URL] {
-        return UserDefaults.standard.object([Int:URL].self, with: "PDFLocations")!
+        return UserDefaults.standard.object([Int:URL].self, with: "PDFLocations") ?? [:]
     }
     private var loadedWordURLs : [Int:String] {
-        return UserDefaults.standard.object([Int:String].self, with: "WordLocations")!
+        return UserDefaults.standard.object([Int:String].self, with: "WordLocations") ?? [:]
     }
     
     
@@ -33,7 +35,6 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(shareButtonPressed))
-        webView.navigationDelegate = self
         dateLabel.text = dateLabelText
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -46,7 +47,7 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     override func schoolPickerValueChanged() {
         reloadDocumentView()
     }
-    @objc private func reloadDocumentView() {
+    private func reloadDocumentView() {
         loadingSymbol.startAnimating()
         webView.isHidden = true
         pdfView.isHidden = true
@@ -89,8 +90,8 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     //MARK: Rotational functions
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        if (self.isMovingFromParent) {
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        if isMovingFromParent {
             UIDevice.current.setValue(Int(UIInterfaceOrientation.portrait.rawValue), forKey: "orientation")
         }
     }

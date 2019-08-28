@@ -24,7 +24,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     }()
     
     private var searchControllerController : CSBCSearchController!
-    private var modelArrayForSearch : [EventsModel] {
+    private var setOfEventModels : Set<EventsModel> {
         get {
             if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
                 return calendarData.eventsModelArray
@@ -69,21 +69,21 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         self.storedSchoolsToShow = schoolsToShow
         print("I'm supposed to show \(schoolsToShow)")
         searchControllerController.filterEventsRowsForSchoolsSelected(schoolsToShow)
-        setupCalendarTable(eventsArray: modelArrayForSearch)
+        setupCalendarTable(eventsArray: setOfEventModels)
     }
     @objc private func refreshData() {
         eventsRetriever.retrieveEventsArray(forceReturn: false, forceRefresh: true)
     }
-    private func setupCalendarTable(eventsArray: [EventsModel], keepExistingData shouldKeep : Bool = false) {
-        if modelArrayForSearch != eventsArray {
+    private func setupCalendarTable(eventsArray: Set<EventsModel>, keepExistingData shouldKeep : Bool = false) {
+        if setOfEventModels != eventsArray {
             if shouldKeep {
-                let eventsArrayAsSet = Set(calendarData.eventsModelArray).union(Set(eventsArray))
-                modelArrayForSearch = eventsArrayAsSet.sorted()
+                let eventsArrayAsSet = calendarData.eventsModelArray.union(eventsArray)
+                setOfEventModels = eventsArrayAsSet
             } else {
-                modelArrayForSearch = eventsArray
+                setOfEventModels = eventsArray
             }
         }
-        if eventsArray == [EventsModel]() {
+        if eventsArray == [] {
             print("No data present in Calendar view")
             eventsDataPresent = false
             searchBarTopConstraint.constant = -56
@@ -120,11 +120,12 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     
     //MARK: TableView Data Source Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return modelArrayForSearch.count
+        return setOfEventModels.count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let eventsModelArray = Array(setOfEventModels).sorted()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "calendarTableCell", for: indexPath) as? CalendarTableViewCell else { return UITableViewCell() }
-        cell.addData(model: modelArrayForSearch[indexPath.row])
+        cell.addData(model: eventsModelArray[indexPath.row])
         return cell
     }
     
