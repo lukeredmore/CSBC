@@ -6,186 +6,114 @@
 //  Copyright © 2019 Catholic Schools of Broome County. All rights reserved.
 //
 
-import Foundation
-import WebKit
+import Firebase
 
-protocol JSParsingDelegate : class {
-    func loadCalendar(forNumberOfMonthsInFuture number : Int, parent : EventsRetriever)
-}
 
-class EventsRetriever : NSObject, WKNavigationDelegate {
+///If local data is less than 1 hour old, then thats returned, if not, then database data is returned if is less than 1 hour old, otherwise, a GCF is invoked, which takes about 15 seconds to return. 
+class EventsRetriever {
     private let preferences = UserDefaults.standard
-    weak var delegate : JSParsingDelegate!
-    let completion : (Set<EventsModel>, Bool) -> Void
+    let completion : (Set<EventsModel>, CSBCTableDataType) -> Void
     let dataParser = EventsDataParser()
     
-    var monthCount = 0 {
-        didSet {
-            print("month count is ", monthCount)
-        }
-    }
-    private let maxMonthsInFutureExclusive = 2
-    
-    var monthCheckingString : String {
-        let dateComponents = DateComponents(month: monthCount)
-        let date = Calendar.current.date(byAdding: dateComponents, to: Date())
-        let monthFormatter = DateFormatter()
-        monthFormatter.dateFormat = "MMMM"
-        return monthFormatter.string(from: date!).lowercased()
+    static var eventsURL : URL! {
+        #if DEBUG
+        return URL(string: "https://us-central1-csbc-f4e43.cloudfunctions.net/retrieveEventsArray")
+        #else
+        return URL(string: "https://us-central1-csbcprod.cloudfunctions.net/retrieveEventsArray")
+        #endif
     }
     
-    init(delegate: JSParsingDelegate, completion: @escaping (Set<EventsModel>, Bool) -> Void) {
-        self.delegate = delegate
+    init(completion: @escaping (Set<EventsModel>, CSBCTableDataType) -> Void) {
         self.completion = completion
-        super.init()
     }
+    
+    
+    
     
     func retrieveEventsArray(forceReturn : Bool = false, forceRefresh: Bool = false) {
         if forceRefresh {
             print("Events Data is being force refreshed")
-            getEventsDataFromOnline()
+            completion(dataParser.eventsModelArray, .dummy)
+            EventsRetriever.tryToRequestEventsFromGCF(forceRefresh: true)
+            requestEventsDataFromFirebase()
         } else if forceReturn {
             print("Events Data is being force returned")
             if let json = preferences.value(forKey:"eventsArray") as? Data {
                 print("Force return found an old JSON value")
-                let optionalModel = (try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json)) ?? []
-                completion(optionalModel, true)
+                completion((try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json)) ?? [], .complete)
             } else {
                 print("Force return returned an empty array")
-                completion([], false)
+                completion([], .complete)
             }
         } else {
             print("Attempting to retrieve stored Events data.")
-            if let eventsArrayTimeString = preferences.string(forKey: "eventsArrayTime"),
-                let json = preferences.value(forKey:"eventsArray") as? Data,
-                let eventsArray = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json) { //If both events values are defined
-                completion(Set(eventsArray), monthCount < maxMonthsInFutureExclusive)
+            if let eventsArrayTimeString = preferences.string(forKey: "eventsArrayTime"), let json = preferences.value(forKey:"eventsArray") as? Data, let eventsSet = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json) { //If both events values are defined
+
                 let eventsArrayTime = eventsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
                 if eventsArrayTime < Date() {
+                    completion(eventsSet, .dummy)
                     print("Events data found, but is old. Will refresh online.")
-                    getEventsDataFromOnline()
-                }
-            } else {
-                print("No Events data found in UserDefaults. Looking online.")
-                getEventsDataFromOnline()
-            }
-        }
-    }
-    private func getEventsDataFromOnline() {
-        print("We are asking for Events data")
-        delegate.loadCalendar(forNumberOfMonthsInFuture: monthCount, parent: self)
-    }
-    
-    
-    func scrapeWKWebViewUntilCurrentMonthIsFound(forWebView webView : WKWebView) {
-//        "document.querySelector('#evcal_list').outerHTML.toString()"
-        webView.evaluateJavaScript("document.documentElement.outerHTML.toString()") {
-            response, error in
-            if let responseString = response as? String {
-                if !responseString.contains(self.monthCheckingString), self.monthCount < self.maxMonthsInFutureExclusive {
-                    print("\(self.monthCheckingString) has not let been loaded by WKWebView. Checking again.")
-                    self.scrapeWKWebViewUntilCurrentMonthIsFound(forWebView: webView)
+                    requestEventsDataFromFirebase()
                 } else {
-                    self.htmlStringWasScrapedFromCalendar(htmlString: responseString)
-                    webView.removeFromSuperview()
+                    print("Up to date events data found")
+                    completion(eventsSet, .complete)
                 }
             } else {
-                self.htmlStringWasScrapedFromCalendar(htmlString: nil)
-                webView.removeFromSuperview()
+                completion([], .dummy)
+                print("No Events data found in UserDefaults. Looking online.")
+                requestEventsDataFromFirebase()
             }
         }
     }
-    func htmlStringWasScrapedFromCalendar(htmlString: String?) {
-        print("Data for month of \(monthCheckingString) has been scraped. Now parsing.")
-        dataParser.parseHTMLForEvents(fromString: htmlString)
-        self.retrieveEventsArray(forceReturn: true)
-        monthCount += 1
-        if monthCount < maxMonthsInFutureExclusive {
-            print("Now scraping for month of \(monthCheckingString)")
-            delegate.loadCalendar(forNumberOfMonthsInFuture: monthCount, parent: self)
-        } else { print("All data has been collected") }
-    }
     
     
-    //MARK: WKWebView Delegate Methods
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("WKWebView began to load")
-    }
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            print("WKWebView waited to parse for 1 second to save power, now scraping")
-            self.scrapeWKWebViewUntilCurrentMonthIsFound(forWebView: webView)
+    func requestEventsDataFromFirebase() {
+        Database.database().reference().child("Calendars").observeSingleEvent(of: .value) { snapshot in
+            guard let eventsArrayUpdating = snapshot.childSnapshot(forPath: "eventsArrayUpdating").value as? String,
+            let eventsArrayDict = snapshot.childSnapshot(forPath: "eventsArray").value as? [[String:String]] else { return }
+            if eventsArrayUpdating == "true" {
+                print("Events array is currently updating, waiting to return updated value")
+                self.completion(self.dataParser.parseJSON(eventsArrayDict), .dummy)
+                Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { (timer) in
+                    self.requestEventsDataFromFirebase()
+                }
+            } else {
+                print("Events array updated, new data returned")
+                self.completion(self.dataParser.parseJSON(eventsArrayDict), .complete)
+            }
         }
     }
-    func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        print("WKWebView didFailProvisionalNavigation: Force returning")
-        retrieveEventsArray(forceReturn: true, forceRefresh: false)
-        webView.removeFromSuperview()
-    }
-    func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        print("WKWebView didFail: Force returning")
-        print("WKWebView Error: \(error)")
-        retrieveEventsArray(forceReturn: true, forceRefresh: false)
-        webView.removeFromSuperview()
-    }
-}
-
-
-//MARK: Protocol implementations
-extension CalendarViewController: JSParsingDelegate {
-    func loadCalendar(forNumberOfMonthsInFuture number : Int, parent : EventsRetriever) {
-        var jsSource = ""
-        
-        for _ in 0..<number {
-            jsSource += "document.getElementById('evcal_next').click();"
-        }
-        
-        let script = WKUserScript(source: jsSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let contentController = WKUserContentController()
-        contentController.addUserScript(script)
-        
-        let myConfiguration = WKWebViewConfiguration()
-        myConfiguration.userContentController = contentController
-        myConfiguration.preferences.javaScriptEnabled = true
-        
-        let webView = WKWebView(frame: .zero, configuration: myConfiguration)
-        webView.isHidden = true
-        //        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
-        webView.navigationDelegate = parent
-        
-        view.addSubview(webView)
-        if let url = URL(string: "https://csbcsaints.org/calendar") {
-            let request = URLRequest(url: url)
-            webView.load(request)
+    
+    static func tryToRequestEventsFromGCF(forceRefresh : Bool = false) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+        Database.database().reference().child("Calendars/eventsArrayTime").observeSingleEvent(of: .value) { snapshot in
+            if let eventsArrayTimeString = snapshot.value as? String,
+                let eventsArrayTime = dateFormatter.date(from: eventsArrayTimeString),
+                let dateInOneHour = Calendar.current.date(byAdding: .hour, value: 1, to: eventsArrayTime),
+                (Date() < dateInOneHour && !forceRefresh) {
+                print("Existing firebase data is okay")
+            } else {
+                print("Firebase data needs to be replaced")
+                requestEventsDataFromGCF()
+            }
         }
     }
-}
-extension PageViewController: JSParsingDelegate {
-    func loadCalendar(forNumberOfMonthsInFuture number : Int, parent : EventsRetriever) {
-        var jsSource = ""
-        
-        print("here")
-        for _ in 0..<number {
-            jsSource += "document.getElementById('evcal_next').click();"
-        }
-        
-        let script = WKUserScript(source: jsSource, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-        let contentController = WKUserContentController()
-        contentController.addUserScript(script)
-        
-        let myConfiguration = WKWebViewConfiguration()
-        myConfiguration.userContentController = contentController
-        myConfiguration.preferences.javaScriptEnabled = true
-        
-        let webView = WKWebView(frame: .zero, configuration: myConfiguration)
-        webView.isHidden = true
-//        webView.frame = CGRect(x: 20, y: -10, width: UIScreen.main.bounds.width - 40, height: UIScreen.main.bounds.height - 440)
-        webView.navigationDelegate = parent
-        
-        view.addSubview(webView)
-        if let url = URL(string: "https://csbcsaints.org/calendar") {
-            let request = URLRequest(url: url)
-            webView.load(request)
+    static func requestEventsDataFromGCF() {
+        print("We are asking for Events data")
+        let task = URLSession.shared.dataTask(with: eventsURL, completionHandler: eventsDataGCFRequestCompletionHandler)
+        Database.database().reference().child("Calendars/eventsArrayUpdating").setValue("true")
+        task.resume()
+    }
+    static func eventsDataGCFRequestCompletionHandler(data: Data?, response: URLResponse?, error: Error?) {
+        DispatchQueue.main.async {
+            if let httpResponse = response as? HTTPURLResponse,
+                (200...299).contains(httpResponse.statusCode),
+                error == nil, data != nil {
+                print("Athletics Data Updated in Firebase")
+            } else {
+                print(error ?? "nil")
+            }
         }
     }
 }

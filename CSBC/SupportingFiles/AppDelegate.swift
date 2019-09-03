@@ -20,17 +20,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        LunchHTMLController().downloadAndStoreLunchMenus()
-        
+        LunchMenuRetriever.downloadAndStoreLunchMenus()
+        EventsRetriever.tryToRequestEventsFromGCF()
+
         
         //Notifications
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self as? MessagingDelegate
         Messaging.messaging().subscribe(toTopic: "appUser") { error in
-            if error == nil {
-                print("Subscribed to 'appUser'")
-            } else {
-                print(error!)
+            if error != nil {
+                print("Error subscribing t0 'appUser': ", error!)
             }
         }
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in

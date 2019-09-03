@@ -97,7 +97,7 @@
 		26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796421EB91D50086FB86 /* Assets.xcassets */; };
 		26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
-		26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */; };
+		26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */; };
 		26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */; };
 		3D43EC522961A605A27924AF /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E51269742684D1554CF4BD0 /* Pods_CSBC.framework */; };
 		A06DE38AB3BADB061DD7921C /* Pods_UIPlaygroundFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05CCB5CD59FE6F89482CE60E /* Pods_UIPlaygroundFramework.framework */; };
@@ -216,7 +216,7 @@
 		26ED796921EB91D50086FB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CSBC/Info.plist; sourceTree = SOURCE_ROOT; };
 		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = "../New Group/ComposerViewController.swift"; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchHTMLController.swift; sourceTree = "<group>"; };
+		26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenuRetriever.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
 		362ED63952D07A387752C4FB /* Pods-UIPlaygroundFramework.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UIPlaygroundFramework.release.xcconfig"; path = "Pods/Target Support Files/Pods-UIPlaygroundFramework/Pods-UIPlaygroundFramework.release.xcconfig"; sourceTree = "<group>"; };
 		5E51269742684D1554CF4BD0 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,7 +379,7 @@
 		2637A68A22FF157F0097EDD1 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				26F7234722961BDA005DEDA7 /* LunchHTMLController.swift */,
+				26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1109,7 +1109,7 @@
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
 				264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
-				26F7234822961BDA005DEDA7 /* LunchHTMLController.swift in Sources */,
+				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
 				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,

@@ -16,50 +16,23 @@ class EventsDataParser {
     var eventsModelArray : Set<EventsModel> = [] //set by Calendar vc
     private(set) var eventsModelArrayFiltered : Set<EventsModel> = []
     
-    
-    func parseHTMLForEvents(fromString htmlString : String?) {
-//        eventsModelArray.removeAll()
-        guard let eventArrayElements = try? SwiftSoup.parse(htmlString ?? "").select("#evcal_list .eventon_list_event").array()
-            else { print("Events list could not be found"); return }
-        
-        for event in eventArrayElements {
-            guard let cell = try? event.select(".desc_trig_outter").first()
-                else { print("No parseable cell could be found here. Continuing on."); continue }
-            
-            //Required parameters
-            guard
-                let eventTitle = try? cell.select(".evcal_event_title").first()?.text(),
-                let year = try? cell.select(".evcal_cblock").attr("data-syr"),
-                let yearInt = Int(year),
-                let month = try? cell.select(".evo_start .month").first()?.text(),
-                let monthAsDate = month.toDateWithMonth()?.monthNumberString(),
-                let monthInt = Int(monthAsDate),
-                let day = try? cell.select(".evo_start .date").first()?.text(),
-                let dayInt = Int(day)
-                else { print("One or more of the required parameters cannot be found. Continuing on."); continue }
-            
-            //Optional parameters
-            let schools = try? cell.select(".ett1").first()?.text().replacingOccurrences(of: "Schools:", with: "")
-            var timeString = try? cell.select(".evcal_time").first()?.text().uppercased()
-            if timeString != nil, timeString!.contains("(ALL DAY") {
-                timeString = "All Day"
-            }
-            
-            
-            let dateComponents = DateComponents(
-                year: yearInt,
-                month: monthInt,
-                day: dayInt)
-            
-            let eventToAppend = EventsModel(
-                event: eventTitle,
-                date: dateComponents,
-                time: timeString,
-                schools: schools)
-            
-            eventsModelArray.insert(eventToAppend)
+    func parseJSON(_ json : [[String:String]]) -> Set<EventsModel> {
+        var eventsModelSet : Set<EventsModel> = []
+        for event in json {
+            guard let title = event["title"],
+                 let date = event["date"] else { continue }
+            let dateInts = date.components(separatedBy: "-").map { Int($0)! }
+            let eventToInsert = EventsModel(
+                event: title,
+                date: DateComponents(year: dateInts[0], month: dateInts[1], day: dateInts[2]),
+                time: event["time"] == "" || event["time"] == nil ? nil : event["time"],
+                schools: event["schools"] == "" || event["schools"] == nil ? nil : event["schools"]
+            )
+            eventsModelSet.insert(eventToInsert)
         }
-        addObjectArrayToUserDefaults(eventsModelArray)
+        eventsModelArray = eventsModelSet
+        addObjectArrayToUserDefaults(eventsModelSet)
+        return eventsModelSet
     }
     private func addObjectArrayToUserDefaults(_ eventsArray: Set<EventsModel>) {
         print("Events array is being added to UserDefaults")

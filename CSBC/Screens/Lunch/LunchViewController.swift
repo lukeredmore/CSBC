@@ -79,7 +79,7 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     }
     @objc private func shareButtonPressed() {
         if loadedPDFURLs[schoolSelected.rawValue] != nil && loadingSymbol.isHidden == true {
-            let activityViewController = UIActivityViewController(activityItems: [PDFDocument(url: loadedPDFURLs[schoolSelected.rawValue]!)?.documentURL! as Any], applicationActivities: nil)
+            let activityViewController = UIActivityViewController(activityItems: [loadedPDFURLs[schoolSelected.rawValue]!], applicationActivities: nil)
             DispatchQueue.main.async {
                 self.present(activityViewController, animated: true, completion: nil)
             }

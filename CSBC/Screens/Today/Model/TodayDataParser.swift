@@ -20,7 +20,7 @@ class TodayDataParser {
     private var eventsReady = false
     private var athleticsReady = false
     
-    private lazy var eventsRetriever = EventsRetriever(delegate: delegate) { (eventsArray, bool) in
+    private lazy var eventsRetriever = EventsRetriever() { (eventsArray, _) in
         self.eventsArray = self.eventsArray.union(eventsArray)
         self.eventsReady = true
         self.tryToStartupPager()

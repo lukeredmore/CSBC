@@ -20,7 +20,7 @@ protocol PageViewDelegate: class {
     func showDateAsHeader(dateGiven : Date) //pager tells container the date to show for header
     var dateToShow : Date { get } //the date shown
 }
-protocol TodayParserDelegate: JSParsingDelegate { //parser tells pager to initialize VCs
+protocol TodayParserDelegate { //parser tells pager to initialize VCs
     func startupPager()
     var schoolSelected : Schools { get }
 }

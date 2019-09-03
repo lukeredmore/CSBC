@@ -39,7 +39,7 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
         collectionView.delegate = collectionController
         collectionView.dataSource = collectionController
         collectionController.configureCollectionViewForCurrentScreenSize()
-        
+                
         CSBCSplashView(addToView: view).startAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {

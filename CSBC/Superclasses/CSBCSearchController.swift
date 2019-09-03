@@ -149,7 +149,7 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if eventsParent?.eventsDataPresent ?? false || athleticsParent?.athleticsDataPresent ?? false {
+        if /*eventsParent?.eventsDataPresent ?? false || <--HAVE TO MAKE SURE THIS IS A NON-ISSUE*/ athleticsParent?.athleticsDataPresent ?? false {
             let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
             if translation.y > 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != 0 && !searchController.isActive { //scroll up
                 if translation.y < 56 {

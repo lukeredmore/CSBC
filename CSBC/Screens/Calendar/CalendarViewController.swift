@@ -9,6 +9,13 @@
 import UIKit
 import SafariServices
 
+enum CSBCTableDataType {
+    ///Data is a placeholder for now, expect later complete
+    case dummy
+    ///Data returned is fully up-to-date, and nothing further will be returned
+    case complete
+}
+
 class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnteredDelegate  {
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak private var searchBarTopConstraint: NSLayoutConstraint!
@@ -18,12 +25,16 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
             #selector(refreshData), for: .valueChanged)
-        refreshControl.tintColor = .gray
+        refreshControl.tintColor = .csbcGrayLabel
         
         return refreshControl
     }()
     
-    private var searchControllerController : CSBCSearchController!
+    private let dotsMenu = UIBarButtonItem(title: "•••", style: .plain, target: self, action: #selector(filterCalendarData))
+    private let loadingSymbolNavItem = UIActivityIndicatorView(style: .white)
+    
+    
+    private lazy var searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: nil, eventsParent: self)
     private var setOfEventModels : Set<EventsModel> {
         get {
             if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
@@ -37,8 +48,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         }
     }
     
-    private lazy var eventsRetriever = EventsRetriever(delegate: self, completion: setupCalendarTable)
-    private(set) var eventsDataPresent = false
+    private lazy var eventsRetriever = EventsRetriever(completion: setupCalendarTable)
     private(set) var calendarData = EventsDataParser()
     private var storedSchoolsToShow : [Bool] = [true, true, true, true]
 
@@ -47,9 +57,8 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         super.viewDidLoad()
         self.title = "Calendar"
         
+        navigationItem.rightBarButtonItem = dotsMenu
         navigationController?.navigationBar.shadowImage = UIImage()
-        
-        searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: nil, eventsParent: self)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -69,28 +78,29 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         self.storedSchoolsToShow = schoolsToShow
         print("I'm supposed to show \(schoolsToShow)")
         searchControllerController.filterEventsRowsForSchoolsSelected(schoolsToShow)
-        setupCalendarTable(eventsArray: setOfEventModels)
+        setupCalendarTable(eventsArray: setOfEventModels, ofType: .complete)
     }
     @objc private func refreshData() {
         eventsRetriever.retrieveEventsArray(forceReturn: false, forceRefresh: true)
     }
-    private func setupCalendarTable(eventsArray: Set<EventsModel>, keepExistingData shouldKeep : Bool = false) {
+    private func setupCalendarTable(eventsArray: Set<EventsModel>, ofType type: CSBCTableDataType) {
         if setOfEventModels != eventsArray {
-            if shouldKeep {
-                let eventsArrayAsSet = calendarData.eventsModelArray.union(eventsArray)
-                setOfEventModels = eventsArrayAsSet
-            } else {
-                setOfEventModels = eventsArray
-            }
+            setOfEventModels = eventsArray
         }
         if eventsArray == [] {
             print("No data present in Calendar view")
-            eventsDataPresent = false
             searchBarTopConstraint.constant = -56
         } else {
             print("Data present in Calendar view")
-            eventsDataPresent = true
             searchBarTopConstraint.constant = 0
+        }
+        switch type {
+        case .dummy:
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: loadingSymbolNavItem)
+            loadingSymbolNavItem.startAnimating()
+        case .complete:
+            loadingSymbolNavItem.stopAnimating()
+            navigationItem.rightBarButtonItem = dotsMenu
         }
         tableView.delegate = searchControllerController
         tableView.dataSource = self
@@ -102,8 +112,8 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
     }
-    @IBAction private func filterCalendarData(_ sender: Any) {
-        if loadingSymbol.isHidden && eventsDataPresent {
+    @objc private func filterCalendarData() {
+        if loadingSymbol.isHidden {
             performSegue(withIdentifier: "CalendarSettingsSegue", sender: self)
         }
     }
