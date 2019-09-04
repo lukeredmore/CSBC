@@ -64,9 +64,8 @@ class TodayDataParser {
     func athletics(forDate date : Date) -> AthleticsModel? {
         var allAthleticsToday : AthleticsModel? = nil
         let athleticsDateFormatter = DateFormatter()
-        athleticsDateFormatter.dateFormat = "MMMM dd"
+        athleticsDateFormatter.dateFormat = "MMMM d"
         let monthDayDateString = athleticsDateFormatter.string(from: date)
-        
         for case let dateWithEvents? in athleticsArray {
             if dateWithEvents.date.contains(monthDayDateString) {
                 allAthleticsToday = dateWithEvents

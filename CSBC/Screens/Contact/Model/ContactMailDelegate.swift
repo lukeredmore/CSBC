@@ -35,7 +35,6 @@ class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
     private func configuredMailComposeViewController() -> MFMailComposeViewController {
         let mailComposerVC = MFMailComposeViewController()
         mailComposerVC.mailComposeDelegate = self
-
         mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected.rawValue])@syrdiocese.org"])
         mailComposerVC.setSubject("")
         mailComposerVC.setMessageBody("", isHTML: false)

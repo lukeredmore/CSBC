@@ -14,10 +14,6 @@ final class FilterAlertsViewController: ModalMenuViewController {
     @IBOutlet private var datePicker: UIDatePicker!
     
     weak var delegate: DateEnteredDelegate? = nil
-    private let daySchedule = DaySchedule()
-    private let formatter = DateFormatter()
-    private var startDate : Date?
-    private var endDate : Date?
     var dateToShow = Date()
     
     
@@ -25,13 +21,6 @@ final class FilterAlertsViewController: ModalMenuViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupMenuView(menuView)
-        formatter.dateFormat = "MM/dd/yyyy"
-        let startDateString = daySchedule.startDateString
-        startDate = formatter.date(from: startDateString)!
-        let endDateString = daySchedule.endDateString
-        endDate = formatter.date(from: endDateString)!
-        datePicker.maximumDate = endDate
-        datePicker.minimumDate = startDate
     }
     override func viewWillAppear(_ animated: Bool) {
         datePicker.setDate(dateToShow, animated: false)

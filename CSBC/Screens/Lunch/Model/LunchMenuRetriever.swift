@@ -13,7 +13,7 @@ import SafariServices
 
 /// Finds URLs of, download, and store all the lunch menus
 class LunchMenuRetriever {
-    private static let lunchURLLocations = ["https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/", "http://www.bcsdfs.org/menu.cfm?mid=1372", "https://csbcsaints.org/our-schools/all-saints-school/parent-resources/lunch-menu-meal-program/", "https://csbcsaints.org/our-schools/st-james-school/parent-resources/lunch-menu-meal-program/"]
+    private static let lunchURLLocations = ["https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/", "http://www.rockoncafe.org/Menus_B.aspx", "https://csbcsaints.org/our-schools/all-saints-school/parent-resources/lunch-menu-meal-program/", "https://csbcsaints.org/our-schools/st-james-school/parent-resources/lunch-menu-meal-program/"]
     private static let htmlParsers : [(Document) -> String?] = [parseSetonLunchHTML, parseJohnLunchHTML, parseJamesLunchHTML, parseSaintsLunchHTML]
     
     private static var lunchesReady = [false, false, false, false]
@@ -31,7 +31,6 @@ class LunchMenuRetriever {
                     let html = try? SwiftSoup.parse(htmlString),
                     let url = self.htmlParsers[i](html) {
                     self.urls[i] = url
-                    print(url)
                 }
                 self.lunchesReady[i] = true
                 self.tryToLoadPDFs()
@@ -53,19 +52,12 @@ class LunchMenuRetriever {
     }
     private static func parseJohnLunchHTML(doc : Document) -> String? {
         do {
-            let allAInfo = try doc.select("a").array()
-            for i in allAInfo.indices {
-                let aValue = try allAInfo[i].html()
-                if aValue.contains("</b>") == false && aValue.contains("Lunch") && aValue.contains("Elementary") {
-                    //print(aValue)
-                    let lunchJS = try allAInfo[i].attr("href")
-                    let detector = try NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
-                    let matches = detector.matches(in: lunchJS, options: [], range: NSRange(location: 0, length: lunchJS.utf16.count))
-                    
-                    for match in matches {
-                        guard let range = Range(match.range, in: lunchJS) else { continue }
-                        let url = lunchJS[range]
-                        return String(url)
+            let lunchListGroups = try doc.select(".linksList").array()
+            for lunchList in lunchListGroups {
+                let links = try lunchList.select("li a").array()
+                for link in links {
+                    if try link.text().lowercased().contains("john") {
+                        return try link.attr("href").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                     }
                 }
             }
@@ -95,7 +87,7 @@ class LunchMenuRetriever {
     private static func tryToLoadPDFs() {
         var loadedWordURLs : [Int:String] = [:]
         if lunchesReady == [true, true, true, true] {
-            print("Starting document downloads")
+            print("Starting document downloads from urls: \(urls)")
             for case let urlString? in urls {
                 guard let url = URL(string: urlString) else { continue }
                 let fileExtensionOnURL = urlString.components(separatedBy: ".").last
@@ -116,8 +108,9 @@ class LunchMenuRetriever {
 
 class LunchSessionDelegate : NSObject, URLSessionDownloadDelegate {
     private let urls : [String?]!
-    private var loadedPDFURLs : [Int:URL] = UserDefaults.standard.object([Int:URL].self, with: "PDFLocations") ?? [:] {
-        didSet { UserDefaults.standard.set(object: loadedPDFURLs, forKey: "PDFLocations") }
+    private var loadedPDFURLs : [Int:URL] {
+        get { UserDefaults.standard.object([Int:URL].self, with: "PDFLocations") ?? [:] }
+        set { UserDefaults.standard.set(object: newValue, forKey: "PDFLocations") }
     }
     
     internal init(withURLs urls: [String?]) {

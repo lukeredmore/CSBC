@@ -21,7 +21,6 @@ class AthleticsDataParser {
         var currentDate = dateToBeat
         var dateString : String = ""
         var n = 0
-        print(dateToBeat)
         while n < json["data"].count {
             var titleList : [String] = []
             var levelList : [String] = []
@@ -80,7 +79,7 @@ class AthleticsDataParser {
                     )
 
                     if (n < json["data"].count-1) {
-                        currentDate = "\(json["data"][n + 1]["date"]))"
+                        currentDate = "\(json["data"][n + 1]["date"])"
                     } else {
                         currentDate = "nil"
                     }
