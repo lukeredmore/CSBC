@@ -12,6 +12,7 @@
 		26019AC22288A93300953FE2 /* UIPlaygroundFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 26019AB42288A93200953FE2 /* UIPlaygroundFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
+		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
 		261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D26252211086200D0DD51 /* ActualDocViewController.swift */; };
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262843102228A6DB00ADC019 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */; };
@@ -127,6 +128,7 @@
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
+		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
 		261D26252211086200D0DD51 /* ActualDocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDocViewController.swift; sourceTree = "<group>"; };
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		2628430F2228A6DB00ADC019 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				262843112228C1D500ADC019 /* ColumnFlowLayout.swift */,
 				26712F4222C9071300C30493 /* HomeCollectionViewDataSource.swift */,
 				267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */,
+				2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */,
 			);
 			path = SupplementaryView;
 			sourceTree = "<group>";
@@ -1131,6 +1134,7 @@
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
+				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
 				264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */,

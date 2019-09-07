@@ -61,11 +61,6 @@ final class HomeViewController: CSBCViewController, AlertDelegate {
     
     
     //MARK: Alert Delegate Methods
-    func reinitNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
-        let localNotifications = NotificationController()
-        localNotifications.subscribeToTopics()
-        localNotifications.queueNotifications(completion: completion)
-    }
     func showBannerAlert(withMessage alertText: String) {
         view.backgroundColor = .csbcAlertRed
         alertBanner.backgroundColor = .csbcAlertRed

@@ -14,76 +14,64 @@ import SwiftSoup
 protocol AlertDelegate: class {
     func showBannerAlert(withMessage: String)
     func removeBannerAlert()
-    func reinitNotifications(completion : ((UIBackgroundFetchResult) -> Void)?)
 }
 
 /// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
     weak private var delegate : AlertDelegate!
-    private var completion : ((UIBackgroundFetchResult) -> Void)?
-    private let defaults = UserDefaults.standard
+    private static let defaults = UserDefaults.standard
     private var closedData : [String] = []
-    private var snowDatesChecked = false
-    private var dayOverridesChecked = false
-    private var shouldSnowDatesReinit = false
-    private var shouldOverridesReinit = false
+    private static var snowDatesChecked = false
+    private static var dayOverridesChecked = false
     
-    init(delegate : AlertDelegate, completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
+    init(delegate : AlertDelegate) {
         self.delegate = delegate
-        self.completion = completion
         self.delegate.removeBannerAlert()
-        getSnowDatesAndOverridesAndQueueNotifications()
     }
     
-    private func getSnowDatesAndOverridesAndQueueNotifications() {
+    static func getSnowDatesAndOverridesAndQueueNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         Database.database().reference().child("SnowDays").observeSingleEvent(of: .value) { (snapshot) in
             guard let newSnowDays = (snapshot.value as? NSDictionary)?.allValues as? [String] else {
                 self.snowDatesChecked = true
-                self.tryToReinit()
+                self.tryToReinit(completion)
                 return
             }
             guard let ogSnowDays = self.defaults.array(forKey: "snowDays") as? [String] else {
                 self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
-                self.shouldSnowDatesReinit = true
                 self.snowDatesChecked = true
-                self.tryToReinit()
+                self.tryToReinit(completion)
                 return
             }
             if ogSnowDays.sorted() != newSnowDays.sorted() {
                 self.defaults.set(newSnowDays.sorted(), forKey: "snowDays")
-                self.shouldSnowDatesReinit = true
             }
             self.snowDatesChecked = true
-            self.tryToReinit()
+            self.tryToReinit(completion)
         }
         
         Database.database().reference().child("DayScheduleOverrides").observeSingleEvent(of: .value) { (snapshot) in
             guard let newOverrides = snapshot.value as? [String:Int] else {
                 self.dayOverridesChecked = true
-                self.tryToReinit()
+                self.tryToReinit(completion)
                 return
             }
             guard let ogOverrides = self.defaults.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] else {
                 self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
-                self.shouldOverridesReinit = true
                 self.dayOverridesChecked = true
-                self.tryToReinit()
+                self.tryToReinit(completion)
                 return
             }
             if newOverrides != ogOverrides {
                 self.defaults.set(newOverrides, forKey: "dayScheduleOverrides")
-                self.shouldOverridesReinit = true
             }
             self.dayOverridesChecked = true
-            self.tryToReinit()
+            self.tryToReinit(completion)
         }
     }
-    private func tryToReinit() {
-        if (snowDatesChecked && dayOverridesChecked && (shouldSnowDatesReinit || shouldOverridesReinit)) {
-            print("reinitializing Notifications")
-            self.delegate.reinitNotifications(completion: completion)
-        } else {
-            completion?(UIBackgroundFetchResult.noData)
+    private static func tryToReinit(_ completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
+        if snowDatesChecked && dayOverridesChecked {
+            print("Initializing notifications")
+            NotificationController.queueLocalNotifications(completion: completion)
         }
     }
     
@@ -155,7 +143,7 @@ class AlertController {
         fmt.dateFormat = "MMddyyyy"
         let dateKeyString = fmt.string(from: date)
         let dateToAddDict = [dateKeyString : dateValueString]
-        if let currentSnowDays : [String] = self.defaults.array(forKey: "snowDays") as? [String] {
+        if let currentSnowDays : [String] = UserDefaults.standard.array(forKey: "snowDays") as? [String] {
             if !currentSnowDays.contains(dateValueString) {
                 print("Adding snow day on \(dateValueString) to database")
                 Database.database().reference().child("SnowDays").updateChildValues(dateToAddDict) {
@@ -164,7 +152,7 @@ class AlertController {
                         print("Error adding snow day to database:", error!)
                     } else {
                         print("Snow day successfully added")
-                        self.getSnowDatesAndOverridesAndQueueNotifications()
+                        AlertController.getSnowDatesAndOverridesAndQueueNotifications()
                         PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
                         PublishPushNotifications.sendAlertNotification(withMessage: "The Catholic Schools of Broome County will be closed today, \(dateValueString).")
                     }
@@ -175,6 +163,4 @@ class AlertController {
         }
         
     }
-    
-    
 }

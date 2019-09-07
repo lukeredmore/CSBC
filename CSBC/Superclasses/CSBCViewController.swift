@@ -87,8 +87,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         if showAllSchools || showAllSegments {
             schoolPicker = CSBCSegmentedControl(items: ["Seton", "St. John's","All Saints","St. James"])
         } else {
-            let notificationController = NotificationController()
-            let schoolBools : [Bool] = notificationController.notificationSettings.schools
+            let schoolBools : [Bool] = NotificationController.notificationSettings.schools
             schoolPicker = CSBCSegmentedControl()
             var indexAtWhichToInsertSegment = 0
             for i in schoolBools.indices {

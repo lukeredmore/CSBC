@@ -17,10 +17,6 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
     var usersSchool : Schools? = nil
     var originalDay : Int? = nil
     
-    override func viewWillAppear(_ animated: Bool) {
-        notificationController.reinit()
-    }
-    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch indexPath.section {
@@ -57,7 +53,7 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
                     print("Override added")
                     self.dayLabel.text = "\(day)"
                     self.originalDay = day
-                    self.notificationController.reinit()
+                    NotificationController.queueLocalNotifications()
                     PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
                 }
             }

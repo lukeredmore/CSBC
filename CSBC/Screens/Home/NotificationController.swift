@@ -14,33 +14,75 @@ import FirebaseInstanceID
 /// Retrieves user's notification preferences, queues local day notifications, subscribes users to push notifications
 class NotificationController {
     
-    private let userDefaults = UserDefaults.standard
-    private var timeFormatter : DateFormatter {
+    private static let userDefaults = UserDefaults.standard
+    private static var timeFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "h:mm a"
         fmt.amSymbol = "AM"
         fmt.pmSymbol = "PM"
         return fmt
     }
-    private var dateStringFormatter : DateFormatter {
+    private static var dateStringFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy"
         return fmt
     }
-    private let dayScheduleLite = DaySchedule()
-    var notificationSettings : NotificationSettings!
-    
-    
-    init() {
-        notificationSettings = defineNotificationSettings()
+    private static let dayScheduleLite = DaySchedule()
+    static var notificationSettings : NotificationSettings {
+        get {
+            let userDefinedSettingsExist =
+                userDefaults.value(forKey: "shouldDeliverNotifications") != nil &&
+                    userDefaults.value(forKey: "timeOfNotificationDeliver") != nil &&
+                    userDefaults.value(forKey: "showSetonNotifications") != nil &&
+                    userDefaults.value(forKey: "showJohnNotifications") != nil &&
+                    userDefaults.value(forKey: "showSaintsNotifications") != nil &&
+                    userDefaults.value(forKey: "showJamesNotifications") != nil
+            
+            if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
+                let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
+                return notificationSettings!
+            } else if userDefinedSettingsExist {
+                print("Notification settings exist in old form, converting to new form")
+                let notifs = NotificationSettings(
+                    shouldDeliver: userDefaults.bool(forKey: "shouldDeliverNotifications"),
+                    deliveryTime: userDefaults.string(forKey: "timeOfNotificationDeliver")!,
+                    schools: [
+                        userDefaults.bool(forKey: "showSetonNotifications"),
+                        userDefaults.bool(forKey: "showJohnNotifications"),
+                        userDefaults.bool(forKey: "showSaintsNotifications"),
+                        userDefaults.bool(forKey: "showJamesNotifications")
+                    ],
+                    valuesChangedByUser: true)
+                self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
+                userDefaults.removeObject(forKey: "shouldDeliverNotifications")
+                userDefaults.removeObject(forKey: "timeOfNotificationDeliver")
+                userDefaults.removeObject(forKey: "showSetonNotifications")
+                userDefaults.removeObject(forKey: "showJohnNotifications")
+                userDefaults.removeObject(forKey: "showSaintsNotifications")
+                userDefaults.removeObject(forKey: "showJamesNotifications")
+                return notifs
+            } else {
+                print("No notification settings exist, creating new one")
+                let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
+                return notificationSettings
+            }
+        }
+        set {
+            print("Notification settings did update:")
+            newValue.printNotifData()
+            if notificationSettings.schools != newValue.schools {
+                print("Schools have been changed, updating push notification topics")
+                subscribeToPushNotificationTopics()
+            }
+            if notificationSettings.deliveryTime != newValue.deliveryTime || notificationSettings.shouldDeliver != newValue.shouldDeliver || notificationSettings.schools != newValue.schools {
+                print("Updating local notifications")
+                queueLocalNotifications()
+            }
+            userDefaults.set(try? PropertyListEncoder().encode(newValue), forKey: "Notifications")
+        }
     }
     
-    func reinit() {
-        notificationSettings = nil
-        notificationSettings = defineNotificationSettings()
-    }
-    
-    func queueNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
+    static func queueLocalNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         let center = UNUserNotificationCenter.current()
         center.removeAllPendingNotificationRequests()
         
@@ -122,74 +164,20 @@ class NotificationController {
         completion?(UIBackgroundFetchResult.newData)
     }
     
-    func subscribeToTopics() {
+    static func subscribeToPushNotificationTopics() {
         let topicArray = ["setonNotifications","johnNotifications","saintsNotifications","jamesNotifications"]
         for i in 0..<4 {
-            if notificationSettings?.schools[i] ?? false {
+            if notificationSettings.schools[i] {
                 Messaging.messaging().subscribe(toTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Subscribed to \(topicArray[i])")
-                    } else {
-                        print(error!)
-                    }
+                    if let error = error { print("Error subscribing to topics: \(error)") } else { print("Subscribed to \(topicArray[i])") }
                 }
             } else {
                 Messaging.messaging().unsubscribe(fromTopic: topicArray[i]) { error in
-                    if error == nil {
-                        print("Unsubscribed from \(topicArray[i])")
-                    } else {
-                        print(error!)
-                    }
+                    if let error = error { print("Error unsubscribing from topics: \(error)") } else { print("Unsubscribed from \(topicArray[i])") }
                 }
             }
-            Analytics.setUserProperty("\(notificationSettings?.schools[i] ?? false)", forName: topicArray[i])
+            Analytics.setUserProperty("\(notificationSettings.schools[i])", forName: topicArray[i])
         }
-    }
-    
-    private func defineNotificationSettings() -> NotificationSettings {
-        let userDefinedSettingsExist =
-            userDefaults.value(forKey: "shouldDeliverNotifications") != nil &&
-                userDefaults.value(forKey: "timeOfNotificationDeliver") != nil &&
-                userDefaults.value(forKey: "showSetonNotifications") != nil &&
-                userDefaults.value(forKey: "showJohnNotifications") != nil &&
-                userDefaults.value(forKey: "showSaintsNotifications") != nil &&
-                userDefaults.value(forKey: "showJamesNotifications") != nil
-        
-        if userDefinedSettingsExist {
-            print("Notification settings exist in old form, converting to new form")
-            let notifs = NotificationSettings(
-                shouldDeliver: userDefaults.bool(forKey: "shouldDeliverNotifications"),
-                deliveryTime: userDefaults.string(forKey: "timeOfNotificationDeliver")!,
-                schools: [
-                    userDefaults.bool(forKey: "showSetonNotifications"),
-                    userDefaults.bool(forKey: "showJohnNotifications"),
-                    userDefaults.bool(forKey: "showSaintsNotifications"),
-                    userDefaults.bool(forKey: "showJamesNotifications")
-                ],
-                valuesChangedByUser: true)
-            self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
-            userDefaults.removeObject(forKey: "shouldDeliverNotifications")
-            userDefaults.removeObject(forKey: "timeOfNotificationDeliver")
-            userDefaults.removeObject(forKey: "showSetonNotifications")
-            userDefaults.removeObject(forKey: "showJohnNotifications")
-            userDefaults.removeObject(forKey: "showSaintsNotifications")
-            userDefaults.removeObject(forKey: "showJamesNotifications")
-            return notifs
-        } else if let data = UserDefaults.standard.value(forKey:"Notifications") as? Data {
-            print("Notification settings exist in new form")
-            let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
-            return notificationSettings!
-        } else {
-            print("No notification settings exist, creating new one")
-            let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
-            return notificationSettings
-        }
-    }
-    
-    func storeNotificationSettings(_ settings: NotificationSettings) {
-        settings.printNotifData()
-        self.notificationSettings = settings
-        userDefaults.set(try? PropertyListEncoder().encode(notificationSettings), forKey: "Notifications")
     }
 }
 

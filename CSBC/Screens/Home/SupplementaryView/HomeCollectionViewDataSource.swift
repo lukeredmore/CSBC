@@ -13,12 +13,7 @@ import UIKit
 class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     
     private let buttonImages = ["Today","Portal","Contact","Calendar","News","Lunch","Athletics","Give","Connect","Dress Code","Docs","Options"]
-    private var columnLayout = ColumnFlowLayout(
-        cellsPerRow: 3,
-        minimumInteritemSpacing: (UIScreen.main.bounds.width)/15.88,
-        minimumLineSpacing: (UIScreen.main.bounds.height-133)/15.88,
-        sectionInset: UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
-    )
+    
     private let parent : HomeViewController!
     var lastSeguedWebView : WebViewController?
     
@@ -27,29 +22,9 @@ class HomeCollectionViewDataSource: NSObject, UICollectionViewDataSource, UIColl
     }
     
     func configureCollectionViewForCurrentScreenSize() {
-        columnLayout.cellsPerRow = UIDevice.current.orientation.isLandscape ? 4 : 3
-        columnLayout.minimumInteritemSpacing = (UIScreen.main.bounds.width)/9
-        columnLayout.minimumLineSpacing = (UIScreen.main.bounds.height-133)/12
-        if UIScreen.main.bounds.width == 1366 {
-            columnLayout.minimumLineSpacing = (UIScreen.main.bounds.height-133)/9
-            columnLayout.sectionInset = UIEdgeInsets(top: 35.0, left: 85.0, bottom: 20.0, right: 85.0)
-        } else if UIScreen.main.bounds.width == 1112 {
-            columnLayout.sectionInset = UIEdgeInsets(top: 60.0, left: 85.0, bottom: 20.0, right: 85.0)
-        } else if UIScreen.main.bounds.height == 1366 {
-            columnLayout.sectionInset = UIEdgeInsets(top: 20.0, left: 85.0, bottom: 20.0, right: 85.0)
-        } else if parent.view.traitCollection.horizontalSizeClass == .regular && UIDevice.current.orientation.isLandscape {
-            columnLayout.sectionInset = UIEdgeInsets(top: 35.0, left: 85.0, bottom: 20.0, right: 85.0)
-        } else if parent.view.traitCollection.horizontalSizeClass == .regular {
-            columnLayout.sectionInset = UIEdgeInsets(top: 30.0, left: 60.0, bottom: 30.0, right: 60.0)
-        } else {
-            print("Application is running on an iPhone")
-            columnLayout.minimumInteritemSpacing = 0//(UIScreen.main.bounds.width)/16
-            columnLayout.minimumLineSpacing = (UIScreen.main.bounds.height-133)/15.88
-            columnLayout.sectionInset = UIEdgeInsets(top: 30.0, left: 10.0, bottom: 30.0, right: 10.0)
-        }
+        
         //Collection View and header setup
         parent.headerHeightConstraint.constant = ((UIScreen.main.bounds.height)/8) + 23//6.737
-        parent.collectionView.collectionViewLayout = columnLayout
         parent.collectionView.contentInsetAdjustmentBehavior = .always
         parent.collectionView.reloadData()
     }

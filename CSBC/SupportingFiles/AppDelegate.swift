@@ -22,16 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         FirebaseApp.configure()
         LunchMenuRetriever.downloadAndStoreLunchMenus()
         EventsRetriever.tryToRequestEventsFromGCF()
+        AlertController.getSnowDatesAndOverridesAndQueueNotifications()
 
         
         //Notifications
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self as? MessagingDelegate
-        Messaging.messaging().subscribe(toTopic: "appUser") { error in
-            if error != nil {
-                print("Error subscribing t0 'appUser': ", error!)
-            }
-        }
+        Messaging.messaging().subscribe(toTopic: "appUser")
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
             if granted {
                 DispatchQueue.main.async {
@@ -65,18 +62,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             } else if let result = result {
                 print("Device registered for remote notifiations. Remote instance ID token: \(result.token)")
                 Messaging.messaging().apnsToken = deviceToken
-                print("Initilizing notifications")
-                let notificationController = NotificationController()
-                notificationController.subscribeToTopics()
-                notificationController.queueNotifications()
+                NotificationController.subscribeToPushNotificationTopics()
             }
         }
     }
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Updating local notifications in background")
-        let _ = AlertController(delegate: HomeViewController(), completion: completionHandler)
-        
+        AlertController.getSnowDatesAndOverridesAndQueueNotifications(completion: completionHandler)
     }
     
     // Receive displayed notifications for iOS 10 devices.
@@ -99,8 +92,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
         let fileManager = FileManager.default
         let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
         let documentsPath = documentsUrl.path

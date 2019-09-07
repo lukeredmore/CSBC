@@ -25,8 +25,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         fmt.pmSymbol = "PM"
         return fmt
     }
-    private var notificationController = NotificationController()
-    private var notificationSettings : NotificationSettings!
     
     private var deliveryTimeSegue : UIStoryboardSegue?
     private var reportIssueSegue : UIStoryboardSegue?
@@ -35,7 +33,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        notificationSettings = notificationController.notificationSettings
         copyrightLabel.text = "© \(Date().yearString()) Catholic Schools of Broome County"
         
         #if DEBUG
@@ -49,36 +46,31 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         getNotificationPreferences()
     }
     override func viewWillDisappear(_ animated: Bool) {
-        notificationSettings.schools = [settingsSwitch[0].isOn, settingsSwitch[1].isOn, settingsSwitch[2].isOn, settingsSwitch[3].isOn]
-        notificationSettings.deliveryTime = deliveryTimeLabel.text!
         if !settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn {
             userDefaults.set(true, forKey: "showAllSchools")
-            notificationSettings.shouldDeliver = false
+            NotificationController.notificationSettings.shouldDeliver = false
         } else {
             userDefaults.set(settingsSwitch[4].isOn, forKey: "showAllSchools")
-            notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
+            NotificationController.notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
         }
-        
-        if !notificationSettings.shouldDeliver || notificationSettings.deliveryTime != "7:00 AM" || notificationSettings.schools != [true, true, true, true] || notificationSettings.valuesChangedByUser {
-            notificationSettings.valuesChangedByUser = true
+        if !NotificationController.notificationSettings.shouldDeliver || NotificationController.notificationSettings.deliveryTime != "7:00 AM" || NotificationController.notificationSettings.schools != [true, true, true, true] || NotificationController.notificationSettings.valuesChangedByUser {
+            NotificationController.notificationSettings.valuesChangedByUser = true
         }
-        notificationController.storeNotificationSettings(notificationSettings)
-        notificationController.subscribeToTopics()
     }
     
     
     private func getNotificationPreferences() {
         for i in 0..<4 { //Schools switches
-            settingsSwitch[i].isOn = notificationSettings.schools[i]
+            settingsSwitch[i].isOn = NotificationController.notificationSettings.schools[i]
         }
         
         let showAllSchools = userDefaults.value(forKey: "showAllSchools") as! Bool?
         settingsSwitch[4].isOn = showAllSchools ?? true
         
-        deliverNotificationsSwitch.isOn = notificationSettings.shouldDeliver
-        deliveryTimeCell.isHidden = !notificationSettings.shouldDeliver
+        deliverNotificationsSwitch.isOn = NotificationController.notificationSettings.shouldDeliver
+        deliveryTimeCell.isHidden = !NotificationController.notificationSettings.shouldDeliver
         
-        deliveryTimeLabel.text = notificationSettings.deliveryTime //what time should they be
+        deliveryTimeLabel.text = NotificationController.notificationSettings.deliveryTime //what time should they be
         
         tableView.reloadData()
     }
@@ -86,11 +78,10 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     
     //MARK: Button Listeners
     @IBAction private func settingsSwitchToggled(_ sender: Any) { //school switches
-        notificationSettings.valuesChangedByUser = true
+        NotificationController.notificationSettings.valuesChangedByUser = true
         
         let tag = (sender as AnyObject).tag - 1
-        notificationSettings.schools[tag] = settingsSwitch[tag].isOn
-        notificationController.storeNotificationSettings(notificationSettings)
+        NotificationController.notificationSettings.schools[tag] = settingsSwitch[tag].isOn
         
         if (!settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn) || (settingsSwitch[0].isOn && settingsSwitch[1].isOn && settingsSwitch[2].isOn && settingsSwitch[3].isOn) { //if all off or on
             settingsSwitch[4].setOn(true, animated: true)
@@ -105,23 +96,19 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         }
     }
     @IBAction private func notificationOptInToggled(_ sender: Any) { //deliver notiications switch
-        notificationSettings.valuesChangedByUser = true
+        NotificationController.notificationSettings.valuesChangedByUser = true
 
         deliveryTimeCell.isHidden = !deliverNotificationsSwitch.isOn
-        notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
-        
-        notificationController.storeNotificationSettings(notificationSettings)
+        NotificationController.notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
     }
     
     
     //MARK: Time Entered Delegate
     func userDidSelectTime(timeToShow: Date) {
-        notificationSettings.valuesChangedByUser = true
+        NotificationController.notificationSettings.valuesChangedByUser = true
         
         deliveryTimeLabel.text = fmt.string(from: timeToShow)
-        notificationSettings.deliveryTime = deliveryTimeLabel.text!
-        notificationController.storeNotificationSettings(notificationSettings)
-
+        NotificationController.notificationSettings.deliveryTime = deliveryTimeLabel.text!
         tableView.reloadData()
         
     }
@@ -133,7 +120,7 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         if indexPath.section == 2 && indexPath.row == 1 {
             let setDeliveryTimeVC = ModalPickerViewController.instantiateForTime(
                 delegate: self,
-                timeToShow: fmt.date(from: notificationSettings!.deliveryTime)!)
+                timeToShow: fmt.date(from: NotificationController.notificationSettings.deliveryTime)!)
             self.present(setDeliveryTimeVC, animated: true, completion: nil)
         }
         if indexPath.section == 3 && indexPath.row == 0 {
