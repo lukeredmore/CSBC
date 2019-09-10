@@ -12,21 +12,19 @@ import Firebase
 import SwiftSoup
 
 protocol AlertDelegate: class {
-    func showBannerAlert(withMessage: String)
-    func removeBannerAlert()
+    var alertMessage : String? { get set }
 }
 
 /// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
-    weak private var delegate : AlertDelegate!
+    weak private var alertDelegate : AlertDelegate!
     private static let defaults = UserDefaults.standard
     private var closedData : [String] = []
     private static var snowDatesChecked = false
     private static var dayOverridesChecked = false
     
-    init(delegate : AlertDelegate) {
-        self.delegate = delegate
-        self.delegate.removeBannerAlert()
+    init(alertDelegate : AlertDelegate) {
+        self.alertDelegate = alertDelegate
     }
     
     static func getSnowDatesAndOverridesAndQueueNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
@@ -91,7 +89,7 @@ class AlertController {
                         }
                         if self.closedData[0] != "" {
                             print("An alert was found")
-                            self.delegate.showBannerAlert(withMessage: self.closedData[0])
+                            self.alertDelegate.alertMessage = self.closedData[0]
                             if self.closedData[0].lowercased().contains("closed") {
                                 print("Today is a snow day")
                                 self.addSnowDateToDatabase(date: Date())
@@ -124,14 +122,14 @@ class AlertController {
                         }
                     } catch {}
                     if let status = districtStatus {
-                        if status.contains("Closed") || status.contains("closed") {
-                            self.delegate.showBannerAlert(withMessage: "The Catholic Schools of Broome County are closed today.")
+                        if status.lowercased().contains("closed") {
+                            self.alertDelegate.alertMessage = "The Catholic Schools of Broome County are closed today."
                             self.addSnowDateToDatabase(date: Date())
                         }
                     }
                 } else {
-                    print("No alerts found")
-                    self.delegate.removeBannerAlert()
+                    print("No alerts found from WBNG")
+                    self.alertDelegate.alertMessage = nil
                 }
             }
         }

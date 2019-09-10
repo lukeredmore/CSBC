@@ -13,8 +13,8 @@ import FirebaseInstanceID
 
 /// Retrieves user's notification preferences, queues local day notifications, subscribes users to push notifications
 class NotificationController {
-    
     private static let userDefaults = UserDefaults.standard
+    
     private static var timeFormatter : DateFormatter {
         let fmt = DateFormatter()
         fmt.dateFormat = "h:mm a"
@@ -28,6 +28,7 @@ class NotificationController {
         return fmt
     }
     private static let dayScheduleLite = DaySchedule()
+    
     static var notificationSettings : NotificationSettings {
         get {
             let userDefinedSettingsExist =
@@ -42,7 +43,7 @@ class NotificationController {
                 let notificationSettings = try? PropertyListDecoder().decode(NotificationSettings.self, from: data)
                 return notificationSettings!
             } else if userDefinedSettingsExist {
-                print("Notification settings exist in old form, converting to new form")
+//                print("Notification settings exist in old form, converting to new form")
                 let notifs = NotificationSettings(
                     shouldDeliver: userDefaults.bool(forKey: "shouldDeliverNotifications"),
                     deliveryTime: userDefaults.string(forKey: "timeOfNotificationDeliver")!,
@@ -62,7 +63,7 @@ class NotificationController {
                 userDefaults.removeObject(forKey: "showJamesNotifications")
                 return notifs
             } else {
-                print("No notification settings exist, creating new one")
+//                print("No notification settings exist, creating new one")
                 let notificationSettings = NotificationSettings(shouldDeliver: true, deliveryTime: "7:00 AM", schools: [true, true, true, true], valuesChangedByUser: false)
                 return notificationSettings
             }

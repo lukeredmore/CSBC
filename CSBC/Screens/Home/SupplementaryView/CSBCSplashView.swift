@@ -11,18 +11,11 @@ import UIKit
 
 
 /// SplashView that reveals its content and animate, like twitter
-open class CSBCSplashView: UIView {
-    
+class CSBCSplashView: UIView {
     private var imageView = UIImageView()
     
     
     //MARK: Constructor
-    /**
-     Default constructor of the class
-     
-     - parameter addToView:       The view to which the splash view should be added
-     - returns: The created CSBCSplashViewObject
-     */
     init(addToView parentView: UIView)
     {
         super.init(frame: (UIScreen.main.bounds))
@@ -38,7 +31,7 @@ open class CSBCSplashView: UIView {
         parentView.addSubview(self)
         
     }
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     

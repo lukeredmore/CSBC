@@ -37,43 +37,6 @@
             </objects>
             <point key="canvasLocation" x="52" y="374.66266866566718"/>
         </scene>
-        <!--Launch Version 2-->
-        <scene sceneID="kgZ-6J-koo">
-            <objects>
-                <viewController storyboardIdentifier="launchVersion2" title="Launch Version 2" id="nmc-Cm-DdU" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tJG-D3-T04">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kax-5C-VOP" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="173.66666666666666" width="414" height="14"/>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="QSk-ec-sgU"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cN8-LN-XHz">
-                                <rect key="frame" x="0.0" y="187.66666666666669" width="414" height="708.33333333333326"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="0.08235294118" green="0.2784313725" blue="0.20392156859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="Kax-5C-VOP" firstAttribute="leading" secondItem="Ovd-vz-EgP" secondAttribute="leading" id="Cwk-g7-Jcp"/>
-                            <constraint firstItem="cN8-LN-XHz" firstAttribute="leading" secondItem="Ovd-vz-EgP" secondAttribute="leading" id="XVX-J7-57W"/>
-                            <constraint firstAttribute="bottom" secondItem="cN8-LN-XHz" secondAttribute="bottom" id="f2V-xg-llq"/>
-                            <constraint firstItem="cN8-LN-XHz" firstAttribute="top" secondItem="Kax-5C-VOP" secondAttribute="bottom" id="hVJ-jA-L2O"/>
-                            <constraint firstItem="Kax-5C-VOP" firstAttribute="trailing" secondItem="Ovd-vz-EgP" secondAttribute="trailing" id="hel-r1-WAR"/>
-                            <constraint firstItem="Kax-5C-VOP" firstAttribute="top" secondItem="Ovd-vz-EgP" secondAttribute="top" multiplier="2.9" constant="46" id="kCo-bx-xue"/>
-                            <constraint firstItem="Ovd-vz-EgP" firstAttribute="trailing" secondItem="cN8-LN-XHz" secondAttribute="trailing" id="xtp-TF-d0b"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="Ovd-vz-EgP"/>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mUU-Tn-hnb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="829" y="392"/>
-        </scene>
     </scenes>
     <resources>
         <image name="lettermark" width="682.66668701171875" height="717"/>

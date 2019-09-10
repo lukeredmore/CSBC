@@ -13,6 +13,9 @@ extension UIColor {
     ///Light: System light gray; Dark: Black
     static var csbcAccentGray: UIColor { return UIColor(named: "CSBCAccentGray")! }
     
+    ///Light: Custom gray; Dark: Custom gray, but a little lighter
+    static var csbcAlwaysGray: UIColor { return UIColor(named: "CSBCAlwaysGray")! }
+    
     ///Universal: Nice-looking red
     static var csbcAlertRed: UIColor { return UIColor(named: "CSBCAlertRed")! }
     

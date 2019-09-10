@@ -12,9 +12,6 @@
         <array key="Gotham Book Regular.otf">
             <string>Gotham-Book</string>
         </array>
-        <array key="Gotham-Bold.otf">
-            <string>Gotham-Bold</string>
-        </array>
         <array key="Gotham-BookItalic.otf">
             <string>Gotham-BookItalic</string>
         </array>
@@ -50,7 +47,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="Irz-Br-HI8" kind="relationship" relationship="rootViewController" id="QVN-ww-eea"/>
+                        <segue destination="OhB-Mq-q05" kind="relationship" relationship="rootViewController" id="nVV-vP-JbA"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPN-ca-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -61,140 +58,17 @@
             <point key="canvasLocation" x="19" y="7"/>
         </scene>
         <!--Home View Controller-->
-        <scene sceneID="4Wi-a6-Cll">
+        <scene sceneID="RP2-mo-xgk">
             <objects>
-                <viewController title="Home View Controller" id="Irz-Br-HI8" customClass="HomeViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="mDV-Nq-ije">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="754"/>
+                <viewController id="OhB-Mq-q05" customClass="HomeViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xdo-fA-7jC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="F6u-a7-i5u" customClass="HomeScreenCollectionView" customModule="CSBC" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="168" width="375" height="586"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="KiW-s6-MFc">
-                                    <size key="itemSize" width="80" height="120"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="20" minY="20" maxX="20" maxY="20"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="uiS-Z7-dN7" customClass="CollectionViewCell" customModule="CSBC" customModuleProvider="target">
-                                        <rect key="frame" x="20" y="20" width="80" height="120"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
-                                            <rect key="frame" x="0.0" y="0.0" width="80" height="120"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Today" translatesAutoresizingMaskIntoConstraints="NO" id="k7f-Ko-rPe">
-                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="80"/>
-                                                </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xDE-G0-joR">
-                                                    <rect key="frame" x="0.0" y="80" width="80" height="40"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="UOA-lJ-abx"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
-                                                    <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="xDE-G0-joR" firstAttribute="leading" secondItem="uiS-Z7-dN7" secondAttribute="leading" id="8Yh-OP-J05"/>
-                                            <constraint firstAttribute="trailing" secondItem="k7f-Ko-rPe" secondAttribute="trailing" id="Apn-to-DzH"/>
-                                            <constraint firstItem="k7f-Ko-rPe" firstAttribute="leading" secondItem="uiS-Z7-dN7" secondAttribute="leading" id="XtH-2F-hys"/>
-                                            <constraint firstAttribute="trailing" secondItem="xDE-G0-joR" secondAttribute="trailing" id="iZg-fy-9TE"/>
-                                            <constraint firstAttribute="bottom" secondItem="xDE-G0-joR" secondAttribute="bottom" id="och-Cf-euJ"/>
-                                            <constraint firstItem="xDE-G0-joR" firstAttribute="top" secondItem="k7f-Ko-rPe" secondAttribute="bottom" id="rkz-71-Y4e"/>
-                                            <constraint firstItem="k7f-Ko-rPe" firstAttribute="top" secondItem="uiS-Z7-dN7" secondAttribute="top" id="ycl-Lb-jDy"/>
-                                        </constraints>
-                                        <size key="customSize" width="80" height="120"/>
-                                        <connections>
-                                            <outlet property="buttonImage" destination="k7f-Ko-rPe" id="Jom-hP-UcH"/>
-                                            <outlet property="buttonLabel" destination="xDE-G0-joR" id="TDD-RZ-Jft"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dck-4t-EXE" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="154" width="375" height="14"/>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="EFC-hL-k9l"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GH6-o6-cwJ" userLabel="Header">
-                                <rect key="frame" x="0.0" y="35" width="375" height="119"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="wordmark" translatesAutoresizingMaskIntoConstraints="NO" id="0aj-UD-TcH">
-                                        <rect key="frame" x="57.5" y="7" width="260" height="102"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" secondItem="0aj-UD-TcH" secondAttribute="height" multiplier="107:42" id="fih-NH-XRI"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" name="CSBCNavBarBackground"/>
-                                <constraints>
-                                    <constraint firstItem="0aj-UD-TcH" firstAttribute="top" secondItem="GH6-o6-cwJ" secondAttribute="top" constant="7" id="0h4-W0-Hr6"/>
-                                    <constraint firstAttribute="height" constant="119" id="WjX-M1-pXJ"/>
-                                    <constraint firstItem="0aj-UD-TcH" firstAttribute="centerX" secondItem="GH6-o6-cwJ" secondAttribute="centerX" id="voN-OU-Oyr"/>
-                                    <constraint firstAttribute="bottom" secondItem="0aj-UD-TcH" secondAttribute="bottom" constant="10" id="yET-8G-aPc"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="63U-fB-kHK" userLabel="Alert View">
-                                <rect key="frame" x="0.0" y="-5" width="375" height="40"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a two line, variable length test label to test" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qJe-Hl-4p1">
-                                        <rect key="frame" x="5" y="5" width="365" height="30"/>
-                                        <directionalEdgeInsets key="directionalLayoutMargins" top="8" leading="8" bottom="8" trailing="8"/>
-                                        <fontDescription key="fontDescription" name="Gotham-Bold" family="Gotham" pointSize="18"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                <integer key="value" value="20"/>
-                                            </userDefinedRuntimeAttribute>
-                                        </userDefinedRuntimeAttributes>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.8666666666666667" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="qJe-Hl-4p1" firstAttribute="leading" secondItem="63U-fB-kHK" secondAttribute="leading" constant="5" id="MVG-16-3vb"/>
-                                    <constraint firstItem="qJe-Hl-4p1" firstAttribute="top" secondItem="63U-fB-kHK" secondAttribute="top" constant="5" id="OtS-lS-kMo"/>
-                                    <constraint firstAttribute="trailing" secondItem="qJe-Hl-4p1" secondAttribute="trailing" constant="5" id="pZU-mB-duQ"/>
-                                    <constraint firstAttribute="height" constant="40" id="sOI-8t-HCZ"/>
-                                    <constraint firstAttribute="bottom" secondItem="qJe-Hl-4p1" secondAttribute="bottom" priority="999" constant="5" id="tEB-tK-akp"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <constraints>
-                            <constraint firstItem="F6u-a7-i5u" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="15L-ea-Iwo"/>
-                            <constraint firstItem="mgu-vS-B4t" firstAttribute="trailing" secondItem="63U-fB-kHK" secondAttribute="trailing" id="2et-h0-x7C"/>
-                            <constraint firstItem="dck-4t-EXE" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="9dd-pz-cet"/>
-                            <constraint firstItem="GH6-o6-cwJ" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="Dji-Tg-6DS"/>
-                            <constraint firstItem="63U-fB-kHK" firstAttribute="top" secondItem="mgu-vS-B4t" secondAttribute="top" constant="-5" id="JD7-8b-8jK"/>
-                            <constraint firstItem="mgu-vS-B4t" firstAttribute="trailing" secondItem="GH6-o6-cwJ" secondAttribute="trailing" id="Qjt-Hp-dbO"/>
-                            <constraint firstItem="mgu-vS-B4t" firstAttribute="trailing" secondItem="F6u-a7-i5u" secondAttribute="trailing" id="afR-Kn-EuI"/>
-                            <constraint firstItem="GH6-o6-cwJ" firstAttribute="top" secondItem="63U-fB-kHK" secondAttribute="bottom" id="be0-7V-eM2"/>
-                            <constraint firstItem="63U-fB-kHK" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="fg1-2x-8DP"/>
-                            <constraint firstItem="dck-4t-EXE" firstAttribute="top" secondItem="GH6-o6-cwJ" secondAttribute="bottom" id="gQa-4i-Nel"/>
-                            <constraint firstItem="F6u-a7-i5u" firstAttribute="top" secondItem="dck-4t-EXE" secondAttribute="bottom" id="gog-od-ICJ"/>
-                            <constraint firstAttribute="baseline" secondItem="F6u-a7-i5u" secondAttribute="bottom" id="lru-PK-JXC"/>
-                            <constraint firstItem="GH6-o6-cwJ" firstAttribute="leading" secondItem="mgu-vS-B4t" secondAttribute="leading" id="qnh-qj-2zY"/>
-                            <constraint firstItem="dck-4t-EXE" firstAttribute="trailing" secondItem="mgu-vS-B4t" secondAttribute="trailing" id="qxh-FX-dK0"/>
-                            <constraint firstItem="mgu-vS-B4t" firstAttribute="trailing" secondItem="GH6-o6-cwJ" secondAttribute="trailing" id="z9A-MY-2K1"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="mgu-vS-B4t"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="eEY-NS-zKi"/>
                     </view>
-                    <navigationItem key="navigationItem" id="SeD-Ug-cPh"/>
-                    <size key="freeformSize" width="375" height="842"/>
+                    <navigationItem key="navigationItem" id="vf3-wn-y96"/>
                     <connections>
-                        <outlet property="alertBanner" destination="63U-fB-kHK" id="Lpu-2K-mQK"/>
-                        <outlet property="alertLabel" destination="qJe-Hl-4p1" id="fLd-W5-reh"/>
-                        <outlet property="alertViewHeightConstraint" destination="sOI-8t-HCZ" id="nQ3-io-P0H"/>
-                        <outlet property="collectionView" destination="F6u-a7-i5u" id="RPX-Hg-FT4"/>
-                        <outlet property="headerHeightConstraint" destination="WjX-M1-pXJ" id="kbN-cz-cUI"/>
-                        <outlet property="wordmarkMarginHeightConstraint" destination="0h4-W0-Hr6" id="zSp-vH-qac"/>
                         <segue destination="7Mh-AM-NIm" kind="show" identifier="AthleticsSegue" id="0tA-Td-ZuR"/>
                         <segue destination="bZh-dy-vbc" kind="show" identifier="CalendarSegue" id="ddJ-je-yye"/>
                         <segue destination="hL9-rV-7XR" kind="show" identifier="SocialMediaSegue" id="w4f-bQ-qS1"/>
@@ -207,9 +81,9 @@
                         <segue destination="PMc-mZ-LF5" kind="show" identifier="TodaySegue" id="6MV-w4-v5X"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Jxj-5o-5vM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cxz-jg-ftJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="617" y="7"/>
+            <point key="canvasLocation" x="616" y="7"/>
         </scene>
         <!--Today-->
         <scene sceneID="y9M-8o-0p2">
@@ -651,7 +525,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
                                             <state key="normal" title="View More &gt;">
-                                                <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="viewMoreButtonPressed:" destination="bZh-dy-vbc" eventType="touchUpInside" id="Xnc-TP-5Xb"/>
@@ -718,7 +592,7 @@
                                                                 <constraint firstAttribute="height" constant="21" id="aoQ-LL-KVi"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seton Catholic Central" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsi-sJ-JUT">
@@ -727,7 +601,7 @@
                                                                 <constraint firstAttribute="height" constant="21.5" id="idQ-Gs-V71"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -986,7 +860,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No events found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhf-pH-6k0">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                                             <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
-                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -1027,7 +901,7 @@
                                                                 <constraint firstAttribute="height" constant="18.5" id="P5s-u6-z9F"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:00 PM" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxu-8o-By2">
@@ -1036,7 +910,7 @@
                                                                 <constraint firstAttribute="height" constant="19.5" id="wSi-IJ-2V4"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -1390,7 +1264,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqx-co-rS3" customClass="GIDSignInButton">
                                 <rect key="frame" x="10" y="68" width="394" height="55"/>
-                                <color key="backgroundColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="HS6-Gm-7du"/>
                                 </constraints>
@@ -1408,7 +1282,7 @@
                                     <constraint firstAttribute="height" constant="60" id="CJD-6x-yxL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="18"/>
-                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLj-Mz-kfH">
@@ -1498,7 +1372,7 @@
                             </navigationBar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter message to send" translatesAutoresizingMaskIntoConstraints="NO" id="FnU-ZT-roq">
                                 <rect key="frame" x="10" y="69" width="394" height="743"/>
-                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="send"/>
                             </textView>
@@ -1631,7 +1505,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© 2019 Catholic Schools of Broome County" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LD-El-sQi">
                                     <rect key="frame" x="57" y="0.0" width="300.5" height="23"/>
                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
-                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
@@ -1881,7 +1755,7 @@
                                                     <rect key="frame" x="305" y="14" width="69.5" height="24"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -1930,7 +1804,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-08-acR">
                                                     <rect key="frame" x="388" y="11" width="6" height="22"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2053,11 +1927,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Today" width="341" height="418"/>
         <image name="back" width="44" height="75"/>
         <image name="forward" width="44" height="75"/>
         <image name="refresh" width="32" height="32"/>
-        <image name="wordmark" width="904" height="355"/>
         <namedColor name="CSBCAccentGray">
             <color red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

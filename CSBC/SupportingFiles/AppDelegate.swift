@@ -19,6 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        #if DEBUG
+        print("Application successfully loaded in debug configuration")
+        #else
+        print("Application successfully loaded in production configuration")
+        #endif
+        print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
+        
         FirebaseApp.configure()
         LunchMenuRetriever.downloadAndStoreLunchMenus()
         EventsRetriever.tryToRequestEventsFromGCF()
