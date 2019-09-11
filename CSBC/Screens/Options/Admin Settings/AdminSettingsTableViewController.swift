@@ -53,7 +53,7 @@ class AdminSettingsTableViewController: UITableViewController, DayOverriddenDele
                     print("Override added")
                     self.dayLabel.text = "\(day)"
                     self.originalDay = day
-                    NotificationController.queueLocalNotifications()
+                    //NotificationController.queueLocalNotifications()
                     PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
                 }
             }

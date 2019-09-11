@@ -77,92 +77,10 @@ class NotificationController {
             }
             if notificationSettings.deliveryTime != newValue.deliveryTime || notificationSettings.shouldDeliver != newValue.shouldDeliver || notificationSettings.schools != newValue.schools {
                 print("Updating local notifications")
-                queueLocalNotifications()
+                //queueLocalNotifications()
             }
             userDefaults.set(try? PropertyListEncoder().encode(newValue), forKey: "Notifications")
         }
-    }
-    
-    static func queueLocalNotifications(completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
-        let center = UNUserNotificationCenter.current()
-        center.removeAllPendingNotificationRequests()
-        
-        if notificationSettings.shouldDeliver && Date() < dateStringFormatter.date(from: dayScheduleLite.endDateString)! { //If date is during school year
-            print("Notifications queuing")
-            
-            var timeComponents : DateComponents
-            
-            if let notifTimeAsDate = timeFormatter.date(from: notificationSettings.deliveryTime) {
-                timeComponents = Calendar.current.dateComponents([.hour, .minute, .second], from: notifTimeAsDate)
-            } else {
-                timeComponents = DateComponents(hour: 07, minute: 00, second: 00)
-            }
-            
-            let daySchedule = DaySchedule(forSeton: notificationSettings.schools[0], forJohn: notificationSettings.schools[1], forSaints: notificationSettings.schools[2], forJames: notificationSettings.schools[3])
-            var allSchoolDays : [String] = daySchedule.dateDayDictArray
-            while dateStringFormatter.date(from: allSchoolDays.first!)! < Date() { //Remove past dates
-                allSchoolDays.removeFirst()
-            }
-            
-            //Mark: Setup notification
-            for date in allSchoolDays {
-                //print(date)
-                
-                //WHAT
-                var notificationContent = ""
-                var notificationContent1 = ""
-                var notificationContent2 = ""
-                var notificationContent3 = ""
-                var notificationContent4 = ""
-                
-                if notificationSettings.schools[0] && !daySchedule.restrictedDatesForHS.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: .seton, forDateString: date) {
-                        notificationContent1 = "Day \(dayOfCycle) at Seton, "
-                    }
-                }
-                if notificationSettings.schools[1] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: .john, forDateString: date) {
-                        notificationContent2 = "Day \(dayOfCycle) at St. John's, "
-                    }
-                }
-                if notificationSettings.schools[2] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: .saints, forDateString: date) {
-                        notificationContent3 = "Day \(dayOfCycle) at All Saints, "
-                    }
-                }
-                if notificationSettings.schools[3] && !daySchedule.restrictedDatesForES.contains(dateStringFormatter.date(from: date)!) {
-                    if let dayOfCycle = daySchedule.getDayOptional(forSchool: .james, forDateString: date) {
-                        notificationContent4 = "Day \(dayOfCycle) at St. James, "
-                    }
-                }
-                notificationContent = "\(notificationContent1)\(notificationContent2)\(notificationContent3)\(notificationContent4)"
-                notificationContent.removeLast()
-                notificationContent.removeLast()
-                let content = UNMutableNotificationContent()
-                content.title = "Good Morning!"
-                //content.body = "Today is Day \(dayOfCycle).\(gymDayString)"
-                content.body = "Today is \(notificationContent)."
-                content.sound = UNNotificationSound.default
-                
-                //WHEN
-                let dateArray = date.components(separatedBy: "/")
-                let dateComponents = DateComponents(year: Int(dateArray[2]), month: Int(dateArray[0]), day: Int(dateArray[1]), hour: timeComponents.hour, minute: timeComponents.minute, second: timeComponents.second)
-                let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-                
-                //REQUEST
-                let request = UNNotificationRequest(identifier: date, content: content, trigger: trigger)
-                UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
-                //                print("Today is \(date). Today is \(notificationContent).")
-            }
-//            center.getPendingNotificationRequests() { requests in
-//                for request in requests {
-//                    print(request)
-//                }
-//            }
-        } else {
-            print("User has declined to receive notifications")
-        }
-        completion?(UIBackgroundFetchResult.newData)
     }
     
     static func subscribeToPushNotificationTopics() {

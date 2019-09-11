@@ -69,7 +69,7 @@ class AlertController {
     private static func tryToReinit(_ completion : ((UIBackgroundFetchResult) -> Void)? = nil) {
         if snowDatesChecked && dayOverridesChecked {
             print("Initializing notifications")
-            NotificationController.queueLocalNotifications(completion: completion)
+            //NotificationController.queueLocalNotifications(completion: completion)
         }
     }
     
