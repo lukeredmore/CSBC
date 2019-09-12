@@ -98,53 +98,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         application.applicationIconBadgeNumber = 0
     }
 
-    func applicationWillTerminate(_ application: UIApplication) {
-        let fileManager = FileManager.default
-        let documentsUrl =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! as NSURL
-        let documentsPath = documentsUrl.path
-
-        do {
-            if let documentPath = documentsPath
-            {
-                let fileNames = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache: \(fileNames)")
-                for fileName in fileNames {
-
-                    if (fileName.hasSuffix(".pdf"))
-                    {
-                        let filePathName = "\(documentPath)/\(fileName)"
-                        try fileManager.removeItem(atPath: filePathName)
-                    }
-                }
-
-                let files = try fileManager.contentsOfDirectory(atPath: "\(documentPath)")
-                print("all files in cache after deleting images: \(files)")
-            }
-
-        } catch {
-            print("Could not clear temp folder: \(error)")
-        }
-        
-    }
+    func applicationWillTerminate(_ application: UIApplication) { }
     
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if let rootViewController = self.topViewControllerWithRootViewController(rootViewController: window?.rootViewController) {
-            if (rootViewController.responds(to: #selector(LunchViewController.canRotate))) {
-                // Unlock landscape view orientations for this view controller
-                return .allButUpsideDown;
-            } else if (rootViewController.responds(to: #selector(ActualDocViewController.canRotate))) {
-                // Unlock landscape view orientations for this view controller
-                return .allButUpsideDown;
-            }
-        }
-        
-        // Only allow portrait (standard behaviour)
-        return .portrait;
+        if let rootVC = self.topViewControllerWithRootViewController(rootViewController: window?.rootViewController),  (rootVC.responds(to: #selector(LunchViewController.canRotate)) || rootVC.responds(to: #selector(ActualDocViewController.canRotate))) { return .allButUpsideDown }
+            return .portrait
     }
     
     private func topViewControllerWithRootViewController(rootViewController: UIViewController!) -> UIViewController? {
-        if (rootViewController == nil) { return nil }
-        if (rootViewController.isKind(of: UITabBarController.self)) {
+        guard let rootVC = rootViewController else { return nil }
+        if rootVC.isKind(of: UITabBarController.self) {
             return topViewControllerWithRootViewController(rootViewController: (rootViewController as! UITabBarController).selectedViewController)
         } else if (rootViewController.isKind(of: UINavigationController.self)) {
             return topViewControllerWithRootViewController(rootViewController: (rootViewController as! UINavigationController).visibleViewController)

@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-platform :ios, '11.0'
+# platform :ios, '9.0'
 
 target 'CSBC' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
@@ -7,29 +7,17 @@ target 'CSBC' do
 
   # Pods for CSBC
 
-  pod 'Alamofire'
-  pod 'SwiftyJSON'
-  pod 'SwiftSoup'
-  pod 'Firebase'
-  pod 'Firebase/Core'
+  pod 'GoogleSignIn'
+  pod 'Firebase/Analytics'
   pod 'Firebase/Auth'
   pod 'Firebase/Database'
   pod 'Firebase/Messaging'
   pod 'Fabric'
   pod 'Crashlytics'
-  pod 'GoogleSignIn'
 
-end
+  pod 'Alamofire'
 
-target 'UIPlaygroundFramework' do
-  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
-  use_frameworks!
-
-  # Pods for UIPlaygroundFramework
-
-  target 'UIPlaygroundFrameworkTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
+  pod 'SwiftSoup', '>=2.0.0'
+  pod 'SwiftyJSON'
 
 end
