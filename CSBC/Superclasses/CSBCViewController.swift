@@ -134,12 +134,9 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     override func viewWillAppear(_ animated: Bool) {
         for i in 0..<schoolPicker.numberOfSegments {
             if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
-//                print("\(schoolSelected.ssString) was selected for segment \(i)")
                 schoolPicker.setSelectedSegmentIndex(i)
                 break
-            } //else {
-//                print("\(schoolSelected.ssString) was not selected for segment \(i)")
-//            }
+            }
         }
     }
     

@@ -35,7 +35,7 @@ class HomeScreenCollectionView: UICollectionView {
                 cellsPerRow: 3,
                 minimumInteritemSpacing: (bounds.width - 270)/3,
                 minimumLineSpacing: 65,
-                sectionInset: UIEdgeInsets(top: 30.0, left: (bounds.width - 270)/6, bottom: 30.0, right: (bounds.width - 270)/6)
+                sectionInset: UIEdgeInsets(top: (bounds.width - 270)/5, left: (bounds.width - 270)/6, bottom: 35.0, right: (bounds.width - 270)/6)
             )
             return layout
         }
@@ -62,13 +62,12 @@ class CSBCCollectionViewCell: UICollectionViewCell {
         return imgView
     }()
     private let buttonLabel : UILabel = {
-        let label = UILabel(frame: CGRect(x: 0, y: 90, width: 90, height: 40))
-        label.font = UIFont(name: "gotham", size: 22)
+        let label = UILabel(frame: CGRect(x: -13, y: 90, width: 116, height: 40))
+        label.font = UIFont(name: "gotham", size: 20)
         label.textAlignment = .center
-        label.textColor = #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+        label.textColor = .csbcAlwaysGray
         label.clipsToBounds = false
-        label.adjustsFontSizeToFitWidth = true
-        label.minimumScaleFactor = 0.4
+        label.numberOfLines = 0
         return label
     }()
     

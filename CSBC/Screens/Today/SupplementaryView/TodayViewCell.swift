@@ -16,7 +16,7 @@ class TodayViewCell: UITableViewCell {
     @IBOutlet weak var titleHeightConstraint: NSLayoutConstraint!
     
     
-    override  func awakeFromNib() {
+    override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }

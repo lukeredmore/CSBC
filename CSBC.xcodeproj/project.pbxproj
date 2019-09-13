@@ -215,9 +215,9 @@
 			isa = PBXGroup;
 			children = (
 				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
+				26BE62072273A53F00C6656F /* PageViewController.swift */,
 				26BE62092273AED600C6656F /* TodayViewController.swift */,
 				26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */,
-				26BE62072273A53F00C6656F /* PageViewController.swift */,
 				2637A68422FF0F2E0097EDD1 /* Model */,
 				2637A68322FF0F240097EDD1 /* SupplementaryView */,
 			);
@@ -1084,12 +1084,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1107,12 +1107,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.6;
+				MARKETING_VERSION = 1.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

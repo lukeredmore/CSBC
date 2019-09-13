@@ -13,20 +13,14 @@ class TodayDataSource: NSObject, UITableViewDataSource {
     var todaysEventsSet : Set<EventsModel>?
     var todaysAthletics: AthleticsModel?
     
-    private let sectionNames = ["Events","Sports"]
-    
     init(todaysEvents : Set<EventsModel>?, todaysAthletics : AthleticsModel?) {
         self.todaysEventsSet = todaysEvents
         self.todaysAthletics = todaysAthletics
     }
     
     //MARK: TableView Methods
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
-    }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionNames[section]
-    }
+    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { ["Events","Sports"][section] }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:

@@ -13,7 +13,7 @@ final class FilterAlertsViewController: ModalMenuViewController {
     @IBOutlet private var menuViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet private var datePicker: UIDatePicker!
     
-    weak var delegate: DateEnteredDelegate? = nil
+    weak var delegate: InputUpdateDelegate!
     var dateToShow = Date()
     
     
@@ -26,8 +26,7 @@ final class FilterAlertsViewController: ModalMenuViewController {
         datePicker.setDate(dateToShow, animated: false)
     }
     override func passBackData() {
-        dateToShow = datePicker.date
-        delegate?.userDidSelectDate(dateToShow: dateToShow)
+        delegate.storeDateSelected(date: datePicker.date)
     }
 }
 

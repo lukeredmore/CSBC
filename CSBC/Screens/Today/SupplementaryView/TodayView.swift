@@ -16,14 +16,6 @@ class TodayView: UIView {
     var tableView : UITableView!
     private let dayOfCycle : Int!
     
-    private var dayOfCycleText : String {
-        if dayOfCycle > 0 && dayOfCycle < 7 {
-            return "Today is Day \(dayOfCycle!)"
-        } else {
-            return "There is no school today"
-        }
-    }
-    
     init(forDay day : Int) {
         self.dayOfCycle = day
         super.init(frame: CGRect.zero)
@@ -39,7 +31,7 @@ class TodayView: UIView {
     private func createHeaderLabel() {
         headerLabel = UILabel(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 43))
         headerLabel.font = UIFont(name: "Gotham-Bold", size: 39)
-        headerLabel.text = dayOfCycleText
+        headerLabel.text = dayOfCycle > 0 && dayOfCycle < 7 ? "Today is Day \(dayOfCycle!)" : "There is no school today"
         headerLabel.numberOfLines = 0
         headerLabel.adjustsFontSizeToFitWidth = true
         headerLabel.minimumScaleFactor = 0.5
@@ -65,5 +57,5 @@ class TodayView: UIView {
         tableView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
-
+    
 }

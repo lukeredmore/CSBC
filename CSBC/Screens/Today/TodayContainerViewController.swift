@@ -8,36 +8,32 @@
 
 import UIKit
 
-protocol DateEnteredDelegate: class { //modal menu tells container that custom date was selected
-    func userDidSelectDate(dateToShow: Date)
-}
-protocol ContainerViewDelegate: class {
+protocol InputUpdateDelegate: class {
     func storeDateSelected(date : Date) //container tells pager that custom date was updated
     func schoolPickerValueDidChange() //container tells pager that schoolSelected changed
 }
 protocol PageViewDelegate: class {
-    func scheduleDataDidDownload() //pager tells container that all async tasks completed
-    func showDateAsHeader(dateGiven : Date) //pager tells container the date to show for header
-    var dateToShow : Date { get } //the date shown
-}
-protocol TodayParserDelegate { //parser tells pager to initialize VCs
-    func startupPager()
-    var schoolSelected : Schools { get }
+    var dateToShow : Date { get set } //pager tells container the date shown as header
 }
 
-class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, PageViewDelegate {
+class TodayContainerViewController: CSBCViewController, PageViewDelegate {
     @IBOutlet weak private var containerView: UIView!
-    @IBOutlet weak private var dateChangerButton: UIBarButtonItem!
+    @IBOutlet weak private var dateChangerButton: UIBarButtonItem! { didSet {
+        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        button.addTarget(self, action: #selector(dateFilterSelected(_:)), for: .touchUpInside)
+        button.setTitleColor(.csbcNavBarText, for: .normal)
+        button.setTitle("•••", for: .normal)
+        dateChangerButton.customView = button
+        let multiTapGesture = UITapGestureRecognizer()
+        multiTapGesture.numberOfTapsRequired = 2
+        multiTapGesture.addTarget(self, action: #selector(dateChangerDoubleTapped))
+        dateChangerButton.customView?.addGestureRecognizer(multiTapGesture)
+    } }
     
-    weak private var containerDelegate : ContainerViewDelegate? = nil
-    var dateToShow = Date()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Today"
-        loadingSymbol.startAnimating()
-        setupTapGestureForSettingsButton()
-    }
+    weak private var containerDelegate : InputUpdateDelegate!
+    var dateToShow = Date() { didSet {
+        title = Date().dateString() == dateToShow.dateString() ? "Today" : dateToShow.monthAbbreviationString() + " " + dateToShow.dayString()
+    } }
     
     override func viewWillAppear(_ animated: Bool) {
         setupSchoolPickerAndBarForDefaultBehavior(topMostItems: [containerView])
@@ -45,62 +41,17 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
     }
     
     override func schoolPickerValueChanged() {
-        containerDelegate?.schoolPickerValueDidChange()
-    }
-    
-    func showDateAsHeader(dateGiven : Date) {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM d"
-        dateToShow = dateGiven
-        if formatter.string(from: Date()) == formatter.string(from: dateGiven) {
-            self.title = "Today"
-        } else {
-            self.title = formatter.string(from: dateGiven)
-        }
-        
-    }
-    
-    private func setupTapGestureForSettingsButton() {
-        let multiTapGesture = UITapGestureRecognizer()
-        multiTapGesture.numberOfTapsRequired = 2
-        multiTapGesture.addTarget(self, action: #selector(dateChangerDoubleTapped))
-        let button = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        button.addTarget(self, action: #selector(dateFilterSelected(_:)), for: .touchUpInside)
-        button.setTitleColor(.csbcNavBarText, for: .normal)
-        button.setTitle("•••", for: .normal)
-        dateChangerButton.customView = button
-        dateChangerButton.customView?.addGestureRecognizer(multiTapGesture)
+        containerDelegate.schoolPickerValueDidChange()
     }
     
     @objc private func dateFilterSelected(_ sender: Any) {
-        if loadingSymbol.isHidden {
-            performSegue(withIdentifier: "AlertsSettingsSegue", sender: self)
-        }
+        performSegue(withIdentifier: "AlertsSettingsSegue", sender: self)
     }
     
     @objc private func dateChangerDoubleTapped() {
-        if dateStringFormatter.string(from: dateToShow) != dateStringFormatter.string(from: Date()) && loadingSymbol.isHidden {
-            userDidSelectDate(dateToShow: Date())
+        if dateStringFormatter.string(from: dateToShow) != dateStringFormatter.string(from: Date()) {
+            containerDelegate.storeDateSelected(date: Date())
         }
-    }
-    
-    func userDidSelectDate(dateToShow: Date) {
-        self.dateToShow = dateToShow
-        let dateString = dateStringFormatter.string(from: dateToShow)
-        let todaysRealDateString = dateStringFormatter.string(from: Date())
-        if dateString != todaysRealDateString {
-            let titleFormat = DateFormatter()
-            titleFormat.dateFormat = "MMM d"
-            let dateToTitleString = titleFormat.string(from: dateToShow)
-            self.title = dateToTitleString
-        } else {
-            self.title = "Today"
-        }
-        containerDelegate?.storeDateSelected(date: dateToShow)
-    }
-    
-    func scheduleDataDidDownload() {
-        loadingSymbol.stopAnimating()
     }
     
     // MARK: - Navigation
@@ -111,7 +62,7 @@ class TodayContainerViewController: CSBCViewController, DateEnteredDelegate, Pag
             containerDelegate = childVC
         } else if segue.identifier == "AlertsSettingsSegue" {
             let childVC = segue.destination as! FilterAlertsViewController
-            childVC.delegate = self
+            childVC.delegate = containerDelegate
             childVC.dateToShow = self.dateToShow
         }
     }

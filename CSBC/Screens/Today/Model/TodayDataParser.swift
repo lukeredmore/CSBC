@@ -12,42 +12,28 @@ import SwiftyJSON
 
 ///Retrieves events and athletics data, parses it, and activates pager when ready. Also parses full data into single days for TodayVC
 class TodayDataParser {
-    private let delegate : TodayParserDelegate!
+    private var eventsArray : Set<EventsModel> {
+        guard let json = UserDefaults.standard.value(forKey:"eventsArray") as? Data else { return [] }
+        return (try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json)) ?? []
+    }
+    private var athleticsArray : [AthleticsModel?] {
+        guard let json = UserDefaults.standard.value(forKey:"athleticsArray") as? Data else { return [] }
+        return (try? PropertyListDecoder().decode([AthleticsModel?].self, from: json)) ?? []
+    }
+    private var schoolSelectedString : String {
+        (Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton).ssString
+    }
     
-    private var eventsArray : Set<EventsModel> = []
-    private var athleticsArray : [AthleticsModel?] = []
-    
-    private var eventsReady = false
-    private var athleticsReady = false
-    
-    private lazy var eventsRetriever = EventsRetriever() { (eventsArray, _) in
-        self.eventsArray = self.eventsArray.union(eventsArray)
-        self.eventsReady = true
-        self.tryToStartupPager()
+    private lazy var eventsRetriever = EventsRetriever() { (_, type) in
+        print("Events data of type \(type) has been updated for Today")
     }
     private lazy var athleticsRetriever = AthleticsRetriever { (athleticsArray) in
-        self.athleticsArray = athleticsArray
-        self.athleticsReady = true
-        self.tryToStartupPager()
+        print("Athletics data of has been updated for Today")
     }
     
-    
-    
-    init(delegate: TodayParserDelegate) {
-        self.delegate = delegate
-        getSchedulesToSendToToday()
-    }
-    
-    
-    //MARK: Retrieve schedules
-    private func getSchedulesToSendToToday() {
+    init() {
         eventsRetriever.retrieveEventsArray()
         athleticsRetriever.retrieveAthleticsArray()
-    }
-    private func tryToStartupPager() {
-        if eventsReady && athleticsReady {
-            delegate.startupPager()
-        }
     }
     
     
@@ -56,7 +42,7 @@ class TodayDataParser {
         let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
         
         let setToReturn = eventsArray.filter {
-        $0.date == dateComponents && ($0.schools?.contains(delegate.schoolSelected.ssString) ?? false || $0.schools == "" )
+        $0.date == dateComponents && ($0.schools?.contains(schoolSelectedString) ?? false || $0.schools == "" )
         }
         
         return setToReturn.count > 0 ? setToReturn : nil

@@ -9,13 +9,13 @@
 import UIKit
 
 ///Creates and organizes TodayVCs to be swiped through. Requests data through TodayDataParser, and populates TodayVC
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, ContainerViewDelegate, TodayParserDelegate {
+class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, InputUpdateDelegate {
     var schoolSelected : Schools {
         return Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
     }
     
-    weak var pagerDelegate : PageViewDelegate? = nil
-    private var todayParser : TodayDataParser? = nil
+    weak var pagerDelegate : PageViewDelegate!
+    private lazy var todayParser = TodayDataParser()
     
     private var dateSentToCurrentPageVC = Date()
     private var dateSentToPreviousPageVC = Date()
@@ -24,80 +24,74 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     
     
     //MARK: View Control
-    override func viewWillAppear(_ animated: Bool) {
-        todayParser = TodayDataParser(delegate: self)
-    }
-    
-    //MARK: Today Parser Delegate Method
-    func startupPager() {
+    override func viewDidLoad() {
         self.delegate = self
         self.dataSource = self
-        pagerDelegate?.scheduleDataDidDownload()
         let controller = TodayViewController(
             date: dateSentToCurrentPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToCurrentPageVC),
-            athleticsModel: todayParser?.athletics(forDate: dateSentToCurrentPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToCurrentPageVC))
+            athleticsModel: todayParser.athletics(forDate: dateSentToCurrentPageVC),
+            eventsModel: todayParser.events(forDate: dateSentToCurrentPageVC))
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
         reloadInputViews()
     }
     
+    
+    //MARK: Input Update Delegate Methods
     func schoolPickerValueDidChange() {
-        if todayParser != nil {
-            if viewControllers!.count > 0 {
-                guard let currentDate = (viewControllers![0] as! TodayViewController).date else { fatalError("Date is nil") }
-                let controller = TodayViewController(
-                    date: currentDate,
-                    dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: currentDate),
-                    athleticsModel: todayParser!.athletics(forDate: currentDate),
-                    eventsModel: todayParser!.events(forDate: currentDate))
-                self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
-            } else {
-                let controller = TodayViewController(
-                    date: Date(),
-                    dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: Date()),
-                    athleticsModel: todayParser!.athletics(forDate: Date()),
-                    eventsModel: todayParser!.events(forDate: Date()))
-                self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
-            }
+        if viewControllers!.count > 0 {
+            guard let currentDate = (viewControllers![0] as! TodayViewController).date else { fatalError("Date is nil") }
+            let controller = TodayViewController(
+                date: currentDate,
+                dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: currentDate),
+                athleticsModel: todayParser.athletics(forDate: currentDate),
+                eventsModel: todayParser.events(forDate: currentDate))
+            self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
+        } else {
+            let controller = TodayViewController(
+                date: Date(),
+                dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: Date()),
+                athleticsModel: todayParser.athletics(forDate: Date()),
+                eventsModel: todayParser.events(forDate: Date()))
+            self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
         }
-
-        
     }
     func storeDateSelected(date : Date) {
         let controller = TodayViewController(
             date: date,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: date),
-            athleticsModel: todayParser?.athletics(forDate: date),
-            eventsModel: todayParser?.events(forDate: date))
+            athleticsModel: todayParser.athletics(forDate: date),
+            eventsModel: todayParser.events(forDate: date))
+        pagerDelegate.dateToShow = date
         dateSentToPreviousPageVC = date
         dateSentToNextPageVC = date
         self.setViewControllers([controller], direction: .forward, animated: false, completion: nil)
     }
     
+    
+    //MARK: Page VC delegate methods
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
         dateSentToPreviousPageVC -= 86400
         let controller = TodayViewController(
             date: dateSentToPreviousPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToPreviousPageVC),
-            athleticsModel: todayParser?.athletics(forDate: dateSentToPreviousPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToPreviousPageVC))
+            athleticsModel: todayParser.athletics(forDate: dateSentToPreviousPageVC),
+            eventsModel: todayParser.events(forDate: dateSentToPreviousPageVC))
         return controller
     }
-    
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
         dateSentToNextPageVC += 86400
         let controller = TodayViewController(
             date: dateSentToNextPageVC,
             dayOfCycle: daySchedule.getDay(forSchool: schoolSelected, forDate: dateSentToNextPageVC),
-            athleticsModel: todayParser?.athletics(forDate: dateSentToNextPageVC),
-            eventsModel: todayParser?.events(forDate: dateSentToNextPageVC))
+            athleticsModel: todayParser.athletics(forDate: dateSentToNextPageVC),
+            eventsModel: todayParser.events(forDate: dateSentToNextPageVC))
         return controller
     }
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         if viewControllers!.count > 0 {
             guard let dateToSend = (viewControllers![0] as! TodayViewController).date else { fatalError("Date is nil") }
-            pagerDelegate?.showDateAsHeader(dateGiven: dateToSend)
+            pagerDelegate.dateToShow = dateToSend
             dateSentToNextPageVC = dateToSend
             dateSentToPreviousPageVC = dateToSend
         }
