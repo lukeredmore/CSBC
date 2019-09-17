@@ -9,10 +9,8 @@
 import UIKit
 
 ///Controls all settings switches and receives time from datePicker. Updates Firebase through NotificationController
-class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
+class SettingsViewController: UITableViewController  {
     @IBOutlet weak private var deliverNotificationsSwitch: UISwitch!
-    @IBOutlet weak private var deliveryTimeLabel: UILabel!
-    @IBOutlet weak private var deliveryTimeCell: UITableViewCell!
     @IBOutlet private var settingsSwitch: [UISwitch]!
     @IBOutlet weak private var copyrightLabel: UILabel!
     @IBOutlet weak private var versionLabel: UILabel!
@@ -53,9 +51,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
             userDefaults.set(settingsSwitch[4].isOn, forKey: "showAllSchools")
             NotificationController.notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
         }
-        if !NotificationController.notificationSettings.shouldDeliver || NotificationController.notificationSettings.deliveryTime != "7:00 AM" || NotificationController.notificationSettings.schools != [true, true, true, true] || NotificationController.notificationSettings.valuesChangedByUser {
-            NotificationController.notificationSettings.valuesChangedByUser = true
-        }
     }
     
     
@@ -68,9 +63,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         settingsSwitch[4].isOn = showAllSchools ?? true
         
         deliverNotificationsSwitch.isOn = NotificationController.notificationSettings.shouldDeliver
-        deliveryTimeCell.isHidden = !NotificationController.notificationSettings.shouldDeliver
-        
-        deliveryTimeLabel.text = NotificationController.notificationSettings.deliveryTime //what time should they be
         
         tableView.reloadData()
     }
@@ -78,8 +70,6 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
     
     //MARK: Button Listeners
     @IBAction private func settingsSwitchToggled(_ sender: Any) { //school switches
-        NotificationController.notificationSettings.valuesChangedByUser = true
-        
         let tag = (sender as AnyObject).tag - 1
         NotificationController.notificationSettings.schools[tag] = settingsSwitch[tag].isOn
         
@@ -96,33 +86,13 @@ class SettingsViewController: UITableViewController, TimeEnteredDelegate  {
         }
     }
     @IBAction private func notificationOptInToggled(_ sender: Any) { //deliver notiications switch
-        NotificationController.notificationSettings.valuesChangedByUser = true
-
-        deliveryTimeCell.isHidden = !deliverNotificationsSwitch.isOn
         NotificationController.notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
-    }
-    
-    
-    //MARK: Time Entered Delegate
-    func userDidSelectTime(timeToShow: Date) {
-        NotificationController.notificationSettings.valuesChangedByUser = true
-        
-        deliveryTimeLabel.text = fmt.string(from: timeToShow)
-        NotificationController.notificationSettings.deliveryTime = deliveryTimeLabel.text!
-        tableView.reloadData()
-        
     }
     
     
     // MARK: - Table View Delegate
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        if indexPath.section == 2 && indexPath.row == 1 {
-            let setDeliveryTimeVC = ModalPickerViewController.instantiateForTime(
-                delegate: self,
-                timeToShow: fmt.date(from: NotificationController.notificationSettings.deliveryTime)!)
-            self.present(setDeliveryTimeVC, animated: true, completion: nil)
-        }
         if indexPath.section == 3 && indexPath.row == 0 {
             SettingsMailDelegate(self).presentMailVC() //working atm
             /*private let reportIssueVC = ComposerViewController.instantiate()

@@ -20,7 +20,7 @@ class PageViewController: UIPageViewController, UIPageViewControllerDataSource, 
     private var dateSentToCurrentPageVC = Date()
     private var dateSentToPreviousPageVC = Date()
     private var dateSentToNextPageVC = Date()
-    private let daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
+    private let daySchedule = DaySchedule(forSeton: true, forElementary: true)
     
     
     //MARK: View Control

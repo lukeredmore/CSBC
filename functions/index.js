@@ -1,14 +1,13 @@
 const functions = require('firebase-functions')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
-const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest
-const PrivateAPIKeys = require("./keys.js")
+var serviceAccount = require("./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json")
 
 const admin = require('firebase-admin')
-admin.initializeApp()
-
-// // Create and Deploy Your First Cloud Functions
-// // https://firebase.google.com/docs/functions/write-firebase-functions
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://csbcprod.firebaseio.com"
+})
 
 //Scrape calendar events for the next two months from CSBCSaints.org and parses it to a JSON array
 const opts = {memory: '2GB', timeoutSeconds: 60}
@@ -124,6 +123,7 @@ async function daySchedule() {
   var restrictedDatesForESStrings = []
   
   var date = new Date(startDateString)
+  console.log(date)
   const endDate = new Date(endDateString)
       
   //print("pushing no school")
@@ -154,7 +154,11 @@ async function daySchedule() {
   var esDay = 1
   while (date <= endDate) {
     if (date.getDay() !== 0 && date.getDay() !== 6) { //if its a weekday
-      let dateString = date.toLocaleDateString('en-US', { day: '2-digit', month: '2-digit', year: 'numeric' })
+      let dateString = date.toLocaleDateString('en-US', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric' }
+      )
       if (!restrictedDatesForHSStrings.includes(dateString)) {
         dateDayDict.highSchool[dateString] = hsDay
         hsDay = hsDay <= 5 ? hsDay + 1 : 1
@@ -168,73 +172,178 @@ async function daySchedule() {
   }
   return dateDayDict      
 }
-async function createAndSendDayNotification(key) {
+async function createAndSendDayNotification(sendingForReal = true) {
   let todaysDateString = new Date().toLocaleDateString('en-US', {
+    timeZone: "America/New_York",
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
   })
+  const dateString = new Date().toLocaleDateString('en-US', { 
+    timeZone: "America/New_York",
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric' }
+  )
+  const timeString = new Date().toLocaleTimeString('en-US', {
+    timeZone: "America/New_York"
+  })
+  console.log(dateString + " " + timeString)
   let daySched = await daySchedule()
-  console.log(new Date())
-  console.log(daySched)
+  console.log(JSON.stringify(daySched))
   console.log(todaysDateString)
-  let hsDay = daySched.highSchool[todaysDateString]
-  let esDay = daySched.elementarySchool[todaysDateString]
+  const hsDay = daySched.highSchool[todaysDateString]
+  const esDay = daySched.elementarySchool[todaysDateString]
+  console.log("hsDay: " + hsDay)
+  console.log("esDay: " + esDay)
+  const hsDayExists = hsDay !== null && typeof hsDay !== 'undefined'
+  const esDayExists = esDay !== null && typeof esDay !== 'undefined'
+  let messagesToSend = []
 
-  let hsString = hsDay !== null ? "Today is Day " + hsDay + " at Seton." : "There is no school at Seton today."
-  let esString = esDay !== null ? "Today is Day " + esDay + " at the elementary schools." : "There is no school at the elementary schools today."
+  if (hsDayExists) {
+    messagesToSend.push({ 
+      //Just HS
+      notification: {
+        title: "Good Morning!",
+        body: "Today is Day " + hsDay + " at Seton"
+      },
+      android: {
+        priority: "HIGH",
+        ttl: 86400000,
+        notification: { sound: "default" }
+      },
+      apns: { payload: { aps: {
+        sound: "default"
+      } } },
+      condition: "!('notReceivingNotifications' in topics) && ('setonNotifications' in topics && !('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics))",
+    })
+  }
+  if (esDayExists) {
+    messagesToSend.push({ 
+      //Just ES
+      notification: {
+        title: "Good Morning!",
+        body: "Today is Day " + esDay + " at St. John's, St. James, and All Saints"
+      },
+      android: {
+        priority: "HIGH",
+        ttl: 86400000,
+        notification: { sound: "default" }
+      },
+      apns: { payload: { aps: {
+        sound: "default"
+      } } },
+      condition: "!('notReceivingNotifications' in topics) && (!('setonNotifications' in topics) && ('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics))",
+    })
+  }
+  if (hsDayExists || esDayExists) {
+    const hsString = hsDayExists ? "Today is Day " + hsDay + " at Seton, " : "There is no school at Seton today, "
+    const esString = esDayExists ? "and today is Day " + esDay + " at the elementary schools." : "and there is no school at the elementary schools."
 
-  if (hsDay !== null && esDay !== null && hsDay === esDay) {
-    hsString = "Today is Day " + hsDay + " at all schools."
-    esString = ""
+    messagesToSend.push({ 
+      //Both HS and ES
+      notification: {
+        title: "Good Morning!",
+        body: hsString + esString
+      },
+      android: {
+        priority: "HIGH",
+        ttl: 86400000,
+        notification: { sound: "default" }
+      },
+      apns: { payload: { aps: {
+        sound: "default"
+      } } },
+      condition: "(!('notReceivingNotifications' in topics) && ('setonNotifications' in topics && ('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics)))",
+    })
   }
 
-  if (!hsString.includes("There is no school") || !esString.includes("There is no school")) {
-    sendPushNotificationToAllUsers(key, "Good morning!", hsString + " " + esString, response => {
-      console.log("Sucessfully sent day notification!!")
-      // res.status(200).send("Sucessfully sent day notification")
+  if (sendingForReal & (hsDayExists || esDayExists)) {
+    admin.messaging().sendAll(messagesToSend)
+    .then((response) => {
+      console.log('Successfully sent day notification:', JSON.stringify(response))
+      return null
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error)
+      return null
     })
   } else {
-    console.log("Did not send day notification, as there was no school today")
-    // res.status(200).send("Did not send day notification, as there was no school today")
+    console.log("Did not send day notification, as there was no school today, or have been overridden")
   }
   return
 }
-function sendPushNotificationToAllUsers(key, title, message, response) {
-  let parameters = 
-  { "notification": {
-      "title": title,
-      "body": message,
-      "sound": "default"
-  },
-    "condition": "'appUser' in topics || 'setonNotifications' in topics",
-    "priority": "high"
-  }
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', "https://fcm.googleapis.com/fcm/send");
-  xhr.onreadystatechange = function() {
-      if (xhr.readyState>3 && xhr.status===200) { response(xhr.responseText); }
-  };
-  xhr.setRequestHeader("Content-Type", "application/json");
-xhr.setRequestHeader("Authorization", key);
-  xhr.send(JSON.stringify(parameters));
-  return xhr;
-}
 
 //Sends day schedule notifications every morning
-exports.scheduledDayScheduleNotifications = functions.pubsub.schedule('00 07 * * *')
-  .timeZone('America/New_York')
+exports.scheduledDayScheduleNotifications = functions
+  .region('us-east4')
+  .pubsub.schedule('00 07 * * *').timeZone('America/New_York')
   .onRun((context) => {
     const manuallyStopped = false
     if (manuallyStopped === false) {
-      createAndSendDayNotification(PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY)
-      createAndSendDayNotification(PrivateAPIKeys.DEBUG_NOTIFICATION_KEY)
+      createAndSendDayNotification()
     }
     return null;
 });
 
-exports.tester = functions
+exports.autoUpdateEvents = functions.runWith(opts).pubsub.schedule('25 * * * *')
+  .timeZone('America/New_York')
+  .onRun(async (context) => {
+
+    let html1 = ""
+    let html2 = ""
+
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox']
+    })
+    try {
+        const page = await browser.newPage()
+        await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
+        html1 = await page.content()
+        const nextButton = await page.$("#evcal_next")
+        await nextButton.click()
+        await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
+        html2 = await page.content()
+    } catch (e) {
+      console.log(e)
+    }
+
+    const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
+
+
+    const dateString = new Date().toLocaleDateString('en-US', { 
+      timeZone: "America/New_York",
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric' }
+    )
+    const timeString = new Date().toLocaleTimeString('en-US', {
+      timeZone: "America/New_York"
+    })
+    const databaseJSON = {
+        eventsArray: responseJSON,
+        eventsArrayTime: dateString + " " + timeString
+    };
+
+    await admin.database().ref('Calendars').set(databaseJSON, error => {
+        if (error) {
+            console.log("Error updating database: " + error)
+        } else {
+            console.log("Database updated successfully with Calendar data")
+        }
+    })
+    await browser.close()
+    return null;
+});
+
+exports.test2 = functions
   .region('us-east4')
-  .runWith(opts).https.onRequest(async (req, res) => {
-  await createAndSendDayNotification(PrivateAPIKeys.DEBUG_NOTIFICATION_KEY)
-})
+  .runWith(opts).https
+  .onRequest(async (req, res) => {
+    createAndSendDayNotification(false)
+    let snapshot = await admin.database().ref('SnowDays').once('value')
+    let snowDays = Object.values(snapshot.val())
+    return res.status(200).json({
+      snowDays: snowDays
+    })
+  })

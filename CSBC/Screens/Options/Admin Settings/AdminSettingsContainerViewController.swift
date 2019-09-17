@@ -37,7 +37,7 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     @IBOutlet weak private var signOutButton: UIButton!
     @IBOutlet weak private var messageLabel: UILabel!
     
-    private var daySchedule = DaySchedule(forSeton: true, forJohn: true, forSaints: true, forJames: true)
+    private var daySchedule = DaySchedule(forSeton: true, forElementary: true)
     private var usersSchool : Schools? = nil
     
     override func viewDidLoad() {

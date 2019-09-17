@@ -28,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         LunchMenuRetriever.downloadAndStoreLunchMenus()
-        EventsRetriever.tryToRequestEventsFromGCF()
-        AlertController.getSnowDatesAndOverridesAndQueueNotifications()
+        AlertController.getSnowDatesAndOverrides()
 
         
         //Notifications
@@ -37,11 +36,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         Messaging.messaging().delegate = self as? MessagingDelegate
         Messaging.messaging().subscribe(toTopic: "appUser")
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
-            if granted {
-                DispatchQueue.main.async {
-                    application.registerForRemoteNotifications()
-                }
-            }
+            if granted { DispatchQueue.main.async {
+                application.registerForRemoteNotifications()
+            } }
         }
         
         //UI
@@ -76,7 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         print("Updating local notifications in background")
-        AlertController.getSnowDatesAndOverridesAndQueueNotifications(completion: completionHandler)
+        //Call this completion handler after running background task
+        completionHandler(UIBackgroundFetchResult.noData)
     }
     
     // Receive displayed notifications for iOS 10 devices.

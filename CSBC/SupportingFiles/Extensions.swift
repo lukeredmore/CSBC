@@ -11,43 +11,95 @@ import SafariServices
 
 extension UIColor {
     ///Light: System light gray; Dark: Black
-    static var csbcAccentGray: UIColor { return UIColor(named: "CSBCAccentGray")! }
+    static var csbcAccentGray: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.937254902, green: 0.937254902, blue: 0.937254902, alpha: 1)
+        } else { return UIColor(named: "CSBCAccentGray")! }
+    }
     
     ///Light: Custom gray; Dark: Custom gray, but a little lighter
-    static var csbcAlwaysGray: UIColor { return UIColor(named: "CSBCAlwaysGray")! }
+    static var csbcAlwaysGray: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+        } else { return UIColor(named: "CSBCAlwaysGray")! }
+    }
     
     ///Universal: Nice-looking red
-    static var csbcAlertRed: UIColor { return UIColor(named: "CSBCAlertRed")! }
+    static var csbcAlertRed: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.8666666667, green: 0.2, blue: 0.2, alpha: 1)
+        } else { return UIColor(named: "CSBCAlertRed")! }
+    }
     
     ///Light: White; Dark: Black
-    static var csbcBackground: UIColor { return UIColor(named: "CSBCBackground")! }
+    static var csbcBackground: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        } else { return UIColor(named: "CSBCBackground")! }
+    }
     
     ///Light: White; Dark: Dark gray
-    static var csbcCardView: UIColor { return UIColor(named: "CSBCCardView")! }
+    static var csbcCardView: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        } else { return UIColor(named: "CSBCCardView")! }
+    }
     
     ///Light: Black; Dark: White
-    static var csbcDefaultText: UIColor { return UIColor(named: "CSBCDefaultText")! }
+    static var csbcDefaultText: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+        } else { return UIColor(named: "CSBCDefaultText")! }
+    }
     
     ///Light: 666 gray; Dark: White
-    static var csbcGrayLabel: UIColor { return UIColor(named: "CSBCGrayLabel")! }
+    static var csbcGrayLabel: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1)
+        } else { return UIColor(named: "CSBCGrayLabel")! }
+    }
     
     ///Light: Light CSBC green; Dark: Dark gray
-    static var csbcLightGreen: UIColor { return UIColor(named: "CSBCLightGreen")! }
+    static var csbcLightGreen: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.1725490196, green: 0.4588235294, blue: 0.3529411765, alpha: 1)
+        } else { return UIColor(named: "CSBCLightGreen")! }
+    }
     
     ///Light: CSBC green; Dark: Black
-    static var csbcNavBarBackground: UIColor  { return UIColor(named: "CSBCNavBarBackground")! }
+    static var csbcNavBarBackground: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.08235294118, green: 0.2784313725, blue: 0.2039215686, alpha: 1)
+        } else { return UIColor(named: "CSBCNavBarBackground")! }
+    }
     
     ///Light: CSBC green; Dark: Dark gray
-    static var csbcNavBarFlipside: UIColor { return UIColor(named: "CSBCNavBarFlipside")! }
+    static var csbcNavBarFlipside: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.08235294118, green: 0.2784313725, blue: 0.2039215686, alpha: 1)
+        } else { return UIColor(named: "CSBCNavBarFlipside")! }
+    }
     
     ///Light: White; Dark: CSBC green, slightly lightened
-    static var csbcNavBarText: UIColor { return UIColor(named: "CSBCNavBarText")! }
+    static var csbcNavBarText: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        } else { return UIColor(named: "CSBCNavBarText")! }
+    }
 
     ///Light: CSBC green modified for SFSafariVC; Dark: Black
-    static var csbcSafariVCBar: UIColor { return UIColor(named: "CSBCSafariVCBar")! }
+    static var csbcSafariVCBar: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0, green: 0.2, blue: 0.1058823529, alpha: 1)
+        } else { return UIColor(named: "CSBCSafariVCBar")! }
+    }
     
     ///Universal: Logo yellow
-    static var csbcYellow: UIColor { return UIColor(named: "CSBCYellow")! }
+    static var csbcYellow: UIColor {
+        if #available(iOS 13.0, *) {
+            return #colorLiteral(red: 0.9647058824, green: 0.7450980392, blue: 0, alpha: 1)
+        } else { return UIColor(named: "CSBCYellow")! }
+    }
 }
 
 extension UISearchBar {
@@ -112,7 +164,7 @@ extension UserDefaults {
     }
 }
 
-extension Date {
+extension Date: Strideable {
     ///Returns "yyyy" (2001)
     func yearString() -> String {
         let fmt = DateFormatter()
@@ -173,6 +225,13 @@ extension Date {
         let fmt = DateFormatter()
         fmt.dateFormat = "EEEE"
         return fmt.string(from: self)
+    }
+    
+    public func distance(to other: Date) -> TimeInterval {
+        return other.timeIntervalSinceReferenceDate - self.timeIntervalSinceReferenceDate
+    }
+    public func advanced(by n: TimeInterval) -> Date {
+        return self + n
     }
 }
 
