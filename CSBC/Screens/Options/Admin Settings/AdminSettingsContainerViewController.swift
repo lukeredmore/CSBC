@@ -37,7 +37,6 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
     @IBOutlet weak private var signOutButton: UIButton!
     @IBOutlet weak private var messageLabel: UILabel!
     
-    private var daySchedule = DaySchedule(forSeton: true, forElementary: true)
     private var usersSchool : Schools? = nil
     
     override func viewDidLoad() {
@@ -87,22 +86,9 @@ class AdminSettingsContainerViewController: CSBCViewController, GIDSignInDelegat
         showAdminSettings(true)
     }
     private func showAdminSettings(_ shouldBeSignedIn : Bool) {
-        let childVC = children[0] as! AdminSettingsTableViewController
-        if shouldBeSignedIn {
-            signOutButton.titleLabel?.text = "Sign Out"
-            childVC.usersSchool = usersSchool
-            if let dayToSend = daySchedule.getDayOptional(forSchool: usersSchool, forDateString: dateStringFormatter.string(from: Date())) {
-                childVC.dayLabel.text = "\(dayToSend)"
-                childVC.originalDay = dayToSend
-            } else {
-                childVC.dayLabel.text = ""
-            }
-        } else {
-            signOutButton.titleLabel?.text = ""
-            childVC.dayLabel.text = ""
-            childVC.originalDay = nil
-            childVC.usersSchool = nil
-        }
+        guard let childVC = children[0] as? AdminSettingsTableViewController else { return }
+        signOutButton.titleLabel?.text = shouldBeSignedIn ? "Sign Out" : ""
+        childVC.usersSchool = shouldBeSignedIn ? usersSchool : nil
         childVC.tableView.reloadData()
         containerView.isHidden = !shouldBeSignedIn
         signOutButton.isEnabled = shouldBeSignedIn

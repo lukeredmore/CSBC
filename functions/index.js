@@ -2,7 +2,9 @@ const functions = require('firebase-functions')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
 var serviceAccount = require("./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json")
-
+if (process.env.FUNCTIONS_EMULATOR) {
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
+}
 const admin = require('firebase-admin')
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -55,8 +57,57 @@ exports.retrieveEventsArray = functions
     await browser.close()
     return 
 })
+exports.autoUpdateEvents = functions.runWith(opts)
+  .region('us-east4')
+  .pubsub.schedule('25 * * * *')
+  .timeZone('America/New_York')
+  .onRun(async (context) => {
 
-//Takes an html string and returns calendar events, if found. Only requires direct HTML of calendar object
+    let html1 = ""
+    let html2 = ""
+
+    const browser = await puppeteer.launch({
+      args: ['--no-sandbox']
+    })
+    try {
+        const page = await browser.newPage()
+        await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
+        html1 = await page.content()
+        const nextButton = await page.$("#evcal_next")
+        await nextButton.click()
+        await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
+        html2 = await page.content()
+    } catch (e) {
+      console.log(e)
+    }
+
+    const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
+
+
+    const dateString = new Date().toLocaleDateString('en-US', { 
+      timeZone: "America/New_York",
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric' }
+    )
+    const timeString = new Date().toLocaleTimeString('en-US', {
+      timeZone: "America/New_York"
+    })
+    const databaseJSON = {
+        eventsArray: responseJSON,
+        eventsArrayTime: dateString + " " + timeString
+    };
+
+    await admin.database().ref('Calendars').set(databaseJSON, error => {
+        if (error) {
+            console.log("Error updating database: " + JSON.stringifiy(error))
+        } else {
+            console.log("Database updated successfully with Calendar data")
+        }
+    })
+    await browser.close()
+    return null;
+})
 function parseHTMLForEvents(html) {
     const dateAbbrv = {
       "jan": "01",
@@ -116,6 +167,7 @@ async function daySchedule() {
   const noElementarySchoolDateStrings = ["11/22/2019"]
   const noHighSchoolDateStrings = ["09/13/2019", "01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "06/17/2020", "06/18/2020", "06/19/2020"]
   const snowDateStrings = Object.values(snapshot.val())
+  console.log(snowDateStrings)
 
   var restrictedDatesForHS = []
   var restrictedDatesForES = []
@@ -126,15 +178,8 @@ async function daySchedule() {
   console.log(date)
   const endDate = new Date(endDateString)
       
-  //print("pushing no school")
-  for (dateString of noSchoolDateStrings) {
-    restrictedDatesForHS.push(new Date(dateString))
-    restrictedDatesForHSStrings.push(dateString)
-    restrictedDatesForES.push(new Date(dateString))
-    restrictedDatesForESStrings.push(dateString)
-  }
-  //print("pushing snow dates")
-  for (dateString of snowDateStrings) {
+  //print("pushing no school and snow days")
+  for (dateString of noSchoolDateStrings + snowDateStrings) {
     restrictedDatesForHS.push(new Date(dateString))
     restrictedDatesForHSStrings.push(dateString)
     restrictedDatesForES.push(new Date(dateString))
@@ -159,12 +204,14 @@ async function daySchedule() {
         month: '2-digit', 
         year: 'numeric' }
       )
+      let dateStringComponents = dateString.split('/')
+      let dateToAddToDict = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
       if (!restrictedDatesForHSStrings.includes(dateString)) {
-        dateDayDict.highSchool[dateString] = hsDay
+        dateDayDict.highSchool[dateToAddToDict] = hsDay
         hsDay = hsDay <= 5 ? hsDay + 1 : 1
       }
       if (!restrictedDatesForESStrings.includes(dateString)) {
-        dateDayDict.elementarySchool[dateString] = esDay
+        dateDayDict.elementarySchool[dateToAddToDict] = esDay
         esDay = esDay <= 5 ? esDay + 1 : 1
       }
     }
@@ -173,12 +220,13 @@ async function daySchedule() {
   return dateDayDict      
 }
 async function createAndSendDayNotification(sendingForReal = true) {
-  let todaysDateString = new Date().toLocaleDateString('en-US', {
+  let todaysDateStringComponents = new Date().toLocaleDateString('en-US', {
     timeZone: "America/New_York",
     day: '2-digit',
     month: '2-digit',
     year: 'numeric',
-  })
+  }).split('/')
+  let todaysDateString = todaysDateStringComponents[2] + "-" + todaysDateStringComponents[0] + "-" + todaysDateStringComponents[1]
   const dateString = new Date().toLocaleDateString('en-US', { 
     timeZone: "America/New_York",
     day: '2-digit', 
@@ -273,7 +321,6 @@ async function createAndSendDayNotification(sendingForReal = true) {
   }
   return
 }
-
 //Sends day schedule notifications every morning
 exports.scheduledDayScheduleNotifications = functions
   .region('us-east4')
@@ -284,66 +331,153 @@ exports.scheduledDayScheduleNotifications = functions
       createAndSendDayNotification()
     }
     return null;
-});
+})
 
-exports.autoUpdateEvents = functions.runWith(opts).pubsub.schedule('25 * * * *')
+
+
+exports.test2 = functions
+  .region('us-east4')
+  .runWith(opts).https
+  .onRequest(async (req, res) => {
+    
+  })
+
+exports.autoUpdateDayScheduleAndCheckForAlerts = functions
+  .region('us-east4')
+  .pubsub.schedule('every 5 minutes')
   .timeZone('America/New_York')
   .onRun(async (context) => {
 
-    let html1 = ""
-    let html2 = ""
+  let response = await checkForAlerts()
+  console.log(JSON.stringify(response))
 
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox']
-    })
-    try {
-        const page = await browser.newPage()
-        await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
-        html1 = await page.content()
-        const nextButton = await page.$("#evcal_next")
-        await nextButton.click()
-        await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
-        html2 = await page.content()
-    } catch (e) {
-      console.log(e)
+  let daySched = await daySchedule()
+  await admin.database().ref('DaySchedule').set(daySched, error=> {
+    if (error) {
+      console.log("Error updating database: " + JSON.stringifiy(error))
+      return //res.status(500).send("Error updating database: " + JSON.stringifiy(error))
+    } else {
+      console.log("Database updated successfully with Day Schedule data")
+      return //res.status(200).send("Database updated successfully with Calendar data")
     }
+  })
+})
 
-    const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
+async function checkForAlerts() {
+  //Get alert message and add it to firebase
+  let alertMessage = "nil"
+  /* DISABLE UNTIL AFTER FIRST SNOW DAY
+  alertMessage = await checkForAlertFromCSBC()
+  if (typeof alertMessage === 'undefined' || alertMessage === null) {
+    alertMessage = await checkForAlertFromWBNG()
+  }
+  */
+  let snapshot = await admin.database().ref('BannerAlertOverride').once('value')
+  let bannerAlertOverride = snapshot.val()
+  if (bannerAlertOverride === false) {
+    await admin.database().ref('BannerAlertMessage').set(alertMessage) }
 
-
+  //Check if message calls for snow day today
+  if (alertMessage.toLowerCase().includes('closed') && alertMessage.toLowerCase().includes('today')) {
     const dateString = new Date().toLocaleDateString('en-US', { 
       timeZone: "America/New_York",
       day: '2-digit', 
       month: '2-digit', 
       year: 'numeric' }
     )
-    const timeString = new Date().toLocaleTimeString('en-US', {
-      timeZone: "America/New_York"
-    })
-    const databaseJSON = {
-        eventsArray: responseJSON,
-        eventsArrayTime: dateString + " " + timeString
-    };
-
-    await admin.database().ref('Calendars').set(databaseJSON, error => {
-        if (error) {
-            console.log("Error updating database: " + error)
-        } else {
-            console.log("Database updated successfully with Calendar data")
-        }
-    })
-    await browser.close()
-    return null;
-});
-
-exports.test2 = functions
-  .region('us-east4')
-  .runWith(opts).https
-  .onRequest(async (req, res) => {
-    createAndSendDayNotification(false)
     let snapshot = await admin.database().ref('SnowDays').once('value')
-    let snowDays = Object.values(snapshot.val())
-    return res.status(200).json({
-      snowDays: snowDays
-    })
+    let snowDays = Objects.values(snapshot.val())
+
+    //Runs if snow day hasn't been found before
+    if (!snowDays.includes(dateString)) {
+      snowDays.push(dateString)
+      await admin.database().ref('SnowDyas').set(snowDays, error=> {
+        if (error) {
+          console.log("Error updating database: " + JSON.stringifiy(error))
+        } else {
+          console.log("Database updated successfully with new snow day")
+        }
+      })
+      let snowDayAlertPayload = {
+        notification: {
+          title: "Cancellation Alert",
+          body: "Due to inclement weather, the Catholic Schools of Broome County will be closed today."
+        },
+        android: {
+          priority: "HIGH",
+          ttl: 86400000,
+          notification: { sound: "default" }
+        },
+        apns: { payload: { aps: {
+          sound: "default"
+        } } },
+        condition: "'appuser' in topics || 'setonNotifications' in topics || 'johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics",
+      }
+      await admin.messaging().send(snowDayAlertPayload)
+        .then((response) => {
+        console.log('Successfully sent day notification:', JSON.stringify(response))
+        return {
+          alertMessageText: alertMessage,
+          firstTimeFindingSnowDay: true,
+          snowDayNotificationSucessfullySent: true,
+        }
+      })
+        .catch((error) => {
+        console.log('Error sending message:', error)
+        return {
+          alertMessageText: alertMessage,
+          firstTimeFindingSnowDay: true,
+          snowDayNotificationSucessfullySent: false,
+          snowDayNotificationSucessfullySentError: JSON.stringify(error)
+        }
+      })
+
+    } else {
+      return {
+        alertMessageText: alertMessage,
+        firstTimeFindingSnowDay: false,
+        snowDayNotificationSucessfullySent: false
+      }
+    }
+    
+  }
+  
+  return {
+    alertMessageText: alertMessage,
+    snowDayTodayWasFound: false
+  }
+}
+
+async function checkForAlertFromCSBC() {
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox']
   })
+  try {
+      const page = await browser.newPage()
+      await page.goto('https://www.csbcsaints.org', { waitUntil: 'domcontentloaded' })
+      let alertMessage = await page.$eval('strong', el => el.textContent)
+      browser.close()
+      return alertMessage
+  } catch (e) {
+    console.log("Checking for alert from CSBC website failed with error: " + e)
+    browser.close()
+    return null
+  }
+}
+
+async function checkForAlertFromWBNG() {
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox']
+  })
+  try {
+      const page = await browser.newPage()
+      await page.goto('https://www.csbcsaints.org', { waitUntil: 'domcontentloaded' })
+      let alertMessage = await page.$eval('p', el => el.textContent)
+      browser.close()
+      return alertMessage
+  } catch (e) {
+    console.log("Checking for alert from WBNG failed with error: " + e)
+    browser.close()
+    return null
+  }
+}

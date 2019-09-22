@@ -10,53 +10,17 @@ import UIKit
 import Firebase
 
 ///TableViewDelegate controlling segues to composers and day override
-class AdminSettingsTableViewController: UITableViewController, DayOverriddenDelegate {
+class AdminSettingsTableViewController: UITableViewController {
 
-    @IBOutlet weak var dayLabel: UILabel!
-    private let notificationController = NotificationController()
+//    private let notificationController = NotificationController()
     var usersSchool : Schools? = nil
-    var originalDay : Int? = nil
+//    var originalDay : Int? = nil
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        switch indexPath.section {
-        case 0:
-            if usersSchool != nil {
-                let notificationSenderVC = ComposerViewController.instantiate(
-                    school: usersSchool)
-                self.present(notificationSenderVC, animated: true, completion: nil)
-            }
-        case 1:
-            if originalDay != nil, dayLabel.text != "" {
-                let dayOverrideVC = ModalPickerViewController.instantiateForDayOverride(
-                    delegate: self,
-                    dayToShow: originalDay!)
-                self.present(dayOverrideVC, animated: true, completion: nil)
-            }
-        default:
-            break
-        }
-    }
-    
-    func adminDidOverrideDay(day: Int) {
-        if originalDay != nil, usersSchool != nil {
-            var dictToStore = UserDefaults.standard.dictionary(forKey: "dayScheduleOverrides") as? [String:Int] ?? ["Seton":0,"John":0,"Saints":0,"James":0]
-            dictToStore[usersSchool!.singleString] = day - originalDay! + dictToStore[usersSchool!.singleString]!
-            
-            print("Adding day schedule override to database")
-            Database.database().reference().child("DayScheduleOverrides").updateChildValues(dictToStore) {
-                (error, reference) in
-                if error != nil {
-                    print("Error adding day schedule override to databae: ", error!)
-                } else {
-                    UserDefaults.standard.set(dictToStore, forKey: "dayScheduleOverrides")
-                    print("Override added")
-                    self.dayLabel.text = "\(day)"
-                    self.originalDay = day
-                    //NotificationController.queueLocalNotifications()
-                    PublishPushNotifications.notifyOthersOfDayScheduleUpdate()
-                }
-            }
+        if indexPath.section == 0, usersSchool != nil {
+            let notificationSenderVC = ComposerViewController.instantiate(school: usersSchool)
+            self.present(notificationSenderVC, animated: true, completion: nil)
         }
     }
     

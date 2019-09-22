@@ -19,17 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        FirebaseApp.configure()
+        
         #if DEBUG
         print("Application successfully loaded in debug configuration")
+//        Crash.sharedInstance().crashCollectionEnabled = false
         #else
         print("Application successfully loaded in production configuration")
+//        Crash.sharedInstance().crashCollectionEnabled = true
         #endif
         print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
         
-        FirebaseApp.configure()
+        
         LunchMenuRetriever.downloadAndStoreLunchMenus()
-        AlertController.getSnowDatesAndOverrides()
-
+        DaySchedule.retrieveFromFirebase()
         
         //Notifications
         UNUserNotificationCenter.current().delegate = self
