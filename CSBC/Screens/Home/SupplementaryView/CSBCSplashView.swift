@@ -16,8 +16,7 @@ class CSBCSplashView: UIView {
     
     
     //MARK: Constructor
-    init(addToView parentView: UIView)
-    {
+    init(addToView parentView: UIView) {
         super.init(frame: (UIScreen.main.bounds))
         
         imageView.image = UIImage(named: "lettermark")

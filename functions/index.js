@@ -11,6 +11,24 @@ admin.initializeApp({
   databaseURL: "https://csbcprod.firebaseio.com"
 })
 
+exports.getDayForDate = functions
+  .region('us-east4')
+  .https.onRequest(async (req, res) => {
+    let date = req.query.date
+    let school = req.query.school
+
+    console.log(school)
+    console.log(date)
+    let daySched = await daySchedule()
+    if (school === 1) {
+      return res.status(200).send(daySched.highSchool[date])
+    } else if (school === 0) {
+      return res.status(200).send(daySched.elementarySchool[date])
+    } else {
+      return res.status(200).send("Invalid request")
+    }
+  })
+
 //Scrape calendar events for the next two months from CSBCSaints.org and parses it to a JSON array
 const opts = {memory: '2GB', timeoutSeconds: 60}
 exports.retrieveEventsArray = functions

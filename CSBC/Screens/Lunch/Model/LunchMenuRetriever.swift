@@ -13,27 +13,31 @@ import SafariServices
 
 /// Finds URLs of, download, and store all the lunch menus
 class LunchMenuRetriever {
-    private static let lunchURLLocations = ["https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/", "http://www.rockoncafe.org/Menus_B.aspx", "https://csbcsaints.org/our-schools/all-saints-school/parent-resources/lunch-menu-meal-program/", "https://csbcsaints.org/our-schools/st-james-school/parent-resources/lunch-menu-meal-program/"]
-    private static let htmlParsers : [(Document) -> String?] = [parseSetonLunchHTML, parseJohnLunchHTML, parseJamesLunchHTML, parseSaintsLunchHTML]
+    private static let lunchMenuInformation : [Schools : (String, (Document) -> String?)] = [
+        .seton : ("https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/", parseSetonLunchHTML),
+        .john : ("http://www.rockoncafe.org/Menus_B.aspx", parseJohnLunchHTML),
+        .saints : ("https://csbcsaints.org/our-schools/all-saints-school/parent-resources/lunch-menu-meal-program/", parseJamesLunchHTML),
+        .james : ("https://csbcsaints.org/our-schools/st-james-school/parent-resources/lunch-menu-meal-program/", parseSaintsLunchHTML)
     
-    private static var lunchesReady = [false, false, false, false]
-    private static var urls : [String?] = [nil, nil, nil, nil]
+    ]
+    private static var lunchesReady : [Schools:Bool] = [.seton : false, .john : false, .saints : false, .james : false]
+    private static var urlDict = [Schools:URL]()
     
     
     static func downloadAndStoreLunchMenus() {
-        for i in 0..<4 {
-            let task = URLSession.shared.dataTask(with: URL(string: lunchURLLocations[i])!) { (data, response, error) in
-                if let httpResponse = response as? HTTPURLResponse,
-                    (200...299).contains(httpResponse.statusCode),
+        
+        for (school, (urlString, htmlParser)) in lunchMenuInformation {
+            let task = URLSession.shared.dataTask(with: URL(string: urlString)!) { (data, response, error) in
+                if let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode),
                     let mimeType = httpResponse.mimeType, mimeType == "text/html",
-                    let data = data,
-                    let htmlString = String(data: data, encoding: .utf8),
-                    let html = try? SwiftSoup.parse(htmlString),
-                    let url = self.htmlParsers[i](html) {
-                    self.urls[i] = url
+                    let data = data, let htmlString = String(data: data, encoding: .utf8), let html = try? SwiftSoup.parse(htmlString),
+                    let lunchURLString = htmlParser(html),
+                    let lunchURL = URL(string: lunchURLString) {
+                    
+                    self.urlDict[school] = lunchURL
                 }
-                self.lunchesReady[i] = true
-                self.tryToLoadPDFs()
+                self.lunchesReady[school] = true
+                self.tryToLoadPDFs(fromURLs: urlDict)
             }
             task.resume()
         }
@@ -43,84 +47,71 @@ class LunchMenuRetriever {
     private static func parseSetonLunchHTML(doc : Document) -> String? {
         do {
             let menuItems = try doc.select(".mega-menu-link").array()
-            for menuItem in menuItems {
-                if try menuItem.text().lowercased().contains("menu") {
-                    return try menuItem.attr("href")
-                }
+            for menuItem in menuItems where try menuItem.text().lowercased().contains("menu") {
+                return try menuItem.attr("href")
             }
-        } catch {print("error parsing seton")}; return nil
+        } catch { print("error parsing seton") }; return nil
     }
     private static func parseJohnLunchHTML(doc : Document) -> String? {
         do {
             let lunchListGroups = try doc.select(".linksList").array()
             for lunchList in lunchListGroups {
                 let links = try lunchList.select("li a").array()
-                for link in links {
-                    if try link.text().lowercased().contains("john") {
-                        return try link.attr("href").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                    }
+                for link in links where try link.text().lowercased().contains("john") {
+                    return try link.attr("href").addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                 }
             }
-        } catch {print("error parsing john")}; return nil
+        } catch { print("error parsing john") }; return nil
     }
     private static func parseSaintsLunchHTML(doc : Document) -> String? {
         do {
             let allAInfo = try doc.select(".et_section_regular a").array()
-            for element in allAInfo {
-                if try (element.text().lowercased().contains("lunch") || element.text().lowercased().contains("menu")) && !element.attr("href").contains("18") {
-                    return try element.attr("href")
-                }
+            for element in allAInfo where try (element.text().lowercased().contains("lunch") || element.text().lowercased().contains("menu")) && !element.attr("href").contains("18") {
+                return try element.attr("href")
             }
-        } catch {print("error parsing saints")}; return nil
+        } catch { print("error parsing saints") }; return nil
     }
     private static func parseJamesLunchHTML(doc : Document) -> String? {
         do {
             let allAInfo = try doc.select(".et_section_regular a").array()
-            for element in allAInfo {
-                if try (element.text().lowercased().contains("lunch") || element.text().lowercased().contains("menu")) && !element.attr("href").contains("18") {
-                    return try element.attr("href")
-                }
+            for element in allAInfo where try (element.text().lowercased().contains("lunch") || element.text().lowercased().contains("menu")) && !element.attr("href").contains("18") {
+                return try element.attr("href")
             }
-        } catch {print("error parsing james")}; return nil
+        } catch { print("error parsing james") }; return nil
     }
     
-    private static func tryToLoadPDFs() {
-        var loadedWordURLs : [Int:String] = [:]
-        if lunchesReady == [true, true, true, true] {
-            print("Starting document downloads from urls: \(urls)")
-            for case let urlString? in urls {
-                guard let url = URL(string: urlString) else { continue }
-                let fileExtensionOnURL = urlString.components(separatedBy: ".").last
-                if fileExtensionOnURL == "pdf" {
-                    let urlSession = URLSession(configuration: .default, delegate: LunchSessionDelegate(withURLs: urls), delegateQueue: OperationQueue())
-                    let downloadTask = urlSession.downloadTask(with: url)
-                    downloadTask.resume()
-                } else {
-                    guard let originalIndex = urls.firstIndex(of: urlString) else { continue }
-                    loadedWordURLs[originalIndex] = urlString
-                    UserDefaults.standard.set(object: loadedWordURLs, forKey: "WordLocations")
-                }
+    private static func tryToLoadPDFs(fromURLs urls : [Schools:URL]) {
+        guard Array(lunchesReady.values) == [true, true, true, true] else { return }
+        print("Starting document downloads from urls:\n\(urls)")
+        for (school, url) in urls {
+            if url.absoluteString.components(separatedBy: ".").last == "pdf" {
+                let downloadTask = URLSession(configuration: .default, delegate: LunchSessionDelegate(forSchool: school), delegateQueue: OperationQueue()).downloadTask(with: url)
+                downloadTask.resume()
+            } else {
+                var loadedWordURLs = UserDefaults.standard.object([Int:String].self, with: "WordLocations") ?? [:]
+                loadedWordURLs[school.rawValue] = url.absoluteString
+                UserDefaults.standard.set(object: loadedWordURLs, forKey: "WordLocations")
             }
-            
         }
+        
     }
 }
 
+
 class LunchSessionDelegate : NSObject, URLSessionDownloadDelegate {
-    private let urls : [String?]!
+    private let school : Schools!
     private var loadedPDFURLs : [Int:URL] {
         get { UserDefaults.standard.object([Int:URL].self, with: "PDFLocations") ?? [:] }
         set { UserDefaults.standard.set(object: newValue, forKey: "PDFLocations") }
     }
     
-    internal init(withURLs urls: [String?]) {
-        self.urls = urls
+    internal init(forSchool school : Schools) {
+        self.school = school
     }
     
     internal func urlSession(_ session: URLSession, downloadTask: URLSessionDownloadTask, didFinishDownloadingTo location: URL) {
 //        print("downloadLocation:", location)
-        guard let url = downloadTask.originalRequest?.url,
-            let originalIndex = urls.firstIndex(of: url.absoluteString) else { return }
+        guard let url = downloadTask.originalRequest?.url else { return }
         
         let destinationURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(url.lastPathComponent)
         // delete original copy
@@ -128,10 +119,10 @@ class LunchSessionDelegate : NSObject, URLSessionDownloadDelegate {
         // copy from temp to Document
         do {
             try FileManager.default.copyItem(at: location, to: destinationURL)
-            print("PDF \(originalIndex + 1) downloaded")
-            loadedPDFURLs[originalIndex] = destinationURL
+            print("\(school.ssString) Lunch Menu downloaded")// from url: \(url.absoluteString)")
+            loadedPDFURLs[school.rawValue] = destinationURL
         } catch let error {
-            print("Copy Error on PDF \(originalIndex + 1): \(error.localizedDescription)")
+            print("Copy Error on PDF \(school.rawValue + 1): \(error.localizedDescription)")
         }
     }
 }

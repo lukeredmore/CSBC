@@ -40,7 +40,8 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "WebSegue" { lastSeguedWebView = segue.destination as? WebViewController }
+        if segue.identifier == "WebSegue" {
+            lastSeguedWebView = segue.destination as? WebViewController }
     }
     
 }
