@@ -11,13 +11,11 @@ import WebKit
 
 /// Loads PlusPortals in WKWebView with custom controls and ability to select school
 class WebViewController: CSBCViewController, WKNavigationDelegate {
-    @IBOutlet private var webView: WKWebView! {
-        didSet {
-            webView.configuration.preferences.javaScriptEnabled = true
-            webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
-            webView.navigationDelegate = self
-        }
-    }
+    @IBOutlet private var webView: WKWebView! { didSet {
+        webView.configuration.preferences.javaScriptEnabled = true
+        webView.configuration.preferences.javaScriptCanOpenWindowsAutomatically = true
+        webView.navigationDelegate = self
+    } }
     @IBOutlet weak private var myProgressView: UIProgressView!
     private var portalURLStrings : [String] {
         let bundleName = Bundle.main.infoDictionary!["CFBundleName"] as? String ?? "Info.plist"

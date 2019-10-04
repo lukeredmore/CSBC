@@ -52,7 +52,7 @@ class HomeCollectionController: NSObject, UICollectionViewDataSource, UICollecti
         case 4: //Calendar
             segueDelegate.performSegue(withIdentifier: "CalendarSegue", sender: nil)
         case 5: //News
-            showNewsInSafariView()
+            segueDelegate.performSegue(withIdentifier: "NewsSegue", sender: nil)
         case 6: //Lunch
             segueDelegate.performSegue(withIdentifier: "LunchSegue", sender: nil)
         case 7: //Athletics
@@ -70,13 +70,6 @@ class HomeCollectionController: NSObject, UICollectionViewDataSource, UICollecti
             segueDelegate.performSegue(withIdentifier: "SettingsSegue", sender: nil)
         default:
             break
-        }
-    }
-    private func showNewsInSafariView() {
-        if let url = URL(string: "https://csbcsaints.org/news") {
-            let safariView = SFSafariViewController(url: url)
-            safariView.configureForCSBC()
-            segueDelegate.present(safariView, animated: true, completion: nil)
         }
     }
     

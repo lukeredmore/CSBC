@@ -79,6 +79,7 @@
                         <segue destination="x0P-pp-Tlt" kind="show" identifier="UniformsSegue" id="A8v-8w-nF7"/>
                         <segue destination="xkc-2H-S7Q" kind="show" identifier="ContactSegue" id="R5O-fA-lKs"/>
                         <segue destination="PMc-mZ-LF5" kind="show" identifier="TodaySegue" id="6MV-w4-v5X"/>
+                        <segue destination="w6R-e7-BWc" kind="show" identifier="NewsSegue" id="srm-JQ-LB0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cxz-jg-ftJ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -525,7 +526,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                                             <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
                                             <state key="normal" title="View More &gt;">
-                                                <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             </state>
                                             <connections>
                                                 <action selector="viewMoreButtonPressed:" destination="bZh-dy-vbc" eventType="touchUpInside" id="Xnc-TP-5Xb"/>
@@ -592,7 +593,7 @@
                                                                 <constraint firstAttribute="height" constant="21" id="aoQ-LL-KVi"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seton Catholic Central" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsi-sJ-JUT">
@@ -601,7 +602,7 @@
                                                                 <constraint firstAttribute="height" constant="21.5" id="idQ-Gs-V71"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -660,6 +661,51 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="H57-f1-KNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-868" y="1584"/>
+        </scene>
+        <!--News-->
+        <scene sceneID="KHF-2D-UUC">
+            <objects>
+                <viewController title="News" id="w6R-e7-BWc" customClass="NewsViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ee9-tP-cug">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1Q-ak-RwH">
+                                <rect key="frame" x="0.0" y="8" width="414" height="800"/>
+                                <color key="backgroundColor" name="CSBCAccentGray"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vom-ct-zkN">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="8"/>
+                                <color key="backgroundColor" name="CSBCYellow"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="8" id="xwc-bb-MaV"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" name="CSBCAccentGray"/>
+                        <constraints>
+                            <constraint firstItem="hbd-Qp-wGr" firstAttribute="trailing" secondItem="h1Q-ak-RwH" secondAttribute="trailing" id="0ay-lm-yu3"/>
+                            <constraint firstItem="h1Q-ak-RwH" firstAttribute="top" secondItem="Vom-ct-zkN" secondAttribute="bottom" id="7Uy-JR-zdM"/>
+                            <constraint firstAttribute="bottom" secondItem="h1Q-ak-RwH" secondAttribute="bottom" id="CyZ-18-Djd"/>
+                            <constraint firstItem="Vom-ct-zkN" firstAttribute="leading" secondItem="hbd-Qp-wGr" secondAttribute="leading" id="DhR-uO-PaV"/>
+                            <constraint firstItem="h1Q-ak-RwH" firstAttribute="leading" secondItem="hbd-Qp-wGr" secondAttribute="leading" id="YAB-yZ-XKL"/>
+                            <constraint firstItem="hbd-Qp-wGr" firstAttribute="trailing" secondItem="Vom-ct-zkN" secondAttribute="trailing" id="o6o-H2-v8R"/>
+                            <constraint firstItem="Vom-ct-zkN" firstAttribute="top" secondItem="hbd-Qp-wGr" secondAttribute="top" id="rSa-mm-0iY"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hbd-Qp-wGr"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="News" id="JYP-PE-4fh"/>
+                    <connections>
+                        <outlet property="webView" destination="h1Q-ak-RwH" id="yz8-oj-MR3"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jCr-va-j6l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="510.14492753623193" y="1591.7410714285713"/>
         </scene>
         <!--Filter Calendar View Controller-->
         <scene sceneID="s2Y-ka-pNt">
@@ -860,7 +906,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No events found" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yhf-pH-6k0">
                                             <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
                                             <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
-                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -901,7 +947,7 @@
                                                                 <constraint firstAttribute="height" constant="18.5" id="P5s-u6-z9F"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4:00 PM" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vxu-8o-By2">
@@ -910,7 +956,7 @@
                                                                 <constraint firstAttribute="height" constant="19.5" id="wSi-IJ-2V4"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -1264,7 +1310,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wqx-co-rS3" customClass="GIDSignInButton">
                                 <rect key="frame" x="10" y="68" width="394" height="55"/>
-                                <color key="backgroundColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="HS6-Gm-7du"/>
                                 </constraints>
@@ -1282,7 +1328,7 @@
                                     <constraint firstAttribute="height" constant="60" id="CJD-6x-yxL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="18"/>
-                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xLj-Mz-kfH">
@@ -1372,7 +1418,7 @@
                             </navigationBar>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter message to send" translatesAutoresizingMaskIntoConstraints="NO" id="FnU-ZT-roq">
                                 <rect key="frame" x="10" y="69" width="394" height="743"/>
-                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="send"/>
                             </textView>
@@ -1473,7 +1519,7 @@
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© 2019 Catholic Schools of Broome County" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LD-El-sQi">
                                     <rect key="frame" x="57" y="0.0" width="300.5" height="23"/>
                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="14"/>
-                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
                             </subviews>
@@ -1747,7 +1793,7 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-08-acR">
                                                     <rect key="frame" x="388" y="11" width="6" height="22"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
-                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411764705882" green="0.23529411764705882" blue="0.2627450980392157" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>

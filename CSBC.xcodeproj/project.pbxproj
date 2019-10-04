@@ -92,6 +92,7 @@
 		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
 		26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796421EB91D50086FB86 /* Assets.xcassets */; };
+		26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2357C233D360800A3BE62 /* NewsViewController.swift */; };
 		26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */; };
@@ -190,6 +191,7 @@
 		26ED796421EB91D50086FB86 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		26ED796721EB91D50086FB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26ED796921EB91D50086FB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CSBC/Info.plist; sourceTree = SOURCE_ROOT; };
+		26F2357C233D360800A3BE62 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
 		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = "../New Group/ComposerViewController.swift"; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenuRetriever.swift; sourceTree = "<group>"; };
@@ -532,6 +534,14 @@
 			path = Montserrat;
 			sourceTree = "<group>";
 		};
+		26E0A8E1233D6093008356F3 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				26F2357C233D360800A3BE62 /* NewsViewController.swift */,
+			);
+			path = News;
+			sourceTree = "<group>";
+		};
 		26ED795121EB91D40086FB86 = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +590,7 @@
 				2699F9D82233144100AA1CF3 /* Portal */,
 				26C529B0222308D200267ECA /* Contact */,
 				262C1164222AC5B9009A359E /* Calendar */,
+				26E0A8E1233D6093008356F3 /* News */,
 				266F9918221B3AE800CA7C4E /* Lunch */,
 				26C21D8E221BADC4001E7915 /* Athletics */,
 				266F9919221B3AF800CA7C4E /* Connect */,
@@ -931,6 +942,7 @@
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
+				26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */,
 				264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,
 				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
