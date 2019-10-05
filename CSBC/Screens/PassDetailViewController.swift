@@ -36,6 +36,8 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy - h:mm a"
         
+        logToDisplay.sort { $0.1 > $1.1 }
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "PassLogCell")!
         cell.textLabel?.text = dateFormatter.string(from: logToDisplay[indexPath.row].1)
         cell.detailTextLabel?.text = logToDisplay[indexPath.row].0.stringValue()

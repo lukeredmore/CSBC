@@ -10,7 +10,6 @@ import UIKit
 import Firebase
 
 
-//TODO: Fix timing
 enum StudentPassStatus {
     case signedOut, signedIn
     
@@ -27,7 +26,6 @@ enum StudentPassStatus {
 struct StudentPassInfo {
     let name : String
     let graduationYear : Int
-    let id : Int
     let currentStatus : (StudentPassStatus, Date)
     let previousStatuses : [(StudentPassStatus, Date)]
 }
@@ -92,7 +90,6 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         return StudentPassInfo(
             name: student["name"] as! String,
             graduationYear: student["graduationYear"] as! Int,
-            id: student["id"] as! Int,
             currentStatus: (.signedOut, time),
             previousStatuses: logToStore)
     }
@@ -132,8 +129,13 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         let passDetailVC = segue.destination as? PassDetailViewController,
         let index = tableView.indexPathForSelectedRow?.row {
             
-            passDetailVC.logToDisplay = signedOutStudentInfoArray[index].previousStatuses
-            passDetailVC.titleToSet = signedOutStudentInfoArray[index].name
+            let student = signedOutStudentInfoArray[index]
+            var logToSend : [(StudentPassStatus, Date)] = [student.currentStatus]
+            for each in student.previousStatuses {
+                logToSend.append(each)
+            }
+            passDetailVC.logToDisplay = logToSend
+            passDetailVC.titleToSet = student.name
         }
     }
     
