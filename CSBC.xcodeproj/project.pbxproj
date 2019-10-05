@@ -17,8 +17,6 @@
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
-		264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */; };
-		264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
 		2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */; };
 		2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04722F131C600016DDE /* scchandbook19-20.pdf */; };
@@ -33,6 +31,9 @@
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
 		266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */; };
+		266A69FD2347C6B8006848E9 /* PassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A69FC2347C6B8006848E9 /* PassesViewController.swift */; };
+		266A69FF2347E9B9006848E9 /* PassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */; };
+		266A6A0123481F4C006848E9 /* SettingsContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */; };
 		266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */; };
 		266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266F9912221B004D00CA7C4E /* SocialMediaController.swift */; };
 		267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */; };
@@ -112,8 +113,6 @@
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
-		264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsContainerViewController.swift; sourceTree = "<group>"; };
-		264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminSettingsTableViewController.swift; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule19-20.pdf"; sourceTree = "<group>"; };
 		2659E04722F131C600016DDE /* scchandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scchandbook19-20.pdf"; sourceTree = "<group>"; };
@@ -128,6 +127,9 @@
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
 		266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsRetriever.swift; sourceTree = "<group>"; };
+		266A69FC2347C6B8006848E9 /* PassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassesViewController.swift; sourceTree = "<group>"; };
+		266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailViewController.swift; sourceTree = "<group>"; };
+		266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsContainerViewController.swift; sourceTree = "<group>"; };
 		266BDBAF2239BF6F00E10E3C /* AthleticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsModel.swift; sourceTree = "<group>"; };
 		266F9912221B004D00CA7C4E /* SocialMediaController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialMediaController.swift; sourceTree = "<group>"; };
 		267037CA22EF23BF00A57D0D /* CSBCSplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSplashView.swift; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 			children = (
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
 				26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */,
+				266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */,
 				2637A69022FF94780097EDD1 /* Reusable */,
 				26F9F2E722DFB52E0051981D /* Admin Settings */,
 			);
@@ -597,6 +600,8 @@
 				2616777F223A9A1500A988D0 /* Uniforms */,
 				266F9916221B3ABC00CA7C4E /* Documents */,
 				2656156422624351002149E5 /* Options */,
+				266A69FC2347C6B8006848E9 /* PassesViewController.swift */,
+				266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -604,8 +609,6 @@
 		26F9F2E722DFB52E0051981D /* Admin Settings */ = {
 			isa = PBXGroup;
 			children = (
-				264F98D6228A31D200289872 /* AdminSettingsContainerViewController.swift */,
-				264F98D8228A461700289872 /* AdminSettingsTableViewController.swift */,
 				2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */,
 			);
 			path = "Admin Settings";
@@ -915,12 +918,14 @@
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
 				26BE62082273A53F00C6656F /* PageViewController.swift in Sources */,
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
-				264F98D7228A31D200289872 /* AdminSettingsContainerViewController.swift in Sources */,
+				266A69FF2347E9B9006848E9 /* PassDetailViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
 				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
 				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
+				266A69FD2347C6B8006848E9 /* PassesViewController.swift in Sources */,
+				266A6A0123481F4C006848E9 /* SettingsContainerViewController.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,
 				2618D3302325483B00E16C21 /* HomeView.swift in Sources */,
 				26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */,
@@ -943,7 +948,6 @@
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
 				26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */,
-				264F98D9228A461700289872 /* AdminSettingsTableViewController.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,
 				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,
@@ -1095,12 +1099,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.6.3;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1118,12 +1122,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 58;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.6.3;
+				MARKETING_VERSION = 1.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

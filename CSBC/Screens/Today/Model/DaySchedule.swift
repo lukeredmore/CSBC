@@ -42,4 +42,8 @@ class DaySchedule {
             return forHighSchool[dateString]
         }
     }
+    
+    static var endDate : Date {
+        return dateStringFormatter.date(from: Array(forElementarySchool.keys).sorted().last!)!
+    }
 }

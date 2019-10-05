@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FirebaseInstanceID
 import UserNotifications
+import GoogleSignIn
 
 ///Configure Firebase, download Lunch Menus, queue local notifications, setup UI defaults
 @UIApplicationMain
@@ -61,6 +62,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UINavigationBar.appearance().shadowImage = UIImage()
         
         return true
+    }
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
+        let handled = GIDSignIn.sharedInstance()?.handle(url)
+      return handled!
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         InstanceID.instanceID().instanceID { (result, error) in
