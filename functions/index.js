@@ -11,84 +11,30 @@ admin.initializeApp({
   databaseURL: "https://csbcprod.firebaseio.com"
 })
 
-
-/*
-Parameters
-date: date in yyyy-MM-dd format
-school: 0 (elementary school) or 1 (high school)
-
-Return
-Day of cycle, if exists, or nothing if no school
-*/
-exports.getDayForDate = functions
-  .region('us-east4')
-  .https.onRequest(async (req, res) => {
-    let date = req.query.date
-    let school = Number(req.query.school)
-
-    console.log("School requested is: " + school)
-    console.log("Date requested is: " + date)
-    let daySched = await daySchedule()
-    if (school === 1) {
-      return res.status(200).json(daySched.highSchool[date])
-    } else if (school === 0) {
-      return res.status(200).json(daySched.elementarySchool[date])
-    } else {
-      return res.status(200).json("Invalid request")
-    }
-  })
-
 //Scrape calendar events for the next two months from CSBCSaints.org and parses it to a JSON array
 const opts = {memory: '2GB', timeoutSeconds: 60}
-exports.retrieveEventsArray = functions
-  .region('us-east4')
-  .runWith(opts).https.onRequest(async (req, res) => {
-    let html1 = ""
-    let html2 = ""
-
-    res.locals.browser = await puppeteer.launch({
-        args: ['--no-sandbox']
-    })
-    const browser = res.locals.browser
-    try {
-        const page = await browser.newPage()
-        await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
-        html1 = await page.content()
-        const nextButton = await page.$("#evcal_next")
-        await nextButton.click()
-        await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
-        html2 = await page.content()
-    } catch (e) {
-        res.status(500).send(e.toString())
-    }
-
-    const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
-    res.status(200).json(responseJSON)
-
-    const date = new Date()
-    const currentTimeString = date.toISOString()
-    const databaseJSON = {
-        eventsArray: responseJSON,
-        eventsArrayTime: currentTimeString,
-        eventsArrayUpdating: "false"
-    };
-
-    await admin.database().ref('Calendars').set(databaseJSON, error => {
-        if (error) {
-            console.log("Error updating database: " + error)
-        } else {
-            console.log("Database updated successfully")
-        }
-    })
-    console.log("Closing browser")
-    await browser.close()
-    return 
-})
 exports.autoUpdateEvents = functions.runWith(opts)
   .region('us-east4')
   .pubsub.schedule('25 * * * *')
   .timeZone('America/New_York')
   .onRun(async (context) => {
+
+    let hourOfDay = Number(new Date().toLocaleTimeString('en-US', {
+      timeZone: "America/New_York"
+    }).split(':')[0])
+    if (hourOfDay === 15) {
+      const daySched = await daySchedule()
+      const schoolDaysList = Object.keys(daySched.highSchool)
+      const dateStringComponents = new Date().toLocaleDateString('en-US', { 
+        day: '2-digit', 
+        month: '2-digit', 
+        year: 'numeric' }
+      ).split('/')
+      const dateStringForSignIn = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
+      if (schoolDaysList.includes(dateStringForSignIn)) {
+        await signAllStudentsIn()
+      } else { console.log("It's 3:00 PM, but not a school day, so no need to sign in outstandings")}
+    } else { console.log("Not signing in outstanding right now")}
 
     let html1 = ""
     let html2 = ""
@@ -157,8 +103,6 @@ function parseHTMLForEvents(html) {
   
       let titleString = cell.find('.evcal_event_title').first().text()
   
-    //   console.log(titleString)
-  
       let dateString = cell.find('.evo_start .date').first().text()
   
       let timeString = cell.find('.evcal_time').first().text().toUpperCase()
@@ -194,7 +138,6 @@ async function daySchedule() {
   const noElementarySchoolDateStrings = ["11/22/2019"]
   const noHighSchoolDateStrings = ["09/13/2019", "01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "06/17/2020", "06/18/2020", "06/19/2020"]
   const snowDateStrings = Object.values(snapshot.val())
-  console.log(snowDateStrings)
 
   var restrictedDatesForHS = []
   var restrictedDatesForES = []
@@ -202,7 +145,6 @@ async function daySchedule() {
   var restrictedDatesForESStrings = []
   
   var date = new Date(startDateString)
-  console.log(date)
   const endDate = new Date(endDateString)
       
   //print("pushing no school and snow days")
@@ -362,13 +304,7 @@ exports.scheduledDayScheduleNotifications = functions
 
 
 
-exports.test2 = functions
-  .region('us-east4')
-  .runWith(opts).https
-  .onRequest(async (req, res) => {
-    
-  })
-
+//MARK: Snow day methods
 exports.autoUpdateDayScheduleAndCheckForAlerts = functions
   .region('us-east4')
   .pubsub.schedule('every 5 minutes')
@@ -506,5 +442,221 @@ async function checkForAlertFromWBNG() {
     console.log("Checking for alert from WBNG failed with error: " + e)
     browser.close()
     return null
+  }
+}
+
+
+
+
+
+
+
+//MARK: Methods for Alexa
+/*
+Parameters
+date: date in yyyy-MM-dd format
+school: 0 (elementary school) or 1 (high school)
+
+Return
+Day of cycle, if exists, or nothing if no school
+*/
+exports.getDayForDate = functions
+  .region('us-east4')
+  .https.onRequest(async (req, res) => {
+    let date = req.query.date
+    let school = Number(req.query.school)
+
+    console.log("School requested is: " + school)
+    console.log("Date requested is: " + date)
+    let daySched = await daySchedule()
+    if (school === 1) {
+      return res.status(200).json(daySched.highSchool[date])
+    } else if (school === 0) {
+      return res.status(200).json(daySched.elementarySchool[date])
+    } else {
+      return res.status(200).json("Invalid request")
+    }
+  })
+
+
+
+
+
+
+
+//MARK: Methods for pass system
+exports.toggleStudentPassStatus = functions
+  .region('us-east4')
+  .runWith(opts).https.onRequest(async (req, res) => {
+    let dateStringComponents = new Date().toLocaleDateString('en-US', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric' }
+    ).split('/')
+    let timeString = new Date().toLocaleTimeString('en-US', {
+      timeZone: 'America/New_York'
+    })
+    let dateString = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
+
+    //Validate time of request
+    let daySched = await daySchedule()
+    let allSchoolDays = Object.keys(daySched.highSchool)
+    const hourOfDay = Number(timeString.split(':')[0])
+    if ((hourOfDay < 8 || hourOfDay > 15 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined')) {
+      return res.status(400).json("Toggle requests only honored during the school day")
+    }
+
+
+    const id = Number(req.query.studentIDNumber)
+    if (isNaN(id) || id > 9999999999) {
+      return res.status(400).json("Invalid student ID number")
+    }
+
+    const snapshot = await admin.database().ref('PassSystem/Students').once('value')
+    const allStudentsPassData = snapshot.val()
+    const currentStudentPassData = allStudentsPassData[id]
+    if (currentStudentPassData === null) {
+      return res.status(500).json("Student not found with ID number: " + id)
+    }
+
+    //move current info to log
+    if (typeof currentStudentPassData["log"] === 'undefined') {
+      currentStudentPassData["log"] = []
+    }
+    currentStudentPassData["log"].push({
+      status: currentStudentPassData["currentStatus"],
+      time: currentStudentPassData["timeOfStatusChange"]
+    })
+
+
+    //Get current time
+    const timeOfStatusChange = dateString + " " + timeString
+
+    
+    //Get location data
+    let location 
+    if (req.query.location !== null && typeof req.query.location !== 'undefined') {
+      location = " - " + req.query.location
+    } else location = ""
+
+    //Update current data
+    if (req.query.forceSign.includes('in') || req.query.forceSign.includes('out')) {
+      currentStudentPassData["currentStatus"] = "Signed " + req.query.forceSign.replace(/^\w/, c => c.toUpperCase())
+    } else {
+      currentStudentPassData["currentStatus"] = (currentStudentPassData["currentStatus"].toLowerCase().includes("out") ? "Signed In" : "Signed Out") + location
+    }
+    currentStudentPassData["timeOfStatusChange"] = timeOfStatusChange
+
+
+    //Update firebase
+    await admin.database().ref('PassSystem/Students/' + id).set(currentStudentPassData, error => {
+      if (error) {
+          return res.status(500).json(error)
+      } else {
+          return res.status(200).json({
+            "Database updated sucessfully for id": id,
+            "New Pass Data": currentStudentPassData
+          })
+      }
+  })
+
+})
+
+exports.addStudentToPassDatabase = functions
+  .region('us-east4')
+  .runWith(opts).https.onRequest(async (req, res) => {
+    const id = Number(req.query.studentIDNumber)
+    const graduationYear = Number(req.query.graduationYear)
+    const name = req.query.name
+    if (isNaN(id) || id > 9999999999 || isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 5000 || name === null) { 
+      return res.status(400).json("Invalid student parameters")
+    }
+
+
+    let dateString = new Date().toLocaleDateString('en-US', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric' }
+    )
+    let dateStringComponents = dateString.split('/')
+    const timeString = new Date().toLocaleTimeString('en-US', {
+      timeZone: "America/New_York"
+    })
+    let timeOfStatusChange = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1] + " " + timeString
+
+    const snapshot = await admin.database().ref('PassSystem/Students').once('value')
+    let currentStudentsPassData = snapshot.val() === null ? {} : snapshot.val()
+    if (currentStudentsPassData[id] !== null && typeof currentStudentsPassData[id] !== 'undefined') {
+      return res.status(400).json("This ID has already been added. To update information for a student, you must do so manually through the database")
+    }
+    currentStudentsPassData[id] = {
+      name: name,
+      graduationYear: graduationYear,
+      timeOfStatusChange: timeOfStatusChange,
+      currentStatus: "Signed In"
+    }
+
+    await admin.database().ref('PassSystem/Students').set(currentStudentsPassData, error => {
+      if (error) {
+          return res.status(500).json("error: " + error)
+      } else {
+          return res.status(200).json(name + " with ID of " + id + " has successfully been added to the pass system.")
+      }
+  })
+
+  })
+
+exports.test = functions.region('us-east4').runWith(opts).https.onRequest( async (req, res) => {
+  await signAllStudentsIn()
+  return res.status(200).json("Succeeded")
+})
+
+async function signAllStudentsIn() {
+  console.log("Signing outstanding students in at end of school day.")
+  const snapshot = await admin.database().ref('PassSystem/Students').once('value')
+  let currentStudentsPassData = snapshot.val()
+  if (currentStudentsPassData === null) {
+    return console.log("Pass System doesn't exist")
+  }
+  for (var student in currentStudentsPassData) {
+    if (!currentStudentsPassData.hasOwnProperty(student) || currentStudentsPassData[student]["currentStatus"].includes("In")) continue;
+    
+    //move current info to log
+    if (typeof currentStudentsPassData[student]["log"] === 'undefined') {
+      currentStudentsPassData[student]["log"] = []
+    }
+    currentStudentsPassData[student]["log"].push({
+      status: currentStudentsPassData[student]["currentStatus"],
+      time: currentStudentsPassData[student]["timeOfStatusChange"]
+    })
+
+
+    //Get current time
+    const dateStringComponents = new Date().toLocaleDateString('en-US', { 
+      day: '2-digit', 
+      month: '2-digit', 
+      year: 'numeric' }
+    ).split('/')
+    const timeString = new Date().toLocaleTimeString('en-US', {
+      timeZone: "America/New_York"
+    })
+    const dateString = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
+
+    const timeOfStatusChange = dateString + " " + timeString
+
+    
+    //Update current data
+    currentStudentsPassData[student]["currentStatus"] = "Signed In"
+    currentStudentsPassData[student]["timeOfStatusChange"] = timeOfStatusChange
+
+
+    //Update firebase
+    admin.database().ref('PassSystem/Students').set(currentStudentsPassData, error => {
+      if (error) {
+        return console.log("Error updating database")
+      } else {
+        return console.log("Outstanding signouts fixed")
+      }
+    })
   }
 }

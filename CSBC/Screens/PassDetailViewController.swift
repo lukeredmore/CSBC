@@ -13,9 +13,15 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak private var explicitNavItem: UINavigationItem!
     @IBOutlet weak private var tableView : UITableView!
     
-    var logToDisplay = [(StudentPassStatus, Date)]()
+    var logToDisplay = [[(String, Date)]]() { didSet {
+        logToDisplay = logToDisplay.map(sortElement)
+        logToDisplay.sort { $0[0].1 > $1[0].1  }
+    } }
     var titleToSet = String()
     
+    func sortElement(_ day: [(String, Date)]) -> [(String, Date)] {
+        return day.sorted { $0.1 > $1.1 }
+    }
     
     //MARK: View Lifecycle
     override func viewDidLoad() {
@@ -29,18 +35,24 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
     
     
     //MARK: TableView Delegate Methods
+    func numberOfSections(in tableView: UITableView) -> Int {
+        logToDisplay.count
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return logToDisplay.count
+        return logToDisplay[section].count
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM/dd/yy"
+        return dateFormatter.string(from: logToDisplay[section][0].1)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yy - h:mm a"
-        
-        logToDisplay.sort { $0.1 > $1.1 }
-        
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "h:mm a"
+        let logEntry = logToDisplay[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PassLogCell")!
-        cell.textLabel?.text = dateFormatter.string(from: logToDisplay[indexPath.row].1)
-        cell.detailTextLabel?.text = logToDisplay[indexPath.row].0.stringValue()
+        cell.textLabel?.text = timeFormatter.string(from: logEntry.1)
+        cell.detailTextLabel?.text = logEntry.0.replacingOccurrences(of: "Signed ", with: "")
         return cell
     }
     

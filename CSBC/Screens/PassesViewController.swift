@@ -10,24 +10,11 @@ import UIKit
 import Firebase
 
 
-enum StudentPassStatus {
-    case signedOut, signedIn
-    
-    func stringValue() -> String {
-        switch self {
-        case .signedOut:
-            return "Signed Out"
-        case .signedIn:
-            return "Signed In"
-        }
-    }
-}
-
 struct StudentPassInfo {
     let name : String
     let graduationYear : Int
-    let currentStatus : (StudentPassStatus, Date)
-    let previousStatuses : [(StudentPassStatus, Date)]
+    let currentStatus : (String, Date)
+    let previousStatuses : [(String, Date)]
 }
 
 ///Receives from Firebase, parses, and displays students out with passes
@@ -36,6 +23,7 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.isHidden = true
     } }
     private var signedOutStudentInfoArray = [StudentPassInfo]() { didSet {
         tableView.isHidden = signedOutStudentInfoArray.count == 0
@@ -64,7 +52,9 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
             guard let studentsDict = snapshot.value as? [String:[String:Any]] else { return }
             
             self.signedOutStudentInfoArray.removeAll()
-            for (_, student) in studentsDict where student["currentStatus"] as? String == "out" {
+            for (_, student) in studentsDict
+                where (student["currentStatus"] as? String)?.contains("Out") ?? false {
+                    
                 let studentPassInfo = self.parseSignedOutStudentForPassInfo(student)
                 self.signedOutStudentInfoArray.append(studentPassInfo)
             }
@@ -73,16 +63,16 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     private func parseSignedOutStudentForPassInfo(_ student : [String:Any]) -> StudentPassInfo {
         let dateTimeFormatter = DateFormatter()
-        dateTimeFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        dateTimeFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss a"
         
         let studentLog = student["log"] as? [[String:String]]
-        var logToStore = [(StudentPassStatus, Date)]()
+        var logToStore = [(String, Date)]()
         for logEntry in studentLog ?? [[String:String]]() {
-            let oldStatus = (logEntry["status"]) == "out"
-                ? StudentPassStatus.signedOut
-                : StudentPassStatus.signedIn
-            let oldDate = dateTimeFormatter.date(from: logEntry["time"]!)!
-            let logToAdd = (oldStatus, oldDate)
+            guard let statusFromLog = logEntry["status"],
+                let dateStringFromLog = logEntry["time"],
+                let dateFromLog = dateTimeFormatter.date(from: dateStringFromLog)
+                else { continue }
+            let logToAdd = (statusFromLog, dateFromLog)
             logToStore.append(logToAdd)
         }
         let timeString = student["timeOfStatusChange"] as! String
@@ -90,7 +80,7 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         return StudentPassInfo(
             name: student["name"] as! String,
             graduationYear: student["graduationYear"] as! Int,
-            currentStatus: (.signedOut, time),
+            currentStatus: (student["currentStatus"] as! String, time),
             previousStatuses: logToStore)
     }
     
@@ -130,13 +120,26 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         let index = tableView.indexPathForSelectedRow?.row {
             
             let student = signedOutStudentInfoArray[index]
-            var logToSend : [(StudentPassStatus, Date)] = [student.currentStatus]
+            var logToSend : [(String, Date)] = [student.currentStatus]
             for each in student.previousStatuses {
                 logToSend.append(each)
             }
-            passDetailVC.logToDisplay = logToSend
+            passDetailVC.logToDisplay = convertLogFromFirebaseToNestedArray(logToSend)
             passDetailVC.titleToSet = student.name
         }
+    }
+    
+    func convertLogFromFirebaseToNestedArray(_ log: [(String, Date)]) -> [[(String, Date)]] {
+        var tempDict = [String:[(String, Date)]]()
+        for entry in log {
+            let dateString = entry.1.dateString()
+            if tempDict[dateString] != nil {
+                tempDict[dateString]?.append(entry)
+            } else {
+                tempDict[dateString] = [entry]
+            }
+        }
+        return Array(tempDict.values)
     }
     
     
