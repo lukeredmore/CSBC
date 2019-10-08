@@ -19,12 +19,12 @@ class AthleticsDataParser {
         var modelListToReturn : [AthleticsModel] = []
         var dateToBeat = "\(json["data"][0]["date"])"
         var currentDate = dateToBeat
-        var dateString : String = ""
         var n = 0
         while n < json["data"].count {
             var titleList : [String] = []
             var levelList : [String] = []
             var timeList : [String] = []
+            var dateString = String()
             while ((currentDate == dateToBeat) && (n < json["data"].count)) {
                 var titleArray = "\(json["data"][n]["title"])".components(separatedBy: " ")
 //                if titleArray[0] == "POSTPONED:" {
@@ -32,60 +32,46 @@ class AthleticsDataParser {
 //                }
                 titleArray.removeLast()
                 titleArray.removeLast()
-                if titleArray[0].contains("(") { //if each data is formatted correctly
-                    var gender : String
-                    var sport : String
-                    var homeGame : String
-                    var opponent : String
+                guard titleArray[0].contains("(") else { print("Error in parsing '\(titleArray)'"); n += 1; continue }  //if each data is formatted correctly
+                var gender : String
+                var sport : String
+                var homeGame : String
+                var opponent : String
                     
-                    if titleArray[0] == "(G)" {
-                        gender = "Girl"
-                    } else {
-                        gender = "Boy"
-                    }
+                gender = titleArray[0] == "(G)" ? "Girl" : "Boy"
                     
-                    sport = titleArray[2]
-                    var subsequentOffset = 0
-                    if sport == "Outdoor" {
-                        sport = "Track & Field"
-                    } else if sport == "Cross" {
-                        sport = "Cross Country"
-                        subsequentOffset = 1
-                    }
-                    
-                    if titleArray.contains("@") {
-                        homeGame = "@"
-                    } else {
-                        homeGame = "vs."
-                    }
-                    
-                    opponent = titleArray[(4 + subsequentOffset)..<(titleArray.count-2)]
-                        .joined()
-                        .camelCaseToWords()
-                        .replacingOccurrences(of: "- ", with: "-")
-                    
-                    titleList.append("\(gender)'s \(sport) \(homeGame) \(opponent)")
-                    levelList.append(teamAbbreviations[titleArray[1]] ?? "")
-                    timeList.append("\(json["data"][n]["start_time"])")
-                    
-                    let jsonDateFormatter = DateFormatter()
-                    jsonDateFormatter.dateFormat = "MMM d, yyyy"
-                    let modelDateFormatter = DateFormatter()
-                    modelDateFormatter.dateFormat = "EEEE, MMMM d"
-                    dateString = modelDateFormatter.string(from:
-                        jsonDateFormatter.date(from:
-                            "\(json["data"][n]["date"])"
-                            )!
-                    )
-
-                    if (n < json["data"].count-1) {
-                        currentDate = "\(json["data"][n + 1]["date"])"
-                    } else {
-                        currentDate = "nil"
-                    }
-                } else {
-                    print("Error in parsing '\(titleArray)'")
+                sport = titleArray[2]
+                var subsequentOffset = 0
+                if sport == "Outdoor" {
+                    sport = "Track & Field"
+                } else if sport == "Cross" {
+                    sport = "Cross Country"
+                    subsequentOffset = 1
                 }
+                    
+                homeGame = titleArray.contains("@") ? "@" : "vs."
+                    
+                opponent = titleArray[(4 + subsequentOffset)..<(titleArray.count-2)]
+                    .joined()
+                    .camelCaseToWords()
+                    .replacingOccurrences(of: "- ", with: "-")
+                    
+                titleList.append("\(gender)'s \(sport) \(homeGame) \(opponent)")
+                levelList.append(teamAbbreviations[titleArray[1]] ?? "")
+                timeList.append("\(json["data"][n]["start_time"])")
+                    
+                let jsonDateFormatter = DateFormatter()
+                jsonDateFormatter.dateFormat = "MMM d, yyyy"
+                let modelDateFormatter = DateFormatter()
+                modelDateFormatter.dateFormat = "EEEE, MMMM d"
+                dateString = modelDateFormatter.string(from:
+                    jsonDateFormatter.date(from:
+                        "\(json["data"][n]["date"])"
+                    )!
+                )
+                
+                currentDate = n < json["data"].count-1 ? "\(json["data"][n + 1]["date"])" : "nil"
+                    
                 n += 1
                 
             }
@@ -105,16 +91,14 @@ class AthleticsDataParser {
     
     func addToFilteredModelArray(modelsToInclude: [Int], indicesToInclude: [Int]) {
         athleticsModelArrayFiltered.removeAll()
-        if athleticsModelArray.count > 0 {
-            if athleticsModelArray[0] != nil {
-                for modelInt in modelsToInclude.indices {
-                    let modelToAppend = AthleticsModel(
-                        title: [athleticsModelArray[modelsToInclude[modelInt]]!.title[indicesToInclude[modelInt]]],
-                        level: [athleticsModelArray[modelsToInclude[modelInt]]!.level[indicesToInclude[modelInt]]],
-                        time: [athleticsModelArray[modelsToInclude[modelInt]]!.time[indicesToInclude[modelInt]]],
-                        date: athleticsModelArray[modelsToInclude[modelInt]]!.date)
-                    athleticsModelArrayFiltered.append(modelToAppend)
-                }
+        if athleticsModelArray.count > 0, athleticsModelArray[0] != nil {
+            for modelInt in modelsToInclude.indices {
+                let modelToAppend = AthleticsModel(
+                    title: [athleticsModelArray[modelsToInclude[modelInt]]!.title[indicesToInclude[modelInt]]],
+                    level: [athleticsModelArray[modelsToInclude[modelInt]]!.level[indicesToInclude[modelInt]]],
+                    time: [athleticsModelArray[modelsToInclude[modelInt]]!.time[indicesToInclude[modelInt]]],
+                    date: athleticsModelArray[modelsToInclude[modelInt]]!.date)
+                athleticsModelArrayFiltered.append(modelToAppend)
             }
         }
     }

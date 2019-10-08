@@ -25,7 +25,8 @@ exports.autoUpdateEvents = functions.runWith(opts)
     if (hourOfDay === 15) {
       const daySched = await daySchedule()
       const schoolDaysList = Object.keys(daySched.highSchool)
-      const dateStringComponents = new Date().toLocaleDateString('en-US', { 
+      const dateStringComponents = new Date().toLocaleDateString('en-US', {
+        timeZone: "America/New_York", 
         day: '2-digit', 
         month: '2-digit', 
         year: 'numeric' }
@@ -489,6 +490,7 @@ exports.toggleStudentPassStatus = functions
   .region('us-east4')
   .runWith(opts).https.onRequest(async (req, res) => {
     let dateStringComponents = new Date().toLocaleDateString('en-US', { 
+      timeZone: "America/New_York",
       day: '2-digit', 
       month: '2-digit', 
       year: 'numeric' }
@@ -502,21 +504,22 @@ exports.toggleStudentPassStatus = functions
     let daySched = await daySchedule()
     let allSchoolDays = Object.keys(daySched.highSchool)
     const hourOfDay = Number(timeString.split(':')[0])
+    req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
     if ((hourOfDay < 8 || hourOfDay > 15 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined')) {
-      return res.status(400).json("Toggle requests only honored during the school day")
+      return res.status(400).send("Toggle requests only honored during the school day")
     }
 
 
     const id = Number(req.query.studentIDNumber)
     if (isNaN(id) || id > 9999999999) {
-      return res.status(400).json("Invalid student ID number")
+      return res.status(400).send("Invalid student ID number")
     }
 
     const snapshot = await admin.database().ref('PassSystem/Students').once('value')
     const allStudentsPassData = snapshot.val()
     const currentStudentPassData = allStudentsPassData[id]
-    if (currentStudentPassData === null) {
-      return res.status(500).json("Student not found with ID number: " + id)
+    if (currentStudentPassData === null || typeof currentStudentPassData === 'undefined') {
+      return res.status(400).send("Student not found with ID number: " + id)
     }
 
     //move current info to log
@@ -536,7 +539,7 @@ exports.toggleStudentPassStatus = functions
     //Get location data
     let location 
     if (req.query.location !== null && typeof req.query.location !== 'undefined') {
-      location = " - " + req.query.location
+      location = " - " + req.query.location.replace("_", " ")
     } else location = ""
 
     //Update current data
@@ -551,7 +554,7 @@ exports.toggleStudentPassStatus = functions
     //Update firebase
     await admin.database().ref('PassSystem/Students/' + id).set(currentStudentPassData, error => {
       if (error) {
-          return res.status(500).json(error)
+          return res.status(400).send(error)
       } else {
           return res.status(200).json({
             "Database updated sucessfully for id": id,
@@ -569,11 +572,12 @@ exports.addStudentToPassDatabase = functions
     const graduationYear = Number(req.query.graduationYear)
     const name = req.query.name
     if (isNaN(id) || id > 9999999999 || isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 5000 || name === null) { 
-      return res.status(400).json("Invalid student parameters")
+      return res.status(400).send("Invalid student parameters")
     }
 
 
     let dateString = new Date().toLocaleDateString('en-US', { 
+      timeZone: "America/New_York",
       day: '2-digit', 
       month: '2-digit', 
       year: 'numeric' }
@@ -587,7 +591,7 @@ exports.addStudentToPassDatabase = functions
     const snapshot = await admin.database().ref('PassSystem/Students').once('value')
     let currentStudentsPassData = snapshot.val() === null ? {} : snapshot.val()
     if (currentStudentsPassData[id] !== null && typeof currentStudentsPassData[id] !== 'undefined') {
-      return res.status(400).json("This ID has already been added. To update information for a student, you must do so manually through the database")
+      return res.status(400).send("This ID has already been added. To update information for a student, you must do so manually through the database")
     }
     currentStudentsPassData[id] = {
       name: name,
@@ -598,7 +602,7 @@ exports.addStudentToPassDatabase = functions
 
     await admin.database().ref('PassSystem/Students').set(currentStudentsPassData, error => {
       if (error) {
-          return res.status(500).json("error: " + error)
+          return res.status(400).send("error: " + error)
       } else {
           return res.status(200).json(name + " with ID of " + id + " has successfully been added to the pass system.")
       }
@@ -633,6 +637,7 @@ async function signAllStudentsIn() {
 
     //Get current time
     const dateStringComponents = new Date().toLocaleDateString('en-US', { 
+      timeZone: "America/New_York",
       day: '2-digit', 
       month: '2-digit', 
       year: 'numeric' }
