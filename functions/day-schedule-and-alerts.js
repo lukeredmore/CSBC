@@ -1,26 +1,25 @@
 const puppeteer = require('puppeteer')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
+const constants = require('./constants.json')
+const daySchedule = require('./day-schedule-and-alerts.js')
 
 
 exports.create = async function() {
     let snapshot = await admin.database().ref('SnowDays').once('value')
-    const startDateString = "09/04/2019" //first day of school
-    const endDateString = "06/19/2020" //last day of school
+    const snowDateStrings = Object.values(snapshot.val())
+
+    const startDateString = constants.FIRST_DAY_OF_SCHOOL
+    const endDateString = constants.LAST_DAY_OF_SCHOOL
     var dateDayDict = {
       highSchool : {},
       elementarySchool : {}
     }
-    
-    const noSchoolDateStrings = ["10/11/2019", "10/14/2019", "11/05/2019", "11/11/2019", "11/27/2019", "11/28/2019", "11/29/2019", "12/23/2019", "12/24/2019", "12/25/2019", "12/26/2019", "12/27/2019", "12/30/2019", "12/31/2019", "01/01/2020", "01/20/2020", "02/14/2020", "02/17/2020", "03/12/2020", "03/13/2020", "04/06/2020", "04/07/2020", "04/08/2020", "04/09/2020", "04/10/2020", "04/13/2020", "05/21/2020", "05/22/2020", "05/25/2020"]
-    const noElementarySchoolDateStrings = ["11/22/2019"]
-    const noHighSchoolDateStrings = ["09/13/2019", "01/21/2020", "01/22/2020", "01/23/2020", "01/24/2020", "06/17/2020", "06/18/2020", "06/19/2020"]
-    const snowDateStrings = Object.values(snapshot.val())
 
     var restrictedDatesForHS = []
     var restrictedDatesForES = []
-    const restrictedDatesForHSStrings = noSchoolDateStrings + noHighSchoolDateStrings + snowDateStrings
-    const restrictedDatesForESStrings = noSchoolDateStrings + noElementarySchoolDateStrings + snowDateStrings
+    const restrictedDatesForHSStrings = constants.DATES_OF_NO_SCHOOL_IN_SYSTEM + constants.DATES_OF_NO_SCHOOL_IN_HIGH_SCHOOL + snowDateStrings
+    const restrictedDatesForESStrings = constants.DATES_OF_NO_SCHOOL_IN_SYSTEM + constants.DATES_OF_NO_SCHOOL_IN_ELEMENTARY_SCHOOL + snowDateStrings
     
     var date = new Date(startDateString)
     const endDate = new Date(endDateString)
@@ -64,7 +63,7 @@ exports.update = async (context) => {
   let response = await checkForAlerts()
   console.log(JSON.stringify(response))
 
-  let daySched = await parsers.daySchedule()
+  let daySched = await daySchedule.create()
   await admin.database().ref('DaySchedule').set(daySched, error=> {
     if (error) {
       console.log("Error updating database: " + JSON.stringifiy(error))

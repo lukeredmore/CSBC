@@ -6,9 +6,7 @@ admin.initializeApp({
   databaseURL: "https://csbcprod.firebaseio.com"
 })
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
-
 const opts = { memory: "2GB", timeoutSeconds: 60 }
-const constants = require("./constants.json")
 
 
 const daySchedule = require('./day-schedule-and-alerts.js')
@@ -17,7 +15,7 @@ exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').pu
 
 const passes = require("./passes.js")
 exports.addStudentToPassDatabase = functions.region('us-east4').runWith(opts).https.onRequest(passes.addHandler)
-exports.toggleStudentPassStatus = functions.region('us-east4').runWith(constants.opts).https.onRequest(passes.toggleHandler)
+exports.toggleStudentPassStatus = functions.region('us-east4').runWith(opts).https.onRequest(passes.toggleHandler)
 
 
 const alexa = require("./alexa.js")
@@ -25,7 +23,7 @@ exports.getDayForDate = functions.region('us-east4').https.onRequest(alexa.getDa
 
 
 const events = require('./events.js')
-exports.autoUpdateEvents = functions.runWith(constants.opts).region('us-east4').pubsub.schedule('25 * * * *').timeZone('America/New_York').onRun(events.updateEvents)
+exports.autoUpdateEvents = functions.runWith(opts).region('us-east4').pubsub.schedule('25 * * * *').timeZone('America/New_York').onRun(events.updateEvents)
 
 
 const notifications = require('./morning-notifications.js')

@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer')
+const admin = require('firebase-admin')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const cheerio = require('cheerio')
 
@@ -21,7 +22,7 @@ exports.updateEvents = async (context) => {
     console.log(e)
   }
 
-  const responseJSON = parsers.parseHTMLForEvents(html1).concat(parsers.parseHTMLForEvents(html2))
+  const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
 
 
   const dateString = new Date().toLocaleDateString('en-US', { 
@@ -49,46 +50,43 @@ exports.updateEvents = async (context) => {
 }
 
 
-exports.parseHTMLForEvents = function(html) {
-    const dateAbbrv = {
-      "jan": "01",
-      "feb": "02",
-      "mar": "03",
-      "apr": "04",
-      "may": "05",
-      "jun": "06",
-      "jul": "07",
-      "aug": "08",
-      "sep": "09",
-      "oct": "10",
-      "nov": "11",
-      "dec": "12"
-    }
-    var data = []
-    const $ = cheerio.load(html)
-    $('#evcal_list .eventon_list_event').each((i, elem) => {
-      const cell = $(elem).find('.desc_trig_outter').first()
+function parseHTMLForEvents(html) {
+  const dateAbbrv = {
+    "jan": "01",
+    "feb": "02",
+    "mar": "03",
+    "apr": "04",
+    "may": "05",
+    "jun": "06",
+    "jul": "07",
+    "aug": "08",
+    "sep": "09",
+    "oct": "10",
+    "nov": "11",
+    "dec": "12"
+  }
+  var data = []
+  const $ = cheerio.load(html)
+  $('#evcal_list .eventon_list_event').each((i, elem) => {
+    const cell = $(elem).find('.desc_trig_outter').first()
   
-      let titleString = cell.find('.evcal_event_title').first().text()
+    let titleString = cell.find('.evcal_event_title').first().text()
   
-      let dateString = cell.find('.evo_start .date').first().text()
+    let dateString = cell.find('.evo_start .date').first().text()
   
-      let timeString = cell.find('.evcal_time').first().text().toUpperCase()
-      if (timeString.includes("(ALL DAY")) {
-        timeString = "All Day"
-      }
+    let timeString = cell.find('.evcal_time').first().text().toUpperCase()
+    if (timeString.includes("(ALL DAY")) { timeString = "All Day" }
   
-      let schoolsString = cell.find('.ett1').first().text().replace("Schools:", "")
+    let schoolsString = cell.find('.ett1').first().text().replace("Schools:", "")
         
-      if (titleString !== "" && dateString !== "") {
-        data.push({
-          title : titleString,
-          date : cell.find('.evcal_cblock').attr('data-syr') + "-" + dateAbbrv[cell.find('.evo_start .month').first().text()] + "-" + dateString,
-          time : timeString,
-          schools : schoolsString
-        })
-      }
-      
-    })
-    return data
+    if (titleString !== "" && dateString !== "") {
+      data.push({
+        title : titleString,
+        date : cell.find('.evcal_cblock').attr('data-syr') + "-" + dateAbbrv[cell.find('.evo_start .month').first().text()] + "-" + dateString,
+        time : timeString,
+        schools : schoolsString
+      })
+    } 
+  })
+  return data
 }
