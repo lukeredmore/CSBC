@@ -1,4 +1,4 @@
-const daySchedule = require('./day-schedule-and-alerts.js')
+const daySchedule = require('./day-schedule.js')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
 

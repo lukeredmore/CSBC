@@ -9,8 +9,8 @@ if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS
 const opts = { memory: "2GB", timeoutSeconds: 60 }
 
 
-const daySchedule = require('./day-schedule-and-alerts.js')
-exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(daySchedule.update)
+const alerts = require('./alerts.js')
+exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(alerts.update)
 
 
 const passes = require("./passes.js")

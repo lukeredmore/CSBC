@@ -1,4 +1,4 @@
-const daySchedule = require('./day-schedule-and-alerts.js')
+const daySchedule = require('./day-schedule.js')
 
 //MARK: Methods for Alexa
 /*

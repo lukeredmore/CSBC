@@ -1,7 +1,7 @@
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const constants = require('./constants.json')
 const admin = require('firebase-admin')
-const daySchedule = require('./day-schedule-and-alerts.js')
+const daySchedule = require('./day-schedule.js')
 
 
 //MARK: Methods for pass system
@@ -21,7 +21,7 @@ exports.toggleHandler = async (req, res) => {
   let daySched = await daySchedule.create()
   let allSchoolDays = Object.keys(daySched.highSchool)
   const hourOfDay = Number(timeString.split(':')[0])
-  req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
+  // req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
   if ((hourOfDay < 8 || hourOfDay > 15 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined'))
     return res.status(400).send("Toggle requests only honored during the school day")
 
@@ -52,14 +52,23 @@ exports.toggleHandler = async (req, res) => {
     location = " - " + req.query.location.replace("_", " ")
 
   //Update current data
-  const hourAndMinuteAndSecondArray = timeOfStatusChange.split(' ')[1].split(':')
-  const hourAndMinute = hourAndMinuteAndSecondArray[0] + ':' + hourAndMinuteAndSecondArray[1]
   if (req.query.forceSign.toLowerCase().includes('in') || req.query.forceSign.toLowerCase().includes('out')) {
-    currentStudentPassData["currentStatus"] = "Signed " + req.query.forceSign.replace(/^\w/, c => c.toUpperCase())
-  } else if (constants.TIMES_TO_FORCE_SIGN_IN.includes(hourAndMinute)) {
-    currentStudentPassData["currentStatus"] = "Signed In" + location
+    currentStudentPassData["currentStatus"] = "Signed " + req.query.forceSign.replace(/^\w/, c => c.toUpperCase()) + location
   } else {
-    currentStudentPassData["currentStatus"] = (currentStudentPassData["currentStatus"].toLowerCase().includes("out") ? "Signed In" : "Signed Out") + location
+    const period = getPeriodForTime(new Date())
+    let studentAlreadySignedIntoThisPeriod = false
+    for (var i = currentStudentPassData["log"].length - 1; i >= 0; i--) {
+      const entry = currentStudentPassData["log"][i]
+      let studentSignedIntoThisPeriod = entry.status.includes('Period ' + period)
+      let thisPeriodWasToday = entry.time.split(' ')[0] === dateString
+      studentAlreadySignedIntoThisPeriod = studentSignedIntoThisPeriod && thisPeriodWasToday
+      if (studentAlreadySignedIntoThisPeriod) { break }
+    }
+    if (studentAlreadySignedIntoThisPeriod) {
+      currentStudentPassData["currentStatus"] = (currentStudentPassData["currentStatus"].toLowerCase().includes("out") ? "Signed In" : "Signed Out") + location
+    } else {
+      currentStudentPassData["currentStatus"] = "Signed In To Period " + period + location
+    }
   }
   currentStudentPassData["timeOfStatusChange"] = timeOfStatusChange
 
@@ -116,4 +125,21 @@ exports.addHandler = async (req, res) => {
       return res.status(200).json(name + " with ID of " + id + " has successfully been added to the pass system.")
   })
   return res.status(500)
+}
+
+function getPeriodForTime(date) {
+  for (var i = constants.TIMES_OF_PERIOD_START.length - 1; i >= 0; i--) {
+    let periodDate = new Date(dateString + " " + constants.TIMES_OF_PERIOD_START[i] + " EST")
+    if (date >= periodDate) {
+      if (i > 0 && i < 10) {
+        console.log("we are in period " + (i))
+        return i
+      }
+      else {
+        console.log("outside school hours")
+        return 0
+      }
+    }
+  }
+  return 0
 }
