@@ -1,11 +1,9 @@
 const functions = require('firebase-functions')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
-const constants = require("./constants.js")
+const constants = require("./constants.json")
 var serviceAccount = require("./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json")
-if (process.env.FUNCTIONS_EMULATOR) {
-  process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
-}
+if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -13,76 +11,54 @@ admin.initializeApp({
 })
 
 //Scrape calendar events for the next two months from CSBCSaints.org and parses it to a JSON array
-const opts = {memory: '2GB', timeoutSeconds: 60}
+const opts = { memory: '2GB', timeoutSeconds: 60 }
 exports.autoUpdateEvents = functions.runWith(opts)
-  .region('us-east4')
-  .pubsub.schedule('25 * * * *')
-  .timeZone('America/New_York')
-  .onRun(async (context) => {
+.region('us-east4')
+.pubsub.schedule('25 * * * *')
+.timeZone('America/New_York')
+.onRun(async (context) => {
+  let html1 = ""
+  let html2 = ""
+  const browser = await puppeteer.launch({
+    args: ['--no-sandbox']
+  })
+  try {
+    const page = await browser.newPage()
+    await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
+    html1 = await page.content()
+    const nextButton = await page.$("#evcal_next")
+    await nextButton.click()
+    await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
+    html2 = await page.content()
+  } catch (e) {
+    console.log(e)
+  }
 
-    let hourOfDay = Number(new Date().toLocaleTimeString('en-US', {
-      timeZone: "America/New_York"
-    }).split(':')[0])
-    if (hourOfDay === 15) {
-      const daySched = await daySchedule()
-      const schoolDaysList = Object.keys(daySched.highSchool)
-      const dateStringComponents = new Date().toLocaleDateString('en-US', {
-        timeZone: "America/New_York", 
-        day: '2-digit', 
-        month: '2-digit', 
-        year: 'numeric' }
-      ).split('/')
-      const dateStringForSignIn = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
-      if (schoolDaysList.includes(dateStringForSignIn)) {
-        await signAllStudentsIn()
-      } else { console.log("It's 3:00 PM, but not a school day, so no need to sign in outstandings")}
-    } else { console.log("Not signing in outstanding right now")
-      console.log("schoolDaysList = " + JSON.stringify(schoolDaysList) + ", and dateStringForSignIn = " + dateStringForSignIn)}
-
-    let html1 = ""
-    let html2 = ""
-
-    const browser = await puppeteer.launch({
-      args: ['--no-sandbox']
-    })
-    try {
-        const page = await browser.newPage()
-        await page.goto('https://www.csbcsaints.org/calendar', { waitUntil: 'domcontentloaded' })
-        html1 = await page.content()
-        const nextButton = await page.$("#evcal_next")
-        await nextButton.click()
-        await page.waitFor(() => document.querySelector('#evcal_list').getAttribute('style') === "display: block;")
-        html2 = await page.content()
-    } catch (e) {
-      console.log(e)
-    }
-
-    const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
+  const responseJSON = parseHTMLForEvents(html1).concat(parseHTMLForEvents(html2))
 
 
-    const dateString = new Date().toLocaleDateString('en-US', { 
-      timeZone: "America/New_York",
-      day: '2-digit', 
-      month: '2-digit', 
-      year: 'numeric' }
-    )
-    const timeString = new Date().toLocaleTimeString('en-US', {
-      timeZone: "America/New_York"
-    })
-    const databaseJSON = {
-        eventsArray: responseJSON,
-        eventsArrayTime: dateString + " " + timeString
-    };
+  const dateString = new Date().toLocaleDateString('en-US', { 
+    timeZone: "America/New_York",
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric' 
+  })
+  const timeString = new Date().toLocaleTimeString('en-US', {
+    timeZone: "America/New_York"
+  })
+  const databaseJSON = {
+    eventsArray: responseJSON,
+    eventsArrayTime: dateString + " " + timeString
+  }
 
-    await admin.database().ref('Calendars').set(databaseJSON, error => {
-        if (error) {
-            console.log("Error updating database: " + JSON.stringifiy(error))
-        } else {
-            console.log("Database updated successfully with Calendar data")
-        }
-    })
-    await browser.close()
-    return null;
+  await admin.database().ref('Calendars').set(databaseJSON, error => {
+    if (error) 
+      console.log("Error updating database: " + JSON.stringifiy(error))
+    else
+      console.log("Database updated successfully with Calendar data")
+  })
+  await browser.close()
+  return
 })
 function parseHTMLForEvents(html) {
     const dateAbbrv = {
@@ -594,7 +570,6 @@ exports.addStudentToPassDatabase = functions
   })
 })
 
-exports.test = functions.region('us-east4').runWith(opts).https.onRequest( async (req, res) => {
-  await signAllStudentsIn()
-  return res.status(200).json("Succeeded")
-})
+// exports.test = functions.region('us-east4').runWith(opts).https.onRequest( async (req, res) => {
+//   return res.status(200).json("Succeeded")
+// })
