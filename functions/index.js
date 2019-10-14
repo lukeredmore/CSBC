@@ -1,6 +1,7 @@
 const functions = require('firebase-functions')
 const puppeteer = require('puppeteer')
 const cheerio = require('cheerio')
+const constants = require("./constants.js")
 var serviceAccount = require("./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json")
 if (process.env.FUNCTIONS_EMULATOR) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
@@ -35,7 +36,8 @@ exports.autoUpdateEvents = functions.runWith(opts)
       if (schoolDaysList.includes(dateStringForSignIn)) {
         await signAllStudentsIn()
       } else { console.log("It's 3:00 PM, but not a school day, so no need to sign in outstandings")}
-    } else { console.log("Not signing in outstanding right now")}
+    } else { console.log("Not signing in outstanding right now")
+      console.log("schoolDaysList = " + JSON.stringify(schoolDaysList) + ", and dateStringForSignIn = " + dateStringForSignIn)}
 
     let html1 = ""
     let html2 = ""
@@ -142,28 +144,17 @@ async function daySchedule() {
 
   var restrictedDatesForHS = []
   var restrictedDatesForES = []
-  var restrictedDatesForHSStrings = []
-  var restrictedDatesForESStrings = []
+  const restrictedDatesForHSStrings = noSchoolDateStrings + noHighSchoolDateStrings + snowDateStrings
+  const restrictedDatesForESStrings = noSchoolDateStrings + noElementarySchoolDateStrings + snowDateStrings
   
   var date = new Date(startDateString)
   const endDate = new Date(endDateString)
       
-  //print("pushing no school and snow days")
-  for (dateString of noSchoolDateStrings + snowDateStrings) {
+  for (dateString of restrictedDatesForHSStrings) {
     restrictedDatesForHS.push(new Date(dateString))
-    restrictedDatesForHSStrings.push(dateString)
-    restrictedDatesForES.push(new Date(dateString))
-    restrictedDatesForESStrings.push(dateString)
   }
-  //print("pushing exam dates")
-  for (dateString of noHighSchoolDateStrings) {
-    restrictedDatesForHS.push(new Date(dateString))
-    restrictedDatesForHSStrings.push(dateString)
-  }
-  //print("pushing ptc dates")
-  for (dateString of noElementarySchoolDateStrings) {
+  for (dateString of restrictedDatesForESStrings) {
     restrictedDatesForES.push(new Date(dateString))
-    restrictedDatesForESStrings.push(dateString)
   }
   var hsDay = 1
   var esDay = 1
@@ -509,42 +500,40 @@ exports.toggleStudentPassStatus = functions
       return res.status(400).send("Toggle requests only honored during the school day")
     }
 
-
+    //Validate parameters
     const id = Number(req.query.studentIDNumber)
-    if (isNaN(id) || id > 9999999999) {
+    if (isNaN(id) || id > 9999999999)
       return res.status(400).send("Invalid student ID number")
-    }
 
-    const snapshot = await admin.database().ref('PassSystem/Students').once('value')
-    const allStudentsPassData = snapshot.val()
-    const currentStudentPassData = allStudentsPassData[id]
-    if (currentStudentPassData === null || typeof currentStudentPassData === 'undefined') {
+
+    //Get existing student data
+    let currentStudentPassData = (await admin.database().ref('PassSystem/Students/' + id).once('value')).val()
+    if (currentStudentPassData === null || typeof currentStudentPassData === 'undefined')
       return res.status(400).send("Student not found with ID number: " + id)
-    }
 
-    //move current info to log
-    if (typeof currentStudentPassData["log"] === 'undefined') {
-      currentStudentPassData["log"] = []
-    }
+
+    //Move current location info to log
+    if (typeof currentStudentPassData["log"] === 'undefined') { currentStudentPassData["log"] = [] }
     currentStudentPassData["log"].push({
       status: currentStudentPassData["currentStatus"],
       time: currentStudentPassData["timeOfStatusChange"]
     })
 
 
-    //Get current time
+    //Get current time and location
     const timeOfStatusChange = dateString + " " + timeString
-
-    
-    //Get location data
-    let location 
-    if (req.query.location !== null && typeof req.query.location !== 'undefined') {
+    let location = ""
+    if (req.query.location !== null && typeof req.query.location !== 'undefined')
       location = " - " + req.query.location.replace("_", " ")
-    } else location = ""
 
     //Update current data
-    if (req.query.forceSign.includes('in') || req.query.forceSign.includes('out')) {
+    const hourAndMinuteAndSecondArray = timeOfStatusChange.split(' ')[1].split(':')
+    const hourAndMinute = hourAndMinuteAndSecondArray[0] + ':' + hourAndMinuteAndSecondArray[1]
+    console.log("Current time no else: " + hourAndMinute)
+    if (req.query.forceSign.toLowerCase().includes('in') || req.query.forceSign.toLowerCase().includes('out')) {
       currentStudentPassData["currentStatus"] = "Signed " + req.query.forceSign.replace(/^\w/, c => c.toUpperCase())
+    } else if (constants.TIMES_TO_FORCE_SIGN_IN.includes(hourAndMinute)) {
+      currentStudentPassData["currentStatus"] = "Signed In" + location
     } else {
       currentStudentPassData["currentStatus"] = (currentStudentPassData["currentStatus"].toLowerCase().includes("out") ? "Signed In" : "Signed Out") + location
     }
@@ -562,106 +551,50 @@ exports.toggleStudentPassStatus = functions
           })
       }
   })
-
 })
 
 exports.addStudentToPassDatabase = functions
   .region('us-east4')
   .runWith(opts).https.onRequest(async (req, res) => {
-    const id = Number(req.query.studentIDNumber)
-    const graduationYear = Number(req.query.graduationYear)
-    const name = req.query.name
-    if (isNaN(id) || id > 9999999999 || isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 5000 || name === null) { 
-      return res.status(400).send("Invalid student parameters")
-    }
+  const id = Number(req.query.studentIDNumber)
+  const graduationYear = Number(req.query.graduationYear)
+  const name = req.query.name.replace("_", " ")
+  if (isNaN(id) || id > 9999999999 || isNaN(graduationYear) || graduationYear < 2000 || graduationYear > 5000 || name === null)
+    return res.status(400).send("Invalid student parameters")
 
 
-    let dateString = new Date().toLocaleDateString('en-US', { 
-      timeZone: "America/New_York",
-      day: '2-digit', 
-      month: '2-digit', 
-      year: 'numeric' }
-    )
-    let dateStringComponents = dateString.split('/')
-    const timeString = new Date().toLocaleTimeString('en-US', {
-      timeZone: "America/New_York"
-    })
-    let timeOfStatusChange = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1] + " " + timeString
-
-    const snapshot = await admin.database().ref('PassSystem/Students').once('value')
-    let currentStudentsPassData = snapshot.val() === null ? {} : snapshot.val()
-    if (currentStudentsPassData[id] !== null && typeof currentStudentsPassData[id] !== 'undefined') {
-      return res.status(400).send("This ID has already been added. To update information for a student, you must do so manually through the database")
-    }
-    currentStudentsPassData[id] = {
-      name: name,
-      graduationYear: graduationYear,
-      timeOfStatusChange: timeOfStatusChange,
-      currentStatus: "Signed In"
-    }
-
-    await admin.database().ref('PassSystem/Students').set(currentStudentsPassData, error => {
-      if (error) {
-          return res.status(400).send("error: " + error)
-      } else {
-          return res.status(200).json(name + " with ID of " + id + " has successfully been added to the pass system.")
-      }
+  const dateStringComponents = new Date().toLocaleDateString('en-US', { 
+    timeZone: "America/New_York",
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric' 
+  }).split('/')
+  const timeString = new Date().toLocaleTimeString('en-US', {
+    timeZone: "America/New_York"
   })
+  const timeOfStatusChange = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1] + " " + timeString
 
+    
+  let studentToAdd = (await admin.database().ref('PassSystem/Students/' + id).once('value')).val()
+  if (studentToAdd !== null && typeof studentToAdd !== 'undefined')
+    return res.status(400).send("This ID has already been added")
+
+  studentToAdd = {
+    name: name,
+    graduationYear: graduationYear,
+    timeOfStatusChange: timeOfStatusChange,
+    currentStatus: "Signed In"
+  }
+
+  await admin.database().ref('PassSystem/Students').child(id).set(studentToAdd, error => {
+    if (error)
+      return res.status(400).send("Error: " + error)
+    else
+      return res.status(200).json(name + " with ID of " + id + " has successfully been added to the pass system.")
   })
+})
 
 exports.test = functions.region('us-east4').runWith(opts).https.onRequest( async (req, res) => {
   await signAllStudentsIn()
   return res.status(200).json("Succeeded")
 })
-
-async function signAllStudentsIn() {
-  console.log("Signing outstanding students in at end of school day.")
-  const snapshot = await admin.database().ref('PassSystem/Students').once('value')
-  let currentStudentsPassData = snapshot.val()
-  if (currentStudentsPassData === null) {
-    return console.log("Pass System doesn't exist")
-  }
-  for (var student in currentStudentsPassData) {
-    if (!currentStudentsPassData.hasOwnProperty(student) || currentStudentsPassData[student]["currentStatus"].includes("In")) continue;
-    
-    //move current info to log
-    if (typeof currentStudentsPassData[student]["log"] === 'undefined') {
-      currentStudentsPassData[student]["log"] = []
-    }
-    currentStudentsPassData[student]["log"].push({
-      status: currentStudentsPassData[student]["currentStatus"],
-      time: currentStudentsPassData[student]["timeOfStatusChange"]
-    })
-
-
-    //Get current time
-    const dateStringComponents = new Date().toLocaleDateString('en-US', { 
-      timeZone: "America/New_York",
-      day: '2-digit', 
-      month: '2-digit', 
-      year: 'numeric' }
-    ).split('/')
-    const timeString = new Date().toLocaleTimeString('en-US', {
-      timeZone: "America/New_York"
-    })
-    const dateString = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
-
-    const timeOfStatusChange = dateString + " " + timeString
-
-    
-    //Update current data
-    currentStudentsPassData[student]["currentStatus"] = "Signed In"
-    currentStudentsPassData[student]["timeOfStatusChange"] = timeOfStatusChange
-
-
-    //Update firebase
-    admin.database().ref('PassSystem/Students').set(currentStudentsPassData, error => {
-      if (error) {
-        return console.log("Error updating database")
-      } else {
-        return console.log("Outstanding signouts fixed")
-      }
-    })
-  }
-}
