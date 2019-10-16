@@ -12,18 +12,19 @@ exports.toggleHandler = async (req, res) => {
     month: '2-digit', 
     year: 'numeric' }
   ).split('/')
-  const timeString = new Date().toLocaleTimeString('en-US', {
-    timeZone: 'America/New_York'
-  })
+  const timeString = new Date().toLocaleTimeString('en-US', {timeZone: 'America/New_York'})
   const dateString = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
 
+
   //Validate time of request
+  const timeString24H = new Date().toTimeString({timeZone: 'America/New_York'})
   let daySched = await daySchedule.create()
   let allSchoolDays = Object.keys(daySched.highSchool)
-  const hourOfDay = Number(timeString.split(':')[0])
-  // req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
-  if ((hourOfDay < 8 || hourOfDay > 15 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined'))
+  const hourOfDay = Number(timeString24H.split(':')[0])
+    //req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
+  if ((hourOfDay < 8 || hourOfDay > 14 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined'))
     return res.status(400).send("Toggle requests only honored during the school day")
+
 
   //Validate parameters
   const id = Number(req.query.studentIDNumber)
@@ -52,8 +53,12 @@ exports.toggleHandler = async (req, res) => {
     location = " - " + req.query.location.replace("_", " ")
 
   //Update current data
-  if (req.query.forceSign.toLowerCase().includes('in') || req.query.forceSign.toLowerCase().includes('out')) {
-    currentStudentPassData["currentStatus"] = "Signed " + req.query.forceSign.replace(/^\w/, c => c.toUpperCase()) + location
+  let forceSignToTest = ""
+  if (req.query.forceSign !== null && typeof req.query.forceSign !== 'undefined')
+    forceSignToTest = String(req.query.forceSign)
+
+  if (forceSignToTest.toLowerCase().includes('in') || forceSignToTest.toLowerCase().includes('out')) {
+    currentStudentPassData["currentStatus"] = "Signed " + forceSignToTest.replace(/^\w/, c => c.toUpperCase()) + location
   } else {
     const period = getPeriodForTime(new Date())
     let studentAlreadySignedIntoThisPeriod = false
@@ -128,8 +133,15 @@ exports.addHandler = async (req, res) => {
 }
 
 function getPeriodForTime(date) {
+  const dateStringForPeriod = new Date().toLocaleDateString('en-US', { 
+    timeZone: "America/New_York",
+    day: '2-digit', 
+    month: '2-digit', 
+    year: 'numeric' 
+  })
+  const tz = date.isDstObserved ? " EDT" : " EST"
   for (var i = constants.TIMES_OF_PERIOD_START.length - 1; i >= 0; i--) {
-    let periodDate = new Date(dateString + " " + constants.TIMES_OF_PERIOD_START[i] + " EST")
+    let periodDate = new Date(dateStringForPeriod + " " + constants.TIMES_OF_PERIOD_START[i] + tz)
     if (date >= periodDate) {
       if (i > 0 && i < 10) {
         console.log("we are in period " + (i))
@@ -142,4 +154,11 @@ function getPeriodForTime(date) {
     }
   }
   return 0
+}
+
+Date.prototype.isDstObserved = function () {
+  var jan = new Date(this.getFullYear(), 0, 1)
+  var jul = new Date(this.getFullYear(), 6, 1)
+  const stdTimezoneOffset = Math.max(jan.getTimezoneOffset(), jul.getTimezoneOffset())
+  return this.getTimezoneOffset() < stdTimezoneOffset()
 }
