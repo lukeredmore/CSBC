@@ -11,28 +11,35 @@ import UIKit
 ///Shows past pass activity with data from parent VC (PassesViewController)
 class PassDetailViewController: UIViewController, UITableViewDataSource {
     @IBOutlet weak private var explicitNavItem: UINavigationItem!
-    @IBOutlet weak private var tableView : UITableView!
-    
-    var logToDisplay = [[(String, Date)]]() { didSet {
-        logToDisplay = logToDisplay.map(sortElement)
-        logToDisplay.sort { $0[0].1 > $1[0].1  }
-    } }
-    var titleToSet = String()
-    
-    func sortElement(_ day: [(String, Date)]) -> [(String, Date)] {
-        return day.sorted { $0.1 > $1.1 }
-    }
-    
-    //MARK: View Lifecycle
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    @IBOutlet weak private var tableView : UITableView! { didSet {
+        explicitNavItem.title = studentName
         tableView.dataSource = self
-        explicitNavItem.title = titleToSet
-    }
+        tableView.reloadData()
+    }}
+    
+    private var logToDisplay = [[(String, Date)]]()
+    private var studentName = String()
+    
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
         self.dismiss(animated: true, completion: nil)
     }
     
+    func addLog(for student : StudentPassInfo) {
+        studentName = student.name
+        var logToConvert : [(String, Date)] = [student.currentStatus]
+        logToConvert += student.previousStatuses
+        var tempDict = [String:[(String, Date)]]()
+        for entry in logToConvert {
+            let dateString = entry.1.dateString()
+            if tempDict[dateString] != nil {
+                tempDict[dateString]?.append(entry)
+            } else {
+                tempDict[dateString] = [entry]
+            }
+        }
+        logToDisplay = Array(tempDict.values).map { $0.sorted { $0.1 > $1.1 } }
+        logToDisplay.sort { $0[0].1 > $1[0].1  }
+    }
     
     //MARK: TableView Delegate Methods
     func numberOfSections(in tableView: UITableView) -> Int {

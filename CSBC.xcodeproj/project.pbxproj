@@ -18,6 +18,8 @@
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
+		26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */; };
+		26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */; };
 		2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */; };
 		2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04722F131C600016DDE /* scchandbook19-20.pdf */; };
 		2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04822F131C700016DDE /* csbccalendar19-20.pdf */; };
@@ -114,6 +116,8 @@
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTableViewCell.swift; sourceTree = "<group>"; };
+		26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStudentPassesViewController.swift; sourceTree = "<group>"; };
 		2659E04622F131C600016DDE /* sccbellschedule19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccbellschedule19-20.pdf"; sourceTree = "<group>"; };
 		2659E04722F131C600016DDE /* scchandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "scchandbook19-20.pdf"; sourceTree = "<group>"; };
 		2659E04822F131C700016DDE /* csbccalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "csbccalendar19-20.pdf"; sourceTree = "<group>"; };
@@ -388,6 +392,7 @@
 		2656156422624351002149E5 /* Options */ = {
 			isa = PBXGroup;
 			children = (
+				26599E482360CAF0003D1DC6 /* Passes */,
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
 				26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */,
 				266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */,
@@ -395,6 +400,17 @@
 				26F9F2E722DFB52E0051981D /* Admin Settings */,
 			);
 			path = Options;
+			sourceTree = "<group>";
+		};
+		26599E482360CAF0003D1DC6 /* Passes */ = {
+			isa = PBXGroup;
+			children = (
+				266A69FC2347C6B8006848E9 /* PassesViewController.swift */,
+				26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */,
+				266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */,
+				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
+			);
+			path = Passes;
 			sourceTree = "<group>";
 		};
 		266F9914221B3A5C00CA7C4E /* SupportingFiles */ = {
@@ -600,8 +616,6 @@
 				2616777F223A9A1500A988D0 /* Uniforms */,
 				266F9916221B3ABC00CA7C4E /* Documents */,
 				2656156422624351002149E5 /* Options */,
-				266A69FC2347C6B8006848E9 /* PassesViewController.swift */,
-				266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -904,6 +918,7 @@
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
+				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
@@ -933,6 +948,7 @@
 				266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */,
 				26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
+				26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
@@ -1104,7 +1120,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1128,7 +1144,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 1.7.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

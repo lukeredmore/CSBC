@@ -50,12 +50,12 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
         if error != nil { print("Error signing into Google: ", error!); return }
         guard let userEmailComponents = user?.profile.email.components(separatedBy: "@") else { return }
         
-        if allowedUserEmails.keys.contains(userEmailComponents[0]) && userEmailComponents[1].contains("syrdio") && userEmailComponents[0].contains(" ") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil {
+        if allowedUserEmails.keys.contains(userEmailComponents[0]) && userEmailComponents[1].contains("syrdio") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil { //prefix has no numbers, user is in explicit admins, and email ends in syrdio
             print("setting button title to sign out")
             loginButton.setTitle("Sign Out", for: .normal)
             defaults.set(true, forKey: "userIsAnAdmin")
             defaults.set(allowedUserEmails[userEmailComponents[0]]!.rawValue, forKey: "adminSchool")
-        } else if userEmailComponents[1].contains("syrdio") && userEmailComponents[0].contains(" ") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil {
+        } else if userEmailComponents[1].contains("syrdio") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil { //prefix has no numbers, and email ends in syrdio
             loginButton.setTitle("Sign Out", for: .normal)
             defaults.set(true, forKey: "userIsATeacher")
         } else {

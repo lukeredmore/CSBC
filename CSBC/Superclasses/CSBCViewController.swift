@@ -12,7 +12,7 @@ import UIKit
 class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     var schoolSelected : Schools {
         get {
-            return Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
+            Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
         }
         set {
             let ssInt = newValue.rawValue

@@ -20,17 +20,26 @@ struct StudentPassInfo {
 ///Receives from Firebase, parses, and displays students out with passes
 class PassesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak private var tableView: UITableView! { didSet {
-        tableView.tableFooterView = UIView()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.isHidden = true
     } }
     private var signedOutStudentInfoArray = [StudentPassInfo]() { didSet {
         tableView.isHidden = signedOutStudentInfoArray.count == 0
+        tableView.reloadData()
     } }
+    private var allStudentInfoArray = [StudentPassInfo]()
     
     private let passDataReference = Database.database().reference().child("PassSystem/Students")
     private var clockTimer : Timer?
+    private var gradeLevelMap : [Int:Int] {
+        let seniorsGradYear = Calendar.current.component(.year, from: DaySchedule.endDate)
+        var gradeLevelMap = [seniorsGradYear : 12]
+        for i in stride(from: seniorsGradYear + 1, to: seniorsGradYear + 6, by: 1) {
+            gradeLevelMap[i] = gradeLevelMap[i - 1]! - 1
+        }
+        return gradeLevelMap
+    }
     
     
     //MARK: View Lifecycle
@@ -50,18 +59,19 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
     private func getFirebaseData() {
         passDataReference.observe(.value) { (snapshot) in
             guard let studentsDict = snapshot.value as? [String:[String:Any]] else { return }
-            
+            self.allStudentInfoArray.removeAll()
             self.signedOutStudentInfoArray.removeAll()
-            for (_, student) in studentsDict
-                where (student["currentStatus"] as? String)?.contains("Out") ?? false {
-                    
-                let studentPassInfo = self.parseSignedOutStudentForPassInfo(student)
-                self.signedOutStudentInfoArray.append(studentPassInfo)
+            
+            for (_, student) in studentsDict {
+                let studentPassInfo = self.parseStudentForPassInfo(student)
+                self.allStudentInfoArray.append(studentPassInfo)
+                if studentPassInfo.currentStatus.0.lowercased().contains("out") {
+                    self.signedOutStudentInfoArray.append(studentPassInfo)
+                }
             }
-            self.tableView.reloadData()
         }
     }
-    private func parseSignedOutStudentForPassInfo(_ student : [String:Any]) -> StudentPassInfo {
+    private func parseStudentForPassInfo(_ student : [String:Any]) -> StudentPassInfo {
         let dateTimeFormatter = DateFormatter()
         dateTimeFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss a"
         
@@ -83,33 +93,42 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
             currentStatus: (student["currentStatus"] as! String, time),
             previousStatuses: logToStore)
     }
+    func getGradeLevelString(for student : StudentPassInfo) -> String {
+        let gradeLevelString = gradeLevelMap[student.graduationYear] != nil
+            ? " (" + gradeLevelMap[student.graduationYear]!.stringValue! + ")"
+            : ""
+        return gradeLevelString
+    }
+    
+    @IBAction func viewMoreButtonPressed(_ sender: UIButton) {
+        print("view more pressed")
+        performSegue(withIdentifier: "allStudentPassesSegue", sender: self)
+    }
     
     
     //MARK: TableView Delegate Methods
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return signedOutStudentInfoArray.count
     }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 60.0
+    }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "passCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customPassCell") as! PassTableViewCell
         let student = signedOutStudentInfoArray[indexPath.row]
-        
-        let seniorsGradYear = Calendar.current.component(.year, from: DaySchedule.endDate)
-        var gradeLevelMap = [seniorsGradYear : 12]
-        for i in stride(from: seniorsGradYear + 1, to: seniorsGradYear + 6, by: 1) {
-            gradeLevelMap[i] = gradeLevelMap[i - 1]! - 1
-        }
-        let gradeLevelString = gradeLevelMap[student.graduationYear] != nil
-            ? " (" + gradeLevelMap[student.graduationYear]!.stringValue! + ")"
-            : ""
-        cell.textLabel?.text = student.name + gradeLevelString
+
+        cell.nameLabel.text = student.name + getGradeLevelString(for: student)
+        cell.locationLabel.text = student.currentStatus.0
         
         let interval = Date().timeIntervalSince(student.currentStatus.1)
         let timeString = interval.stringFromTimeInterval()
-        cell.detailTextLabel?.text = timeString
+        cell.timeLabel.text = timeString
+        
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "PassDetailSegue", sender: self)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     
@@ -118,28 +137,12 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         if segue.identifier == "PassDetailSegue",
         let passDetailVC = segue.destination as? PassDetailViewController,
         let index = tableView.indexPathForSelectedRow?.row {
-            
             let student = signedOutStudentInfoArray[index]
-            var logToSend : [(String, Date)] = [student.currentStatus]
-            for each in student.previousStatuses {
-                logToSend.append(each)
-            }
-            passDetailVC.logToDisplay = convertLogFromFirebaseToNestedArray(logToSend)
-            passDetailVC.titleToSet = student.name
+            passDetailVC.addLog(for: student)
+        } else if segue.identifier == "allStudentPassesSegue",
+          let allStudentPassesVC = segue.destination as? AllStudentPassesViewController {
+            allStudentPassesVC.addArrayOfStudents(allStudentInfoArray, forGrade: gradeLevelMap)
         }
-    }
-    
-    func convertLogFromFirebaseToNestedArray(_ log: [(String, Date)]) -> [[(String, Date)]] {
-        var tempDict = [String:[(String, Date)]]()
-        for entry in log {
-            let dateString = entry.1.dateString()
-            if tempDict[dateString] != nil {
-                tempDict[dateString]?.append(entry)
-            } else {
-                tempDict[dateString] = [entry]
-            }
-        }
-        return Array(tempDict.values)
     }
     
     
