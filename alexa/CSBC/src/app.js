@@ -9,6 +9,7 @@ const { Alexa } = require('jovo-platform-alexa');
 const { GoogleAssistant } = require('jovo-platform-googleassistant');
 const { JovoDebugger } = require('jovo-plugin-debugger');
 const { FileDb } = require('jovo-db-filedb');
+const requestPromise = require('request-promise-native');
 
 const app = new App();
 
@@ -33,9 +34,18 @@ app.setHandler({
         this.tell('Application launched');
     },
 
-    GetDayOfCycleIntent() {
-        this.tell('Hey ' + this.$inputs.date.value + ', nice to meet you!');
+    async GetDayOfCycleIntent() {
+        let quote = await getRandomQuote(this.$inputs.date.value)
+        this.tell('Hey ' + this.$inputs.date.value + ', nice to meet you!' + quote);
     },
 });
+
+async function getDayForDate(date) {
+    const options = {
+        uri: 'https://us-east4-csbcprod.cloudfunctions.net/getDayForDate?date=' + date + '&school=1',
+        json: true // Automatically parses the JSON string in the response
+    };
+    return await requestPromise(options);
+}
 
 module.exports.app = app;
