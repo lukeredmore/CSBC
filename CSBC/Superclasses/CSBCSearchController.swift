@@ -9,28 +9,34 @@
 import Foundation
 import UIKit
 
+enum CSBCSearchable {
+    case athletics, events, passes
+}
+
 ///Can search both athletics and calendar views to create filtered arrays for their respective VCs to display
 class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate {
     
-    var athleticsParent : AthleticsViewController? = nil
-    var eventsParent : CalendarViewController? = nil
+    var athleticsParent : AthleticsViewController!
+    var eventsParent : CalendarViewController!
+    var passesParent : AllStudentPassesViewController!
+    let type : CSBCSearchable
     let searchController = UISearchController(searchResultsController: nil)
     var searchBarTopConstraint : NSLayoutConstraint!
     var parent : UIViewController!
     
-    init(searchBarContainerView : UIView, searchBarTopConstraint : NSLayoutConstraint, athleticsParent : AthleticsViewController? = nil, eventsParent : CalendarViewController? = nil) {
+    init(forVC vc: UIViewController, in searchBarContainerView : UIView, with searchBarTopConstraint : NSLayoutConstraint, ofType type: CSBCSearchable) {
+        self.type = type
         super.init()
-        if (athleticsParent != nil && eventsParent == nil) || (athleticsParent == nil && eventsParent != nil) {
-            if athleticsParent != nil {
-                self.athleticsParent = athleticsParent
-                parent = athleticsParent!
-            } else if eventsParent != nil {
-                self.eventsParent = eventsParent
-                parent = eventsParent!
-            }
-            self.searchBarTopConstraint = searchBarTopConstraint
-            setupSearchController(searchBarContainerView)
+        switch type {
+        case .athletics:
+            athleticsParent = vc as? AthleticsViewController
+        case .events:
+            eventsParent = vc as? CalendarViewController
+        case .passes:
+            passesParent = vc as? AllStudentPassesViewController
         }
+        self.searchBarTopConstraint = searchBarTopConstraint
+        setupSearchController(searchBarContainerView)
     }
     private func setupSearchController(_ searchBarContainerView : UIView) {
         
@@ -62,10 +68,13 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         searchController.searchBar.backgroundImage = UIImage()
         searchController.searchBar.clipsToBounds = true
         searchController.searchBar.placeholder = "Search"
-        if athleticsParent != nil {
-            athleticsParent!.definesPresentationContext = true
-        } else if eventsParent != nil {
-            eventsParent!.definesPresentationContext = true
+        switch type {
+        case .athletics:
+            athleticsParent.definesPresentationContext = true
+        case .events:
+            eventsParent.definesPresentationContext = true
+        case .passes:
+            passesParent.definesPresentationContext = true
         }
         //view.layoutIfNeeded()
     }
@@ -73,19 +82,23 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     
     func updateSearchResults(for searchController: UISearchController) {
         if let term = searchController.searchBar.text {
-            if athleticsParent != nil && athleticsParent!.athleticsData.athleticsModelArray != [] {
-                filterAthleticsRowsForSearchedText(term)
-            } else if eventsParent != nil {
-                filterEventsRowsForSearchedText(term)
+            switch type {
+            case .athletics:
+                filterAthleticsRows(forText: term)
+            case .events:
+                filterEventsRows(forText: term)
+            case .passes:
+                filterPassRows(forText: term)
             }
-            
         }
     }
     
     
     //MARK: Actual filtering
-    private func filterAthleticsRowsForSearchedText(_ searchText: String) {
+    private func filterAthleticsRows(forText searchText: String) {
+        
         let arrayShorter = athleticsParent!.athleticsData.athleticsModelArray
+        guard arrayShorter != [] else { return }
         athleticsParent!.athleticsData.athleticsModelArrayFiltered.removeAll()
         
         var includedModelsList : [Int] = []
@@ -112,19 +125,19 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         athleticsParent!.athleticsData.addToFilteredModelArray(modelsToInclude: includedModelsList, indicesToInclude: includedIndicesList)
         athleticsParent!.tableView.reloadData()
     }
-    private func filterEventsRowsForSearchedText(_ searchText : String) {
-        let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
+    private func filterEventsRows(forText searchText : String) {
+        let filteredArray = eventsParent.calendarData.eventsModelArray.filter {
             $0.event.lowercased().contains(searchText.lowercased()) ||
             $0.date.day!.stringValue!.contains(searchText.lowercased()) ||
             $0.time?.lowercased().contains(searchText.lowercased()) ?? false ||
             $0.schools?.lowercased().contains(searchText.lowercased()) ?? false
         }
         
-        eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)
-        eventsParent!.tableView.reloadData()
+        eventsParent.calendarData.setFilteredModelArray(toArray: filteredArray)
+        eventsParent.tableView.reloadData()
     }
     func filterEventsRowsForSchoolsSelected(_ schoolsList : [Bool]) {
-        let filteredArray = eventsParent!.calendarData.eventsModelArray.filter {
+        let filteredArray = eventsParent.calendarData.eventsModelArray.filter {
             (schoolsList[0] && $0.schools?.contains("Seton") ?? false) ||
             (schoolsList[1] && $0.schools?.contains("John") ?? false) ||
             (schoolsList[2] && $0.schools?.contains("Saints") ?? false) ||
@@ -132,8 +145,15 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
             ($0.schools == "")
         }
         
-        eventsParent!.calendarData.setFilteredModelArray(toArray: filteredArray)
-        eventsParent!.tableView.reloadData()
+        eventsParent.calendarData.setFilteredModelArray(toArray: filteredArray)
+        eventsParent.tableView.reloadData()
+    }
+    
+    func filterPassRows(forText searchText : String) {
+        passesParent.filteredArrayToDisplay = passesParent.arrayToDisplay.flatMap({ $0 }).filter {
+            $0.currentStatus.0.lowercased().contains(searchText.lowercased()) || $0.name.lowercased().contains(searchText.lowercased())
+        }
+        passesParent.tableView.reloadData()
     }
     
     

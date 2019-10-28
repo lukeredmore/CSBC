@@ -34,7 +34,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
     private let loadingSymbolNavItem = UIActivityIndicatorView(style: .white)
     
     
-    private lazy var searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: nil, eventsParent: self)
+    private lazy var searchControllerController = CSBCSearchController(forVC: self, in: searchBarContainerView, with: searchBarTopConstraint, ofType: .events)
     private var setOfEventModels : Set<EventsModel> {
         get {
             if searchControllerController.searchController.searchBar.text == "" && storedSchoolsToShow == [true, true, true, true] {
@@ -54,6 +54,7 @@ class CalendarViewController: CSBCViewController, UITableViewDataSource, DataEnt
 
     //MARK: View Control
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         self.title = "Calendar"
         

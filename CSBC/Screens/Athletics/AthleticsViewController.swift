@@ -28,7 +28,7 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     var athleticsDataPresent = false
     var athleticsData = AthleticsDataParser()
     
-    private var searchControllerController : CSBCSearchController!
+    private lazy var searchControllerController = CSBCSearchController(forVC: self, in: searchBarContainerView, with: searchBarTopConstraint, ofType: .athletics)
     private var modelArrayForSearch : [AthleticsModel?] {
         get {
             if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
@@ -49,8 +49,6 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
         self.title = "Athletics"
         
         self.navigationController?.navigationBar.shadowImage = UIImage()
-        
-        searchControllerController = CSBCSearchController(searchBarContainerView: searchBarContainerView, searchBarTopConstraint: searchBarTopConstraint, athleticsParent: self, eventsParent: nil)
     }
     override func viewWillAppear(_ animated: Bool) {
         view.backgroundColor = .csbcAccentGray

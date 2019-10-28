@@ -10,21 +10,41 @@ import UIKit
 
 
 
-class AllStudentPassesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class AllStudentPassesViewController: CSBCViewController, UITableViewDataSource, UITableViewDelegate {
 
+    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+    @IBOutlet weak var searchBarContainerView: UIView!
     @IBOutlet weak var tableView: UITableView! { didSet {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.tableFooterView = UIView()
-        tableView.isHidden = arrayToDisplay.count == 0
+        tableView.isHidden = modelArrayForSearch.count == 0
         tableView.reloadData()
     } }
-    private var arrayToDisplay = [[StudentPassInfo]]()
+    private(set) var arrayToDisplay = [[StudentPassInfo]]()
+    var filteredArrayToDisplay = [StudentPassInfo]()
     private var gradeLevelMap = [Int:Int]()
+    
+    
+    private lazy var searchControllerController = CSBCSearchController(forVC: self, in: searchBarContainerView, with: searchBarTopConstraint, ofType: .passes)
+    
+    private var modelArrayForSearch : [[StudentPassInfo]] {
+        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
+            return [filteredArrayToDisplay]
+        } else {
+            return arrayToDisplay
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = tableView.isHidden ? .white : .csbcNavBarBackground
+    }
     
     func addArrayOfStudents(_ arr : [StudentPassInfo], forGrade gradeLevelMap : [Int:Int]) {
         self.gradeLevelMap = gradeLevelMap
         var tempGroup = [Int:[StudentPassInfo]]()
+        
         for student in arr {
             guard gradeLevelMap[student.graduationYear] != nil else { continue }
             if tempGroup[student.graduationYear] == nil {
@@ -37,13 +57,21 @@ class AllStudentPassesViewController: UIViewController, UITableViewDataSource, U
     }
 
     //MARK: TableView Delegate Methods
-    func numberOfSections(in tableView: UITableView) -> Int { arrayToDisplay.count }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { arrayToDisplay[section].count }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { "Grade \(gradeLevelMap[arrayToDisplay[section][0].graduationYear]!)" }
+    func numberOfSections(in tableView: UITableView) -> Int { modelArrayForSearch.count }
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { modelArrayForSearch[section].count }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard modelArrayForSearch.count > 0,
+            modelArrayForSearch[0].count > 0 ,
+            let grade = gradeLevelMap[modelArrayForSearch[section][0].graduationYear] else { return nil }
+        if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
+            return nil
+        } else { return "Grade \(grade)" }
+    }
+        
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "allPassCell")!
-        let student = arrayToDisplay[indexPath.section][indexPath.row]
+        let student = modelArrayForSearch[indexPath.section][indexPath.row]
         cell.textLabel?.text = student.name
         
         return cell
@@ -58,7 +86,7 @@ class AllStudentPassesViewController: UIViewController, UITableViewDataSource, U
         if segue.identifier == "PassDetailSegueFromAll",
         let passDetailVC = segue.destination as? PassDetailViewController,
         let index = tableView.indexPathForSelectedRow {
-            let student = arrayToDisplay[index.section][index.row]
+            let student = modelArrayForSearch[index.section][index.row]
             passDetailVC.addLog(for: student)
         }
     }
