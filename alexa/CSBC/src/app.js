@@ -35,14 +35,18 @@ app.setHandler({
     },
 
     async GetDayOfCycleIntent() {
-        let quote = await getRandomQuote(this.$inputs.date.value)
-        this.tell('Hey ' + this.$inputs.date.value + ', nice to meet you!' + quote);
+        let quote = await getDayForDate(this.$inputs.date.value, this.$inputs.school.value)
+        if (typeof quote === 'undefined' || quote === null || quote === '0' || quote === 0) {
+            this.tell('There is no school on ' + this.$inputs.date.value + ' at ' + this.$inputs.school);
+        } else {
+            this.tell('It will be a Day ' + quote + ' at ' + this.$inputs.school + ' on ' + this.$inputs.date.value);
+        }
     },
 });
 
-async function getDayForDate(date) {
+async function getDayForDate(date, school) {
     const options = {
-        uri: 'https://us-east4-csbcprod.cloudfunctions.net/getDayForDate?date=' + date + '&school=1',
+        uri: 'https://us-east4-csbcprod.cloudfunctions.net/getDayForDate?date=' + date + '&school=' + school,
         json: true // Automatically parses the JSON string in the response
     };
     return await requestPromise(options);
