@@ -17,14 +17,17 @@ exports.toggleHandler = async (req, res) => {
 
 
   //Validate time of request
-  const timeString24H = new Date().toTimeString({timeZone: 'America/New_York'})
+  const timeString24H = new Date().toLocaleTimeString('it-IT', {timeZone: 'America/New_York'})
   let daySched = await daySchedule.create()
   let allSchoolDays = Object.keys(daySched.highSchool)
   const hourOfDay = Number(timeString24H.split(':')[0])
     //req.query.forceSign = "toggle" //COMMENT THIS OUT ONCE IT GOES LIVE!!
-  if ((hourOfDay < 8 || hourOfDay > 14 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined'))
+  if ((hourOfDay < 8 || hourOfDay > 14 || !allSchoolDays.includes(dateString)) && (req.query.forceSign === null || typeof req.query.forceSign === 'undefined')) {
+    console.log("timeString24H: " + timeString24H)
+    console.log("timeString: " + timeString)
+    console.log("hour of day: " + hourOfDay)
     return res.status(400).send("Toggle requests only honored during the school day")
-
+  }
 
   //Validate parameters
   const id = Number(req.query.studentIDNumber)
