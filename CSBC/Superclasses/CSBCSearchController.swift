@@ -16,7 +16,7 @@ enum CSBCSearchable {
 ///Can search both athletics and calendar views to create filtered arrays for their respective VCs to display
 class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdating, UITableViewDelegate {
     
-    var athleticsParent : AthleticsViewController!
+//    var athleticsParent : AthleticsViewController!
     var eventsParent : CalendarViewController!
     var passesParent : AllStudentPassesViewController!
     let type : CSBCSearchable
@@ -29,7 +29,8 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         super.init()
         switch type {
         case .athletics:
-            athleticsParent = vc as? AthleticsViewController
+            print("hi")
+//            athleticsParent = vc as? AthleticsViewController
         case .events:
             eventsParent = vc as? CalendarViewController
         case .passes:
@@ -70,7 +71,8 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
         searchController.searchBar.placeholder = "Search"
         switch type {
         case .athletics:
-            athleticsParent.definesPresentationContext = true
+            print("hi")
+//            athleticsParent.definesPresentationContext = true
         case .events:
             eventsParent.definesPresentationContext = true
         case .passes:
@@ -167,37 +169,6 @@ class CSBCSearchController : NSObject, UISearchBarDelegate, UISearchResultsUpdat
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: tableView.indexPathForSelectedRow!, animated: true)
-    }
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if /*eventsParent?.eventsDataPresent ?? false || <--HAVE TO MAKE SURE THIS IS A NON-ISSUE*/ athleticsParent?.athleticsDataPresent ?? false {
-            let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
-            if translation.y > 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != 0 && !searchController.isActive { //scroll up
-                if translation.y < 56 {
-                    searchBarTopConstraint.constant = translation.y - 56 //show search bar growing
-                } else if translation.y == 56 {
-                    searchBarTopConstraint.constant = 0
-                }
-                self.parent.view.layoutIfNeeded()
-            } else if translation.y < 0 && searchController.searchBar.text == "" && searchBarTopConstraint.constant != -56 && !searchController.isActive { //scroll down
-                if translation.y > -56 {
-                    searchBarTopConstraint.constant = translation.y //show search bar shrinking
-                } else if translation.y == -56 {
-                    searchBarTopConstraint.constant = -56
-                }
-                self.parent.view.layoutIfNeeded()
-            }
-        }
-    }
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        scrollView.panGestureRecognizer.setTranslation(.zero, in: scrollView.superview)
-        if searchBarTopConstraint.constant < -45 {
-            searchBarTopConstraint.constant = -56
-        } else {
-            searchBarTopConstraint.constant = 0
-        }
-        UIView.animate(withDuration: 0.1) {
-            self.parent.view.layoutIfNeeded()
-        }
     }
     
     

@@ -8,75 +8,17 @@
 
 import UIKit
 
-protocol Searchable : Hashable, Comparable {
+protocol Searchable : Hashable, Comparable, Codable {
     var groupIntoSectionsByThisParameter : AnyHashable { get }
     var sectionTitle : String { get }
     var searchElements : String { get }
     var shouldStayGroupedWhenSearching : Bool { get }
 }
-
-struct test : Searchable {
-    let title : String
-    let date : String
-    let seq : Int
-    
-    var groupIntoSectionsByThisParameter: AnyHashable { date }
-    
-    var sectionTitle: String { date }
-    
-    var searchElements: String { title }
-    
-    var shouldStayGroupedWhenSearching: Bool { false }
-    
-    static func < (lhs: test, rhs: test) -> Bool {
-        return lhs.seq < rhs.seq
-    }
-    
-    
+protocol DisplayInSearchableTableView {
+    func addData<T: Searchable>(_ genericModel : T)
 }
 
-class CSBCTestSearchViewController : CSBCSearchViewController<test> {
-    
-    let no : Set<test> = [
-        test(title: "new york", date: "12/25/2019", seq: 1),
-        test(title: "london", date: "12/25/2019", seq: 2),
-        test(title: "dubai", date: "12/25/2019", seq: 1),
-        test(title: "hong kong", date: "11/25/2019", seq: 2),
-        test(title: "berlin", date: "01/01", seq: 4),
-        test(title: "sidney", date: "01/01", seq: 3),
-        test(title: "shanghai", date: "01/01", seq: 2),
-        test(title: "cape town", date: "01/01", seq: 1)
-    ]
-    let yes : Set<test> = [
-        test(title: "beijing", date: "12/25/2019", seq: 1),
-        test(title: "vienna", date: "12/25/2019", seq: 2),
-        test(title: "chicago", date: "12/25/2019", seq: 1),
-        test(title: "delhi", date: "11/25/2019", seq: 2),
-        test(title: "moscow", date: "01/01", seq: 4),
-        test(title: "rome", date: "01/01", seq: 3),
-        test(title: "paris", date: "01/01", seq: 2),
-        test(title: "madrid", date: "01/01", seq: 1)
-    ]
-    lazy var testd : Set<test> = []
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.title = "Test"
-        setEmptyDataMessage("abs no", whileSearching: "no filt")
-        loadTable(withData: testd)
-    }
-    
-    override func configureCell(for data: test) -> UITableViewCell {
-        let cell = UITableViewCell()
-        cell.textLabel?.text = "HI + \(data.title)"
-        return cell
-    }
-    override func refreshData() {
-        testd = yes == yes ? no : yes
-        loadTable(withData: testd)
-    }
-}
-
-class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate {
+class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate where Cell : DisplayInSearchableTableView {
     
     //MARK: UI & Search Elements
     private let tableView = UITableView()
@@ -89,8 +31,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     private var emptyDataMessage = "No data is present"
     lazy private var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action:
-            #selector(refreshData), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         refreshControl.tintColor = .gray
         
         return refreshControl
@@ -117,6 +58,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
             return filteredData
         }
     }
+    private var cellID = ""
     
     
     
@@ -144,6 +86,12 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
         emptyDataMessageWhileSearching = searching
         emptyDataMessage = full
     }
+    /// Connects custom cell in xib to tableView
+    /// - Parameter id: Identifier for both the xib name and object identifier
+    func setCellIdentifier(_ id : String) {
+        self.cellID = id
+        tableView.register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
+    }
     /// Updates full set of data
     /// - Parameter set: full unsorted/unnested data to go in tableView
     func loadTable(withData set : Set<T>) {
@@ -152,11 +100,6 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
         tableView.reloadData()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
-    }
-    /// Override this function to return a UITableViewCell appropriately styled for the given object
-    /// - Parameter data: Searchable object to display in a UITableViewCell
-    func configureCell(for data: T) -> UITableViewCell {
-        return UITableViewCell()
     }
     /// Refresh data from source. Override this method and call its super to ensure refreshes cannot occur simultaneously. Be sure to call loadTable(withData:) to reload
     @objc func refreshData() {
@@ -208,7 +151,9 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     
     //MARK: UITableViewDelagate Methods
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return configureCell(for: dataToDisplay[indexPath.section][indexPath.row])
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! Cell
+        cell.addData(dataToDisplay[indexPath.section][indexPath.row])
+        return cell
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard dataToDisplay.count > 0 else { return 0 }
@@ -228,7 +173,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
 
         let headerLabel = UILabel(frame: CGRect(x: 11, y: 4, width:
         tableView.bounds.size.width, height: tableView.bounds.size.height))
-        headerLabel.font = UIFont(name: "gotham-bold", size: 16.5)
+        headerLabel.font = UIFont(name: "gotham-bold", size: 18)
         headerLabel.textColor = .csbcDefaultText
         headerLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
         headerLabel.sizeToFit()
@@ -237,7 +182,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28 : 0 }
+        self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
     
     
     //MARK: Create UI
@@ -307,7 +252,9 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     private func configureBackgroundLabel(_ label: UILabel) {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.font = UIFont(name: "Gotham-BookItalic", size: 19)!
+        label.font = UIFont(name: "Gotham-BookItalic", size: 18)!
+        label.numberOfLines = 0
+        label.clipsToBounds = false
         label.textColor = .csbcGrayLabel
         label.text = emptyDataMessage
         view.addSubview(label)
@@ -334,7 +281,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     }
 }
 
-extension UISearchBar {
+fileprivate extension UISearchBar {
 
     func setPlaceholder(textColor: UIColor) { searchField.setPlaceholder(textColor: textColor) }
 

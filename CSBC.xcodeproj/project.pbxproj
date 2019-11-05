@@ -74,6 +74,8 @@
 		26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620B2273EB2D00C6656F /* TodayViewCell.swift */; };
 		26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26BE620C2273EB2D00C6656F /* TodayViewCell.xib */; };
 		26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620F227403A300C6656F /* TodayContainerViewController.swift */; };
+		26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C0F004237139900067B2DB /* AthleticsTableViewController.swift */; };
+		26C0F00723713D7D0067B2DB /* AthleticsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C0F00623713D7D0067B2DB /* AthleticsTableViewCell.xib */; };
 		26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */; };
 		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
@@ -91,7 +93,6 @@
 		26DD56C222BB3BC5005E109B /* highSchoolDressDark.html in Resources */ = {isa = PBXBuildFile; fileRef = 26DD56BF22BB3BC4005E109B /* highSchoolDressDark.html */; };
 		26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */ = {isa = PBXBuildFile; fileRef = 26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */; };
 		26DD570122BBD16E005E109B /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DD570022BBD16E005E109B /* AlertController.swift */; };
-		26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */; };
 		26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */; };
 		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
@@ -106,7 +107,7 @@
 
 /* Begin PBXFileReference section */
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
-		261202C3236E0678008269F8 /* CSBCSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CSBCSearchViewController.swift; path = CSBC/Screens/Home/SupplementaryView/CSBCSearchViewController.swift; sourceTree = SOURCE_ROOT; };
+		261202C3236E0678008269F8 /* CSBCSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CSBCSearchViewController.swift; path = CSBC/Superclasses/CSBCSearchViewController.swift; sourceTree = SOURCE_ROOT; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
@@ -174,6 +175,8 @@
 		26BE620B2273EB2D00C6656F /* TodayViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewCell.swift; sourceTree = "<group>"; };
 		26BE620C2273EB2D00C6656F /* TodayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayViewCell.xib; sourceTree = "<group>"; };
 		26BE620F227403A300C6656F /* TodayContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayContainerViewController.swift; sourceTree = "<group>"; };
+		26C0F004237139900067B2DB /* AthleticsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewController.swift; sourceTree = "<group>"; };
+		26C0F00623713D7D0067B2DB /* AthleticsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AthleticsTableViewCell.xib; sourceTree = "<group>"; };
 		26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataSource.swift; sourceTree = "<group>"; };
 		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
@@ -191,7 +194,6 @@
 		26DD56BF22BB3BC4005E109B /* highSchoolDressDark.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = highSchoolDressDark.html; sourceTree = "<group>"; };
 		26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDressDark.html; sourceTree = "<group>"; };
 		26DD570022BBD16E005E109B /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
-		26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsViewController.swift; sourceTree = "<group>"; };
 		26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook19-20.pdf"; sourceTree = "<group>"; };
 		26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jamescodeofconduct19-20.pdf"; sourceTree = "<group>"; };
 		26ED795A21EB91D40086FB86 /* CSBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -357,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */,
+				26C0F00623713D7D0067B2DB /* AthleticsTableViewCell.xib */,
 			);
 			path = "Supplementary View";
 			sourceTree = "<group>";
@@ -528,7 +531,7 @@
 		26C21D8E221BADC4001E7915 /* Athletics */ = {
 			isa = PBXGroup;
 			children = (
-				26DD7FF3221CF81500B29B23 /* AthleticsViewController.swift */,
+				26C0F004237139900067B2DB /* AthleticsTableViewController.swift */,
 				2637A68C22FF15C50097EDD1 /* Model */,
 				2637A68D22FF15D20097EDD1 /* Supplementary View */,
 			);
@@ -757,6 +760,7 @@
 				26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */,
 				26894D4D21EFACFE00691C97 /* Gotham-XLight.otf in Resources */,
 				26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */,
+				26C0F00723713D7D0067B2DB /* AthleticsTableViewCell.xib in Resources */,
 				2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */,
 				26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */,
 				26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */,
@@ -941,7 +945,6 @@
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
 				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
-				26DD7FF4221CF81500B29B23 /* AthleticsViewController.swift in Sources */,
 				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
 				266A69FD2347C6B8006848E9 /* PassesViewController.swift in Sources */,
 				266A6A0123481F4C006848E9 /* SettingsContainerViewController.swift in Sources */,
@@ -963,6 +966,7 @@
 				26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */,
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
+				26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,

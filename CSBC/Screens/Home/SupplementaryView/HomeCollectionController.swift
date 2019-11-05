@@ -56,8 +56,7 @@ class HomeCollectionController: NSObject, UICollectionViewDataSource, UICollecti
         case 6: //Lunch
             segueDelegate.performSegue(withIdentifier: "LunchSegue", sender: nil)
         case 7: //Athletics
-            let vc = CSBCTestSearchViewController()
-            segueDelegate.navigationController?.pushViewController(vc, animated: true)
+            segueDelegate.navigationController?.pushViewController(AthleticsTableViewController(), animated: true)
 //            segueDelegate.performSegue(withIdentifier: "AthleticsSegue", sender: nil)
         case 8: //Give
             guard let url = URL(string: "https://app.mobilecause.com/form/N-9Y0w?vid=1hepr") else { break }
