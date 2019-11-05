@@ -11,11 +11,11 @@ import UIKit
 ///Populates TodayViewController with pre-parsed data received by TodayViewController
 class TodayDataSource: NSObject, UITableViewDataSource {
     var todaysEventsSet : Set<EventsModel>?
-    var todaysAthletics: AthleticsModel?
+    var todaysAthleticsSet: Set<AthleticsModel>?
     
-    init(todaysEvents : Set<EventsModel>?, todaysAthletics : AthleticsModel?) {
+    init(todaysEvents : Set<EventsModel>?, todaysAthletics : Set<AthleticsModel>?) {
         self.todaysEventsSet = todaysEvents
-        self.todaysAthletics = todaysAthletics
+        self.todaysAthleticsSet = todaysAthletics
     }
     
     //MARK: TableView Methods
@@ -27,7 +27,7 @@ class TodayDataSource: NSObject, UITableViewDataSource {
             guard let todaysEventsCount = todaysEventsSet?.count else { break }
             return todaysEventsCount
         case 1:
-            guard let todaysAthleticsCount = todaysAthletics?.title.count else { break }
+            guard let todaysAthleticsCount = todaysAthleticsSet?.count else { break }
             return todaysAthleticsCount
         default: break
         }
@@ -35,6 +35,7 @@ class TodayDataSource: NSObject, UITableViewDataSource {
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let todaysEventsArray = todaysEventsSet?.sorted()
+        let todaysAthleticsArray = todaysAthleticsSet?.sorted()
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "todayViewCell") as? TodayViewCell else { return UITableViewCell() }
         if #available(iOS 13.0, *) {
             cell.titleLabel.textColor = .label
@@ -46,11 +47,11 @@ class TodayDataSource: NSObject, UITableViewDataSource {
             cell.timeLabel.textColor = .darkText
         }
         if indexPath.section == 1 {
-            if todaysAthletics != nil {
+            if let todaysAthleticsArray = todaysAthleticsArray {
                 cell.titleHeightConstraint.constant = 50
-                cell.titleLabel.text = todaysAthletics!.title[indexPath.row]
-                cell.timeLabel.text = todaysAthletics!.time[indexPath.row]
-                cell.levelLabel.text = todaysAthletics!.level[indexPath.row]
+                cell.titleLabel.text = todaysAthleticsArray[indexPath.row].title
+                cell.timeLabel.text = todaysAthleticsArray[indexPath.row].time
+                cell.levelLabel.text = todaysAthleticsArray[indexPath.row].level
             } else {
                 cell.timeLabel.text = "There are no events today"
                 cell.titleLabel.text = nil

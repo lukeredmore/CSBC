@@ -16,9 +16,9 @@ class TodayDataParser {
         guard let json = UserDefaults.standard.value(forKey:"eventsArray") as? Data else { return [] }
         return (try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json)) ?? []
     }
-    private var athleticsArray : [AthleticsModel?] {
+    private var athleticsArray : Set<AthleticsModel> {
         guard let json = UserDefaults.standard.value(forKey:"athleticsArray") as? Data else { return [] }
-        return (try? PropertyListDecoder().decode([AthleticsModel?].self, from: json)) ?? []
+        return (try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json)) ?? []
     }
     private var schoolSelectedString : String {
         (Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton).ssString
@@ -42,21 +42,19 @@ class TodayDataParser {
         let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
         
         let setToReturn = eventsArray.filter {
-        $0.date == dateComponents && ($0.schools?.contains(schoolSelectedString) ?? false || $0.schools == "" )
+            $0.date == dateComponents && ($0.schools?.contains(schoolSelectedString) ?? false || $0.schools == "" )
         }
         
         return setToReturn.count > 0 ? setToReturn : nil
     }
-    func athletics(forDate date : Date) -> AthleticsModel? {
-        var allAthleticsToday : AthleticsModel? = nil
-        let athleticsDateFormatter = DateFormatter()
-        athleticsDateFormatter.dateFormat = "MMMM d"
-        let monthDayDateString = athleticsDateFormatter.string(from: date)
-        for case let dateWithEvents? in athleticsArray {
-            if dateWithEvents.date.contains(monthDayDateString) {
-                allAthleticsToday = dateWithEvents
-            }
+    func athletics(forDate date : Date) -> Set<AthleticsModel>? {
+        
+        let dateComponents = Calendar.current.dateComponents([.day, .month, .year], from: date)
+        
+        let setToReturn = athleticsArray.filter {
+            $0.date == dateComponents
         }
-        return allAthleticsToday
+        
+        return setToReturn.count > 0 ? setToReturn : nil
     }
 }

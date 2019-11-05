@@ -86,12 +86,19 @@ extension UIColor {
             return UIColor(named: "CSBCNavBarText")!
         } else { return #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1) }
     }
-
+    
     ///Light: CSBC green modified for SFSafariVC; Dark: Black
     static var csbcSafariVCBar: UIColor {
         if #available(iOS 13.0, *) {
             return UIColor(named: "CSBCSafariVCBar")!
         } else { return #colorLiteral(red: 0, green: 0.2, blue: 0.1058823529, alpha: 1) }
+    }
+    
+    ///Light: System table separator; Dark: System table separator
+    static var csbcTableSeparator: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "CSBCTableSeparator")!
+        } else { return #colorLiteral(red: 0.8980392157, green: 0.8980392157, blue: 0.8980392157, alpha: 1) }
     }
     
     ///Universal: Logo yellow
@@ -116,14 +123,14 @@ extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-
+        
         return ceil(boundingBox.height)
     }
-
+    
     func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
         let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font : font], context: nil)
-
+        
         return ceil(boundingBox.width)
     }
 }
@@ -272,15 +279,15 @@ extension DateComponents: Comparable {
 }
 
 extension TimeInterval{
-
+    
     func stringFromTimeInterval() -> String {
-
+        
         let time = NSInteger(self)
-
+        
         let seconds = time % 60
         let minutes = (time / 60) % 60
         let hours = (time / 3600)
-
+        
         if hours > 0 {
             return String(format: "%0.2d:%0.2d:%0.2d",hours,minutes,seconds)
         } else {
@@ -288,4 +295,22 @@ extension TimeInterval{
         }
     }
 }
+
+extension Set where Element : Searchable {
+    func nest<T: Searchable>() -> [[T]] {
+        let arr = self.sorted() as! [T]
+        var dictToFlatten : Dictionary<AnyHashable,[T]> = [:]
+        for each in arr {
+            if dictToFlatten[each.groupIntoSectionsByThisParameter] != nil {
+                dictToFlatten[each.groupIntoSectionsByThisParameter]?.append(each)
+            } else {
+                dictToFlatten[each.groupIntoSectionsByThisParameter] = [each]
+            }
+        }
+        dictToFlatten = dictToFlatten.mapValues { $0.sorted() }
+        return Array(dictToFlatten.values).sorted { $0[0] < $1[0] }
+        
+    }
+}
+
 

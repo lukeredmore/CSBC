@@ -12,10 +12,10 @@ import SwiftyJSON
 
 class AthleticsRetriever {
     private let preferences = UserDefaults.standard
-    let completion : ([AthleticsModel?]) -> Void
+    let completion : (Set<AthleticsModel>) -> Void
     let dataParser = AthleticsDataParser()
     
-    init(completion: @escaping ([AthleticsModel?]) -> Void) {
+    init(completion: @escaping (Set<AthleticsModel>) -> Void) {
         self.completion = completion
     }
     
@@ -27,17 +27,17 @@ class AthleticsRetriever {
             print("Athletics Data is being force returned")
             if let json = preferences.value(forKey:"athleticsArray") as? Data {
                 print("Force return found an old JSON value")
-                let optionalModel = try? PropertyListDecoder().decode([AthleticsModel?].self, from: json)
-                return completion(optionalModel ?? [AthleticsModel]())
+                let optionalModel = try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json)
+                return completion(optionalModel ?? [])
             } else {
                 print("Force return returned an empty array")
-                return completion([AthleticsModel]())
+                return completion([])
             }
         } else {
             print("Attempting to retrieve stored Athletics data.")
             if let athleticsArrayTimeString = preferences.string(forKey: "athleticsArrayTime"),
                 let json = preferences.value(forKey:"athleticsArray") as? Data,
-                let athleticsArray = try? PropertyListDecoder().decode([AthleticsModel?].self, from: json) { //If both values exist
+                let athleticsArray = try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json) { //If both values exist
                 let athleticsArrayTime = athleticsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
                 completion(athleticsArray)
                 if athleticsArrayTime > Date() {

@@ -8,9 +8,13 @@
 
 import Foundation
 
-struct AthleticsModel : Codable, Equatable {
-    let title : [String]
-    let level : [String]
-    let time : [String]
-    let date : String
+struct AthleticsModel : Codable, Hashable, Comparable {
+    static func < (lhs : AthleticsModel, rhs : AthleticsModel) -> Bool {
+        return lhs.date < rhs.date
+    }
+    
+    let title : String
+    let level : String
+    let time : String
+    let date : DateComponents
 }

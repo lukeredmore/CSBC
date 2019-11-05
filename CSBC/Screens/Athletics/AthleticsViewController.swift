@@ -29,17 +29,34 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     var athleticsData = AthleticsDataParser()
     
     private lazy var searchControllerController = CSBCSearchController(forVC: self, in: searchBarContainerView, with: searchBarTopConstraint, ofType: .athletics)
-    private var modelArrayForSearch : [AthleticsModel?] {
+    private var dataToDisplay : [[AthleticsModel]] {
         get {
             if searchControllerController.searchController.isActive && searchControllerController.searchController.searchBar.text != "" {
-                return athleticsData.athleticsModelArrayFiltered
+                return nestedFiltered
             } else {
-                return athleticsData.athleticsModelArray
+                return nestedUnfiltered
+//                return athleticsData.athleticsModelArray
             }
         }
         set {
-            athleticsData.athleticsModelArray = newValue
+            athleticsData.athleticsModelArray.removeAll()// = newValue
         }
+    }
+    private var nestedUnfiltered = [[AthleticsModel]]()
+     private var nestedFiltered = [[AthleticsModel]]()
+    
+    func nestAthleticsSet(_ given : Set<AthleticsModel>) -> [[AthleticsModel]] {
+        let arr = given.sorted()
+        var dictToFlatten = [DateComponents : [AthleticsModel]]()
+        for each in arr {
+            if dictToFlatten[each.date] != nil {
+                dictToFlatten[each.date]?.append(each)
+            } else {
+                dictToFlatten[each.date] = [each]
+            }
+        }
+        dictToFlatten = dictToFlatten.mapValues { $0.sorted { $0.time < $1.time } }
+        return Array(dictToFlatten.values).sorted { $0[0].date < $1[0].date }
     }
     
     
@@ -66,11 +83,9 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     @objc private func refreshData() {
         athleticsRetriever.retrieveAthleticsArray(forceReturn: false, forceRefresh: true)
     }
-    private func setupTable(athleticsArray : [AthleticsModel?]) {
-        if modelArrayForSearch != athleticsArray {
-            modelArrayForSearch = athleticsArray
-        }
-        if athleticsArray == [AthleticsModel]() {
+    private func setupTable(athleticsArray : Set<AthleticsModel>) {
+        nestedUnfiltered = nestAthleticsSet(athleticsArray)
+        if athleticsArray == Set<AthleticsModel>() {
             print("No data present in Athletics view")
             athleticsDataPresent = false
             searchBarTopConstraint.constant = -56
@@ -95,22 +110,21 @@ class AthleticsViewController: CSBCViewController, UITableViewDataSource {
     
     //MARK: TableView Data Source Methods
     func numberOfSections(in tableView: UITableView) -> Int {
-        return modelArrayForSearch.count
+        return dataToDisplay.count
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let rowCountModel = modelArrayForSearch[section] else { return 0 }
-        return rowCountModel.title.count
+        return dataToDisplay[section].count
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "athleticsTableCell", for: indexPath) as?  AthleticsTableViewCell else { return UITableViewCell() }
-        if let model = modelArrayForSearch[indexPath.section] {
-            cell.addData(model: model, index: indexPath.row)
-        }
+        cell.addData(model: dataToDisplay[indexPath.section][indexPath.row])
         return cell
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        guard let titleHeaderModel = modelArrayForSearch[section] else { return "" }
-        return titleHeaderModel.date
+        guard let date = Calendar.current.date(from: dataToDisplay[section][0].date) else { return nil }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, MMMM d"
+        return dateFormatter.string(from: date)
     }
 }
 

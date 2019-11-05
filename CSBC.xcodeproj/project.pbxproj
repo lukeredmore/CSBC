@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		261202C4236E0678008269F8 /* CSBCSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261202C3236E0678008269F8 /* CSBCSearchViewController.swift */; };
 		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
@@ -105,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
+		261202C3236E0678008269F8 /* CSBCSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CSBCSearchViewController.swift; path = CSBC/Screens/Home/SupplementaryView/CSBCSearchViewController.swift; sourceTree = SOURCE_ROOT; };
 		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
@@ -362,6 +364,7 @@
 		2637A68E22FF16200097EDD1 /* Superclasses */ = {
 			isa = PBXGroup;
 			children = (
+				261202C3236E0678008269F8 /* CSBCSearchViewController.swift */,
 				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
 				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
 				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
@@ -911,6 +914,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				261202C4236E0678008269F8 /* CSBCSearchViewController.swift in Sources */,
 				26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */,
 				26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */,
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
