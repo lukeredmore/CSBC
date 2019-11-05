@@ -37,7 +37,7 @@ struct test : Searchable {
 
 class CSBCTestSearchViewController : CSBCSearchViewController<test> {
     
-    let testd : Set<test> = [
+    let no : Set<test> = [
         test(title: "new york", date: "12/25/2019", seq: 1),
         test(title: "london", date: "12/25/2019", seq: 2),
         test(title: "dubai", date: "12/25/2019", seq: 1),
@@ -47,6 +47,17 @@ class CSBCTestSearchViewController : CSBCSearchViewController<test> {
         test(title: "shanghai", date: "01/01", seq: 2),
         test(title: "cape town", date: "01/01", seq: 1)
     ]
+    let yes : Set<test> = [
+        test(title: "beijing", date: "12/25/2019", seq: 1),
+        test(title: "vienna", date: "12/25/2019", seq: 2),
+        test(title: "chicago", date: "12/25/2019", seq: 1),
+        test(title: "delhi", date: "11/25/2019", seq: 2),
+        test(title: "moscow", date: "01/01", seq: 4),
+        test(title: "rome", date: "01/01", seq: 3),
+        test(title: "paris", date: "01/01", seq: 2),
+        test(title: "madrid", date: "01/01", seq: 1)
+    ]
+    lazy var testd : Set<test> = []
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Test"
@@ -58,6 +69,10 @@ class CSBCTestSearchViewController : CSBCSearchViewController<test> {
         let cell = UITableViewCell()
         cell.textLabel?.text = "HI + \(data.title)"
         return cell
+    }
+    override func refreshData() {
+        testd = yes == yes ? no : yes
+        loadTable(withData: testd)
     }
 }
 
@@ -72,6 +87,14 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     private lazy var searchBarTopConstraint = searchBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     private var emptyDataMessageWhileSearching = "No items found"
     private var emptyDataMessage = "No data is present"
+    lazy private var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(refreshData), for: .valueChanged)
+        refreshControl.tintColor = .gray
+        
+        return refreshControl
+    }()
     
 
     //MARK: Data elements
@@ -82,12 +105,15 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     private var dataToDisplay : [[T]] {
         if isNotSearching {
             emptyDataLabel.text = fullData.isEmpty || fullData[0].isEmpty ? emptyDataMessage : ""
+            tableView.refreshControl = refreshControl
             return fullData
         } else if filteredData.count > 0, filteredData[0].count > 0, !filteredData[0][0].shouldStayGroupedWhenSearching {
             emptyDataLabel.text = ""
+            tableView.refreshControl = nil
             return [Array(filteredData.joined())]
         } else {
             emptyDataLabel.text = filteredData.isEmpty || filteredData[0].isEmpty ? emptyDataMessageWhileSearching : ""
+            tableView.refreshControl = nil
             return filteredData
         }
     }
@@ -122,12 +148,19 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     /// - Parameter set: full unsorted/unnested data to go in tableView
     func loadTable(withData set : Set<T>) {
         fullData = set.nest()
+        searchBarTopConstraint.constant = fullData.isEmpty || fullData[0].isEmpty ? -56 : 0
         tableView.reloadData()
+        loadingSymbol.stopAnimating()
+        refreshControl.endRefreshing()
     }
     /// Override this function to return a UITableViewCell appropriately styled for the given object
     /// - Parameter data: Searchable object to display in a UITableViewCell
     func configureCell(for data: T) -> UITableViewCell {
         return UITableViewCell()
+    }
+    /// Refresh data from source. Override this method and call its super to ensure refreshes cannot occur simultaneously. Be sure to call loadTable(withData:) to reload
+    @objc func refreshData() {
+        guard loadingSymbol.isHidden && !refreshControl.isRefreshing else { return }
     }
     
     
@@ -142,7 +175,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
     
     //MARK: UITableView's UIScrollViewDelegate Methods
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isNotSearching { return }
+        if !isNotSearching || fullData.isEmpty || fullData[0].isEmpty { return }
         let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
         if translation.y > 0 && searchBarTopConstraint.constant != 0 { //scroll up
             if translation.y < 56 {
@@ -226,7 +259,7 @@ class CSBCSearchViewController<T: Searchable>: CSBCViewController, UITableViewDa
         view.addSubview(container)
         view.addConstraints([
             topConstraint,
-            container.heightAnchor.constraint(equalToConstant: 55),
+            container.heightAnchor.constraint(equalToConstant: 56),
             container.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             container.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
