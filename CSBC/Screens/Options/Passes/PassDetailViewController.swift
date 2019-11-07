@@ -17,7 +17,7 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
         tableView.reloadData()
     }}
     
-    private var logToDisplay = [[(String, Date)]]()
+    private var logToDisplay = [[StudentStatus]]()
     private var studentName = String()
     
     @IBAction func doneButtonPressed(_ sender: UIBarButtonItem) {
@@ -26,19 +26,19 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
     
     func addLog(for student : StudentPassInfo) {
         studentName = student.name
-        var logToConvert : [(String, Date)] = [student.currentStatus]
+        var logToConvert : [StudentStatus] = [student.currentStatus]
         logToConvert += student.previousStatuses
-        var tempDict = [String:[(String, Date)]]()
+        var tempDict = [String:[StudentStatus]]()
         for entry in logToConvert {
-            let dateString = entry.1.dateString()
+            let dateString = entry.time.dateString()
             if tempDict[dateString] != nil {
                 tempDict[dateString]?.append(entry)
             } else {
                 tempDict[dateString] = [entry]
             }
         }
-        logToDisplay = Array(tempDict.values).map { $0.sorted { $0.1 > $1.1 } }
-        logToDisplay.sort { $0[0].1 > $1[0].1  }
+        logToDisplay = Array(tempDict.values).map { $0.sorted { $0.time > $1.time } }
+        logToDisplay.sort { $0[0].time > $1[0].time  }
     }
     
     //MARK: TableView Delegate Methods
@@ -51,15 +51,15 @@ class PassDetailViewController: UIViewController, UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MM/dd/yy"
-        return dateFormatter.string(from: logToDisplay[section][0].1)
+        return dateFormatter.string(from: logToDisplay[section][0].time)
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "h:mm a"
         let logEntry = logToDisplay[indexPath.section][indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: "PassLogCell")!
-        cell.textLabel?.text = timeFormatter.string(from: logEntry.1)
-        cell.detailTextLabel?.text = logEntry.0.replacingOccurrences(of: "Signed ", with: "")
+        cell.textLabel?.text = timeFormatter.string(from: logEntry.time)
+        cell.detailTextLabel?.text = logEntry.location.replacingOccurrences(of: "Signed ", with: "")
         return cell
     }
     

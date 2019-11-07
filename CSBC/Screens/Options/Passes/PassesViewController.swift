@@ -10,13 +10,6 @@ import UIKit
 import Firebase
 
 
-struct StudentPassInfo {
-    let name : String
-    let graduationYear : Int
-    let currentStatus : (String, Date)
-    let previousStatuses : [(String, Date)]
-}
-
 ///Receives from Firebase, parses, and displays students out with passes
 class PassesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak private var tableView: UITableView! { didSet {
@@ -32,14 +25,7 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
     
     private let passDataReference = Database.database().reference().child("PassSystem/Students")
     private var clockTimer : Timer?
-    private var gradeLevelMap : [Int:Int] {
-        let seniorsGradYear = Calendar.current.component(.year, from: DaySchedule.endDate)
-        var gradeLevelMap = [seniorsGradYear : 12]
-        for i in stride(from: seniorsGradYear + 1, to: seniorsGradYear + 6, by: 1) {
-            gradeLevelMap[i] = gradeLevelMap[i - 1]! - 1
-        }
-        return gradeLevelMap
-    }
+    
     
     
     //MARK: View Lifecycle
@@ -62,47 +48,58 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
             self.allStudentInfoArray.removeAll()
             self.signedOutStudentInfoArray.removeAll()
             
+            //Calculate grade level map
+            let seniorsGradYear = Calendar.current.component(.year, from: DaySchedule.endDate)
+            var gradeLevelMap = [seniorsGradYear : 12]
+            for i in stride(from: seniorsGradYear + 1, to: seniorsGradYear + 6, by: 1) {
+                gradeLevelMap[i] = gradeLevelMap[i - 1]! - 1
+            }
+            
+            
             for (_, student) in studentsDict {
-                let studentPassInfo = self.parseStudentForPassInfo(student)
+                guard let studentPassInfo = self.parseStudentForPassInfo(student, gradeLevelMap: gradeLevelMap) else { continue }
                 self.allStudentInfoArray.append(studentPassInfo)
-                if studentPassInfo.currentStatus.0.lowercased().contains("out") {
+                if studentPassInfo.currentStatus.location.lowercased().contains("out") {
                     self.signedOutStudentInfoArray.append(studentPassInfo)
                 }
             }
         }
     }
-    private func parseStudentForPassInfo(_ student : [String:Any]) -> StudentPassInfo {
+    private func parseStudentForPassInfo(_ student : [String:Any], gradeLevelMap : [Int : Int]) -> StudentPassInfo? {
         let dateTimeFormatter = DateFormatter()
         dateTimeFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss a"
         
-        let studentLog = student["log"] as? [[String:String]]
-        var logToStore = [(String, Date)]()
-        for logEntry in studentLog ?? [[String:String]]() {
+        guard let studentName = student["name"] as? String,
+            let studentGraduationYear = student["graduationYear"] as? Int,
+            let studentGrade = gradeLevelMap[studentGraduationYear],
+            let currentLocation = student["currentStatus"] as? String,
+            let timeOfStatusChangeString = student["timeOfStatusChange"] as? String,
+            let timeOfStatusChange = dateTimeFormatter.date(from: timeOfStatusChangeString) else { return nil }
+        
+        let currentStatus = StudentStatus(location: currentLocation, time: timeOfStatusChange)
+        var previousStatuses = [StudentStatus]()
+        if let studentLog = student["log"] as? [[String:String]] {
+            for logEntry in studentLog {
             guard let statusFromLog = logEntry["status"],
                 let dateStringFromLog = logEntry["time"],
                 let dateFromLog = dateTimeFormatter.date(from: dateStringFromLog)
                 else { continue }
-            let logToAdd = (statusFromLog, dateFromLog)
-            logToStore.append(logToAdd)
+                previousStatuses.append(StudentStatus(location: statusFromLog, time: dateFromLog))
+            }
         }
-        let timeString = student["timeOfStatusChange"] as! String
-        let time = dateTimeFormatter.date(from: timeString)!
+        
+        
         return StudentPassInfo(
-            name: student["name"] as! String,
-            graduationYear: student["graduationYear"] as! Int,
-            currentStatus: (student["currentStatus"] as! String, time),
-            previousStatuses: logToStore)
-    }
-    func getGradeLevelString(for student : StudentPassInfo) -> String {
-        let gradeLevelString = gradeLevelMap[student.graduationYear] != nil
-            ? " (" + gradeLevelMap[student.graduationYear]!.stringValue! + ")"
-            : ""
-        return gradeLevelString
+            name: studentName,
+            gradeLevel: studentGrade,
+            currentStatus: currentStatus,
+            previousStatuses: previousStatuses)
     }
     
     @IBAction func viewMoreButtonPressed(_ sender: UIButton) {
-        print("view more pressed")
-        performSegue(withIdentifier: "allStudentPassesSegue", sender: self)
+//        print("view more pressed")
+//        performSegue(withIdentifier: "allStudentPassesSegue", sender: self)
+        navigationController?.pushViewController(AllStudentPassesViewController(data: Set(allStudentInfoArray)), animated: true)
     }
     
     
@@ -117,10 +114,10 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         let cell = tableView.dequeueReusableCell(withIdentifier: "customPassCell") as! PassTableViewCell
         let student = signedOutStudentInfoArray[indexPath.row]
 
-        cell.nameLabel.text = student.name + getGradeLevelString(for: student)
-        cell.locationLabel.text = student.currentStatus.0
+        cell.nameLabel.text = student.name + " (\(student.gradeLevel))"
+        cell.locationLabel.text = student.currentStatus.location
         
-        let interval = Date().timeIntervalSince(student.currentStatus.1)
+        let interval = Date().timeIntervalSince(student.currentStatus.time)
         let timeString = interval.stringFromTimeInterval()
         cell.timeLabel.text = timeString
         
@@ -139,10 +136,10 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         let index = tableView.indexPathForSelectedRow?.row {
             let student = signedOutStudentInfoArray[index]
             passDetailVC.addLog(for: student)
-        } else if segue.identifier == "allStudentPassesSegue",
+        }/* else if segue.identifier == "allStudentPassesSegue",
           let allStudentPassesVC = segue.destination as? AllStudentPassesViewController {
-            allStudentPassesVC.addArrayOfStudents(allStudentInfoArray, forGrade: gradeLevelMap)
-        }
+            allStudentPassesVC.addArrayOfStudents(allStudentInfoArray)
+        }*/
     }
     
     

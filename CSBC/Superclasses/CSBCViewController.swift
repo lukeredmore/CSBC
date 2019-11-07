@@ -28,6 +28,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     }
     let threeLetterMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
     let schoolsArray = ["Seton","St. John's","All Saints","St. James"]
+    let shortSchoolsArray = ["seton","john","all saints","james"]
     let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
     let userDefaults = UserDefaults.standard
     var schoolPicker = CSBCSegmentedControl()

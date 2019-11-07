@@ -9,22 +9,37 @@
 import UIKit
 
 final class FilterAlertsViewController: ModalMenuViewController {
-    @IBOutlet private var menuView: UIView!
-    @IBOutlet private var menuViewHeightConstraint: NSLayoutConstraint!
-    @IBOutlet private var datePicker: UIDatePicker!
+    private let datePicker = UIDatePicker()
     
     weak var delegate: InputUpdateDelegate!
-    var dateToShow = Date()
+    let dateToShow : Date!
     
-    
-    //MARK: View Control
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupMenuView(menuView)
-    }
-    override func viewWillAppear(_ animated: Bool) {
+    init(dateToShow : Date, delegate : InputUpdateDelegate) {
+        self.dateToShow = dateToShow
+        self.delegate = delegate
+        
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.datePickerMode = .date
         datePicker.setDate(dateToShow, animated: false)
+        
+        let menuView = UIView()
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        menuView.addSubview(datePicker)
+        menuView.addConstraints([
+            datePicker.topAnchor.constraint(equalTo: menuView.topAnchor),
+            datePicker.bottomAnchor.constraint(equalTo: menuView.bottomAnchor),
+            datePicker.leadingAnchor.constraint(equalTo: menuView.leadingAnchor),
+            datePicker.trailingAnchor.constraint(equalTo: menuView.trailingAnchor)
+        ])
+        menuView.backgroundColor = .csbcCardView
+        super.init(menu: menuView, height: 200)
     }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func passBackData() {
         delegate.storeDateSelected(date: datePicker.date)
     }

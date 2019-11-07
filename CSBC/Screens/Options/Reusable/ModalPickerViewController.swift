@@ -17,7 +17,7 @@ protocol DayOverriddenDelegate: class {
 
 ///Modal VC where both the notification delivery time and day override can be picked
 final class ModalPickerViewController: ModalMenuViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-    @IBOutlet weak private var menuView: UIView!
+//    @IBOutlet weak private var menuView: UIView!
     @IBOutlet weak private var menuViewHeightConstraint: NSLayoutConstraint!
     
     @IBOutlet weak private var timePicker: UIDatePicker!
@@ -47,7 +47,7 @@ final class ModalPickerViewController: ModalMenuViewController, UIPickerViewDele
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupMenuView(menuView)
+//        setupMenuView(menuView)
     }
     override func viewWillAppear(_ animated: Bool) {
         if timeEnteredDelegate != nil, timeToShow != nil {

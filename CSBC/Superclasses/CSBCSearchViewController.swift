@@ -8,20 +8,28 @@
 
 import UIKit
 
+
+
 protocol Searchable : Hashable, Comparable, Codable {
-    var groupIntoSectionsByThisParameter : AnyHashable { get }
-    var sectionTitle : String { get }
+    var groupIntoSectionsByThisParameter : AnyHashable? { get }
+    var sectionTitle : String? { get }
     var searchElements : String { get }
-    var shouldStayGroupedWhenSearching : Bool { get }
+    static var shouldStayGroupedWhenSearching : Bool? { get }
+    static func sortSectionsByThisParameter<T: Comparable>(_ lhs: T, _ rhs: T) -> Bool?
 }
+
 protocol DisplayInSearchableTableView {
     func addData<T: Searchable>(_ genericModel : T)
 }
 
-class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate where Cell : DisplayInSearchableTableView {
+enum RefreshConfiguration {
+    case whileNotSearching, never
+}
+
+class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate where Cell : DisplayInSearchableTableView{
     
     //MARK: UI & Search Elements
-    private let tableView = UITableView()
+    let tableView = UITableView()
     private let bar = UIView()
     private let emptyDataLabel = UILabel()
     private let searchBarContainerView = UIView()
@@ -40,27 +48,47 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
 
     //MARK: Data elements
     private var fullData = [[T]]()
-    private var filteredData = [[T]]() { didSet {
-        tableView.isHidden = filteredData.count == 0
+    private var filteredData = [[T]]()
+    private var searchedData = [[T]]() { didSet {
+        tableView.isHidden = searchedData.count == 0
     } }
     private var dataToDisplay : [[T]] {
-        if isNotSearching {
-            emptyDataLabel.text = fullData.isEmpty || fullData[0].isEmpty ? emptyDataMessage : ""
-            tableView.refreshControl = refreshControl
-            return fullData
-        } else if filteredData.count > 0, filteredData[0].count > 0, !filteredData[0][0].shouldStayGroupedWhenSearching {
-            emptyDataLabel.text = ""
-            tableView.refreshControl = nil
-            return [Array(filteredData.joined())]
-        } else {
-            emptyDataLabel.text = filteredData.isEmpty || filteredData[0].isEmpty ? emptyDataMessageWhileSearching : ""
-            tableView.refreshControl = nil
+        if isSearching {
+            isRefreshEnabled = false
+            if !searchedDataEmpty, !(T.shouldStayGroupedWhenSearching ?? false) {
+                emptyDataLabel.text = ""
+                return [Array(searchedData.joined())]
+            } else {
+                emptyDataLabel.text = searchedDataEmpty ? emptyDataMessageWhileSearching : ""
+                return searchedData
+            }
+        } else if !filters.isEmpty {
+            isRefreshEnabled = refreshConfiguration == .whileNotSearching
+            emptyDataLabel.text = filteredDataEmpty ? emptyDataMessageWhileSearching : ""
             return filteredData
+        } else {
+            emptyDataLabel.text = fullDataEmpty ? emptyDataMessage : ""
+            isRefreshEnabled = refreshConfiguration == .whileNotSearching
+            return fullData
         }
     }
-    private var cellID = ""
-    
-    
+    private var cellID : String?
+    private var isRefreshEnabled : Bool{
+        get { tableView.refreshControl != nil }
+        set (newValue) { tableView.refreshControl = newValue ? refreshControl : nil }
+    }
+    private var fullDataEmpty : Bool {
+        guard fullData.count > 0 else { return true }
+        return fullData[0].count == 0
+    }
+    private var filteredDataEmpty : Bool {
+        guard filteredData.count > 0 else { return true }
+        return filteredData[0].count == 0
+    }
+    private var searchedDataEmpty : Bool {
+        guard searchedData.count > 0 else { return true }
+        return searchedData[0].count == 0
+    }
     
     
     //MARK: View Control
@@ -75,10 +103,9 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         view.layoutIfNeeded()
     }
     
-    
     //MARK: User-facing Methods & Properties
-    /// Returns true if the user is not searching
-    var isNotSearching : Bool { searchController.searchBar.text?.isEmpty ?? true }
+    /// Returns true if the user is searching
+    var isSearching : Bool { !(searchController.searchBar.text?.isEmpty ?? true) }
     /// Sets data messages shown when now data is present in tableView
     /// - Parameter full: Shown when absolutely no data exists
     /// - Parameter searching: Shown when no data matching search criteria exisits
@@ -86,9 +113,9 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         emptyDataMessageWhileSearching = searching
         emptyDataMessage = full
     }
-    /// Connects custom cell in xib to tableView
-    /// - Parameter id: Identifier for both the xib name and object identifier
-    func setCellIdentifier(_ id : String) {
+    /// Connects custom cell created in xib to tableView
+    /// - Parameter id: Identifier for both the xib name and object identifier. Set to nil to use default UITableViewCell
+    func setIdentifierForXIBDefinedCell(_ id : String) {
         self.cellID = id
         tableView.register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
     }
@@ -96,7 +123,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     /// - Parameter set: full unsorted/unnested data to go in tableView
     func loadTable(withData set : Set<T>) {
         fullData = set.nest()
-        searchBarTopConstraint.constant = fullData.isEmpty || fullData[0].isEmpty ? -56 : 0
+        searchBarTopConstraint.constant = fullDataEmpty ? -56 : 0
         tableView.reloadData()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
@@ -105,12 +132,24 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     @objc func refreshData() {
         guard loadingSymbol.isHidden && !refreshControl.isRefreshing else { return }
     }
+    var refreshConfiguration = RefreshConfiguration.whileNotSearching
+    var filters = [String]() { didSet {
+        let filteredSet = Set(fullData.joined()).filter {
+            var include = false
+            for each in filters where $0.searchElements.lowercased().contains(each.lowercased()) {
+                include = true
+            }
+            return include
+        }
+        filteredData = filteredSet.nest()
+        tableView.reloadData()
+    } }
     
     
     //MARK: UISearchResultsUpdating Methods
     func updateSearchResults(for searchController: UISearchController) {
         if let searchText = searchController.searchBar.text {
-            filteredData = fullData.map { $0.filter { $0.searchElements.lowercased().contains(searchText.lowercased()) } }
+            searchedData = fullData.map { $0.filter { $0.searchElements.lowercased().contains(searchText.lowercased()) } }
             tableView.reloadData()
         }
     }
@@ -118,7 +157,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     
     //MARK: UITableView's UIScrollViewDelegate Methods
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if !isNotSearching || fullData.isEmpty || fullData[0].isEmpty { return }
+        if isSearching || fullDataEmpty { return }
         let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
         if translation.y > 0 && searchBarTopConstraint.constant != 0 { //scroll up
             if translation.y < 56 {
@@ -151,7 +190,8 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     
     //MARK: UITableViewDelagate Methods
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! Cell
+        guard cellID != nil else { fatalError("A cell must be defined") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID!) as? Cell else { fatalError("No cell is defined") }
         cell.addData(dataToDisplay[indexPath.section][indexPath.row])
         return cell
     }
@@ -164,7 +204,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard dataToDisplay.count > section, dataToDisplay[section].count > 0,
-            (dataToDisplay[section][0].shouldStayGroupedWhenSearching || isNotSearching) else { return nil }
+            (T.shouldStayGroupedWhenSearching ?? false || !isSearching) else { return nil }
         return dataToDisplay[section][0].sectionTitle
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -217,7 +257,6 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         controller.searchBar.tintColor = .white
         controller.searchBar.isTranslucent = false
         controller.searchBar.barTintColor = .csbcNavBarBackground
-        controller.searchBar.searchField.clearButtonMode = .always
         controller.searchBar.searchField.backgroundColor = .csbcLightGreen
         controller.searchBar.searchField.textColor = .white
         controller.searchBar.backgroundImage = UIImage()

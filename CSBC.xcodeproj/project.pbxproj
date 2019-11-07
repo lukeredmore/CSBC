@@ -13,6 +13,12 @@
 		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
 		2618D3302325483B00E16C21 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32F2325483B00E16C21 /* HomeView.swift */; };
 		261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261D26252211086200D0DD51 /* ActualDocViewController.swift */; };
+		26247F292371E1D100B8BCAC /* StudentPassInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F282371E1D100B8BCAC /* StudentPassInfo.swift */; };
+		26247F2C2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */; };
+		26247F2D2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */; };
+		26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F2E237229F600B8BCAC /* CalendarTableViewController.swift */; };
+		26247F342372306B00B8BCAC /* EventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F322372306B00B8BCAC /* EventsTableViewCell.swift */; };
+		26247F352372306B00B8BCAC /* EventsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26247F332372306B00B8BCAC /* EventsTableViewCell.xib */; };
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
@@ -29,7 +35,6 @@
 		2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */; };
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
 		266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266076DA22F685430088CF16 /* EventsRetriever.swift */; };
-		2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2660909022CB1EB100118EED /* CSBCSearchController.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
@@ -80,8 +85,6 @@
 		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
 		26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C7648E22FB6A4F0001FBBB /* TodayView.swift */; };
-		26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B67222AE3B300371B61 /* CalendarViewController.swift */; };
-		26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */; };
 		26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */; };
 		26DC0B6F222B168C00371B61 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */; };
 		26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */; };
@@ -113,6 +116,12 @@
 		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
 		2618D32F2325483B00E16C21 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		261D26252211086200D0DD51 /* ActualDocViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActualDocViewController.swift; sourceTree = "<group>"; };
+		26247F282371E1D100B8BCAC /* StudentPassInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentPassInfo.swift; sourceTree = "<group>"; };
+		26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStudentsPassesTableViewCell.swift; sourceTree = "<group>"; };
+		26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AllStudentsPassesTableViewCell.xib; sourceTree = "<group>"; };
+		26247F2E237229F600B8BCAC /* CalendarTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewController.swift; sourceTree = "<group>"; };
+		26247F322372306B00B8BCAC /* EventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewCell.swift; sourceTree = "<group>"; };
+		26247F332372306B00B8BCAC /* EventsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsTableViewCell.xib; sourceTree = "<group>"; };
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
@@ -129,7 +138,6 @@
 		2659E04B22F131CA00016DDE /* sccmonthlycalendar19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "sccmonthlycalendar19-20.pdf"; sourceTree = "<group>"; };
 		265E65C522AADAE400B3B62C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		266076DA22F685430088CF16 /* EventsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRetriever.swift; sourceTree = "<group>"; };
-		2660909022CB1EB100118EED /* CSBCSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchController.swift; sourceTree = "<group>"; };
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
@@ -181,8 +189,6 @@
 		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
 		26C7648E22FB6A4F0001FBBB /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
-		26DC0B67222AE3B300371B61 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
-		26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewCell.swift; sourceTree = "<group>"; };
 		26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.otf"; sourceTree = "<group>"; };
@@ -247,7 +253,7 @@
 		262C1164222AC5B9009A359E /* Calendar */ = {
 			isa = PBXGroup;
 			children = (
-				26DC0B67222AE3B300371B61 /* CalendarViewController.swift */,
+				26247F2E237229F600B8BCAC /* CalendarTableViewController.swift */,
 				26DC0B72222B1BF900371B61 /* FilterCalendarViewController.swift */,
 				2637A68922FF11D40097EDD1 /* Model */,
 				2637A68822FF11C80097EDD1 /* SupplementaryView */,
@@ -311,7 +317,8 @@
 		2637A68822FF11C80097EDD1 /* SupplementaryView */ = {
 			isa = PBXGroup;
 			children = (
-				26DC0B69222AEB4C00371B61 /* CalendarTableViewCell.swift */,
+				26247F322372306B00B8BCAC /* EventsTableViewCell.swift */,
+				26247F332372306B00B8BCAC /* EventsTableViewCell.xib */,
 			);
 			path = SupplementaryView;
 			sourceTree = "<group>";
@@ -370,7 +377,6 @@
 				261202C3236E0678008269F8 /* CSBCSearchViewController.swift */,
 				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
 				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
-				2660909022CB1EB100118EED /* CSBCSearchController.swift */,
 				263C6D0823038BCB00D189D8 /* Schools.swift */,
 			);
 			path = Superclasses;
@@ -415,6 +421,9 @@
 				26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */,
 				266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */,
 				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
+				26247F282371E1D100B8BCAC /* StudentPassInfo.swift */,
+				26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */,
+				26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */,
 			);
 			path = Passes;
 			sourceTree = "<group>";
@@ -768,6 +777,7 @@
 				26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */,
 				26ADFE1A22442FA200A557C5 /* saintssickpolicy19-20.pdf in Resources */,
 				26DD56C122BB3BC5005E109B /* elementarySchoolDressDark.html in Resources */,
+				26247F2D2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib in Resources */,
 				265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */,
 				26B90BA6223B284500B92936 /* highSchoolDress.html in Resources */,
 				26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */,
@@ -784,6 +794,7 @@
 				2659E05022F131CA00016DDE /* scccoursedescription19-20.pdf in Resources */,
 				26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */,
 				26894D4F21EFACFE00691C97 /* gotham.otf in Resources */,
+				26247F352372306B00B8BCAC /* EventsTableViewCell.xib in Resources */,
 				26894D4921EFACFE00691C97 /* Gotham-Black.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -919,8 +930,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				261202C4236E0678008269F8 /* CSBCSearchViewController.swift in Sources */,
-				26DC0B68222AE3B300371B61 /* CalendarViewController.swift in Sources */,
-				26DC0B6A222AEB4C00371B61 /* CalendarTableViewCell.swift in Sources */,
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
@@ -929,15 +938,16 @@
 				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
+				26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
 				263C6D0923038BCB00D189D8 /* Schools.swift in Sources */,
 				2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */,
 				26712F4322C9071300C30493 /* HomeCollectionController.swift in Sources */,
-				2660909122CB1EB100118EED /* CSBCSearchController.swift in Sources */,
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
+				26247F2C2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift in Sources */,
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
 				26BE62082273A53F00C6656F /* PageViewController.swift in Sources */,
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
@@ -959,6 +969,7 @@
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
+				26247F342372306B00B8BCAC /* EventsTableViewCell.swift in Sources */,
 				26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */,
 				26DD570122BBD16E005E109B /* AlertController.swift in Sources */,
 				26BE62042272B65C00C6656F /* ModalPickerViewController.swift in Sources */,
@@ -976,6 +987,7 @@
 				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,
 				26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */,
+				26247F292371E1D100B8BCAC /* StudentPassInfo.swift in Sources */,
 				26DC0B79222F275900371B61 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

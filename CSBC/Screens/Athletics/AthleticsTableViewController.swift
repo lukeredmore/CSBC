@@ -10,14 +10,12 @@ import UIKit
 
 class AthleticsTableViewController: CSBCSearchViewController<AthleticsModel, AthleticsTableViewCell> {
     private lazy var athleticsRetriever = AthleticsRetriever(completion: loadTable)
-    var athleticsDataPresent = false
-    var athleticsData = AthleticsDataParser()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Athletics"
         setEmptyDataMessage("There are currently no athletic events scheduled", whileSearching: "No events found")
-        setCellIdentifier("AthleticsTableViewCell")
+        setIdentifierForXIBDefinedCell("AthleticsTableViewCell")
         
     }
     override func viewWillAppear(_ animated: Bool) {

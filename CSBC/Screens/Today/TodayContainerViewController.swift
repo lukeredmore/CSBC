@@ -45,7 +45,8 @@ class TodayContainerViewController: CSBCViewController, PageViewDelegate {
     }
     
     @objc private func dateFilterSelected(_ sender: Any) {
-        performSegue(withIdentifier: "AlertsSettingsSegue", sender: self)
+        let vc = FilterAlertsViewController(dateToShow: self.dateToShow, delegate: containerDelegate)
+        present(vc, animated: true)
     }
     
     @objc private func dateChangerDoubleTapped() {
@@ -60,10 +61,6 @@ class TodayContainerViewController: CSBCViewController, PageViewDelegate {
             let childVC = segue.destination as! PageViewController
             childVC.pagerDelegate = self
             containerDelegate = childVC
-        } else if segue.identifier == "AlertsSettingsSegue" {
-            let childVC = segue.destination as! FilterAlertsViewController
-            childVC.delegate = containerDelegate
-            childVC.dateToShow = self.dateToShow
         }
     }
     

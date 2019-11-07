@@ -8,7 +8,17 @@
 
 import Foundation
 
-struct EventsModel: Codable, Hashable, Comparable {
+struct EventsModel: Searchable {
+    var groupIntoSectionsByThisParameter: AnyHashable? { nil }
+    
+    var sectionTitle: String? { nil }
+    
+    var searchElements: String { "\(event) \(date) \(time ?? "") \(schools ?? "")" }
+    
+    static var shouldStayGroupedWhenSearching: Bool? { nil }
+    
+    static func sortSectionsByThisParameter<T>(_ lhs: T, _ rhs: T) -> Bool? where T : Comparable { nil }
+    
     
     let event : String
     let date : DateComponents

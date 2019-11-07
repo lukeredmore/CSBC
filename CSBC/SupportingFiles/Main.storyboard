@@ -15,15 +15,6 @@
         <array key="Gotham-BookItalic.otf">
             <string>Gotham-BookItalic</string>
         </array>
-        <array key="Montserrat-Italic.otf">
-            <string>Montserrat-Italic</string>
-        </array>
-        <array key="Montserrat-Regular.otf">
-            <string>Montserrat-Regular</string>
-        </array>
-        <array key="Montserrat-SemiBold.otf">
-            <string>Montserrat-SemiBold</string>
-        </array>
         <array key="gotham.otf">
             <string>Gotham-Medium</string>
         </array>
@@ -69,7 +60,6 @@
                     </view>
                     <navigationItem key="navigationItem" id="vf3-wn-y96"/>
                     <connections>
-                        <segue destination="bZh-dy-vbc" kind="show" identifier="CalendarSegue" id="ddJ-je-yye"/>
                         <segue destination="hL9-rV-7XR" kind="show" identifier="SocialMediaSegue" id="w4f-bQ-qS1"/>
                         <segue destination="Nhc-OG-ilc" kind="show" identifier="LunchSegue" id="ks0-pN-eUe"/>
                         <segue destination="gie-Ly-Bvm" kind="show" identifier="WebSegue" id="VJ0-03-Vre"/>
@@ -117,7 +107,6 @@
                     <connections>
                         <outlet property="containerView" destination="RNL-8w-G8O" id="F3u-4m-CZe"/>
                         <outlet property="dateChangerButton" destination="pk9-RS-xh5" id="YdO-u3-V0F"/>
-                        <segue destination="FAl-Gv-RvC" kind="presentation" identifier="AlertsSettingsSegue" id="4DR-Mc-sm7"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NXu-8u-HAe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -133,50 +122,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ywt-Nb-kvE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1623" y="739"/>
-        </scene>
-        <!--Filter Alerts View Controller-->
-        <scene sceneID="eQn-kj-cLj">
-            <objects>
-                <viewController storyboardIdentifier="FilterAlertsViewController" title="Filter Alerts View Controller" id="FAl-Gv-RvC" customClass="FilterAlertsViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="LxB-cz-qyD">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hrl-yg-K8v">
-                                <rect key="frame" x="0.0" y="626" width="414" height="216"/>
-                                <subviews>
-                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" translatesAutoresizingMaskIntoConstraints="NO" id="xuR-wS-GjY">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="216"/>
-                                    </datePicker>
-                                </subviews>
-                                <color key="backgroundColor" name="CSBCCardView"/>
-                                <constraints>
-                                    <constraint firstAttribute="bottom" secondItem="xuR-wS-GjY" secondAttribute="bottom" id="JMS-rv-Cqz"/>
-                                    <constraint firstAttribute="height" constant="216" id="LWK-a5-pYT"/>
-                                    <constraint firstItem="xuR-wS-GjY" firstAttribute="leading" secondItem="Hrl-yg-K8v" secondAttribute="leading" id="TGN-L0-7Iu"/>
-                                    <constraint firstItem="xuR-wS-GjY" firstAttribute="top" secondItem="Hrl-yg-K8v" secondAttribute="top" id="UFm-Fy-4NB"/>
-                                    <constraint firstAttribute="trailing" secondItem="xuR-wS-GjY" secondAttribute="trailing" id="vtF-XX-R55"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Hrl-yg-K8v" firstAttribute="top" secondItem="LxB-cz-qyD" secondAttribute="top" priority="999" constant="369" id="Bgt-0m-hFA"/>
-                            <constraint firstItem="mFh-VV-9Ql" firstAttribute="trailing" secondItem="Hrl-yg-K8v" secondAttribute="trailing" id="RuP-Pd-FPq"/>
-                            <constraint firstAttribute="bottom" secondItem="Hrl-yg-K8v" secondAttribute="bottom" id="Ss1-1w-eYs"/>
-                            <constraint firstItem="Hrl-yg-K8v" firstAttribute="leading" secondItem="mFh-VV-9Ql" secondAttribute="leading" id="ruo-vi-ub0"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="mFh-VV-9Ql"/>
-                    </view>
-                    <connections>
-                        <outlet property="datePicker" destination="xuR-wS-GjY" id="BnV-Vq-Sbb"/>
-                        <outlet property="menuView" destination="Hrl-yg-K8v" id="oz2-S5-2d8"/>
-                        <outlet property="menuViewHeightConstraint" destination="Bgt-0m-hFA" id="lCF-IU-Vft"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="TjN-cO-jWr" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-2970" y="739"/>
         </scene>
         <!--Portal-->
         <scene sceneID="DDa-DT-86a">
@@ -340,7 +285,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="School Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="zaQ-5e-wfT">
-                                                    <rect key="frame" x="110" y="11" width="115" height="22"/>
+                                                    <rect key="frame" x="110" y="11" width="127" height="22"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="22" id="HUF-jf-965"/>
                                                     </constraints>
@@ -496,171 +441,6 @@
             </objects>
             <point key="canvasLocation" x="2900" y="708"/>
         </scene>
-        <!--Calendar View Controller-->
-        <scene sceneID="SuQ-73-hzi">
-            <objects>
-                <viewController id="bZh-dy-vbc" customClass="CalendarViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="78s-Vq-7q6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3t1-7W-dh0" userLabel="Search Bar Container View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                                <color key="backgroundColor" name="CSBCNavBarBackground"/>
-                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="9z6-Ql-hlu"/>
-                                </constraints>
-                            </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ked-jW-chL">
-                                <rect key="frame" x="0.0" y="64" width="414" height="744"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="separatorColor" name="CSBCAccentGray"/>
-                                <color key="sectionIndexBackgroundColor" name="CSBCAccentGray"/>
-                                <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="Dc1-8G-Oig">
-                                    <rect key="frame" x="0.0" y="187" width="414" height="54"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yFp-F5-gqn">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
-                                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                            <state key="normal" title="View More &gt;">
-                                                <color key="titleColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="viewMoreButtonPressed:" destination="bZh-dy-vbc" eventType="touchUpInside" id="Xnc-TP-5Xb"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" name="CSBCBackground"/>
-                                    <constraints>
-                                        <constraint firstItem="yFp-F5-gqn" firstAttribute="leading" secondItem="Dc1-8G-Oig" secondAttribute="leading" id="6xL-al-vaM"/>
-                                        <constraint firstAttribute="trailing" secondItem="yFp-F5-gqn" secondAttribute="trailing" id="BeT-JJ-5ZD"/>
-                                        <constraint firstAttribute="bottom" secondItem="yFp-F5-gqn" secondAttribute="bottom" id="TPD-YL-oxX"/>
-                                        <constraint firstItem="yFp-F5-gqn" firstAttribute="top" secondItem="Dc1-8G-Oig" secondAttribute="top" id="vZe-ql-3eY"/>
-                                    </constraints>
-                                </view>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="calendarTableCell" id="Ffc-WW-AfL" customClass="CalendarTableViewCell" customModule="CSBC" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="131"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Ffc-WW-AfL" id="dVc-Wc-P4T">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="131"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gRy-Dy-ca0">
-                                                    <rect key="frame" x="0.0" y="35.5" width="65" height="60"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="31" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ltc-y9-mMj">
-                                                            <rect key="frame" x="0.0" y="0.0" width="65" height="40"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="40" id="eXG-xx-dPz"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="35"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JAN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="btj-os-APE">
-                                                            <rect key="frame" x="0.0" y="40" width="65" height="20"/>
-                                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                                            <nil key="textColor"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="65" id="0vk-XG-DY4"/>
-                                                    </constraints>
-                                                </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="tTT-6i-b6c">
-                                                    <rect key="frame" x="65" y="10" width="329" height="111"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="The Fifty-Seventh Commencement of Seton Catholic Central for the Class of 2019" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U8u-YE-gaR">
-                                                            <rect key="frame" x="0.0" y="0.0" width="329" height="63.5"/>
-                                                            <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="18"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xTk-A3-fsM">
-                                                            <rect key="frame" x="0.0" y="63.5" width="329" height="5"/>
-                                                            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="5" id="8ls-mF-Cbd"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="7:00 PM" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="D9V-Ox-Ioy">
-                                                            <rect key="frame" x="0.0" y="68.5" width="329" height="21"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="21" id="aoQ-LL-KVi"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Montserrat-Italic" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seton Catholic Central" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsLetterSpacingToFitWidth="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vsi-sJ-JUT">
-                                                            <rect key="frame" x="0.0" y="89.5" width="329" height="21.5"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="21.5" id="idQ-Gs-V71"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="17"/>
-                                                            <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="gRy-Dy-ca0" firstAttribute="centerY" secondItem="dVc-Wc-P4T" secondAttribute="centerY" id="DUi-RK-iAw"/>
-                                                <constraint firstAttribute="bottom" secondItem="tTT-6i-b6c" secondAttribute="bottom" constant="10" id="HSv-MY-1Fi"/>
-                                                <constraint firstItem="tTT-6i-b6c" firstAttribute="top" secondItem="dVc-Wc-P4T" secondAttribute="top" constant="10" id="IZz-qm-b0q"/>
-                                                <constraint firstItem="tTT-6i-b6c" firstAttribute="leading" secondItem="gRy-Dy-ca0" secondAttribute="trailing" id="WeA-73-8zy"/>
-                                                <constraint firstItem="gRy-Dy-ca0" firstAttribute="leading" secondItem="dVc-Wc-P4T" secondAttribute="leading" id="fKD-3U-2Rb"/>
-                                                <constraint firstAttribute="trailing" secondItem="tTT-6i-b6c" secondAttribute="trailing" constant="20" id="tla-KG-OLr"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="dayLabel" destination="ltc-y9-mMj" id="ox0-iR-adY"/>
-                                            <outlet property="eventLabel" destination="U8u-YE-gaR" id="Rcs-v5-Bih"/>
-                                            <outlet property="monthLabel" destination="btj-os-APE" id="6lV-Pg-ReT"/>
-                                            <outlet property="schoolsLabel" destination="vsi-sJ-JUT" id="9gL-k5-FVb"/>
-                                            <outlet property="timeLabel" destination="D9V-Ox-Ioy" id="pYy-Tm-gbX"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dGc-dV-ePJ" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="56" width="414" height="8"/>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="8" id="T1X-LK-IpB"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" name="CSBCAccentGray"/>
-                        <constraints>
-                            <constraint firstItem="Ked-jW-chL" firstAttribute="top" secondItem="dGc-dV-ePJ" secondAttribute="bottom" id="4By-Ig-7j2"/>
-                            <constraint firstItem="dGc-dV-ePJ" firstAttribute="trailing" secondItem="NZc-iZ-mm7" secondAttribute="trailing" id="MA8-be-HV5"/>
-                            <constraint firstItem="dGc-dV-ePJ" firstAttribute="top" secondItem="3t1-7W-dh0" secondAttribute="bottom" id="PPG-5L-I1W"/>
-                            <constraint firstItem="3t1-7W-dh0" firstAttribute="leading" secondItem="NZc-iZ-mm7" secondAttribute="leading" id="TOo-Dc-Jbu"/>
-                            <constraint firstItem="Ked-jW-chL" firstAttribute="leading" secondItem="NZc-iZ-mm7" secondAttribute="leading" id="TWh-bE-Eht"/>
-                            <constraint firstAttribute="bottom" secondItem="Ked-jW-chL" secondAttribute="bottom" id="ZT5-72-0Pw"/>
-                            <constraint firstItem="dGc-dV-ePJ" firstAttribute="leading" secondItem="NZc-iZ-mm7" secondAttribute="leading" id="bFu-Ds-Tlg"/>
-                            <constraint firstItem="NZc-iZ-mm7" firstAttribute="trailing" secondItem="Ked-jW-chL" secondAttribute="trailing" id="cGX-sl-LhP"/>
-                            <constraint firstItem="3t1-7W-dh0" firstAttribute="top" secondItem="NZc-iZ-mm7" secondAttribute="top" id="dl0-J7-wQP"/>
-                            <constraint firstItem="3t1-7W-dh0" firstAttribute="trailing" secondItem="NZc-iZ-mm7" secondAttribute="trailing" id="l4B-y8-idd"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="NZc-iZ-mm7"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="TOK-hr-csd"/>
-                    <connections>
-                        <outlet property="searchBarContainerView" destination="3t1-7W-dh0" id="LL0-Ph-EqZ"/>
-                        <outlet property="searchBarTopConstraint" destination="dl0-J7-wQP" id="HY6-6L-5OZ"/>
-                        <outlet property="tableView" destination="Ked-jW-chL" id="hGj-B5-5DM"/>
-                        <segue destination="zod-es-qI2" kind="presentation" identifier="CalendarSettingsSegue" id="pBc-Cw-68K"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H57-f1-KNc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-868" y="1584"/>
-        </scene>
         <!--News-->
         <scene sceneID="KHF-2D-UUC">
             <objects>
@@ -705,111 +485,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jCr-va-j6l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="510.14492753623193" y="1591.7410714285713"/>
-        </scene>
-        <!--Filter Calendar View Controller-->
-        <scene sceneID="s2Y-ka-pNt">
-            <objects>
-                <viewController storyboardIdentifier="FilterCalendarViewController" id="zod-es-qI2" customClass="FilterCalendarViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Dia-oQ-H8a">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rY0-oY-mFx">
-                                <rect key="frame" x="0.0" y="492" width="414" height="350"/>
-                                <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="v3k-nl-IIU">
-                                        <rect key="frame" x="325" y="72" width="49" height="228"/>
-                                        <subviews>
-                                            <switch opaque="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ID7-N8-HvP">
-                                                <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
-                                            </switch>
-                                            <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0bo-Iw-XdO">
-                                                <rect key="frame" x="0.0" y="65.5" width="51" height="31"/>
-                                            </switch>
-                                            <switch opaque="NO" tag="3" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="d2k-9n-K9H">
-                                                <rect key="frame" x="0.0" y="131.5" width="51" height="31"/>
-                                            </switch>
-                                            <switch opaque="NO" tag="4" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OJT-Ws-M17">
-                                                <rect key="frame" x="0.0" y="197" width="51" height="31"/>
-                                            </switch>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="QRf-xW-NXK">
-                                        <rect key="frame" x="50" y="75" width="265" height="220"/>
-                                        <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Seton Catholic Central" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k3N-nO-RcA">
-                                                <rect key="frame" x="0.0" y="0.0" width="265" height="20"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="St. John's" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKm-AY-LDx">
-                                                <rect key="frame" x="0.0" y="66.5" width="265" height="20"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="All Saints" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c2p-Z5-yUK">
-                                                <rect key="frame" x="0.0" y="133.5" width="265" height="20"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="St. James" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pm4-Lb-LNv">
-                                                <rect key="frame" x="0.0" y="200" width="265" height="20"/>
-                                                <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="17"/>
-                                                <nil key="textColor"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                    </stackView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Events For:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fiY-7i-AFH">
-                                        <rect key="frame" x="25" y="25" width="212" height="30"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="212" id="fAX-CY-JGc"/>
-                                            <constraint firstAttribute="height" constant="30" id="nDo-yr-6Gj"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="Montserrat-SemiBold" family="Montserrat" pointSize="24"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" name="CSBCCardView"/>
-                                <constraints>
-                                    <constraint firstItem="fiY-7i-AFH" firstAttribute="top" secondItem="rY0-oY-mFx" secondAttribute="top" constant="25" id="4nJ-ad-CZ1"/>
-                                    <constraint firstAttribute="trailing" secondItem="v3k-nl-IIU" secondAttribute="trailing" constant="40" id="HKS-r8-myz"/>
-                                    <constraint firstAttribute="bottom" secondItem="QRf-xW-NXK" secondAttribute="bottom" constant="55" id="KhH-uk-uW6"/>
-                                    <constraint firstAttribute="height" constant="350" id="aDS-s2-QbD"/>
-                                    <constraint firstAttribute="bottom" secondItem="v3k-nl-IIU" secondAttribute="bottom" constant="50" id="amd-ho-Jh0"/>
-                                    <constraint firstItem="v3k-nl-IIU" firstAttribute="leading" secondItem="QRf-xW-NXK" secondAttribute="trailing" constant="10" id="lmy-mn-7fu"/>
-                                    <constraint firstItem="QRf-xW-NXK" firstAttribute="leading" secondItem="rY0-oY-mFx" secondAttribute="leading" constant="50" id="s3q-RC-IBw"/>
-                                    <constraint firstItem="fiY-7i-AFH" firstAttribute="leading" secondItem="rY0-oY-mFx" secondAttribute="leading" constant="25" id="ssa-nF-m0h"/>
-                                    <constraint firstItem="v3k-nl-IIU" firstAttribute="top" secondItem="rY0-oY-mFx" secondAttribute="top" constant="72" id="udw-Az-84j"/>
-                                    <constraint firstItem="QRf-xW-NXK" firstAttribute="top" secondItem="rY0-oY-mFx" secondAttribute="top" constant="75" id="wP8-oF-0rD"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="6yx-ic-aa7" firstAttribute="trailing" secondItem="rY0-oY-mFx" secondAttribute="trailing" id="92p-qp-KSh"/>
-                            <constraint firstAttribute="bottom" secondItem="rY0-oY-mFx" secondAttribute="bottom" id="DUQ-Ea-Wk8"/>
-                            <constraint firstItem="rY0-oY-mFx" firstAttribute="top" secondItem="Dia-oQ-H8a" secondAttribute="top" priority="999" constant="369" id="ZDS-Eb-5m0"/>
-                            <constraint firstItem="rY0-oY-mFx" firstAttribute="leading" secondItem="6yx-ic-aa7" secondAttribute="leading" id="mX4-xn-JhN"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="6yx-ic-aa7"/>
-                    </view>
-                    <connections>
-                        <outlet property="menuView" destination="rY0-oY-mFx" id="Mkr-S5-myW"/>
-                        <outlet property="menuViewHeightConstraint" destination="ZDS-Eb-5m0" id="oDD-A6-rvc"/>
-                        <outletCollection property="filterSwitches" destination="ID7-N8-HvP" collectionClass="NSMutableArray" id="gAl-PB-w0C"/>
-                        <outletCollection property="filterSwitches" destination="0bo-Iw-XdO" collectionClass="NSMutableArray" id="vPx-84-qMe"/>
-                        <outletCollection property="filterSwitches" destination="d2k-9n-K9H" collectionClass="NSMutableArray" id="I7w-2e-F3q"/>
-                        <outletCollection property="filterSwitches" destination="OJT-Ws-M17" collectionClass="NSMutableArray" id="SSw-rg-Lgh"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="H6F-F1-DMQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1526" y="1584"/>
         </scene>
         <!--Lunch-->
         <scene sceneID="SVL-dG-KBm">
@@ -1264,16 +939,16 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="cNe-WU-YHq">
-                                                    <rect key="frame" x="20" y="10" width="122.5" height="40"/>
+                                                    <rect key="frame" x="20" y="10" width="136" height="40"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Student Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8e8-6r-qVQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="122.5" height="22"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="136" height="22"/>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                             <color key="textColor" name="CSBCDefaultText"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYj-Hu-OYs">
-                                                            <rect key="frame" x="0.0" y="23" width="122.5" height="17"/>
+                                                            <rect key="frame" x="0.0" y="23" width="136" height="17"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="17" id="FpQ-hr-sjx"/>
                                                             </constraints>
@@ -1421,21 +1096,21 @@
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <prototypes>
                                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PassLogCell" textLabel="2Vm-LQ-LBi" detailTextLabel="eI6-KR-P6l" style="IBUITableViewCellStyleValue1" id="7eQ-Wf-g83">
-                                                <rect key="frame" x="0.0" y="28" width="414" height="45.5"/>
+                                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7eQ-Wf-g83" id="zoH-NJ-xGN">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="45.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="2Vm-LQ-LBi">
-                                                            <rect key="frame" x="20" y="12" width="42" height="22.5"/>
+                                                            <rect key="frame" x="20" y="12" width="46.5" height="20.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                             <color key="textColor" name="CSBCDefaultText"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Signed In" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="eI6-KR-P6l">
-                                                            <rect key="frame" x="321.5" y="11" width="72.5" height="24"/>
+                                                            <rect key="frame" x="321.5" y="10" width="72.5" height="24"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
                                                             <color key="textColor" name="CSBCGrayLabel"/>
@@ -1761,7 +1436,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="View Active Passes" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SSC-pj-TH5" userLabel="Admin Settings">
-                                                    <rect key="frame" x="20" y="11" width="182" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="202" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
@@ -1783,7 +1458,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Send A Notification" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pfq-H0-sFi" userLabel="Admin Settings">
-                                                    <rect key="frame" x="20" y="11" width="181.5" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="207" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
@@ -1809,7 +1484,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Report an Issue" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDj-dS-QpV" userLabel="Report an Issue">
-                                                    <rect key="frame" x="20" y="11" width="148" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="164" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
@@ -1831,7 +1506,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly4-ch-mFx">
-                                                    <rect key="frame" x="20" y="11" width="69" height="22"/>
+                                                    <rect key="frame" x="20" y="11" width="79" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
@@ -1935,7 +1610,7 @@
         <!--All Students-->
         <scene sceneID="IKc-SQ-TdW">
             <objects>
-                <viewController storyboardIdentifier="AllStudentsScene" title="All Students" id="MhY-EI-Pgt" customClass="AllStudentPassesViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AllStudentsScene" title="All Students" id="MhY-EI-Pgt" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ros-YW-eAk">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1963,14 +1638,14 @@
                                 <color key="sectionIndexBackgroundColor" name="CSBCBackground"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="allPassCell" textLabel="Jae-Qs-qyK" style="IBUITableViewCellStyleDefault" id="Je7-FB-PXO">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="45.5"/>
+                                        <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Je7-FB-PXO" id="Dqn-ft-UIV">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="45.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Student Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jae-Qs-qyK">
-                                                    <rect key="frame" x="20" y="0.0" width="355" height="45.5"/>
+                                                    <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
                                                     <color key="textColor" name="CSBCDefaultText"/>

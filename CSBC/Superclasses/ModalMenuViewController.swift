@@ -9,25 +9,27 @@
 import UIKit
 
 /// Common methods for halfscreen modal view controllers
-class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
+class ModalMenuViewController: CSBCViewController, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning {
     
     lazy var backdropView: UIView = {
         let bdView = UIView(frame: self.view.bounds)
         bdView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         return bdView
     }()
-    let menuHeight = UIScreen.main.bounds.height / 2
     var isPresenting = false
-    var superMenuView: UIView!
+    let menuView : UIView!
+    let menuHeight : CGFloat!
     
     
-    init() {
+    init(menu : UIView, height : CGFloat) {
+        self.menuView = menu
+        self.menuHeight = height
         super.init(nibName: nil, bundle: nil)
+        configure()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        configure()
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
@@ -36,15 +38,18 @@ class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDe
         view.backgroundColor = .clear
         view.addSubview(backdropView)
         
+        menuView.layer.cornerRadius = 10
+        menuView.layer.masksToBounds = true
+        view.addSubview(menuView)
+        view.addConstraints([
+            menuView.heightAnchor.constraint(equalToConstant: menuHeight),
+            menuView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            menuView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            menuView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ModalMenuViewController.handleTap(_:)))
         backdropView.addGestureRecognizer(tapGesture)
-    }
-    
-    func setupMenuView(_ menuView: UIView) {
-        superMenuView = menuView
-        superMenuView.layer.cornerRadius = 5
-        superMenuView.layer.masksToBounds = true
-        view.addSubview(superMenuView)
     }
     
     private func configure() {
@@ -83,18 +88,21 @@ class ModalMenuViewController: UIViewController, UIViewControllerTransitioningDe
         if isPresenting {
             containerView.addSubview(toVC.view)
             
-            superMenuView.frame.origin.y += menuHeight
+            menuView.frame.origin.y += menuHeight
             backdropView.alpha = 0
             
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.superMenuView.frame.origin.y -= self.menuHeight
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.menuView.frame.origin.y -= self.menuHeight
                 self.backdropView.alpha = 1
             }) { transitionContext.completeTransition($0) }
         } else {
-            UIView.animate(withDuration: 0.35, delay: 0, options: [.curveEaseInOut], animations: {
-                self.superMenuView.frame.origin.y += self.menuHeight
+            UIView.animate(withDuration: 0.3, delay: 0, options: [.curveEaseInOut], animations: {
+                self.menuView.frame.origin.y += self.menuHeight
                 self.backdropView.alpha = 0
             }) { transitionContext.completeTransition($0) }
         }
     }
+    
+    
+    
 }

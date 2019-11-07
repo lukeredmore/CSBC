@@ -301,16 +301,15 @@ extension Set where Element : Searchable {
         let arr = self.sorted() as! [T]
         var dictToFlatten : Dictionary<AnyHashable,[T]> = [:]
         for each in arr {
-            if dictToFlatten[each.groupIntoSectionsByThisParameter] != nil {
-                dictToFlatten[each.groupIntoSectionsByThisParameter]?.append(each)
+            guard let paramToGroupBy = each.groupIntoSectionsByThisParameter else { return [arr] }
+            if dictToFlatten[paramToGroupBy] != nil {
+                dictToFlatten[paramToGroupBy]?.append(each)
             } else {
-                dictToFlatten[each.groupIntoSectionsByThisParameter] = [each]
+                dictToFlatten[paramToGroupBy] = [each]
             }
         }
         dictToFlatten = dictToFlatten.mapValues { $0.sorted() }
-        return Array(dictToFlatten.values).sorted { $0[0] < $1[0] }
+        return Array(dictToFlatten.values).sorted { (T.sortSectionsByThisParameter($0[0], $1[0]) ?? true) }
         
     }
 }
-
-
