@@ -8,6 +8,7 @@
 
 import UIKit
 
+///Displays athletic events from AthleticsRetriever
 class AthleticsTableViewController: CSBCSearchViewController<AthleticsModel, AthleticsTableViewCell> {
     private lazy var athleticsRetriever = AthleticsRetriever(completion: loadTable)
     

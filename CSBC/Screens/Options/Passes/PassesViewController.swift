@@ -97,8 +97,6 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
     }
     
     @IBAction func viewMoreButtonPressed(_ sender: UIButton) {
-//        print("view more pressed")
-//        performSegue(withIdentifier: "allStudentPassesSegue", sender: self)
         navigationController?.pushViewController(AllStudentPassesViewController(data: Set(allStudentInfoArray)), animated: true)
     }
     

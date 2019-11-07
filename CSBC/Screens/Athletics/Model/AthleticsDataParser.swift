@@ -9,13 +9,12 @@
 import Foundation
 import SwiftyJSON
 
+//Parses athletic JSON data into Set of AthleticsModel
 class AthleticsDataParser {
-    private let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
-    private let months = ["Jan":"01", "Feb":"02", "Mar":"03", "Apr":"04", "May":"05", "Jun":"06", "Jul":"07", "Aug":"08", "Sep":"09", "Oct":"10", "Nov":"11", "Dec":"12"]
-    var athleticsModelArray = Set<AthleticsModel>()
-    var athleticsModelArrayFiltered = Set<AthleticsModel>()
+    private static let teamAbbreviations = ["V":"Varsity","JV":"JV","7/8TH":"Modified"]
+    private static let months = ["Jan":"01", "Feb":"02", "Mar":"03", "Apr":"04", "May":"05", "Jun":"06", "Jul":"07", "Aug":"08", "Sep":"09", "Oct":"10", "Nov":"11", "Dec":"12"]
     
-    func parseAthleticsData(json : JSON) {
+    static func parseAthleticsData(json : JSON) -> Set<AthleticsModel> {
         var modelListToReturn = Set<AthleticsModel>()
         var n = 0
         while n < json["data"].count {
@@ -61,10 +60,10 @@ class AthleticsDataParser {
             n += 1
             
         }
-        athleticsModelArray = modelListToReturn
-        addObjectArrayToUserDefaults(athleticsModelArray)
+        addObjectArrayToUserDefaults(modelListToReturn)
+        return modelListToReturn
     }
-    private func addObjectArrayToUserDefaults(_ athleticsArray: Set<AthleticsModel>) {
+    private static func addObjectArrayToUserDefaults(_ athleticsArray: Set<AthleticsModel>) {
         print("Athletics array is being added to UserDefaults")
         let dateTimeToAdd = Date().dateStringWithTime()
         UserDefaults.standard.set(try? PropertyListEncoder().encode(athleticsArray), forKey: "athleticsArray")

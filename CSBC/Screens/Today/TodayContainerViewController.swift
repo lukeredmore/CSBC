@@ -45,7 +45,7 @@ class TodayContainerViewController: CSBCViewController, PageViewDelegate {
     }
     
     @objc private func dateFilterSelected(_ sender: Any) {
-        let vc = FilterAlertsViewController(dateToShow: self.dateToShow, delegate: containerDelegate)
+        let vc = JumpToDateViewController(dateToShow: self.dateToShow, delegate: containerDelegate)
         present(vc, animated: true)
     }
     
@@ -58,7 +58,7 @@ class TodayContainerViewController: CSBCViewController, PageViewDelegate {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toPageVC" {
-            let childVC = segue.destination as! PageViewController
+            let childVC = segue.destination as! TodayPageViewController
             childVC.pagerDelegate = self
             containerDelegate = childVC
         }

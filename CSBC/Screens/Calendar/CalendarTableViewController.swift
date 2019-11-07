@@ -9,6 +9,7 @@
 import UIKit
 import SafariServices
 
+///Displays events from EventsRetriever and receives filter event from FilterCalendarViewController
 class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsTableViewCell> {
     
     private var storedSchoolsToShow = [true, true, true, true]

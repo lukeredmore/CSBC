@@ -65,7 +65,7 @@
 		2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699F9D92233147200AA1CF3 /* WebViewController.swift */; };
 		2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699F9DB22331A5600AA1CF3 /* DocumentsViewController.swift */; };
 		26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26AAAE272220F3C100DA3182 /* Main.storyboard */; };
-		26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */; };
+		26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE172240AA3100A557C5 /* JumpToDateViewController.swift */; };
 		26ADFE1A22442FA200A557C5 /* saintssickpolicy19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */; };
 		26ADFE1C22442FA600A557C5 /* saintscafeteriainf19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1B22442FA600A557C5 /* saintscafeteriainf19-20.pdf */; };
 		26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE412246A1CE00A557C5 /* ContactViewController.swift */; };
@@ -73,8 +73,7 @@
 		26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA1223B050900B92936 /* elementarySchoolDress.html */; };
 		26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA3223B282C00B92936 /* middleSchoolDress.html */; };
 		26B90BA6223B284500B92936 /* highSchoolDress.html in Resources */ = {isa = PBXBuildFile; fileRef = 26B90BA5223B284500B92936 /* highSchoolDress.html */; };
-		26BE62042272B65C00C6656F /* ModalPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62032272B65C00C6656F /* ModalPickerViewController.swift */; };
-		26BE62082273A53F00C6656F /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62072273A53F00C6656F /* PageViewController.swift */; };
+		26BE62082273A53F00C6656F /* TodayPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62072273A53F00C6656F /* TodayPageViewController.swift */; };
 		26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE62092273AED600C6656F /* TodayViewController.swift */; };
 		26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BE620B2273EB2D00C6656F /* TodayViewCell.swift */; };
 		26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26BE620C2273EB2D00C6656F /* TodayViewCell.xib */; };
@@ -169,7 +168,7 @@
 		269DF8B622696B7400090884 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		269DF8B822696B7400090884 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		26AAAE272220F3C100DA3182 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterAlertsViewController.swift; sourceTree = "<group>"; };
+		26ADFE172240AA3100A557C5 /* JumpToDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToDateViewController.swift; sourceTree = "<group>"; };
 		26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintssickpolicy19-20.pdf"; sourceTree = "<group>"; };
 		26ADFE1B22442FA600A557C5 /* saintscafeteriainf19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintscafeteriainf19-20.pdf"; sourceTree = "<group>"; };
 		26ADFE412246A1CE00A557C5 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -177,8 +176,7 @@
 		26B90BA1223B050900B92936 /* elementarySchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = elementarySchoolDress.html; sourceTree = "<group>"; };
 		26B90BA3223B282C00B92936 /* middleSchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDress.html; sourceTree = "<group>"; };
 		26B90BA5223B284500B92936 /* highSchoolDress.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = highSchoolDress.html; sourceTree = "<group>"; };
-		26BE62032272B65C00C6656F /* ModalPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalPickerViewController.swift; sourceTree = "<group>"; };
-		26BE62072273A53F00C6656F /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		26BE62072273A53F00C6656F /* TodayPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayPageViewController.swift; sourceTree = "<group>"; };
 		26BE62092273AED600C6656F /* TodayViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewController.swift; sourceTree = "<group>"; };
 		26BE620B2273EB2D00C6656F /* TodayViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayViewCell.swift; sourceTree = "<group>"; };
 		26BE620C2273EB2D00C6656F /* TodayViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayViewCell.xib; sourceTree = "<group>"; };
@@ -233,9 +231,9 @@
 			isa = PBXGroup;
 			children = (
 				26BE620F227403A300C6656F /* TodayContainerViewController.swift */,
-				26BE62072273A53F00C6656F /* PageViewController.swift */,
+				26BE62072273A53F00C6656F /* TodayPageViewController.swift */,
 				26BE62092273AED600C6656F /* TodayViewController.swift */,
-				26ADFE172240AA3100A557C5 /* FilterAlertsViewController.swift */,
+				26ADFE172240AA3100A557C5 /* JumpToDateViewController.swift */,
 				2637A68422FF0F2E0097EDD1 /* Model */,
 				2637A68322FF0F240097EDD1 /* SupplementaryView */,
 			);
@@ -248,6 +246,24 @@
 				26167780223A9A2B00A988D0 /* UniformsViewController.swift */,
 			);
 			path = Uniforms;
+			sourceTree = "<group>";
+		};
+		26247F3A2373CF7B00B8BCAC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				26247F282371E1D100B8BCAC /* StudentPassInfo.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		26247F3B2373CF9100B8BCAC /* Supplementary View */ = {
+			isa = PBXGroup;
+			children = (
+				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
+				26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */,
+				26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */,
+			);
+			path = "Supplementary View";
 			sourceTree = "<group>";
 		};
 		262C1164222AC5B9009A359E /* Calendar */ = {
@@ -395,7 +411,6 @@
 		2637A69022FF94780097EDD1 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				26BE62032272B65C00C6656F /* ModalPickerViewController.swift */,
 				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
 			);
 			path = Reusable;
@@ -420,10 +435,8 @@
 				266A69FC2347C6B8006848E9 /* PassesViewController.swift */,
 				26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */,
 				266A69FE2347E9B9006848E9 /* PassDetailViewController.swift */,
-				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
-				26247F282371E1D100B8BCAC /* StudentPassInfo.swift */,
-				26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */,
-				26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */,
+				26247F3A2373CF7B00B8BCAC /* Model */,
+				26247F3B2373CF9100B8BCAC /* Supplementary View */,
 			);
 			path = Passes;
 			sourceTree = "<group>";
@@ -949,7 +962,7 @@
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
 				26247F2C2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift in Sources */,
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
-				26BE62082273A53F00C6656F /* PageViewController.swift in Sources */,
+				26BE62082273A53F00C6656F /* TodayPageViewController.swift in Sources */,
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
 				266A69FF2347E9B9006848E9 /* PassDetailViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
@@ -967,12 +980,11 @@
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
 				26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
-				26ADFE182240AA3100A557C5 /* FilterAlertsViewController.swift in Sources */,
+				26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
 				26247F342372306B00B8BCAC /* EventsTableViewCell.swift in Sources */,
 				26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */,
 				26DD570122BBD16E005E109B /* AlertController.swift in Sources */,
-				26BE62042272B65C00C6656F /* ModalPickerViewController.swift in Sources */,
 				26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */,
 				26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */,
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,

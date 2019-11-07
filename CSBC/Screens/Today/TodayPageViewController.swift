@@ -1,5 +1,5 @@
 //
-//  PageViewController.swift
+//  TodayPageViewController.swift
 //  CSBC
 //
 //  Created by Luke Redmore on 4/26/19.
@@ -9,7 +9,7 @@
 import UIKit
 
 ///Creates and organizes TodayVCs to be swiped through. Requests data through TodayDataParser, and populates TodayVC
-class PageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, InputUpdateDelegate {
+class TodayPageViewController: UIPageViewController, UIPageViewControllerDataSource, UIPageViewControllerDelegate, InputUpdateDelegate {
     var schoolSelected : Schools {
         return Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton
     }

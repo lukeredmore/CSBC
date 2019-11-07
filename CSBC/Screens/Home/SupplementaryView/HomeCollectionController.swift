@@ -50,7 +50,6 @@ class HomeCollectionController: NSObject, UICollectionViewDataSource, UICollecti
         case 3: //Contact
             segueDelegate.performSegue(withIdentifier: "ContactSegue", sender: nil)
         case 4: //Calendar
-//            segueDelegate.performSegue(withIdentifier: "CalendarSegue", sender: nil)
             segueDelegate.navigationController?.pushViewController(CalendarTableViewController(), animated: true)
         case 5: //News
             segueDelegate.performSegue(withIdentifier: "NewsSegue", sender: nil)

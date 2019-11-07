@@ -10,13 +10,9 @@ import Foundation
 import UIKit
 import SwiftSoup
 
-
+///Parsers JSON data from EventsRetriever to Set of EventsModel
 class EventsDataParser {
-    
-    var eventsModelArray : Set<EventsModel> = [] //set by Calendar vc
-    private(set) var eventsModelArrayFiltered : Set<EventsModel> = []
-    
-    func parseJSON(_ json : [[String:String]]) -> Set<EventsModel> {
+    static func parseJSON(_ json : [[String:String]]) -> Set<EventsModel> {
         var eventsModelSet : Set<EventsModel> = []
         for event in json {
             guard let title = event["title"],
@@ -30,21 +26,14 @@ class EventsDataParser {
             )
             eventsModelSet.insert(eventToInsert)
         }
-        eventsModelArray = eventsModelSet
         addObjectArrayToUserDefaults(eventsModelSet)
         return eventsModelSet
     }
-    private func addObjectArrayToUserDefaults(_ eventsArray: Set<EventsModel>) {
+    private static func addObjectArrayToUserDefaults(_ eventsArray: Set<EventsModel>) {
         print("Events array is being added to UserDefaults")
         let dateTimeToAdd = Date().dateStringWithTime()
         UserDefaults.standard.set(try? PropertyListEncoder().encode(eventsArray), forKey: "eventsArray")
         UserDefaults.standard.set(dateTimeToAdd, forKey: "eventsArrayTime")
-    }
-    
-    
-    func setFilteredModelArray(toArray filteredArray: Set<EventsModel>) {
-        eventsModelArrayFiltered.removeAll()
-        eventsModelArrayFiltered = filteredArray
     }
 }
 

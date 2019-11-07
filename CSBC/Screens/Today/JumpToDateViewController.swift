@@ -1,5 +1,5 @@
 //
-//  FilterAlertsViewController.swift
+//  JumpToDateViewController.swift
 //  CSBC
 //
 //  Created by Luke Redmore on 3/19/19.
@@ -8,7 +8,8 @@
 
 import UIKit
 
-final class FilterAlertsViewController: ModalMenuViewController {
+///Shows date selector for date to show in TodayViewController
+final class JumpToDateViewController: ModalMenuViewController {
     private let datePicker = UIDatePicker()
     
     weak var delegate: InputUpdateDelegate!

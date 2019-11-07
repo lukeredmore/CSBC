@@ -8,6 +8,7 @@
 
 import UIKit
 
+///Provides UI to toggle schools to show/hide in CalendarTableViewController
 final class FilterCalendarViewController: ModalMenuViewController {
     let completion : (([Bool]) -> Void)!
     var filterSwitches = [UISwitch]()

@@ -13,7 +13,6 @@ import Firebase
 class EventsRetriever {
     private let preferences = UserDefaults.standard
     let completion : (Set<EventsModel>) -> Void
-    let dataParser = EventsDataParser()
     
     
     init(completion: @escaping (Set<EventsModel>) -> Void) {
@@ -24,7 +23,6 @@ class EventsRetriever {
     func retrieveEventsArray(forceReturn : Bool = false, forceRefresh: Bool = false) {
         if forceRefresh {
             print("Events Data is being force refreshed")
-            completion(dataParser.eventsModelArray)
             requestEventsDataFromFirebase()
         } else if forceReturn {
             print("Events Data is being force returned")
@@ -56,7 +54,7 @@ class EventsRetriever {
         Database.database().reference().child("Calendars").observeSingleEvent(of: .value) { snapshot in
             guard let eventsArrayDict = snapshot.childSnapshot(forPath: "eventsArray").value as? [[String:String]] else { return }
             print("Events array updated, new data returned")
-            self.completion(self.dataParser.parseJSON(eventsArrayDict))
+            self.completion(EventsDataParser.parseJSON(eventsArrayDict))
         }
     }
 }
