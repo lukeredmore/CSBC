@@ -8,7 +8,7 @@
 
 import UIKit
 
-
+///Displays all students in CSBC pass system regardless of status
 class AllStudentPassesViewController: CSBCSearchViewController<StudentPassInfo, AllStudentsPassesTableViewCell> {
 
     init(data: Set<StudentPassInfo>) {
@@ -17,9 +17,13 @@ class AllStudentPassesViewController: CSBCSearchViewController<StudentPassInfo, 
         setEmptyDataMessage("There are currently no students in the Seton Pass System", whileSearching: "No students found")
         setIdentifierForXIBDefinedCell("AllStudentsPassesTableViewCell")
         refreshConfiguration = .never
+        allowSelection = true
         loadTable(withData: data)
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    override func cellSelected(withModel model: StudentPassInfo) {
+        self.present(PassDetailViewController(forStudent: model), animated: true)
+    }
 }

@@ -33,10 +33,3 @@ struct StudentPassInfo : Searchable {
     let previousStatuses : [StudentStatus]
     
 }
-
-struct StudentStatus : Codable, Hashable {
-    /// Location and status of student, formatted as "Signed In - Room 123" or "Signed In to Period 4 - Room 123"
-    let location : String
-    /// Time that the status was recorded
-    let time : Date
-}

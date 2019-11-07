@@ -124,6 +124,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func loadTable(withData set : Set<T>) {
         fullData = set.nest()
         searchBarTopConstraint.constant = fullDataEmpty ? -56 : 0
+        tableView.allowsSelection = allowSelection
         tableView.reloadData()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
@@ -144,6 +145,8 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         filteredData = filteredSet.nest()
         tableView.reloadData()
     } }
+    var allowSelection = false
+    var searchPlaceholder = "Search"
     
     
     //MARK: UISearchResultsUpdating Methods
@@ -224,6 +227,12 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row])
+    }
+    
+    func cellSelected(withModel model : T) {}
     
     //MARK: Create UI
     private func setupUI() {
@@ -261,7 +270,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         controller.searchBar.searchField.textColor = .white
         controller.searchBar.backgroundImage = UIImage()
         controller.searchBar.clipsToBounds = true
-        controller.searchBar.placeholder = "Search"
+        controller.searchBar.placeholder = searchPlaceholder
         controller.searchBar.setPlaceholder(textColor: .white)
         controller.searchBar.setSearchImage(color: .white)
         controller.searchBar.searchField.clearButtonMode = .never
@@ -313,6 +322,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+        tableView.allowsSelection = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()

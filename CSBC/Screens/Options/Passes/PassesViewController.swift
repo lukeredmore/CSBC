@@ -122,24 +122,9 @@ class PassesViewController: UIViewController, UITableViewDataSource, UITableView
         return cell
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "PassDetailSegue", sender: self)
+        let student = signedOutStudentInfoArray[indexPath.row]
+        self.present(PassDetailViewController(forStudent: student), animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    
-    //MARK: Navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "PassDetailSegue",
-        let passDetailVC = segue.destination as? PassDetailViewController,
-        let index = tableView.indexPathForSelectedRow?.row {
-            let student = signedOutStudentInfoArray[index]
-            passDetailVC.addLog(for: student)
-        }/* else if segue.identifier == "allStudentPassesSegue",
-          let allStudentPassesVC = segue.destination as? AllStudentPassesViewController {
-            allStudentPassesVC.addArrayOfStudents(allStudentInfoArray)
-        }*/
-    }
-    
-    
     
 }

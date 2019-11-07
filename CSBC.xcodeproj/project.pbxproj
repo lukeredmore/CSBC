@@ -19,6 +19,9 @@
 		26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F2E237229F600B8BCAC /* CalendarTableViewController.swift */; };
 		26247F342372306B00B8BCAC /* EventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F322372306B00B8BCAC /* EventsTableViewCell.swift */; };
 		26247F352372306B00B8BCAC /* EventsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26247F332372306B00B8BCAC /* EventsTableViewCell.xib */; };
+		26247F3E2373DA0200B8BCAC /* PassDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F3C2373DA0200B8BCAC /* PassDetailTableViewCell.swift */; };
+		26247F3F2373DA0200B8BCAC /* PassDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26247F3D2373DA0200B8BCAC /* PassDetailTableViewCell.xib */; };
+		26247F412373E37500B8BCAC /* StudentStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26247F402373E37500B8BCAC /* StudentStatus.swift */; };
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
@@ -121,6 +124,9 @@
 		26247F2E237229F600B8BCAC /* CalendarTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTableViewController.swift; sourceTree = "<group>"; };
 		26247F322372306B00B8BCAC /* EventsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsTableViewCell.swift; sourceTree = "<group>"; };
 		26247F332372306B00B8BCAC /* EventsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EventsTableViewCell.xib; sourceTree = "<group>"; };
+		26247F3C2373DA0200B8BCAC /* PassDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassDetailTableViewCell.swift; sourceTree = "<group>"; };
+		26247F3D2373DA0200B8BCAC /* PassDetailTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassDetailTableViewCell.xib; sourceTree = "<group>"; };
+		26247F402373E37500B8BCAC /* StudentStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentStatus.swift; sourceTree = "<group>"; };
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
@@ -252,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				26247F282371E1D100B8BCAC /* StudentPassInfo.swift */,
+				26247F402373E37500B8BCAC /* StudentStatus.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -262,6 +269,8 @@
 				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
 				26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */,
 				26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */,
+				26247F3C2373DA0200B8BCAC /* PassDetailTableViewCell.swift */,
+				26247F3D2373DA0200B8BCAC /* PassDetailTableViewCell.xib */,
 			);
 			path = "Supplementary View";
 			sourceTree = "<group>";
@@ -803,6 +812,7 @@
 				26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */,
 				26894D4E21EFACFE00691C97 /* Gotham-XLightItalic.otf in Resources */,
 				2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */,
+				26247F3F2373DA0200B8BCAC /* PassDetailTableViewCell.xib in Resources */,
 				26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */,
 				2659E05022F131CA00016DDE /* scccoursedescription19-20.pdf in Resources */,
 				26BE620E2273EB2D00C6656F /* TodayViewCell.xib in Resources */,
@@ -979,6 +989,7 @@
 				26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
 				26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */,
+				26247F3E2373DA0200B8BCAC /* PassDetailTableViewCell.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
@@ -990,6 +1001,7 @@
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */,
+				26247F412373E37500B8BCAC /* StudentStatus.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
