@@ -10,8 +10,9 @@ const opts = { memory: "2GB", timeoutSeconds: 60 }
 
 
 const alerts = require('./alerts.js')
-exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(alerts.update)
+exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').runWith(opts).pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(alerts.update)
 
+exports.test = functions.region('us-east4').runWith(opts).https.onRequest(alerts.update)
 
 const passes = require("./passes.js")
 exports.addStudentToPassDatabase = functions.region('us-east4').runWith(opts).https.onRequest(passes.addHandler)

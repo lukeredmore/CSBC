@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
 const daySchedule = require('./day-schedule.js')
+const cheerio = require('cheerio')
 
 
 //MARK: Snow day methods
@@ -25,12 +26,11 @@ exports.update = async (context) => {
 async function checkForAlerts() {
   //Get alert message and add it to firebase
   let alertMessage = "nil"
-  /* DISABLE UNTIL AFTER FIRST SNOW DAY
+  
   alertMessage = await checkForAlertFromCSBC()
-  if (typeof alertMessage === 'undefined' || alertMessage === null) {
+  if (typeof alertMessage === 'undefined' || alertMessage === null || alertMessage === "nil") {
     alertMessage = await checkForAlertFromWBNG()
   }
-  */
   let snapshot = await admin.database().ref('BannerAlertOverride').once('value')
   let bannerAlertOverride = snapshot.val()
   if (bannerAlertOverride === false) {
@@ -50,7 +50,7 @@ async function checkForAlerts() {
     //Runs if snow day hasn't been found before
     if (!snowDays.includes(dateString)) {
       snowDays.push(dateString)
-      await admin.database().ref('SnowDyas').set(snowDays, error=> {
+      await admin.database().ref('SnowDays').set(snowDays, error=> {
         if (error) {
           console.log("Error updating database: " + JSON.stringifiy(error))
         } else {
@@ -113,8 +113,9 @@ async function checkForAlertFromCSBC() {
   })
   try {
       const page = await browser.newPage()
-      await page.goto('https://www.csbcsaints.org', { waitUntil: 'domcontentloaded' })
-      let alertMessage = await page.$eval('strong', el => el.textContent)
+      await page.goto('https://csbcsaints.org/about', { waitUntil: 'domcontentloaded' })
+      let html = await page.content()
+      let alertMessage = parseCSBCForCancellations(html)
       browser.close()
       return alertMessage
   } catch (e) {
@@ -130,13 +131,40 @@ async function checkForAlertFromWBNG() {
   })
   try {
       const page = await browser.newPage()
-      await page.goto('https://www.csbcsaints.org', { waitUntil: 'domcontentloaded' })
-      let alertMessage = await page.$eval('p', el => el.textContent)
+      await page.goto('https://wbng.assets.quincymedia.com/newsticker/closings.html', { waitUntil: 'domcontentloaded' })
+      let html = await page.content()
+      let alertMessage = parseWBNGForCancellations(html)
       browser.close()
       return alertMessage
   } catch (e) {
     console.log("Checking for alert from WBNG failed with error: " + e)
     browser.close()
-    return null
+    return 'nil'
   }
+}
+
+function parseCSBCForCancellations(html) {
+  const $ = cheerio.load(html)
+  $('tr').each((_, elem) => {
+    //TODO - Add parsing info here
+  })
+  return 'nil'
+}
+
+function parseWBNGForCancellations(html) {
+  const $ = cheerio.load(html)
+  $('tr').each((_, elem) => {
+    const entry = $(elem).text().toLowerCase()
+    if (entry.includes('catholic') && entry.includes('broome')) {
+      let cancellationData = entry.split(': ')[1]
+      if (cancellationData === "closed" || cancellationData === "closed today") {
+        return "The Catholic Schools of Broome County are closed today."
+      }
+      if (cancellationData.includes('delay')) {
+        return "The Catholic Schools of Broome County are on a " + cancellationData + " schedule."
+      }
+      return 'nil'
+    }
+  })
+  return 'nil'
 }
