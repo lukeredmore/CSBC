@@ -48,6 +48,7 @@ class HomeView: UIView, AlertDelegate {
             alertView.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: safeAreaInsets.top + alertLabel.frame.height + 8)
             alertBannerHeight = alertLabel.frame.height + 13
             alertView.addSubview(alertLabel)
+            alertView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTapped)))
             addSubview(alertView)
         }
         let headerImageView = UIImageView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: 109))
@@ -59,8 +60,16 @@ class HomeView: UIView, AlertDelegate {
         addSubview(barView)
         let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0)))
         addSubview(collectionView)
+        
+        bannerTapped()
+        
         collectionView.dataSource = collectionController
         collectionView.delegate = collectionController
+    }
+    
+    @objc func bannerTapped() {
+        guard alertMessage != nil, alertMessage != "" else { return }
+        SnowFallView.overlay(onView: self, count: 3)
     }
     
     
