@@ -8,7 +8,17 @@
 
 import UIKit
 
-class PassTableViewCell: UITableViewCell {
+class PassTableViewCell: UITableViewCell, DisplayInSearchableTableView {
+    func addData<T>(_ genericModel: T) where T : Searchable {
+        guard let student = genericModel as? SignedOutStudentPassInfo else { return }
+        nameLabel.text = student.name + " (\(student.gradeLevel))"
+        locationLabel.text = student.currentStatus.location
+
+        let interval = Date().timeIntervalSince(student.currentStatus.time)
+        let timeString = interval.stringFromTimeInterval()
+        timeLabel.text = timeString
+    }
+    
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var locationLabel: UILabel!

@@ -15,16 +15,21 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
     private var storedSchoolsToShow = [true, true, true, true]
     private lazy var eventsRetriever = EventsRetriever(completion: loadTable)
     
-    static let configuration = CSBCSearchConfiguration(
-        pageTitle: "Calendar",
-        emptyDataMessage: "There are currently no events scheduled",
-        emptySearchMessage: "No events found",
-        xibIdentifier: "EventsTableViewCell",
-        refreshConfiguration: .whileNotSearching,
-        allowSelection: false,
-        searchPlaceholder: "Search",
-        backgroundButtonText: "View More >"
-    )
+    init() {
+        let configuration = CSBCSearchConfiguration(
+            pageTitle: "Calendar",
+            emptyDataMessage: "There are currently no events scheduled",
+            emptySearchMessage: "No events found",
+            xibIdentifier: "EventsTableViewCell",
+            refreshConfiguration: .whileNotSearching,
+            allowSelection: false,
+            searchPlaceholder: "Search",
+            backgroundButtonText: "View More >"
+        )
+        super.init(configuration: configuration)
+    }
+    
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     
     override func viewDidLoad() {
@@ -33,18 +38,6 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
     }
     override func viewWillAppear(_ animated: Bool) {
         eventsRetriever.retrieveEventsArray()
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 54))
-        let button = UIButton(frame: footer.bounds)
-        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
-        button.titleLabel?.font = UIFont(name: "Montserrat-SemiBold", size: 17)
-        button.setTitleColor(.csbcAlwaysGray, for: .normal)
-        button.setTitle("View More >", for: .normal)
-        footer.addSubview(button)
-        footer.backgroundColor = .csbcBackground
-        tableView.tableFooterView = footer
     }
     
     override func refreshData() {
@@ -60,8 +53,8 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
             self.present(FilterCalendarViewController(currentlyShownSchools: storedSchoolsToShow, completion: userDidSelectSchools), animated: true)
         }
     }
-    override func backgroundButtonPressed(_ sender : UIButton) {
-        super.backgroundButtonPressed(sender)
+    override func backgroundButtonPressed() {
+        super.backgroundButtonPressed()
         if let url = URL(string: "https://csbcsaints.org/calendar/") {
             let safariView = SFSafariViewController(url: url)
             safariView.configureForCSBC()

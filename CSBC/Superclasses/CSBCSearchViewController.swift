@@ -127,6 +127,19 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         emptyDataLabel.frame = CGRect(x: 0, y: 24, width: UIScreen.main.bounds.width, height: 24)
         view.layoutIfNeeded()
     }
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let bkgButtonText = configuration.backgroundButtonText else { return }
+        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 54))
+        let button = UIButton(frame: footer.bounds)
+        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
+        button.titleLabel?.font = UIFont(name: "Montserrat-SemiBold", size: 17)
+        button.setTitleColor(.csbcAlwaysGray, for: .normal)
+        button.setTitle(bkgButtonText, for: .normal)
+        footer.addSubview(button)
+        footer.backgroundColor = .csbcBackground
+        tableView.tableFooterView = footer
+    }
     
     //MARK: User-facing Methods & Properties
     /// Returns true if the user is searching
@@ -136,7 +149,6 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func loadTable(withData set : Set<T>) {
         fullData = set.nest()
         searchBarTopConstraint.constant = fullDataEmpty ? -56 : 0
-        tableView.allowsSelection = allowSelection
         tableView.reloadData()
         loadingSymbol.stopAnimating()
         refreshControl.endRefreshing()
@@ -162,7 +174,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func cellSelected(withModel model : T) {}
     /// Override this to control what happens when a background button is pressed, be sure to include super
     /// - Parameter sender: Button object pressed
-    @objc func backgroundButtonPressed(_ sender: UIButton) {
+    @objc func backgroundButtonPressed() {
         guard loadingSymbol.isHidden else { return }
         searchController.dismiss(animated: false) { self.searchController.searchBar.text = "" }
     }
@@ -245,6 +257,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard loadingSymbol.isHidden else { return }
         cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row])
     }
     
@@ -335,7 +348,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         button.translatesAutoresizingMaskIntoConstraints = false
         button.titleLabel?.font = UIFont(name: "gotham", size: 18)!
         button.setTitle(backgroundButtonText, for: .normal)
-        button.titleLabel?.textColor = .csbcGrayLabel
+        button.setTitleColor(.csbcAlwaysGray, for: .normal)
         button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
         view.addSubview(button)
         view.addConstraints([
@@ -354,7 +367,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-        tableView.allowsSelection = false
+        tableView.allowsSelection = allowSelection
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()

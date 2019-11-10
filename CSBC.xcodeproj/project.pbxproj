@@ -27,6 +27,7 @@
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
+		265155A52377B455006CAB2E /* PassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265155A42377B455006CAB2E /* PassTableViewCell.xib */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
 		26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */; };
 		26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */; };
@@ -98,6 +99,7 @@
 		26DD56C222BB3BC5005E109B /* highSchoolDressDark.html in Resources */ = {isa = PBXBuildFile; fileRef = 26DD56BF22BB3BC4005E109B /* highSchoolDressDark.html */; };
 		26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */ = {isa = PBXBuildFile; fileRef = 26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */; };
 		26DD570122BBD16E005E109B /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DD570022BBD16E005E109B /* AlertController.swift */; };
+		26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26DF69982378653D00B4B6BE /* PassesRetriever.swift */; };
 		26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */; };
 		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
@@ -133,6 +135,7 @@
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
+		265155A42377B455006CAB2E /* PassTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassTableViewCell.xib; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTableViewCell.swift; sourceTree = "<group>"; };
 		26599E462360CADE003D1DC6 /* AllStudentPassesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllStudentPassesViewController.swift; sourceTree = "<group>"; };
@@ -205,6 +208,7 @@
 		26DD56BF22BB3BC4005E109B /* highSchoolDressDark.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = highSchoolDressDark.html; sourceTree = "<group>"; };
 		26DD56C022BB3BC5005E109B /* middleSchoolDressDark.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = middleSchoolDressDark.html; sourceTree = "<group>"; };
 		26DD570022BBD16E005E109B /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
+		26DF69982378653D00B4B6BE /* PassesRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassesRetriever.swift; sourceTree = "<group>"; };
 		26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook19-20.pdf"; sourceTree = "<group>"; };
 		26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jamescodeofconduct19-20.pdf"; sourceTree = "<group>"; };
 		26ED795A21EB91D40086FB86 /* CSBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -218,6 +222,7 @@
 		26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenuRetriever.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
 		26FB2BB42376675600484C38 /* SnowFallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowFallView.swift; sourceTree = "<group>"; };
+		31B885784EACA4A791413877 /* Pods-CSBC.debugfirebase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debugfirebase.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debugfirebase.xcconfig"; sourceTree = "<group>"; };
 		B64CA14D09EF7331DA1A44F4 /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
 		D97BFEADF8CC8CB931F720DF /* Pods-CSBC.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.release.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.release.xcconfig"; sourceTree = "<group>"; };
 		EA9F0021D4496CCD16239800 /* Pods_CSBC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CSBC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -259,6 +264,7 @@
 		26247F3A2373CF7B00B8BCAC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				26DF69982378653D00B4B6BE /* PassesRetriever.swift */,
 				26247F282371E1D100B8BCAC /* StudentPassInfo.swift */,
 				26247F402373E37500B8BCAC /* StudentStatus.swift */,
 			);
@@ -269,6 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */,
+				265155A42377B455006CAB2E /* PassTableViewCell.xib */,
 				26247F2A2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift */,
 				26247F2B2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib */,
 				26247F3C2373DA0200B8BCAC /* PassDetailTableViewCell.swift */,
@@ -698,6 +705,7 @@
 			children = (
 				B64CA14D09EF7331DA1A44F4 /* Pods-CSBC.debug.xcconfig */,
 				D97BFEADF8CC8CB931F720DF /* Pods-CSBC.release.xcconfig */,
+				31B885784EACA4A791413877 /* Pods-CSBC.debugfirebase.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -791,6 +799,7 @@
 				26894D4B21EFACFE00691C97 /* Gotham-Bold.otf in Resources */,
 				26ADFE1C22442FA600A557C5 /* saintscafeteriainf19-20.pdf in Resources */,
 				26894D4C21EFACFE00691C97 /* Gotham-BookItalic.otf in Resources */,
+				265155A52377B455006CAB2E /* PassTableViewCell.xib in Resources */,
 				26B90BA4223B282C00B92936 /* middleSchoolDress.html in Resources */,
 				26894D4D21EFACFE00691C97 /* Gotham-XLight.otf in Resources */,
 				26DD56C322BB3BC5005E109B /* middleSchoolDressDark.html in Resources */,
@@ -866,7 +875,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\necho \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\necho \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ]\nthen\necho \"Using ${GOOGLESERVICE_INFO_PROD}\"\ncp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\necho \"Using ${GOOGLESERVICE_INFO_DEV}\"\ncp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
+			shellScript = "# Name of the resource we're selectively copying\nGOOGLESERVICE_INFO_PLIST=GoogleService-Info.plist\n\n# Get references to dev and prod versions of the GoogleService-Info.plist\n# NOTE: These should only live on the file system and should NOT be part of the target (since we'll be adding them to the target manually)\nGOOGLESERVICE_INFO_DEV=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Dev/${GOOGLESERVICE_INFO_PLIST}\nGOOGLESERVICE_INFO_PROD=${PROJECT_DIR}/${TARGET_NAME}/\"SupportingFiles\"/Firebase/Prod/${GOOGLESERVICE_INFO_PLIST}\n\n# Make sure the dev version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_DEV}\"\nif [ ! -f $GOOGLESERVICE_INFO_DEV ]\nthen\necho \"No Development GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Make sure the prod version of GoogleService-Info.plist exists\necho \"Looking for ${GOOGLESERVICE_INFO_PLIST} in ${GOOGLESERVICE_INFO_PROD}\"\nif [ ! -f $GOOGLESERVICE_INFO_PROD ]\nthen\necho \"No Production GoogleService-Info.plist found. Please ensure it's in the proper directory.\"\nexit 1\nfi\n\n# Get a reference to the destination location for the GoogleService-Info.plist\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\necho \"Will copy ${GOOGLESERVICE_INFO_PLIST} to final destination: ${PLIST_DESTINATION}\"\n\n# Copy over the prod GoogleService-Info.plist for Release builds\nif [ \"${CONFIGURATION}\" == \"Release\" ] || [ \"${CONFIGURATION}\" == \"DebugFirebase\" ]\nthen\necho \"Using ${GOOGLESERVICE_INFO_PROD}\"\ncp \"${GOOGLESERVICE_INFO_PROD}\" \"${PLIST_DESTINATION}\"\nelse\necho \"Using ${GOOGLESERVICE_INFO_DEV}\"\ncp \"${GOOGLESERVICE_INFO_DEV}\" \"${PLIST_DESTINATION}\"\nfi\n";
 		};
 		26C7649022FB9A500001FBBB /* Increment build number */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -935,6 +944,7 @@
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
+				26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */,
 				26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
 				26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */,
@@ -1006,6 +1016,94 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		265155A6237844A8006CAB2E /* DebugFirebase */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "\"-DDEBUG\"";
+				"OTHER_SWIFT_FLAGS[arch=*]" = "\"-DDEBUG\"";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = DebugFirebase;
+		};
+		265155A7237844A8006CAB2E /* DebugFirebase */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 31B885784EACA4A791413877 /* Pods-CSBC.debugfirebase.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = CSBC/CSBC.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NJ9N5G9YAQ;
+				INFOPLIST_FILE = CSBC/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				MARKETING_VERSION = 1.7.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = DebugFirebase;
+		};
 		26ED796A21EB91D50086FB86 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1181,6 +1279,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				26ED796A21EB91D50086FB86 /* Debug */,
+				265155A6237844A8006CAB2E /* DebugFirebase */,
 				26ED796B21EB91D50086FB86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1190,6 +1289,7 @@
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				26ED796D21EB91D50086FB86 /* Debug */,
+				265155A7237844A8006CAB2E /* DebugFirebase */,
 				26ED796E21EB91D50086FB86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;

@@ -9,14 +9,10 @@
 import UIKit
 
 ///Shows past pass activity with data from parent VC (PassesViewController)
-
 class PassDetailViewController: CSBCSearchViewController<StudentStatus, PassDetailTableViewCell> {
     
-    let student : StudentPassInfo!
     
-    
-    init(forStudent student: StudentPassInfo) {
-        self.student = student
+    init<T: StudentPassInfo>(forStudent student: T) {
         let configuration = CSBCSearchConfiguration(
             pageTitle: "",
             emptyDataMessage: "No log exists for this student",
@@ -35,7 +31,7 @@ class PassDetailViewController: CSBCSearchViewController<StudentStatus, PassDeta
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    func createSet(fromStudent student : StudentPassInfo) -> Set<StudentStatus> {
+    func createSet<T: StudentPassInfo>(fromStudent student : T) -> Set<StudentStatus> {
         let logToConvert : Set<StudentStatus> = [student.currentStatus]
         return logToConvert.union(Set(student.previousStatuses))
     }

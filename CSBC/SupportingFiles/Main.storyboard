@@ -12,9 +12,6 @@
         <array key="Gotham Book Regular.otf">
             <string>Gotham-Book</string>
         </array>
-        <array key="Gotham-BookItalic.otf">
-            <string>Gotham-BookItalic</string>
-        </array>
         <array key="gotham.otf">
             <string>Gotham-Medium</string>
         </array>
@@ -847,162 +844,12 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="loginButton" destination="cxQ-Ud-tyL" id="Lji-zM-Occ"/>
-                        <segue destination="XCI-Kq-2Tu" kind="show" identifier="PassesSegue" id="cqK-pc-hJM"/>
                         <segue destination="TOw-7h-n1g" kind="presentation" identifier="UNUSED_IDENTIFIER" id="KAd-6o-2hv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7AB-nC-rtf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1964" y="3021"/>
-        </scene>
-        <!--Active Passes-->
-        <scene sceneID="FwN-Kx-kDe">
-            <objects>
-                <viewController storyboardIdentifier="PassesScene" title="Active Passes" id="XCI-Kq-2Tu" customClass="PassesViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="NQA-Mp-G0b">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SCs-zp-Dys">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="8"/>
-                                <color key="backgroundColor" name="CSBCYellow"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="8" id="gdl-r9-79W"/>
-                                </constraints>
-                            </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9cm-OB-qJg">
-                                <rect key="frame" x="0.0" y="74" width="414" height="54"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="54" id="Ohl-ZM-1vH"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="17"/>
-                                <state key="normal" title="View All Students &gt;">
-                                    <color key="titleColor" name="CSBCDefaultText"/>
-                                </state>
-                                <connections>
-                                    <action selector="viewMoreButtonPressed:" destination="XCI-Kq-2Tu" eventType="touchUpInside" id="5Cp-Y8-Na1"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no students out at this time" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Qmj-K1-buJ">
-                                <rect key="frame" x="24" y="32" width="366" height="22"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="22" id="I6U-YU-sIQ"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="19"/>
-                                <color key="textColor" name="CSBCGrayLabel"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Yy8-b9-p1P">
-                                <rect key="frame" x="0.0" y="8" width="414" height="800"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <color key="separatorColor" name="CSBCAccentGray"/>
-                                <color key="sectionIndexBackgroundColor" name="CSBCBackground"/>
-                                <view key="tableFooterView" opaque="NO" contentMode="scaleToFill" id="5Vh-rm-Htp">
-                                    <rect key="frame" x="0.0" y="116" width="414" height="54"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="71d-yI-B5G">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="54"/>
-                                            <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="17"/>
-                                            <state key="normal" title="View All Students &gt;">
-                                                <color key="titleColor" name="CSBCDefaultText"/>
-                                            </state>
-                                            <connections>
-                                                <action selector="viewMoreButtonPressed:" destination="XCI-Kq-2Tu" eventType="touchUpInside" id="tdg-p1-CdO"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                    <color key="backgroundColor" name="CSBCBackground"/>
-                                    <constraints>
-                                        <constraint firstItem="71d-yI-B5G" firstAttribute="leading" secondItem="5Vh-rm-Htp" secondAttribute="leading" id="51y-Bo-tTd"/>
-                                        <constraint firstAttribute="bottom" secondItem="71d-yI-B5G" secondAttribute="bottom" id="56U-LW-mtc"/>
-                                        <constraint firstItem="71d-yI-B5G" firstAttribute="top" secondItem="5Vh-rm-Htp" secondAttribute="top" id="ST5-VD-Yha"/>
-                                        <constraint firstAttribute="trailing" secondItem="71d-yI-B5G" secondAttribute="trailing" id="z0h-YE-bXD"/>
-                                    </constraints>
-                                </view>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="customPassCell" rowHeight="60" id="jdL-re-brr" customClass="PassTableViewCell" customModule="CSBC" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="60"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="jdL-re-brr" id="cQn-Oa-Rjj">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="60"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99:99:99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MRO-DY-TOj">
-                                                    <rect key="frame" x="301" y="18" width="74" height="24"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="24" id="Lf9-H5-wPc"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
-                                                    <color key="textColor" name="CSBCGrayLabel"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="cNe-WU-YHq">
-                                                    <rect key="frame" x="20" y="10" width="122.5" height="40"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Student Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8e8-6r-qVQ">
-                                                            <rect key="frame" x="0.0" y="0.0" width="122.5" height="22"/>
-                                                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="19"/>
-                                                            <color key="textColor" name="CSBCDefaultText"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYj-Hu-OYs">
-                                                            <rect key="frame" x="0.0" y="23" width="122.5" height="17"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="17" id="FpQ-hr-sjx"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="15"/>
-                                                            <color key="textColor" name="CSBCDefaultText"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="0fx-ZF-YzK"/>
-                                                    </constraints>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailingMargin" secondItem="MRO-DY-TOj" secondAttribute="trailing" id="Og6-0M-Ghp"/>
-                                                <constraint firstItem="cNe-WU-YHq" firstAttribute="leading" secondItem="cQn-Oa-Rjj" secondAttribute="leadingMargin" id="drY-7D-dOn"/>
-                                                <constraint firstItem="MRO-DY-TOj" firstAttribute="centerY" secondItem="cQn-Oa-Rjj" secondAttribute="centerY" id="gte-WV-dL8"/>
-                                                <constraint firstItem="cNe-WU-YHq" firstAttribute="centerY" secondItem="cQn-Oa-Rjj" secondAttribute="centerY" id="pim-k1-KlZ"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="locationLabel" destination="XYj-Hu-OYs" id="8Hr-l7-M2M"/>
-                                            <outlet property="nameLabel" destination="8e8-6r-qVQ" id="sz9-A1-sh2"/>
-                                            <outlet property="timeLabel" destination="MRO-DY-TOj" id="CAm-vg-nWu"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="9cm-OB-qJg" firstAttribute="leading" secondItem="fJh-rd-ft5" secondAttribute="leading" id="1sW-Oo-ZrA"/>
-                            <constraint firstItem="Qmj-K1-buJ" firstAttribute="leading" secondItem="fJh-rd-ft5" secondAttribute="leading" constant="24" id="4XB-mY-rW2"/>
-                            <constraint firstItem="SCs-zp-Dys" firstAttribute="top" secondItem="fJh-rd-ft5" secondAttribute="top" id="ALp-MI-2QZ"/>
-                            <constraint firstItem="fJh-rd-ft5" firstAttribute="trailing" secondItem="SCs-zp-Dys" secondAttribute="trailing" id="BOn-FD-r52"/>
-                            <constraint firstItem="9cm-OB-qJg" firstAttribute="top" secondItem="Qmj-K1-buJ" secondAttribute="bottom" constant="20" id="FaH-JL-KaI"/>
-                            <constraint firstItem="9cm-OB-qJg" firstAttribute="trailing" secondItem="fJh-rd-ft5" secondAttribute="trailing" id="Q0y-oA-lkk"/>
-                            <constraint firstItem="Yy8-b9-p1P" firstAttribute="leading" secondItem="fJh-rd-ft5" secondAttribute="leading" id="g4o-0C-NBL"/>
-                            <constraint firstItem="Yy8-b9-p1P" firstAttribute="trailing" secondItem="fJh-rd-ft5" secondAttribute="trailing" id="hmY-ht-npE"/>
-                            <constraint firstAttribute="bottom" secondItem="Yy8-b9-p1P" secondAttribute="bottom" id="kC9-U2-MRk"/>
-                            <constraint firstItem="SCs-zp-Dys" firstAttribute="leading" secondItem="fJh-rd-ft5" secondAttribute="leading" id="lBu-qK-qGK"/>
-                            <constraint firstItem="fJh-rd-ft5" firstAttribute="trailing" secondItem="Qmj-K1-buJ" secondAttribute="trailing" constant="24" id="oaa-RW-BVS"/>
-                            <constraint firstItem="Yy8-b9-p1P" firstAttribute="top" secondItem="SCs-zp-Dys" secondAttribute="bottom" id="rwK-TL-8ue"/>
-                            <constraint firstItem="Qmj-K1-buJ" firstAttribute="top" secondItem="SCs-zp-Dys" secondAttribute="bottom" constant="24" id="ydK-mY-jT8"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="fJh-rd-ft5"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Active Passes" id="1xm-zd-bhc"/>
-                    <connections>
-                        <outlet property="tableView" destination="Yy8-b9-p1P" id="V3V-T3-FJT"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="A44-qd-Lpz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2575" y="3771"/>
         </scene>
         <!--Composer View Controller-->
         <scene sceneID="20z-re-fdY">
@@ -1267,7 +1114,7 @@
                                                         <action selector="showAllSchoolsSwitchToggled:" destination="gEv-fH-LdY" eventType="valueChanged" id="25o-TV-QwG"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show info for all schools:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-o2-Rf8" userLabel="Show all schools">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show info for all schools" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dnL-o2-Rf8" userLabel="Show all schools">
                                                     <rect key="frame" x="20" y="11" width="315" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="21"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
@@ -1463,9 +1310,6 @@
         </namedColor>
         <namedColor name="CSBCBackground">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CSBCDefaultText">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCGrayLabel">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

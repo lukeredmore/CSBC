@@ -115,11 +115,11 @@ class SettingsViewController: UITableViewController  {
             self.present(reportIssueVC, animated: true, completion: nil)*/
         }
         if indexPath.section == 3 && indexPath.row == 0 {
-            parent!.performSegue(withIdentifier: "PassesSegue", sender: parent)
+            self.navigationController?.pushViewController(PassesViewController(), animated: true)
         }
         if indexPath.section == 3 && indexPath.row == 1 {
             let notificationSenderVC = ComposerViewController.instantiate(school: adminSchool)
-            self.present(notificationSenderVC, animated: true, completion: nil)
+            self.present(notificationSenderVC, animated: true)
         }
     }
     

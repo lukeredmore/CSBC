@@ -9,27 +9,28 @@
 import UIKit
 
 ///Displays all students in CSBC pass system regardless of status
-class AllStudentPassesViewController: CSBCSearchViewController<StudentPassInfo, AllStudentsPassesTableViewCell> {
-    
-    static let configuration = CSBCSearchConfiguration(
-        pageTitle: "All Students",
-        emptyDataMessage: "There are currently no students in the Seton Pass System",
-        emptySearchMessage: "No students found",
-        xibIdentifier: "AllStudentsPassesTableViewCell",
-        refreshConfiguration: .never,
-        allowSelection: true,
-        searchPlaceholder: "Search",
-        backgroundButtonText: nil
-    )
+class AllStudentPassesViewController: CSBCSearchViewController<AllStudentPassInfo, AllStudentsPassesTableViewCell> {
+    private lazy var passesRetriever = PassesRetriever(completion: loadTable)
 
-    init(data: Set<StudentPassInfo>) {
-        super.init(configuration : AllStudentPassesViewController.configuration)
-        loadTable(withData: data)
+    init() {
+        let configuration = CSBCSearchConfiguration(
+            pageTitle: "All Students",
+            emptyDataMessage: "There are currently no students in the Seton Pass System",
+            emptySearchMessage: "No students found",
+            xibIdentifier: "AllStudentsPassesTableViewCell",
+            refreshConfiguration: .never,
+            allowSelection: true,
+            searchPlaceholder: "Search",
+            backgroundButtonText: nil
+        )
+        super.init(configuration : configuration)
+        passesRetriever.retrievePassesSet()
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
-    override func cellSelected(withModel model: StudentPassInfo) {
+    override func cellSelected(withModel model: AllStudentPassInfo) {
+        guard loadingSymbol.isHidden else { return }
         self.present(PassDetailViewController(forStudent: model), animated: true)
     }
 }
