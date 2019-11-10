@@ -10,14 +10,20 @@ import UIKit
 
 ///Displays all students in CSBC pass system regardless of status
 class AllStudentPassesViewController: CSBCSearchViewController<StudentPassInfo, AllStudentsPassesTableViewCell> {
+    
+    static let configuration = CSBCSearchConfiguration(
+        pageTitle: "All Students",
+        emptyDataMessage: "There are currently no students in the Seton Pass System",
+        emptySearchMessage: "No students found",
+        xibIdentifier: "AllStudentsPassesTableViewCell",
+        refreshConfiguration: .never,
+        allowSelection: true,
+        searchPlaceholder: "Search",
+        backgroundButtonText: nil
+    )
 
     init(data: Set<StudentPassInfo>) {
-        super.init(nibName: nil, bundle: nil)
-        self.title = "All Students"
-        setEmptyDataMessage("There are currently no students in the Seton Pass System", whileSearching: "No students found")
-        setIdentifierForXIBDefinedCell("AllStudentsPassesTableViewCell")
-        refreshConfiguration = .never
-        allowSelection = true
+        super.init(configuration : AllStudentPassesViewController.configuration)
         loadTable(withData: data)
     }
     

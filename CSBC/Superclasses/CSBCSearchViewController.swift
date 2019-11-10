@@ -26,18 +26,19 @@ enum RefreshConfiguration {
     case whileNotSearching, never
 }
 
-class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate where Cell : DisplayInSearchableTableView{
+class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate where Cell : DisplayInSearchableTableView {
     
     //MARK: UI & Search Elements
     let tableView = UITableView()
     private let bar = UIView()
     private let emptyDataLabel = UILabel()
+    private let backgroundButton = UIButton()
     private let searchBarContainerView = UIView()
     private lazy var searchController = UISearchController(searchResultsController: nil)
     private lazy var searchBarTopConstraint = searchBarContainerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-    private var emptyDataMessageWhileSearching = "No items found"
-    private var emptyDataMessage = "No data is present"
-    lazy private var refreshControl: UIRefreshControl = {
+    private lazy var emptyDataMessageWhileSearching = configuration.emptySearchMessage
+    private lazy var emptyDataMessage = configuration.emptyDataMessage
+    private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         refreshControl.tintColor = .gray
@@ -45,34 +46,59 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         return refreshControl
     }()
     
+    
+    //MARK: Configuration Properties
+    private let configuration : CSBCSearchConfiguration!
+    private lazy var cellID = configuration.xibIdentifier
+    private lazy var refreshConfiguration = configuration.refreshConfiguration
+    private lazy var allowSelection = configuration.allowSelection
+    private lazy var searchPlaceholder = configuration.searchPlaceholder
+    private lazy var backgroundButtonText : String? = configuration.backgroundButtonText
+    
+    init(configuration : CSBCSearchConfiguration) {
+        self.configuration = configuration
+        super.init(nibName: nil, bundle: nil)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
     //MARK: Data elements
     private var fullData = [[T]]()
     private var filteredData = [[T]]()
-    private var searchedData = [[T]]() { didSet {
-        tableView.isHidden = searchedData.count == 0
-    } }
+    private var searchedData = [[T]]()
+    
     private var dataToDisplay : [[T]] {
+        var dataToReturn : [[T]]
         if isSearching {
             isRefreshEnabled = false
             if !searchedDataEmpty, !(T.shouldStayGroupedWhenSearching ?? false) {
+                dataToReturn = [Array(searchedData.joined())]
                 emptyDataLabel.text = ""
-                return [Array(searchedData.joined())]
+                backgroundButton.setTitle("", for: .normal)
             } else {
                 emptyDataLabel.text = searchedDataEmpty ? emptyDataMessageWhileSearching : ""
-                return searchedData
+                backgroundButton.setTitle(searchedDataEmpty ? backgroundButtonText : "", for: .normal)
+                dataToReturn = searchedData
             }
         } else if !filters.isEmpty {
             isRefreshEnabled = refreshConfiguration == .whileNotSearching
             emptyDataLabel.text = filteredDataEmpty ? emptyDataMessageWhileSearching : ""
-            return filteredData
+            backgroundButton.setTitle(filteredDataEmpty ? backgroundButtonText : "", for: .normal)
+            dataToReturn = filteredData
         } else {
             emptyDataLabel.text = fullDataEmpty ? emptyDataMessage : ""
+            backgroundButton.setTitle(fullDataEmpty ? backgroundButtonText : "", for: .normal)
             isRefreshEnabled = refreshConfiguration == .whileNotSearching
-            return fullData
+            dataToReturn = fullData
         }
+        tableView.isHidden = dataToReturn.count == 0 || dataToReturn[0].count == 0
+        return dataToReturn
     }
-    private var cellID : String?
+    
     private var isRefreshEnabled : Bool{
         get { tableView.refreshControl != nil }
         set (newValue) { tableView.refreshControl = newValue ? refreshControl : nil }
@@ -90,11 +116,10 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         return searchedData[0].count == 0
     }
     
-    
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        searchBarTopConstraint.constant = dataToDisplay.count == 0 || dataToDisplay[0].count == 0 ? -56 : 0
         loadingSymbol.startAnimating()
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -106,19 +131,6 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     //MARK: User-facing Methods & Properties
     /// Returns true if the user is searching
     var isSearching : Bool { !(searchController.searchBar.text?.isEmpty ?? true) }
-    /// Sets data messages shown when now data is present in tableView
-    /// - Parameter full: Shown when absolutely no data exists
-    /// - Parameter searching: Shown when no data matching search criteria exisits
-    func setEmptyDataMessage(_ full : String, whileSearching searching: String) {
-        emptyDataMessageWhileSearching = searching
-        emptyDataMessage = full
-    }
-    /// Connects custom cell created in xib to tableView
-    /// - Parameter id: Identifier for both the xib name and object identifier. Set to nil to use default UITableViewCell
-    func setIdentifierForXIBDefinedCell(_ id : String) {
-        self.cellID = id
-        tableView.register(UINib(nibName: id, bundle: nil), forCellReuseIdentifier: id)
-    }
     /// Updates full set of data
     /// - Parameter set: full unsorted/unnested data to go in tableView
     func loadTable(withData set : Set<T>) {
@@ -133,7 +145,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     @objc func refreshData() {
         guard loadingSymbol.isHidden && !refreshControl.isRefreshing else { return }
     }
-    var refreshConfiguration = RefreshConfiguration.whileNotSearching
+    /// Array of 'permanent search parameters' to serve as filters
     var filters = [String]() { didSet {
         let filteredSet = Set(fullData.joined()).filter {
             var include = false
@@ -145,8 +157,15 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         filteredData = filteredSet.nest()
         tableView.reloadData()
     } }
-    var allowSelection = false
-    var searchPlaceholder = "Search"
+    /// Override this to control what happens when a cell is selcted
+    /// - Parameter model: The Searchable object the selected cell is displaying
+    func cellSelected(withModel model : T) {}
+    /// Override this to control what happens when a background button is pressed, be sure to include super
+    /// - Parameter sender: Button object pressed
+    @objc func backgroundButtonPressed(_ sender: UIButton) {
+        guard loadingSymbol.isHidden else { return }
+        searchController.dismiss(animated: false) { self.searchController.searchBar.text = "" }
+    }
     
     
     //MARK: UISearchResultsUpdating Methods
@@ -193,8 +212,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     
     //MARK: UITableViewDelagate Methods
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard cellID != nil else { fatalError("A cell must be defined") }
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID!) as? Cell else { fatalError("No cell is defined") }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as? Cell else { fatalError("No cell is defined") }
         cell.addData(dataToDisplay[indexPath.section][indexPath.row])
         return cell
     }
@@ -223,19 +241,17 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         headerView.addSubview(headerLabel)
         return headerView
     }
-
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row])
     }
     
-    func cellSelected(withModel model : T) {}
     
     //MARK: Create UI
     private func setupUI() {
+        title = configuration.pageTitle
         view.backgroundColor = .csbcNavBarBackground
         definesPresentationContext = true
         
@@ -243,6 +259,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         configureYellowBar(bar)
         configureBackgroundView(UIView())
         configureBackgroundLabel(emptyDataLabel)
+        configureBackgroundButton(backgroundButton)
         configureTableView(tableView)
         view.bringSubviewToFront(loadingSymbol)
         view.layoutIfNeeded()
@@ -308,9 +325,24 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         view.addSubview(label)
         view.addConstraints([
             label.topAnchor.constraint(equalTo: bar.bottomAnchor, constant: 20),
-            label.heightAnchor.constraint(equalToConstant: 24),
-            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            label.heightAnchor.constraint(equalToConstant: label.text?.height(withConstrainedWidth: view.frame.width - 20, font: UIFont(name: "Gotham-BookItalic", size: 18)!) ?? 30),
+            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+        ])
+    }
+    private func configureBackgroundButton(_ button : UIButton) {
+        guard backgroundButtonText != nil else { return }
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont(name: "gotham", size: 18)!
+        button.setTitle(backgroundButtonText, for: .normal)
+        button.titleLabel?.textColor = .csbcGrayLabel
+        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
+        view.addSubview(button)
+        view.addConstraints([
+            button.topAnchor.constraint(equalTo: emptyDataLabel.bottomAnchor, constant: 20),
+            button.heightAnchor.constraint(equalToConstant: 30),
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
     private func configureTableView(_ tableView : UITableView) {
@@ -327,7 +359,9 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = .clear
+        tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
     }
+   
 }
 
 fileprivate extension UISearchBar {
@@ -367,3 +401,24 @@ fileprivate extension UITextField {
         setValue(coloredLabel, forKey: "placeholderLabel")
     }
 }
+
+struct CSBCSearchConfiguration {
+    /// Title of the page
+    let pageTitle : String
+    /// Message shown when no data is present
+    let emptyDataMessage : String
+    /// Message shown when no data matches search criteria
+    let emptySearchMessage : String
+    /// Name of class and xib containing custom cell
+    let xibIdentifier : String
+    /// Set configuration of how refresh should be allowed
+    let refreshConfiguration : RefreshConfiguration
+    /// Allow selection of elements in tableView
+    let allowSelection : Bool
+    /// Text displayed as a search placeholder
+    let searchPlaceholder : String
+    /// Text of button shown when table view is empty, set to nil to disable. Calls backgroundButtonPressed(_:) when tapped.
+    let backgroundButtonText : String?
+}
+
+

@@ -15,15 +15,21 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
     private var storedSchoolsToShow = [true, true, true, true]
     private lazy var eventsRetriever = EventsRetriever(completion: loadTable)
     
+    static let configuration = CSBCSearchConfiguration(
+        pageTitle: "Calendar",
+        emptyDataMessage: "There are currently no events scheduled",
+        emptySearchMessage: "No events found",
+        xibIdentifier: "EventsTableViewCell",
+        refreshConfiguration: .whileNotSearching,
+        allowSelection: false,
+        searchPlaceholder: "Search",
+        backgroundButtonText: "View More >"
+    )
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Calendar"
-        setEmptyDataMessage("There are currently no events scheduled", whileSearching: "No events found")
-        setIdentifierForXIBDefinedCell("EventsTableViewCell")
         addFilterMenu()
-        
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         eventsRetriever.retrieveEventsArray()
@@ -32,7 +38,7 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
         super.viewDidLayoutSubviews()
         let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 54))
         let button = UIButton(frame: footer.bounds)
-        button.addTarget(self, action: #selector(viewMoreButtonPressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
         button.titleLabel?.font = UIFont(name: "Montserrat-SemiBold", size: 17)
         button.setTitleColor(.csbcAlwaysGray, for: .normal)
         button.setTitle("View More >", for: .normal)
@@ -54,13 +60,12 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
             self.present(FilterCalendarViewController(currentlyShownSchools: storedSchoolsToShow, completion: userDidSelectSchools), animated: true)
         }
     }
-    @objc func viewMoreButtonPressed() {
-        if loadingSymbol.isHidden {
-            if let url = URL(string: "https://csbcsaints.org/calendar/") {
-                let safariView = SFSafariViewController(url: url)
-                safariView.configureForCSBC()
-                self.present(safariView, animated: true, completion: nil)
-            }
+    override func backgroundButtonPressed(_ sender : UIButton) {
+        super.backgroundButtonPressed(sender)
+        if let url = URL(string: "https://csbcsaints.org/calendar/") {
+            let safariView = SFSafariViewController(url: url)
+            safariView.configureForCSBC()
+            self.present(safariView, animated: true, completion: nil)
         }
     }
     

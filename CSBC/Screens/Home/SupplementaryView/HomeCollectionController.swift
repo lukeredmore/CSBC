@@ -50,13 +50,15 @@ class HomeCollectionController: NSObject, UICollectionViewDataSource, UICollecti
         case 3: //Contact
             segueDelegate.performSegue(withIdentifier: "ContactSegue", sender: nil)
         case 4: //Calendar
-            segueDelegate.navigationController?.pushViewController(CalendarTableViewController(), animated: true)
+            let vc = CalendarTableViewController(configuration: CalendarTableViewController.configuration)
+            segueDelegate.navigationController?.pushViewController(vc, animated: true)
         case 5: //News
             segueDelegate.performSegue(withIdentifier: "NewsSegue", sender: nil)
         case 6: //Lunch
             segueDelegate.performSegue(withIdentifier: "LunchSegue", sender: nil)
         case 7: //Athletics
-            segueDelegate.navigationController?.pushViewController(AthleticsTableViewController(), animated: true)
+            let vc = AthleticsTableViewController(configuration: AthleticsTableViewController.configuration)
+            segueDelegate.navigationController?.pushViewController(vc, animated: true)
         case 8: //Give
             guard let url = URL(string: "https://app.mobilecause.com/form/N-9Y0w?vid=1hepr") else { break }
             UIApplication.shared.open(url)
