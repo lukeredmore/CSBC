@@ -36,7 +36,7 @@ struct SignedOutStudentPassInfo : StudentPassInfo {
     static func sortSectionsByThisParameter<T>(_ lhs: T, _ rhs: T) -> Bool? where T : Comparable { nil }
     
     static func < (lhs: SignedOutStudentPassInfo, rhs: SignedOutStudentPassInfo) -> Bool {
-        lhs.currentStatus.time > rhs.currentStatus.time
+        lhs.currentStatus.time < rhs.currentStatus.time
     }
     
 

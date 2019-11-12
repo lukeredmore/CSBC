@@ -69,7 +69,7 @@ class HomeView: UIView, AlertDelegate {
     
     @objc func bannerTapped() {
         guard alertMessage != nil, alertMessage != "" else { return }
-        SnowFallView.overlay(onView: self, count: 3)
+        SnowFallView.overlay(onView: self, count: 2)
     }
     
     

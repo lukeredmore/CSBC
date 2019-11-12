@@ -113,7 +113,7 @@ async function checkForAlertFromCSBC() {
   })
   try {
       const page = await browser.newPage()
-      await page.goto('https://csbcsaints.org/about', { waitUntil: 'domcontentloaded' })
+      await page.goto('https://csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/', { waitUntil: 'domcontentloaded' })
       let html = await page.content()
       let alertMessage = parseCSBCForCancellations(html)
       browser.close()
@@ -145,26 +145,28 @@ async function checkForAlertFromWBNG() {
 
 function parseCSBCForCancellations(html) {
   const $ = cheerio.load(html)
-  $('tr').each((_, elem) => {
-    //TODO - Add parsing info here
-  })
-  return 'nil'
+  let text = null
+  text = $('strong').first().text()
+  text = text.replace('ALERT: ', '')
+  text = text.replace('Alert: ', '')
+  return text
 }
 
 function parseWBNGForCancellations(html) {
+  let messageToReturn = 'nil'
   const $ = cheerio.load(html)
   $('tr').each((_, elem) => {
     const entry = $(elem).text().toLowerCase()
     if (entry.includes('catholic') && entry.includes('broome')) {
+      console.log("WBNG Closed Data: " + entry)
       let cancellationData = entry.split(': ')[1]
       if (cancellationData === "closed" || cancellationData === "closed today") {
-        return "The Catholic Schools of Broome County are closed today."
+        messageToReturn = "The Catholic Schools of Broome County are closed today."
       }
       if (cancellationData.includes('delay')) {
-        return "The Catholic Schools of Broome County are on a " + cancellationData + " schedule."
+        messageToReturn = "The Catholic Schools of Broome County are on a " + cancellationData + " schedule today."
       }
-      return 'nil'
     }
   })
-  return 'nil'
+  return messageToReturn
 }
