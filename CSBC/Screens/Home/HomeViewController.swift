@@ -20,7 +20,6 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
-        CSBCSplashView(addToView: view).startAnimation()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

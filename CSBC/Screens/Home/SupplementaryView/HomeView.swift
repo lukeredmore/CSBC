@@ -23,15 +23,17 @@ class HomeView: UIView, AlertDelegate {
     }
     private var alertBannerHeight : CGFloat? = nil
     private weak var segueDelegate : SegueDelegate!
+    private var splashView : CSBCSplashView? = nil
     
     init(segueDelegate : SegueDelegate) {
         self.segueDelegate = segueDelegate
         super.init(frame: .zero)
         rebuild()
+        splashView = CSBCSplashView(addToView: self)
     }
     func rebuild() {
         print("Building home view with alert message of: ", alertMessage ?? "nil")
-        subviews.forEach({ $0.removeFromSuperview() })
+        subviews.forEach { $0.removeFromSuperview() }
         alertBannerHeight = nil
         backgroundColor = .csbcNavBarBackground
         if let alertMessage = alertMessage, alertMessage != "" {
@@ -61,10 +63,20 @@ class HomeView: UIView, AlertDelegate {
         let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0)))
         addSubview(collectionView)
         
-        bannerTapped()
         
         collectionView.dataSource = collectionController
         collectionView.delegate = collectionController
+        
+        if let spl = splashView {
+            self.addSubview(spl)
+            spl.startAnimation { self.splashView = nil }
+            bannerTapped()
+        }
+        
+        
+        
+        
+        
     }
     
     @objc func bannerTapped() {

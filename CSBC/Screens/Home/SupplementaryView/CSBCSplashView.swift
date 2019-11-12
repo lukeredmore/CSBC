@@ -36,7 +36,7 @@ class CSBCSplashView: UIView {
     
     
     //MARK: Animations
-    func startAnimation() {
+    func startAnimation(completion : (() -> Void)? = nil) {
         //Shrink animation
         UIView.animate(withDuration: 0.45, delay: 0.5, usingSpringWithDamping: 0.7, initialSpringVelocity: 10, options: [], animations: {
             self.imageView.transform = CGAffineTransform(scaleX: 0.75, y: 0.75)
@@ -46,7 +46,7 @@ class CSBCSplashView: UIView {
         UIView.animate(withDuration: 0.45, delay: 0.95, options: [], animations: {
             self.imageView.transform = CGAffineTransform(scaleX: 20, y: 20)
             self.alpha = 0
-        }) { finished in self.removeFromSuperview() }
+        }) { finished in self.removeFromSuperview(); completion?() }
     }
     
 }
