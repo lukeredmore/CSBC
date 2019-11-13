@@ -11,7 +11,9 @@ import Alamofire
 
 /// Configures composer view for user compose and prepares message to be sent
 class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushNotificationsDelegate {
-    @IBOutlet weak private var textView: UITextView!
+    @IBOutlet weak private var textView: UITextView! { didSet {
+        textView.delegate = self
+    }}
     
     private var expectedPlaceholderColor : UIColor {
         if #available(iOS 13.0, *) {
@@ -36,10 +38,6 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
     
     
     //MARK: View Control
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        textView.delegate = self
-    }
     override func viewWillAppear(_ animated: Bool) {
         textView.text = usersSchool != nil ? notificationSample : reportSample
         textView.textColor = expectedPlaceholderColor

@@ -9,7 +9,7 @@
 import UIKit
 
 
-//Create view programatically for TodayViewController
+///Create view programatically for TodayViewController
 class TodayView: UIView {
     private var headerLabel : UILabel!
     private var headerView : UIView!
@@ -50,6 +50,7 @@ class TodayView: UIView {
         tableView.tableFooterView = UIView()
         tableView.allowsSelection = false
         tableView.register(UINib(nibName: "TodayViewCell", bundle: nil), forCellReuseIdentifier: "todayViewCell")
+        tableView.register(UINib(nibName: "TodayTextViewTableViewCell", bundle: nil), forCellReuseIdentifier: "TodayTextViewTableViewCell")
         addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true

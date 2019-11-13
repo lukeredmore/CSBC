@@ -88,6 +88,8 @@
 		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
 		26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C7648E22FB6A4F0001FBBB /* TodayView.swift */; };
+		26C954E5237BA9C40061E085 /* TodayTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */; };
+		26C954E6237BA9C40061E085 /* TodayTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */; };
 		26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */; };
 		26DC0B6F222B168C00371B61 /* Montserrat-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */; };
 		26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */; };
@@ -197,6 +199,8 @@
 		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
 		26C7648E22FB6A4F0001FBBB /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
+		26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTextViewTableViewCell.swift; sourceTree = "<group>"; };
+		26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayTextViewTableViewCell.xib; sourceTree = "<group>"; };
 		26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
 		26DC0B6E222B168800371B61 /* Montserrat-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Regular.otf"; sourceTree = "<group>"; };
 		26DC0B70222B17E600371B61 /* Montserrat-Italic.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-Italic.otf"; sourceTree = "<group>"; };
@@ -309,6 +313,8 @@
 				26C7648E22FB6A4F0001FBBB /* TodayView.swift */,
 				26BE620B2273EB2D00C6656F /* TodayViewCell.swift */,
 				26BE620C2273EB2D00C6656F /* TodayViewCell.xib */,
+				26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */,
+				26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */,
 			);
 			path = SupplementaryView;
 			sourceTree = "<group>";
@@ -806,6 +812,7 @@
 				26C0F00723713D7D0067B2DB /* AthleticsTableViewCell.xib in Resources */,
 				2659E04E22F131CA00016DDE /* csbccalendar19-20.pdf in Resources */,
 				26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */,
+				26C954E6237BA9C40061E085 /* TodayTextViewTableViewCell.xib in Resources */,
 				26DC0B71222B17E600371B61 /* Montserrat-Italic.otf in Resources */,
 				26894D5121EFACFE00691C97 /* Gotham-ThinItalic.otf in Resources */,
 				26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */,
@@ -998,6 +1005,7 @@
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,
 				26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */,
 				26247F292371E1D100B8BCAC /* StudentPassInfo.swift in Sources */,
+				26C954E5237BA9C40061E085 /* TodayTextViewTableViewCell.swift in Sources */,
 				26DC0B79222F275900371B61 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1094,7 +1102,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.7.2;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1238,7 +1246,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.7.2;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1262,7 +1270,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.7.2;
+				MARKETING_VERSION = 1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

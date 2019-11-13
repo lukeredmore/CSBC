@@ -8,6 +8,8 @@
 
 import UIKit
 
+
+//MARK: TODO: handling launching without internet
 protocol SegueDelegate : class {
     func performSegue(withIdentifier identifier: String, sender: Any?)
     var lastSeguedWebView : WebViewController? { get }
@@ -43,7 +45,7 @@ class HomeView: UIView, AlertDelegate {
             let height = alertMessage.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont(name: "gotham-bold", size: 18)!)
             alertLabel.font = UIFont(name: "gotham-bold", size: 18)
             alertLabel.textColor = .white
-            alertLabel.frame = CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0), width: UIScreen.main.bounds.width, height: height)
+            alertLabel.frame = CGRect(x: (UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0), y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0), width: (UIScreen.main.bounds.width - (2*(UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0))), height: height)
             alertLabel.textAlignment = NSTextAlignment.center
             let alertView = UIView()
             alertView.backgroundColor = .csbcAlertRed
