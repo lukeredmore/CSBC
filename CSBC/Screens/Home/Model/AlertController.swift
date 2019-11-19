@@ -16,29 +16,28 @@ protocol AlertDelegate: class {
 /// Checks for snow days and other critical alerts, tells the main screen and updates Firebase
 class AlertController {
     weak private var alertDelegate : AlertDelegate!
-    private var triedToRunFirstTimeInVWA = false
+    private var alertReturned = false
     
     init(alertDelegate : AlertDelegate) {
         self.alertDelegate = alertDelegate
     }
     
     func checkForAlert() {
-        if triedToRunFirstTimeInVWA {
-            Database.database().reference().removeAllObservers()
-            Database.database().reference().child("BannerAlertMessage").observe(.value) { (snapshot) in
-                if let alertMessage = snapshot.value as? String, alertMessage != "nil", alertMessage != "null" {
-                    self.alertDelegate.alertMessage = alertMessage
-                } else {
-                    self.alertDelegate.alertMessage = nil
-                }
+        Database.database().reference().removeAllObservers()
+        alertReturned = false
+        Database.database().reference().child("BannerAlertMessage").observe(.value) { (snapshot) in
+            if let alertMessage = snapshot.value as? String, alertMessage != "nil", alertMessage != "null" {
+                self.alertDelegate.alertMessage = alertMessage
+            } else {
+                self.alertDelegate.alertMessage = nil
+            }
+            self.alertReturned = true
+            return
+        }
+        Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
+            if !self.alertReturned {
+                self.alertDelegate.alertMessage = nil
             }
         }
-        else {
-            triedToRunFirstTimeInVWA = true
-            Timer.scheduledTimer(withTimeInterval: 1.4, repeats: false) { (timer) in
-                self.checkForAlert()
-            }
-        }
-        
     }
 }

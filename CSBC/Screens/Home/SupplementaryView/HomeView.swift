@@ -9,7 +9,6 @@
 import UIKit
 
 
-//MARK: TODO: handling launching without internet
 protocol SegueDelegate : class {
     func performSegue(withIdentifier identifier: String, sender: Any?)
     var lastSeguedWebView : WebViewController? { get }
@@ -74,10 +73,6 @@ class HomeView: UIView, AlertDelegate {
             spl.startAnimation { self.splashView = nil }
             bannerTapped()
         }
-        
-        
-        
-        
         
     }
     
