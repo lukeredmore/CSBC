@@ -13,13 +13,10 @@ class TodayDataSource: NSObject, UITableViewDataSource, UITextViewDelegate {
     private let notesSample = "Enter any notes for today"
     private var expectedPlaceholderColor : UIColor {
         if #available(iOS 13.0, *) {
-            return .placeholderText
+            return .secondaryLabel
         } else {
             return .darkGray
         }
-    }
-    private var expectedTextColor : UIColor {
-        return .csbcDefaultText
     }
     
     private var todaysEventsArray : Array<EventsModel>?
@@ -104,11 +101,18 @@ class TodayDataSource: NSObject, UITableViewDataSource, UITextViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TodayTextViewTableViewCell") as? TodayTextViewTableViewCell else { return TodayTextViewTableViewCell() }
         if let existingNote = UserDefaults.standard.string(forKey: date.dateString()) {
             cell.textView.text = existingNote
-            cell.textView.textColor = expectedTextColor
+            cell.textView.textColor = .csbcDefaultText
         } else {
             cell.textView.text = notesSample
             cell.textView.textColor = expectedPlaceholderColor
         }
+        if #available(iOS 13.0, *) {
+            cell.textView.backgroundColor = .secondarySystemGroupedBackground
+        } else {
+            cell.textView.backgroundColor = .white
+        }
+        cell.textView.tintColor = .csbcYellow
+        cell.textView.keyboardDismissMode = .onDrag
         cell.textView.delegate = self
         return cell
     }
@@ -116,13 +120,14 @@ class TodayDataSource: NSObject, UITableViewDataSource, UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if "\(textView.text!)" == notesSample && textView.textColor == expectedPlaceholderColor {
             textView.text = ""
-            textView.textColor = expectedTextColor
+            textView.textColor = .csbcDefaultText
         }
     }
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text == "" || "\(textView.text!)" == notesSample {
+        if "\(textView.text!)" == "" || "\(textView.text!)" == notesSample {
             textView.text = notesSample
             textView.textColor = expectedPlaceholderColor
+            UserDefaults.standard.set(nil, forKey: date.dateString())
         } else {
             UserDefaults.standard.set(textView.text, forKey: date.dateString())
         }
