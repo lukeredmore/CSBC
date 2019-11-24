@@ -105,10 +105,11 @@ async function createAndSendDayNotification(sendingForReal = true) {
   return
 }
 //Sends day schedule notifications every morning
-exports.createAndSend = (context) => {
+exports.createAndSend = async (context) => {
     const manuallyStopped = false
     if (manuallyStopped === false) {
       createAndSendDayNotification()
     }
-    return null;
+    const lunch = require('./lunch.js')
+    await lunch.getLinks()
 }
