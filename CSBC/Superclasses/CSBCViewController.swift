@@ -172,12 +172,10 @@ class CSBCSegmentedControl : UISegmentedControl {
     }
     
     @objc private func schoolPickerValueChanged(_ sender: CSBCSegmentedControl) {
-        print("runs on programmatic change")
         let schoolsMap = ["Seton":0, "St. John's":1, "All Saints":2, "St. James":3]
         let ssString = sender.titleForSegment(at: sender.selectedSegmentIndex) ?? "Seton"
         let ssInt = schoolsMap[ssString] ?? 0
         UserDefaults.standard.set(ssInt, forKey:"schoolSelected")
-        print("schoolSelected stored as \(ssString): \(ssInt)")
         delegate?.schoolPickerValueChanged()
     }
 }

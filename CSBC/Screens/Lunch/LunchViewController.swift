@@ -18,16 +18,24 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         didSet { webView.navigationDelegate = self }
     }
     
+    private var selectedPDFURL : URL? {
+        var loadedURLs : [Int:URL] {
+            return UserDefaults.standard.object([Int:URL].self, with: "LunchURLs") ?? [:]
+        }
+        if let pdfURL = loadedURLs[schoolSelected.rawValue] {
+            return pdfURL
+        } else if loadedURLs[Schools.john.rawValue] != nil && schoolSelected == .james {
+            return loadedURLs[Schools.john.rawValue]
+        } else if let docURLToDisplay = loadedURLs[schoolSelected.rawValue] {
+            return docURLToDisplay
+        }
+        return nil
+    }
+    
     private var dateLabelText : String {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM d"
         return "Today is \(formatter.string(from: Date()))"
-    }
-    private var loadedPDFURLs : [Int:URL] {
-        return UserDefaults.standard.object([Int:URL].self, with: "PDFLocations") ?? [:]
-    }
-    private var loadedWordURLs : [Int:String] {
-        return UserDefaults.standard.object([Int:String].self, with: "WordLocations") ?? [:]
     }
     
     
@@ -45,19 +53,32 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
     //MARK: Lunch Menu Displayed Methods
     override func schoolPickerValueChanged() {
-        reloadDocumentView()
+        reloadDocumentView(withURL: selectedPDFURL)
     }
-    private func reloadDocumentView() {
+    private func reloadDocumentView(withURL url : URL?) {
+        startLoading()
+        guard let url = url else { return }
+        
+        if url.absoluteString.components(separatedBy: ".").last == "pdf" {
+            configurePDFView(forPDF: PDFDocument(url: url))
+        } else {
+            configureWebView(forDocURLString: url.absoluteString)
+        }
+    }
+    private func startLoading() {
         loadingSymbol.startAnimating()
         webView.isHidden = true
         pdfView.isHidden = true
         navigationItem.rightBarButtonItem?.isEnabled = false
-        
-        if let pdfToDisplay = loadedPDFURLs[schoolSelected.rawValue] {
-            configurePDFView(forPDF: PDFDocument(url: pdfToDisplay))
-        } else if let docURLToDisplay = loadedWordURLs[schoolSelected.rawValue] {
-            configureWebView(forDocURLString: docURLToDisplay)
+    }
+    private func finishLoading() {
+        if pdfView.document != nil {
+            pdfView.isHidden = false
+        } else {
+            webView.isHidden = false
         }
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        loadingSymbol.stopAnimating()
     }
     private func configurePDFView(forPDF pdf : PDFDocument?) {
         pdfView.document = pdf
@@ -67,22 +88,21 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         pdfView.scaleFactor = pdfScale
         pdfView.maxScaleFactor = 4.0
         pdfView.minScaleFactor = pdfScale
-        pdfView.isHidden = false
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        loadingSymbol.stopAnimating()
+        finishLoading()
     }
     private func configureWebView(forDocURLString url : String) {
         if let urlToLoad = URL(string: "https://docs.google.com/gview?url=\(url)") {
             let urlToRequest = URLRequest(url: urlToLoad)
+            startLoading()
+            pdfView.document = nil
             webView.load(urlToRequest)
         }
     }
     @objc private func shareButtonPressed() {
-        if loadedPDFURLs[schoolSelected.rawValue] != nil && loadingSymbol.isHidden == true {
-            let activityViewController = UIActivityViewController(activityItems: [loadedPDFURLs[schoolSelected.rawValue]!], applicationActivities: nil)
-            DispatchQueue.main.async {
-                self.present(activityViewController, animated: true, completion: nil)
-            }
+        guard loadingSymbol.isHidden else { return }
+        let activityViewController = UIActivityViewController(activityItems: [selectedPDFURL!], applicationActivities: nil)
+        DispatchQueue.main.async {
+            self.present(activityViewController, animated: true, completion: nil)
         }
     }
     
@@ -105,12 +125,5 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
     
     
     //MARK: WebView Methods
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        self.loadingSymbol.startAnimating()
-        webView.isHidden = true
-    }
-    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        self.loadingSymbol.stopAnimating()
-        webView.isHidden = false
-    }
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) { finishLoading() }
 }

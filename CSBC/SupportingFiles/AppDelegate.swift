@@ -24,15 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         #if DEBUG
         print("Application successfully loaded in debug configuration")
-//        Crash.sharedInstance().crashCollectionEnabled = false
         #else
         print("Application successfully loaded in production configuration")
-//        Crash.sharedInstance().crashCollectionEnabled = true
         #endif
         print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
         
-        
-        LunchMenuRetriever.downloadAndStoreLunchMenus()
+        LunchMenuRetriever.downloadLunchMenus()
         DaySchedule.retrieveFromFirebase()
         
         //Notifications

@@ -4,17 +4,16 @@ const admin = require('firebase-admin')
 const cheerio = require('cheerio')
 
 exports.getLinks = async function() {
-    let snapshot = await admin.database().ref('LunchLinks/override').once('value')
+    let snapshot = await admin.database().ref('Lunch/Override').once('value')
     let lunchOverride = snapshot.val()
     if (lunchOverride === true) { return }
 
     const lunchLinks = {
         "seton": await getSetonLunch(),
         "johnjames": await getJohnAndJamesLunch(),
-        "saints": await getSaintsLunch(),
-        "override": false
+        "saints": await getSaintsLunch()
     }
-    await admin.database().ref('LunchLinks').set(lunchLinks, error=> {
+    await admin.database().ref('Lunch/Links').set(lunchLinks, error=> {
         if (error) {
           console.log("Error updating database: " + JSON.stringifiy(error))
         } else {

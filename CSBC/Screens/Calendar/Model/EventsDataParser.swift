@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import SwiftSoup
 
 ///Parsers JSON data from EventsRetriever to Set of EventsModel
 class EventsDataParser {
