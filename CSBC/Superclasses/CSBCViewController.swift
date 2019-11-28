@@ -17,7 +17,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
         set {
             let ssInt = newValue.rawValue
             UserDefaults.standard.set(ssInt, forKey:"schoolSelected")
-            print("schoolSelected stored as \(newValue.ssString): \(ssInt)")
+            print("schoolSelected stored as \(newValue.shortName): \(ssInt)")
             schoolPickerValueChanged()
         }
     }
@@ -134,7 +134,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         for i in 0..<schoolPicker.numberOfSegments {
-            if schoolPicker.titleForSegment(at: i) == schoolSelected.ssString {
+            if schoolPicker.titleForSegment(at: i) == schoolSelected.shortName {
                 schoolPicker.setSelectedSegmentIndex(i)
                 break
             }

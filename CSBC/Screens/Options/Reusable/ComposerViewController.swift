@@ -7,10 +7,9 @@
 //
 
 import UIKit
-import Alamofire
 
 /// Configures composer view for user compose and prepares message to be sent
-class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushNotificationsDelegate {
+class ComposerViewController: UIViewController, UITextViewDelegate {
     @IBOutlet weak private var textView: UITextView! { didSet {
         textView.delegate = self
     }}
@@ -58,29 +57,24 @@ class ComposerViewController: UIViewController, UITextViewDelegate, PublishPushN
     }
     private func sendNotification() {
         if textView.text != "Enter a message" && usersSchool != nil {
-            let notificationSender = PublishPushNotifications(withMessage: "\(textView.text!)", toSchool: usersSchool!)
-            notificationSender.delegate = self
-            notificationSender.sendNotification()
+            PublishPushNotifications.send(withMessage: "\(textView.text!)", toSchool: usersSchool!) { (error) in
+                if error == nil {
+                    let alert = UIAlertController(title: "Notification sucessfully sent", message: "", preferredStyle: .alert)
+                    let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
+                    alert.addAction(alertAction)
+                    self.present(alert, animated: true)
+                } else {
+                    print("Error sending notification:", error!)
+                    let alert = UIAlertController(title: "An error occurred", message: "The message could not be sent. Please check your connection and try again.", preferredStyle: .alert)
+                    let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
+                    alert.addAction(alertAction)
+                    self.present(alert, animated: true)
+                }
+            }
         }
     }
     private func sendReport() {
         print("sent")
-    }
-    
-    
-    //MARK: PublishPushNotificationDelegate Methods
-    func notificationDidPublishSucessfully() {
-        let alert = UIAlertController(title: "Notification sucessfully sent", message: "", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
-        alert.addAction(alertAction)
-        present(alert, animated: true)
-    }
-    func notificationFailedToPublish(withError error: Error) {
-        print("Error sending notification:", error)
-        let alert = UIAlertController(title: "An error occurred", message: "The message could not be sent. Please check your connection and try again.", preferredStyle: .alert)
-        let alertAction = UIAlertAction(title: "OK", style: .default) { action in self.dismiss(animated: true) }
-        alert.addAction(alertAction)
-        present(alert, animated: true)
     }
     
     

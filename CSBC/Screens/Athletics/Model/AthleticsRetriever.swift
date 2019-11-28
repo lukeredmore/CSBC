@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 import SwiftyJSON
 
 class AthleticsRetriever {
@@ -55,18 +54,28 @@ class AthleticsRetriever {
     }
     private func getAthleticsDataFromOnline() {
         print("we are asking for Athletis data")
-        let parameters = ["game_types" : ["regular_season", "scrimmage", "post_season", "event"]]
-        Alamofire.request("https://www.schedulegalaxy.com/api/v1/schools/163/activities", method: .get, parameters: parameters).responseJSON {
-            response in
-            if response.result.isSuccess {
-                print("Athletics Data Received")
-                let athleticsJSON : JSON = JSON(response.result.value!)
-                self.completion(AthleticsDataParser.parseAthleticsData(json: athleticsJSON))
-            } else {
-                print("Error on request to ScheduleGalaxy: ")
-                print(response.error!)
-                self.retrieveAthleticsArray(forceReturn: true, forceRefresh: false)
+        var url = URLComponents(string: "https://www.schedulegalaxy.com/api/v1/schools/163/activities")!
+        let parameters = ["regular_season", "scrimmage", "post_season", "event"]
+        var items = [URLQueryItem]()
+        for type in parameters {
+            items.append(URLQueryItem(name: "game_types[]", value: type))
+        }
+        url.queryItems = items
+        
+        let request =  URLRequest(url: (url.url)!)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            DispatchQueue.main.async {
+                if error == nil {
+                    print("Athletics Data Received")
+                    let athleticsJSON = JSON(data!)
+                    self.completion(AthleticsDataParser.parseAthleticsData(json: athleticsJSON))
+                } else {
+                    print("Error on request to ScheduleGalaxy: ")
+                    print(error!)
+                    self.retrieveAthleticsArray(forceReturn: true, forceRefresh: false)
+                }
             }
         }
+        task.resume()
     }
 }

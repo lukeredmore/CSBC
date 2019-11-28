@@ -16,7 +16,6 @@ target 'CSBC' do
   pod 'Firebase/Messaging'
   pod 'Fabric'
   pod 'Crashlytics'
-  pod 'Alamofire'
   pod 'SwiftyJSON'
 
 end

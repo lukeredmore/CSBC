@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 import SwiftyJSON
 
 ///Retrieves events and athletics data, parses it, and activates pager when ready. Also parses full data into single days for TodayVC
@@ -21,7 +20,7 @@ class TodayDataParser {
         return (try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json)) ?? []
     }
     private var schoolSelectedString : String {
-        (Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton).ssString
+        (Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton).shortName
     }
     
     private lazy var eventsRetriever = EventsRetriever() { (eventsSet) in

@@ -14,7 +14,7 @@ enum Schools : Int {
     case saints
     case james
     
-    var ssString: String {
+    var shortName: String {
         switch self {
         case .seton:
             return "Seton"
@@ -24,6 +24,19 @@ enum Schools : Int {
             return "All Saints"
         case .james:
             return "St. James"
+        }
+    }
+    
+    var fullName: String {
+        switch self {
+        case .seton:
+            return "Seton Catholic Central"
+        case .john:
+            return "St. John School"
+        case .saints:
+            return "All Saints School"
+        case .james:
+            return "St. James School"
         }
     }
     

@@ -64,7 +64,7 @@ class LunchSessionDelegate : NSObject, URLSessionDownloadDelegate {
         // copy from temp to Document
         do {
             try FileManager.default.copyItem(at: location, to: destinationURL)
-            print("\(school.ssString) Lunch Menu downloaded")
+            print("\(school.shortName) Lunch Menu downloaded")
             loadedPDFURLs[school.rawValue] = destinationURL
         } catch let error {
             print("Copy Error on PDF \(school.rawValue + 1): \(error.localizedDescription)")

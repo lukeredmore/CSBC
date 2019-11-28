@@ -221,7 +221,7 @@
 		26ED796721EB91D50086FB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26ED796921EB91D50086FB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CSBC/Info.plist; sourceTree = SOURCE_ROOT; };
 		26F2357C233D360800A3BE62 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
-		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ComposerViewController.swift; path = "../New Group/ComposerViewController.swift"; sourceTree = "<group>"; };
+		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenuRetriever.swift; sourceTree = "<group>"; };
 		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
@@ -1230,7 +1230,6 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};

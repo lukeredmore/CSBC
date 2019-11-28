@@ -7,121 +7,73 @@
 //
 
 import Foundation
-import Alamofire
-
-protocol PublishPushNotificationsDelegate: class {
-    func notificationDidPublishSucessfully()
-    func notificationFailedToPublish(withError : Error)
-}
 
 /// Takes a given notification and publishes it with preconfigured settings and reports to a delegate (the composer)
 class PublishPushNotifications {
-
-    private var messageToSend : String!
-    private var schoolConditional : String!
-    private var notificationTitle : String!
-    private var headers : HTTPHeaders = ["Content-Type":"application/json"]
-    weak var delegate : PublishPushNotificationsDelegate?
     
-    init(withMessage : String, toSchool : Schools) {
-        self.messageToSend = withMessage
-        self.schoolConditional = findConditionalForSchool(school: toSchool)
-        
-        #if DEBUG
-        headers["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
-        #else
-        headers["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
-        #endif
-    }
-    
-    private func findConditionalForSchool(school : Schools) -> String {
+    private static func conditional(for school : Schools) -> String {
         switch school {
         case .seton:
-            notificationTitle = "Seton Catholic Central"
             return "setonNotifications"
         case .john:
-            notificationTitle = "St. John School"
             return "johnNotifications"
         case .saints:
-            notificationTitle = "All Saints School"
             return "saintsNotifications"
         case .james:
-            notificationTitle = "St. James School"
             return "jamesNotifications"
         }
     }
     
-    func sendNotification() {
-        let params : [String : Any] =
-            [ "notification": [
-                "title": notificationTitle,
-                "body": "\(self.messageToSend!)",
-                "sound": "default"
-                ],
-              "condition": "'\(self.schoolConditional!)' in topics",
-                "priority": "high"
-        ]
-        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: headers).responseJSON { (response) in
-            //print(response)
-            if response.error == nil {
-                self.delegate?.notificationDidPublishSucessfully()
-            } else {
-                print("Error sending notification: ", response.error!)
-                self.delegate?.notificationFailedToPublish(withError: response.error!)
-            }
-        }
+    static func send(withMessage message : String, toSchool school : Schools, completion: ((String?) -> Void)? = nil) {
         
-        
-    }
-    
-    static func notifyOthersOfDayScheduleUpdate() {
-        var dataNotifHeaders : HTTPHeaders = ["Content-Type":"application/json"]
-        #if DEBUG
-        dataNotifHeaders["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
-        #else
-        dataNotifHeaders["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
-        #endif
-        
+        let url = "https://fcm.googleapis.com/fcm/send"
         let params : [String : Any] = [
-            "condition": "'appUser' in topics || 'setonNotifications' in topics",
-            "priority": "high",
-            "content_available": true
+            "notification": [
+                "title": school.fullName,
+                "body": "\(message)",
+                "sound": "default"
+            ],
+            "condition": "'\(conditional(for: school))' in topics",
+            "priority": "high"
         ]
+        guard let request = createURLRequestForPost(urlString: url, data: params) else {
+            print("Invalid URLRequest")
+            completion?("Invalid URLRequest")
+            return
+        }
         
-        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: dataNotifHeaders).responseJSON { (response) in
-            if response.error == nil {
-                print("Sucessfully notified users of new data")
-            } else {
-                print("Error sending data notification: ", response.error!)
+        let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            DispatchQueue.main.async {
+                completion?(error?.localizedDescription)
             }
         }
+        task.resume()
     }
     
-    static func sendAlertNotification(withMessage alertText: String) {
-        var alertNotifHeaders : HTTPHeaders = ["Content-Type":"application/json"]
-        #if DEBUG
-        alertNotifHeaders["Authorization"] = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
-        #else
-        alertNotifHeaders["Authorization"] = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
-        #endif
+    private static func createURLRequestForPost(urlString: String, data: [String : Any?]) -> URLRequest? {
         
-        let params : [String : Any] =
-            [ "notification": [
-                "title": "Alert",
-                "body": "\(alertText)",
-                "sound": "default"
-                ],
-              "condition": "'appUser' in topics || 'setonNotifications' in topics",
-              "priority": "high"
-        ]
-        Alamofire.request("https://fcm.googleapis.com/fcm/send", method: .post, parameters: params, encoding: JSONEncoding.default, headers: alertNotifHeaders).responseJSON { (response) in
-            if response.error == nil {
-                print("Sucessfully notified users of new data")
-            } else {
-                print("Error sending data notification: ", response.error!)
-            }
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            return nil
         }
         
+        var apiKey : String
+        #if DEBUG
+        apiKey = PrivateAPIKeys.DEBUG_NOTIFICATION_KEY
+        #else
+        apiKey = PrivateAPIKeys.PRODUCTION_NOTIFICATION_KEY
+        #endif
         
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: data) else {
+            print("Invalid Data")
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = jsonData
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue(apiKey, forHTTPHeaderField: "Authorization")
+        return request
     }
 }
