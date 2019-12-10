@@ -8,8 +8,6 @@
 
 import UIKit
 
-
-
 protocol Searchable : Hashable, Comparable, Codable {
     var groupIntoSectionsByThisParameter : AnyHashable? { get }
     var sectionTitle : String? { get }
@@ -160,11 +158,10 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     /// Array of 'permanent search parameters' to serve as filters
     var filters = [String]() { didSet {
         let filteredSet = Set(fullData.joined()).filter {
-            var include = false
             for each in filters where $0.searchElements.lowercased().contains(each.lowercased()) {
-                include = true
+                return true
             }
-            return include
+            return false
         }
         filteredData = filteredSet.nest()
         tableView.reloadData()
@@ -182,16 +179,24 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     
     //MARK: UISearchResultsUpdating Methods
     func updateSearchResults(for searchController: UISearchController) {
-        if let searchText = searchController.searchBar.text {
-            searchedData = fullData.map { $0.filter { $0.searchElements.lowercased().contains(searchText.lowercased()) } }
+        if var searchText = searchController.searchBar.text?.configureForSearch().components(separatedBy: " ") {
+            searchText.removeAll { $0 == "" }
+            searchedData = fullData.map { $0.filter {
+                for textToSearch in searchText where !$0.searchElements.configureForSearch().contains(textToSearch) {
+                    return false
+                }
+                return true
+            } }
+            searchedData.removeAll { $0.count == 0 }
             tableView.reloadData()
         }
     }
     
     
+    
     //MARK: UITableView's UIScrollViewDelegate Methods
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if isSearching || fullDataEmpty { return }
+        if isSearching || fullDataEmpty || searchController.isActive { return }
         let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview)
         if translation.y > 0 && searchBarTopConstraint.constant != 0 { //scroll up
             if translation.y < 56 {
@@ -244,8 +249,9 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         let headerView = UIView()
         headerView.backgroundColor = .csbcTableSeparator
 
-        let headerLabel = UILabel(frame: CGRect(x: 11, y: 4, width:
-        tableView.bounds.size.width, height: tableView.bounds.size.height))
+        let headerLabel = UILabel(frame:
+            CGRect(x: 11, y: 4, width: tableView.bounds.size.width, height: tableView.bounds.size.height)
+        )
         headerLabel.font = UIFont(name: "gotham-bold", size: 18)
         headerLabel.textColor = .csbcDefaultText
         headerLabel.text = self.tableView(tableView, titleForHeaderInSection: section)
@@ -403,11 +409,11 @@ fileprivate extension UITextField {
             self.text = label.text
             self.font = label.font
         }
-
+        
         required init?(coder: NSCoder) { super.init(coder: coder) }
     }
-
-
+    
+    
     func setPlaceholder(textColor: UIColor) {
         guard let placeholderLabel = value(forKey: "placeholderLabel") as? UILabel else { return }
         let coloredLabel = ColoredLabel(placeholderLabel, textColor: textColor)

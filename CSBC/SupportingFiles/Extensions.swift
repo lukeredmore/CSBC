@@ -133,6 +133,12 @@ extension String {
         
         return ceil(boundingBox.width)
     }
+    ///Removes capitals, commas, and apostrophes
+    func configureForSearch() -> String {
+        return self.lowercased()
+        .replacingOccurrences(of: ",", with: "")
+        .replacingOccurrences(of: "'", with: "")
+    }
 }
 
 extension UIView {
