@@ -62,8 +62,9 @@ class HomeView: UIView, AlertDelegate {
         barView.backgroundColor = .csbcYellow
         addSubview(barView)
         let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0)))
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         addSubview(collectionView)
-        
         
         collectionView.dataSource = collectionController
         collectionView.delegate = collectionController
