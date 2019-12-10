@@ -46,9 +46,13 @@ class AthleticsDataParser {
                 .camelCaseToWords()
                 .replacingOccurrences(of: "- ", with: "-")
             
+            if opponent.contains("T B D") || opponent.contains("TBD") || opponent == " " || opponent == "" {
+                opponent = "TBD"
+            }
+            
             let title = "\(gender)'s \(sport) \(homeGame) \(opponent)"
             let level =  teamAbbreviations[titleArray[1]] ?? ""
-            let time = "\(json["data"][n]["start_time"])"
+            let time = json["data"][n]["start_time"].string ?? "TBD"
             
             let jsonDateFormatter = DateFormatter()
             jsonDateFormatter.dateFormat = "MMM d, yyyy"
