@@ -25,6 +25,7 @@
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
+		262EA46823A18DD2000BE0FC /* AthleticsTestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
 		265155A52377B455006CAB2E /* PassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265155A42377B455006CAB2E /* PassTableViewCell.xib */; };
@@ -135,6 +136,7 @@
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
+		262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTestTableViewController.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
 		265155A42377B455006CAB2E /* PassTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassTableViewCell.xib; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 			isa = PBXGroup;
 			children = (
 				26C0F004237139900067B2DB /* AthleticsTableViewController.swift */,
+				262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */,
 				2637A68C22FF15C50097EDD1 /* Model */,
 				2637A68D22FF15D20097EDD1 /* Supplementary View */,
 			);
@@ -994,6 +997,7 @@
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */,
+				262EA46823A18DD2000BE0FC /* AthleticsTestTableViewController.swift in Sources */,
 				26247F412373E37500B8BCAC /* StudentStatus.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
