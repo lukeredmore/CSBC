@@ -25,7 +25,8 @@
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
-		262EA46823A18DD2000BE0FC /* AthleticsTestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */; };
+		262EA46A23A1EE52000BE0FC /* SearchScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */; };
+		262EA46E23A1F451000BE0FC /* CSBCSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
 		265155A52377B455006CAB2E /* PassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265155A42377B455006CAB2E /* PassTableViewCell.xib */; };
@@ -69,6 +70,7 @@
 		2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2698D3ED223940C900B70DA6 /* SettingsViewController.swift */; };
 		2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699F9D92233147200AA1CF3 /* WebViewController.swift */; };
 		2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2699F9DB22331A5600AA1CF3 /* DocumentsViewController.swift */; };
+		26A75B8423A5237F00A5B447 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A75B8323A5237F00A5B447 /* TestViewController.swift */; };
 		26AAAE282220F3C100DA3182 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26AAAE272220F3C100DA3182 /* Main.storyboard */; };
 		26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ADFE172240AA3100A557C5 /* JumpToDateViewController.swift */; };
 		26ADFE1A22442FA200A557C5 /* saintssickpolicy19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */; };
@@ -136,7 +138,8 @@
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
-		262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTestTableViewController.swift; sourceTree = "<group>"; };
+		262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScrollDelegate.swift; sourceTree = "<group>"; };
+		262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchUI.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
 		265155A42377B455006CAB2E /* PassTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassTableViewCell.xib; sourceTree = "<group>"; };
@@ -181,6 +184,7 @@
 		2699F9DB22331A5600AA1CF3 /* DocumentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsViewController.swift; sourceTree = "<group>"; };
 		269DF8B622696B7400090884 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		269DF8B822696B7400090884 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		26A75B8323A5237F00A5B447 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		26AAAE272220F3C100DA3182 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		26ADFE172240AA3100A557C5 /* JumpToDateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToDateViewController.swift; sourceTree = "<group>"; };
 		26ADFE1922442FA100A557C5 /* saintssickpolicy19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "saintssickpolicy19-20.pdf"; sourceTree = "<group>"; };
@@ -418,9 +422,12 @@
 			isa = PBXGroup;
 			children = (
 				261202C3236E0678008269F8 /* CSBCSearchViewController.swift */,
+				262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */,
 				26712F4022C7FB6400C30493 /* CSBCViewController.swift */,
 				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
 				263C6D0823038BCB00D189D8 /* Schools.swift */,
+				262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */,
+				26A75B8323A5237F00A5B447 /* TestViewController.swift */,
 			);
 			path = Superclasses;
 			sourceTree = "<group>";
@@ -581,7 +588,6 @@
 			isa = PBXGroup;
 			children = (
 				26C0F004237139900067B2DB /* AthleticsTableViewController.swift */,
-				262EA46723A18DD2000BE0FC /* AthleticsTestTableViewController.swift */,
 				2637A68C22FF15C50097EDD1 /* Model */,
 				2637A68D22FF15D20097EDD1 /* Supplementary View */,
 			);
@@ -962,6 +968,7 @@
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
 				263C6D0923038BCB00D189D8 /* Schools.swift in Sources */,
+				26A75B8423A5237F00A5B447 /* TestViewController.swift in Sources */,
 				2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */,
 				26712F4322C9071300C30493 /* HomeCollectionController.swift in Sources */,
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
@@ -984,6 +991,7 @@
 				266BDBB02239BF6F00E10E3C /* AthleticsModel.swift in Sources */,
 				26ADFE422246A1CE00A557C5 /* ContactViewController.swift in Sources */,
 				2653118122355BD6009C5512 /* Extensions.swift in Sources */,
+				262EA46E23A1F451000BE0FC /* CSBCSearchUI.swift in Sources */,
 				26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */,
 				26247F3E2373DA0200B8BCAC /* PassDetailTableViewCell.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
@@ -997,13 +1005,13 @@
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */,
-				262EA46823A18DD2000BE0FC /* AthleticsTestTableViewController.swift in Sources */,
 				26247F412373E37500B8BCAC /* StudentStatus.swift in Sources */,
 				2698D3EE223940C900B70DA6 /* SettingsViewController.swift in Sources */,
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
 				26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */,
+				262EA46A23A1EE52000BE0FC /* SearchScrollDelegate.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,
 				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,

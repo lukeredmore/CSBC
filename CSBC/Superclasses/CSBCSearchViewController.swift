@@ -27,19 +27,17 @@ enum RefreshConfiguration {
 class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate, UISearchControllerDelegate where Cell : DisplayInSearchableTableView {
     
     //MARK: UI & Search Elements
-    let tableView = UITableView()
-    private let header = UIView()
-    private let bar = UIView()
-    private let emptyDataLabel = UILabel()
-    private let backgroundButton = UIButton()
-    private lazy var searchController = UISearchController()
-    private lazy var emptyDataMessageWhileSearching = configuration.emptySearchMessage
-    private lazy var emptyDataMessage = configuration.emptyDataMessage
+    private lazy var ui = CSBCSearchUI(
+        tableView: tableView,
+        searchController: searchController,
+        configuration: configuration,
+        backgroundButtonPressed: backgroundButtonPressed)
+    var tableView = UITableView()
+    private var searchController = UISearchController()
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refreshData), for: .valueChanged)
         refreshControl.tintColor = .gray
-        
         return refreshControl
     }()
     
@@ -74,21 +72,21 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
             isRefreshEnabled = false
             if !searchedDataEmpty, !(T.shouldStayGroupedWhenSearching ?? false) {
                 dataToReturn = [Array(searchedData.joined())]
-                emptyDataLabel.text = ""
-                backgroundButton.setTitle("", for: .normal)
+                ui.emptyDataLabel.text = ""
+                ui.backgroundButton.setTitle("", for: .normal)
             } else {
-                emptyDataLabel.text = searchedDataEmpty ? emptyDataMessageWhileSearching : ""
-                backgroundButton.setTitle(searchedDataEmpty ? backgroundButtonText : "", for: .normal)
+                ui.emptyDataLabel.text = searchedDataEmpty ? configuration.emptySearchMessage : ""
+                ui.backgroundButton.setTitle(searchedDataEmpty ? backgroundButtonText : "", for: .normal)
                 dataToReturn = searchedData
             }
         } else if !filters.isEmpty {
             isRefreshEnabled = refreshConfiguration == .whileNotSearching
-            emptyDataLabel.text = filteredDataEmpty ? emptyDataMessageWhileSearching : ""
-            backgroundButton.setTitle(filteredDataEmpty ? backgroundButtonText : "", for: .normal)
+            ui.emptyDataLabel.text = filteredDataEmpty ? configuration.emptySearchMessage : ""
+            ui.backgroundButton.setTitle(filteredDataEmpty ? backgroundButtonText : "", for: .normal)
             dataToReturn = filteredData
         } else {
-            emptyDataLabel.text = fullDataEmpty ? emptyDataMessage : ""
-            backgroundButton.setTitle(fullDataEmpty ? backgroundButtonText : "", for: .normal)
+            ui.emptyDataLabel.text = fullDataEmpty ? configuration.emptyDataMessage : ""
+            ui.backgroundButton.setTitle(fullDataEmpty ? backgroundButtonText : "", for: .normal)
             isRefreshEnabled = refreshConfiguration == .whileNotSearching
             dataToReturn = fullData
         }
@@ -117,25 +115,12 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         loadingSymbol.startAnimating()
-        self.headerHeightConstraint.constant = self.maxHeaderHeight
+        ui.headerHeightConstraint.constant = SearchScrollDelegate.maxHeaderHeight
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
-        emptyDataLabel.frame = CGRect(x: 0, y: 24, width: UIScreen.main.bounds.width, height: 24)
+        ui.emptyDataLabel.frame = CGRect(x: 0, y: 24, width: UIScreen.main.bounds.width, height: 24)
         view.layoutIfNeeded()
-    }
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        guard let bkgButtonText = configuration.backgroundButtonText else { return }
-        let footer = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 54))
-        let button = UIButton(frame: footer.bounds)
-        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
-        button.titleLabel?.font = UIFont(name: "Montserrat-SemiBold", size: 17)
-        button.setTitleColor(.csbcAlwaysGray, for: .normal)
-        button.setTitle(bkgButtonText, for: .normal)
-        footer.addSubview(button)
-        footer.backgroundColor = .csbcBackground
-        tableView.tableFooterView = footer
     }
     
     //MARK: User-facing Methods & Properties
@@ -169,7 +154,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func cellSelected(withModel model : T) {}
     /// Override this to control what happens when a background button is pressed, be sure to include super
     /// - Parameter sender: Button object pressed
-    @objc func backgroundButtonPressed() {
+    func backgroundButtonPressed() {
         guard loadingSymbol.isHidden else { return }
         searchController.dismiss(animated: false) { self.searchController.searchBar.text = "" }
     }
@@ -192,90 +177,15 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     
     
     //MARK: UITableView's UIScrollViewDelegate Methods
-    private let maxHeaderHeight: CGFloat = 64;
-    private let minHeaderHeight: CGFloat = 8;
-    private lazy var headerHeightConstraint = header.heightAnchor.constraint(equalToConstant: maxHeaderHeight)
-    private var previousScrollOffset: CGFloat = 0
-    private var previousScrollViewHeight: CGFloat = 0
-    
+    private lazy var scrollDelegate = SearchScrollDelegate(headerConstraint: ui.headerHeightConstraint, tableView: tableView, view: view)
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        // Always update the previous values
-        defer {
-            self.previousScrollViewHeight = scrollView.contentSize.height
-            self.previousScrollOffset = scrollView.contentOffset.y
-        }
-
-        let heightDiff = scrollView.contentSize.height - self.previousScrollViewHeight
-        let scrollDiff = (scrollView.contentOffset.y - self.previousScrollOffset)
-
-        // If the scroll was caused by the height of the scroll view changing, we want to do nothing.
-        guard heightDiff == 0 else { return }
-
-        let absoluteTop: CGFloat = 0;
-        let absoluteBottom: CGFloat = scrollView.contentSize.height - scrollView.frame.size.height;
-
-        let isScrollingDown = scrollDiff > 0 && scrollView.contentOffset.y > absoluteTop
-        let isScrollingUp = scrollDiff < 0 && scrollView.contentOffset.y < absoluteBottom
-
-        if canAnimateHeader(scrollView) {
-
-            // Calculate new header height
-            var newHeight = self.headerHeightConstraint.constant
-            if isScrollingDown {
-                newHeight = max(self.minHeaderHeight, self.headerHeightConstraint.constant - abs(scrollDiff))
-            } else if isScrollingUp {
-                newHeight = min(self.maxHeaderHeight, self.headerHeightConstraint.constant + abs(scrollDiff))
-            }
-
-            // Header needs to animate
-            if newHeight != self.headerHeightConstraint.constant {
-                self.headerHeightConstraint.constant = newHeight
-                self.setScrollPosition(self.previousScrollOffset)
-            }
-        }
+        scrollDelegate.scrollViewDidScroll(scrollView)
     }
-
-    private func canAnimateHeader(_ scrollView: UIScrollView) -> Bool {
-        // Calculate the size of the scrollView when header is collapsed
-        let scrollViewMaxHeight = scrollView.frame.height + self.headerHeightConstraint.constant - minHeaderHeight
-
-        // Make sure that when header is collapsed, there is still room to scroll
-        return scrollView.contentSize.height > scrollViewMaxHeight && !searchController.isActive
-    }
-    private func setScrollPosition(_ position: CGFloat) {
-        self.tableView.contentOffset = CGPoint(x: self.tableView.contentOffset.x, y: position)
-    }
-    
-    
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        self.scrollViewDidStopScrolling()
+        scrollDelegate.scrollViewDidEndDecelerating(scrollView)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate { self.scrollViewDidStopScrolling() }
-    }
-    private func scrollViewDidStopScrolling() {
-        let range = self.maxHeaderHeight - self.minHeaderHeight
-        let midPoint = self.minHeaderHeight + (range / 2)
-
-        if self.headerHeightConstraint.constant > midPoint {
-            self.expandHeader()
-        } else {
-            self.collapseHeader()
-        }
-    }
-    private func collapseHeader() {
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, animations: {
-            self.headerHeightConstraint.constant = self.minHeaderHeight
-            self.view.layoutIfNeeded()
-        })
-    }
-    private func expandHeader() {
-        self.view.layoutIfNeeded()
-        UIView.animate(withDuration: 0.2, animations: {
-            self.headerHeightConstraint.constant = self.maxHeaderHeight
-            self.view.layoutIfNeeded()
-        })
+        scrollDelegate.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
     
     
@@ -325,174 +235,33 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         searchController.searchBar.translatesAutoresizingMaskIntoConstraints = true
     }
     func willDismissSearchController(_ searchController: UISearchController) {
-        configureSearchBar(controller: self.searchController)
+        ui.resetSearchBarUI(controller: self.searchController)
     }
     
     
     //MARK: Create UI
     private func setupUI() {
         title = configuration.pageTitle
-        view.backgroundColor = .csbcNavBarBackground
         definesPresentationContext = true
         
-        configureHeader(header)
-        configureBackgroundView(UIView())
-        configureBackgroundLabel(emptyDataLabel)
-        configureBackgroundButton(backgroundButton)
-        configureYellowBar(bar)
-        configureSearchBar(controller: searchController)
-        configureTableView(tableView)
+        ui.frame = view.frame
+        view = ui
         view.bringSubviewToFront(loadingSymbol)
-        view.sendSubviewToBack(header)
         view.layoutIfNeeded()
-        self.previousScrollViewHeight = self.tableView.contentSize.height
+        scrollDelegate.previousScrollViewHeight = self.tableView.contentSize.height
 
-    }
-    private func configureHeader(_ header : UIView) {
-        header.translatesAutoresizingMaskIntoConstraints = false
-        header.backgroundColor = .csbcNavBarBackground
-        view.addSubview(header)
-        view.addConstraints([
-            header.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerHeightConstraint,
-            header.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            header.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-    }
-    private func configureYellowBar(_ bar : UIView) {
-        bar.backgroundColor = .csbcYellow
-        bar.translatesAutoresizingMaskIntoConstraints = false
-        header.addSubview(bar)
-        header.addConstraints([
-            bar.heightAnchor.constraint(equalToConstant: 8),
-            bar.bottomAnchor.constraint(equalTo: header.bottomAnchor),
-            bar.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-            bar.trailingAnchor.constraint(equalTo: header.trailingAnchor)
-        ])
-    }
-    private func configureSearchBar(controller : UISearchController) {
-            controller.searchBar.translatesAutoresizingMaskIntoConstraints = false
-            controller.searchBar.removeFromSuperview()
-            header.addSubview(controller.searchBar)
-            header.addConstraints([
-                controller.searchBar.bottomAnchor.constraint(equalTo: bar.topAnchor),
-                controller.searchBar.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-                controller.searchBar.trailingAnchor.constraint(equalTo: header.trailingAnchor)
-            ])
-            
-            controller.delegate = self
-            controller.searchResultsUpdater = self
-            controller.dimsBackgroundDuringPresentation = false
-            controller.searchBar.sizeToFit()
-            controller.searchBar.tintColor = .white
-            controller.searchBar.isTranslucent = false
-            controller.searchBar.barTintColor = .csbcNavBarBackground
-            controller.searchBar.searchField.backgroundColor = .csbcLightGreen
-            controller.searchBar.searchField.textColor = .white
-            controller.searchBar.backgroundImage = UIImage()
-            controller.searchBar.clipsToBounds = true
-            controller.searchBar.placeholder = searchPlaceholder
-            controller.searchBar.setPlaceholder(textColor: .white)
-            controller.searchBar.setSearchImage(color: .white)
-            controller.searchBar.searchField.clearButtonMode = .never
-        }
-    private func configureBackgroundView(_ bgView : UIView) {
-        bgView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(bgView)
-        view.addConstraints([
-            bgView.topAnchor.constraint(equalTo: header.bottomAnchor),
-            bgView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bgView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bgView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        bgView.backgroundColor = .csbcBackground
-    }
-    private func configureBackgroundLabel(_ label: UILabel) {
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textAlignment = .center
-        label.font = UIFont(name: "Gotham-BookItalic", size: 18)!
-        label.numberOfLines = 0
-        label.clipsToBounds = false
-        label.textColor = .csbcGrayLabel
-        label.text = emptyDataMessage
-        view.addSubview(label)
-        view.addConstraints([
-            label.topAnchor.constraint(equalTo: header.bottomAnchor, constant: 20),
-            label.heightAnchor.constraint(equalToConstant: label.text?.height(withConstrainedWidth: view.frame.width - 20, font: UIFont(name: "Gotham-BookItalic", size: 18)!) ?? 30),
-            label.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            label.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
-        ])
-    }
-    private func configureBackgroundButton(_ button : UIButton) {
-        guard backgroundButtonText != nil else { return }
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "gotham", size: 18)!
-        button.setTitle(backgroundButtonText, for: .normal)
-        button.setTitleColor(.csbcAlwaysGray, for: .normal)
-        button.addTarget(self, action: #selector(backgroundButtonPressed), for: .touchUpInside)
-        view.addSubview(button)
-        view.addConstraints([
-            button.topAnchor.constraint(equalTo: emptyDataLabel.bottomAnchor, constant: 20),
-            button.heightAnchor.constraint(equalToConstant: 30),
-            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            button.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -10)
-        ])
-    }
-    private func configureTableView(_ tableView : UITableView) {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(tableView)
-        view.addConstraints([
-            tableView.topAnchor.constraint(equalTo: header.bottomAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-        tableView.allowsSelection = allowSelection
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = .clear
         tableView.register(UINib(nibName: cellID, bundle: nil), forCellReuseIdentifier: cellID)
-    }
-}
-
-fileprivate extension UISearchBar {
-
-    func setPlaceholder(textColor: UIColor) { searchField.setPlaceholder(textColor: textColor) }
-
-    func setSearchImage(color: UIColor) {
-        guard let imageView = searchField.leftView as? UIImageView else { return }
-        imageView.tintColor = color
-        imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
-    }
-}
-
-fileprivate extension UITextField {
-
-    private class ColoredLabel: UILabel {
-        private var _textColor = UIColor.lightGray
-        override var textColor: UIColor! {
-            set { super.textColor = _textColor }
-            get { return _textColor }
-        }
-
-        init(_ label : UILabel, textColor : UIColor) {
-            _textColor = textColor
-            super.init(frame: label.frame)
-            self.text = label.text
-            self.font = label.font
-        }
-        
-        required init?(coder: NSCoder) { super.init(coder: coder) }
+            
+        searchController.delegate = self
+        searchController.searchResultsUpdater = self
+        tableView.reloadData()
     }
     
-    
-    func setPlaceholder(textColor: UIColor) {
-        guard let placeholderLabel = value(forKey: "placeholderLabel") as? UILabel else { return }
-        let coloredLabel = ColoredLabel(placeholderLabel, textColor: textColor)
-        setValue(coloredLabel, forKey: "placeholderLabel")
-    }
 }
+
+
 
 struct CSBCSearchConfiguration {
     /// Title of the page
@@ -512,5 +281,3 @@ struct CSBCSearchConfiguration {
     /// Text of button shown when table view is empty, set to nil to disable. Calls backgroundButtonPressed(_:) when tapped.
     let backgroundButtonText : String?
 }
-
-
