@@ -102,6 +102,38 @@ async function createAndSendDayNotification(sendingForReal = true) {
   } else {
     console.log("Did not send day notification, as there was no school today, or have been overridden")
   }
+
+  let snapshot = await admin.database().ref('BannerAlertMessage').once('value')
+  let alertMessage = snapshot.val()
+  if (sendingForReal && typeof alertMessage !== 'undefined' && alertMessage !== null && alertMessage !== 'nil') {
+    let alertNotif = { 
+      //Both HS and ES
+      notification: {
+        title: "Alert",
+        body: alertMessage
+      },
+      android: {
+        priority: "HIGH",
+        ttl: 86400000,
+        notification: { sound: "default" }
+      },
+      apns: { payload: { aps: {
+        sound: "default"
+      } } },
+      condition: "(('setonNotifications' in topics) || !('setonNotifications' in topics))",
+    }
+    admin.messaging().sendAll(alertNotif)
+    .then((response) => {
+      console.log('Successfully sent alert message:', JSON.stringify(response))
+      return null
+    })
+    .catch((error) => {
+      console.log('Error sending message:', error)
+      return null
+    })
+  } else {
+    console.log("Did not send alert notification, as there was no alert today")
+  }
   return
 }
 //Sends day schedule notifications every morning
