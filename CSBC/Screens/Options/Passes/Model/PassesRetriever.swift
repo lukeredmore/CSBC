@@ -10,14 +10,14 @@ import Firebase
 
 /// Returns CSBC pass info to caller
 class PassesRetriever {
-    private var signedOutStudentCompletion : ((Set<SignedOutStudentPassInfo>) -> Void)?
-    private var allStudentCompletion : ((Set<AllStudentPassInfo>) -> Void)?
+    private var signedOutStudentCompletion : ((Set<SignedOutStudentPassInfo>, Bool) -> Void)?
+    private var allStudentCompletion : ((Set<AllStudentPassInfo>, Bool) -> Void)?
     private let passDataReference = Database.database().reference().child("PassSystem/Students")
     
-    init(completion: @escaping (Set<AllStudentPassInfo>) -> Void) {
+    init(completion: @escaping (Set<AllStudentPassInfo>, Bool) -> Void) {
         self.allStudentCompletion = completion
     }
-    init(completion: @escaping (Set<SignedOutStudentPassInfo>) -> Void) {
+    init(completion: @escaping (Set<SignedOutStudentPassInfo>, Bool) -> Void) {
         self.signedOutStudentCompletion = completion
     }
     deinit {
@@ -41,7 +41,7 @@ class PassesRetriever {
                     guard let fullStudentPassInfo = self.parseStudentForPassInfo(student, gradeLevelMap: gradeLevelMap) else { continue }
                     setToReturn.insert(fullStudentPassInfo)
                 }
-                completion(setToReturn)
+                completion(setToReturn, false)
                 
             } else if let completion = self.signedOutStudentCompletion {
                 var setToReturn = Set<SignedOutStudentPassInfo>()
@@ -50,7 +50,7 @@ class PassesRetriever {
                     guard let signedOutStudentInfo = self.parseSignedOutStudentForPassInfo(fullStudentPassInfo) else { continue }
                     setToReturn.insert(signedOutStudentInfo)
                 }
-                completion(setToReturn)
+                completion(setToReturn, false)
             }
         }
     }

@@ -319,3 +319,7 @@ extension Set where Element : Searchable {
         
     }
 }
+
+extension UITableViewCell {
+    @objc func customMenuItemTapped(_ sender : UIMenuController) {}
+}

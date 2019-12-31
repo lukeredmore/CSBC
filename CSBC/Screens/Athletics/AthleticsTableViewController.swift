@@ -20,11 +20,12 @@ class AthleticsTableViewController: CSBCSearchViewController<AthleticsModel, Ath
             emptySearchMessage: "No events found",
             xibIdentifier: "AthleticsTableViewCell",
             refreshConfiguration: .whileNotSearching,
-            allowSelection: false,
+            allowSelection: true,
             searchPlaceholder: "Search",
             backgroundButtonText: "Schedule Galaxy >"
         )
         super.init(configuration: configuration)
+        addCustomMenuItem(withTitle : "Add to Calendar")
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

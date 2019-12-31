@@ -23,10 +23,10 @@ class TodayDataParser {
         (Schools(rawValue: UserDefaults.standard.integer(forKey:"schoolSelected")) ?? .seton).shortName
     }
     
-    private lazy var eventsRetriever = EventsRetriever() { (eventsSet) in
+    private lazy var eventsRetriever = EventsRetriever() { (eventsSet, _) in
         print("Events data has been updated for Today")
     }
-    private lazy var athleticsRetriever = AthleticsRetriever { (athleticsSet) in
+    private lazy var athleticsRetriever = AthleticsRetriever { (athleticsSet, _) in
         print("Athletics data of has been updated for Today")
     }
     

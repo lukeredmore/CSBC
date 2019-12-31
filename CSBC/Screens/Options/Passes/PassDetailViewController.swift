@@ -26,7 +26,7 @@ class PassDetailViewController: CSBCSearchViewController<StudentStatus, PassDeta
         super.init(configuration: configuration)
     
         let set = createSet(fromStudent: student)
-        loadTable(withData: set)
+        loadTable(withData: set, isDummyData: false)
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

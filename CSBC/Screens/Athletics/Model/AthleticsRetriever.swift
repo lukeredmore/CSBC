@@ -11,10 +11,10 @@ import SwiftyJSON
 
 class AthleticsRetriever {
     private let preferences = UserDefaults.standard
-    let completion : (Set<AthleticsModel>) -> Void
+    let completion : (Set<AthleticsModel>, Bool) -> Void
     let dataParser = AthleticsDataParser()
     
-    init(completion: @escaping (Set<AthleticsModel>) -> Void) {
+    init(completion: @escaping (Set<AthleticsModel>, Bool) -> Void) {
         self.completion = completion
     }
     
@@ -27,10 +27,10 @@ class AthleticsRetriever {
             if let json = preferences.value(forKey:"athleticsArray") as? Data {
                 print("Force return found an old JSON value")
                 let optionalModel = try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json)
-                return completion(optionalModel ?? [])
+                return completion(optionalModel ?? [], false)
             } else {
                 print("Force return returned an empty array")
-                return completion([])
+                return completion([], false)
             }
         } else {
             print("Attempting to retrieve stored Athletics data.")
@@ -38,11 +38,12 @@ class AthleticsRetriever {
                 let json = preferences.value(forKey:"athleticsArray") as? Data,
                 let athleticsArray = try? PropertyListDecoder().decode(Set<AthleticsModel>.self, from: json) { //If both values exist
                 let athleticsArrayTime = athleticsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
-                completion(athleticsArray)
                 if athleticsArrayTime > Date() {
+                    completion(athleticsArray, false)
                     print("Up-to-date Athletics data found, no need to look online.")
                     return
                 } else {
+                    completion(athleticsArray, true)
                     print("Athletics data found, but is old. Will refresh online.")
                     getAthleticsDataFromOnline()
                 }
@@ -68,7 +69,7 @@ class AthleticsRetriever {
                 if error == nil {
                     print("Athletics Data Received")
                     let athleticsJSON = JSON(data!)
-                    self.completion(AthleticsDataParser.parseAthleticsData(json: athleticsJSON))
+                    self.completion(AthleticsDataParser.parseAthleticsData(json: athleticsJSON), false)
                 } else {
                     print("Error on request to ScheduleGalaxy: ")
                     print(error!)
