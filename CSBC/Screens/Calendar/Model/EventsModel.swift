@@ -28,6 +28,20 @@ struct EventsModel: Searchable {
     static func < (lhs : EventsModel, rhs : EventsModel) -> Bool {
         return lhs.date < rhs.date
     }
+    
+    var realDate : Date {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy"
+        guard var dateString = Calendar.current.date(from: date)?.dateString() else { return Date() }
+        if time != nil && !time!.lowercased().contains("all day") {
+            dateString += " " + time!.components(separatedBy: " - ")[0]
+            fmt.dateFormat = "MM/dd/yyyy h:mm a"
+        }
+        return fmt.date(from: dateString) ?? Date()
+    }
+    var allDay : Bool {
+        return time == nil || time!.lowercased().contains("all day")
+    }
 }
 
 

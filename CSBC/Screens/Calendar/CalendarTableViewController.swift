@@ -62,6 +62,26 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
         }
     }
     
+    @available(iOS 13.0, *)
+    override func createContextMenuActions(for model: EventsModel) -> [UIMenuElement] {
+        let copy = UIAction(title: "Copy", image: UIImage(systemName: "doc.on.doc")) {
+            action in
+            let pasteboard = UIPasteboard.general
+            pasteboard.string = model.event
+        }
+        
+        let addToCalendar = UIAction(title: "Add to Calendar", image: UIImage(systemName: "calendar")) { action in
+            
+            EventsCalendarManager.presentCalendarModalToAddEvent(event: model) { (accessGranted) in
+                guard !accessGranted else { return }
+                let alert = UIAlertController(title: "Cannot access your Calendar", message: "Please enable in Settings", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel))
+                self.present(alert, animated: true)
+            }
+        }
+        return [copy, addToCalendar]
+    }
+    
     func userDidSelectSchools(schoolsToShow: [Bool]) {
         var filtersToSend = [String]()
         guard schoolsToShow != [true, true, true, true] else { super.filters = filtersToSend; return }
