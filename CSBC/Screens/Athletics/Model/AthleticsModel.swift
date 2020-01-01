@@ -36,4 +36,22 @@ struct AthleticsModel : Searchable {
     let level : String
     let time : String
     let date : DateComponents
+    
+    func toString() -> String {
+        var toReturn = title.components(separatedBy: " ")[0] + " "
+        toReturn += level
+        toReturn += title.components(separatedBy: "'s")[1] + " on "
+        toReturn += sectionTitle ?? "TBD"
+        toReturn += " at " + self.time
+        return toReturn
+    }
+    
+    var realDate : Date {
+        let fmt = DateFormatter()
+        guard var dateString = Calendar.current.date(from: date)?.dateString() else { return Date() }
+        dateString += " " + self.time
+        fmt.dateFormat = "MM/dd/yyyy h:mm a"
+        let dater = fmt.date(from: dateString)
+        return dater ?? Date()
+    }
 }

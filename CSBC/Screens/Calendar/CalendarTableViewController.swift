@@ -22,7 +22,7 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
             emptySearchMessage: "No events found",
             xibIdentifier: "EventsTableViewCell",
             refreshConfiguration: .whileNotSearching,
-            allowSelection: false,
+            allowSelection: .contextMenu,
             searchPlaceholder: "Search",
             backgroundButtonText: "View More >"
         )

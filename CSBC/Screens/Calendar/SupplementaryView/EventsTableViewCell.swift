@@ -19,6 +19,7 @@ class EventsTableViewCell: UITableViewCell, DisplayInSearchableTableView {
         monthLabel.text = date?.monthAbbreviationString().uppercased()
         timeLabel.text = model.time
         schoolsLabel.text = model.schools
+        selectionStyle = .none
     }
     
     

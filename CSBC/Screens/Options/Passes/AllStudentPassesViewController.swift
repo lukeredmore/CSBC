@@ -19,7 +19,7 @@ class AllStudentPassesViewController: CSBCSearchViewController<AllStudentPassInf
             emptySearchMessage: "No students found",
             xibIdentifier: "AllStudentsPassesTableViewCell",
             refreshConfiguration: .never,
-            allowSelection: true,
+            allowSelection: .selection,
             searchPlaceholder: "Search",
             backgroundButtonText: nil
         )

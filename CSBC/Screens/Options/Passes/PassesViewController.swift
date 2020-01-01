@@ -22,7 +22,7 @@ class PassesViewController : CSBCSearchViewController<SignedOutStudentPassInfo, 
             emptySearchMessage: "No signed out students found",
             xibIdentifier: "PassTableViewCell",
             refreshConfiguration: .never,
-            allowSelection: true,
+            allowSelection: .selection,
             searchPlaceholder: "Search",
             backgroundButtonText: "View All Students >"
         )

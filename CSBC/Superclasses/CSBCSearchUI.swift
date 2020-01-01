@@ -132,7 +132,7 @@ class CSBCSearchUI : UIView {
             tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
-        tableView.allowsSelection = configuration.allowSelection
+        tableView.allowsSelection = configuration.tappable
         tableView.backgroundColor = .clear
         bringSubviewToFront(tableView)
         

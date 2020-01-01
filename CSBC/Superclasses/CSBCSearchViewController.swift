@@ -18,7 +18,6 @@ protocol Searchable : Hashable, Comparable, Codable {
 
 protocol DisplayInSearchableTableView {
     func addData<T: Searchable>(_ genericModel : T)
-//    func menuItemSelected<T: Searchable>(_ genericModel : T)
 }
 
 enum RefreshConfiguration {
@@ -113,10 +112,15 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     }
     
     //MARK: View Control
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        loadingSymbol.startAnimating()
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadingSymbol.startAnimating()
         ui.headerHeightConstraint.constant = SearchScrollDelegate.maxHeaderHeight
+        tableView.reloadData()
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
@@ -132,7 +136,9 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func loadTable(withData set : Set<T>, isDummyData dummy : Bool) {
         fullData = set.nest()
         tableView.reloadData()
+        print("data loaded")
         if !dummy { loadingSymbol.stopAnimating() }
+        print("loadingsymbol is hidden: ", loadingSymbol.isHidden)
         refreshControl.endRefreshing()
     }
     /// Refresh data from source. Override this method and call its super to ensure refreshes cannot occur simultaneously. Be sure to call loadTable(withData:) to reload
@@ -149,7 +155,11 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         }
         filteredData = filteredSet.nest()
         tableView.reloadData()
-    } }
+        } }
+    /// Returns the action items to be displayed when a cell is force pressed
+    /// - Parameter model: The Searchable object the selected cell is displaying
+    @available(iOS 13.0, *)
+    func createContextMenuActions(for model : T) -> [UIMenuElement] { [] }
     /// Override this to control what happens when a cell is selcted
     /// - Parameter model: The Searchable object the selected cell is displaying
     func cellSelected(withModel model : T) {}
@@ -225,12 +235,24 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("selected")
         tableView.cellForRow(at: tableView.indexPathForSelectedRow!)?.becomeFirstResponder()
         tableView.deselectRow(at: indexPath, animated: true)
+        print("loading is hidden2: ", loadingSymbol.isHidden)
         guard loadingSymbol.isHidden else { return }
+        print("here?")
         cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row])
     }
-    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
+    @available(iOS 13.0, *)
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+        guard loadingSymbol.isHidden else { return nil }
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let model = self.dataToDisplay[indexPath.section][indexPath.row]
+            return UIMenu(title: "", children: self.createContextMenuActions(for: model))
+        }
+    }
+    /*func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
@@ -252,7 +274,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         default:
             assertionFailure()
         }
-    }
+    }*/
     
     
     //MARK: UISearchControllerDelegate
@@ -300,10 +322,15 @@ struct CSBCSearchConfiguration {
     /// Set configuration of how refresh should be allowed
     let refreshConfiguration : RefreshConfiguration
     /// Allow selection of elements in tableView
-    let allowSelection : Bool
+    let allowSelection : TableSelectionConfiguration
     /// Text displayed as a search placeholder
     let searchPlaceholder : String
     /// Text of button shown when table view is empty, set to nil to disable. Calls backgroundButtonPressed(_:) when tapped.
     let backgroundButtonText : String?
+    
+    var tappable : Bool { self.allowSelection != .none }
+}
+enum TableSelectionConfiguration {
+    case selection, contextMenu, none
 }
 

@@ -19,7 +19,7 @@ class PassDetailViewController: CSBCSearchViewController<StudentStatus, PassDeta
             emptySearchMessage: "No entries found",
             xibIdentifier: "PassDetailTableViewCell",
             refreshConfiguration: .never,
-            allowSelection: false,
+            allowSelection: .none,
             searchPlaceholder: student.name,
             backgroundButtonText: nil
         )
