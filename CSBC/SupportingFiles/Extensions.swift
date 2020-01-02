@@ -320,6 +320,21 @@ extension Set where Element : Searchable {
     }
 }
 
-extension UITableViewCell {
-    @objc func customMenuItemTapped(_ sender : UIMenuController) {}
+extension Bundle {
+    static var versionString : String {
+        #if DEBUG
+        return "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)-alpha+\(Bundle.main.infoDictionary?["CFBundleVersion"] as! String)"
+        #else
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        #endif
+    }
+}
+
+extension UIViewController {
+    func alert(_ text: String, message : String? = nil, completion: (() -> Void)? = nil) {
+        let alert = UIAlertController(title: text, message: message ?? "", preferredStyle: .alert)
+        let alertAction = UIAlertAction(title: "OK", style: .cancel) { action in completion?() }
+        alert.addAction(alertAction)
+        self.present(alert, animated: true)
+    }
 }

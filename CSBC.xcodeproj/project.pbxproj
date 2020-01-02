@@ -93,6 +93,8 @@
 		26C951C923BAA0240075DCC1 /* SelectableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951C823BAA0240075DCC1 /* SelectableLabel.swift */; };
 		26C951CB23BC321E0075DCC1 /* AthleticsCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951CA23BC321E0075DCC1 /* AthleticsCalendarManager.swift */; };
 		26C951CD23BC684D0075DCC1 /* EventsCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951CC23BC684D0075DCC1 /* EventsCalendarManager.swift */; };
+		26C9521623BD52E70075DCC1 /* IssueReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C9521523BD52E70075DCC1 /* IssueReporter.swift */; };
+		26C9521823BD86650075DCC1 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C9521723BD86650075DCC1 /* ComposerViewController.swift */; };
 		26C954E5237BA9C40061E085 /* TodayTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */; };
 		26C954E6237BA9C40061E085 /* TodayTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */; };
 		26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */; };
@@ -112,10 +114,8 @@
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
 		26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796421EB91D50086FB86 /* Assets.xcassets */; };
 		26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F2357C233D360800A3BE62 /* NewsViewController.swift */; };
-		26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */; };
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */; };
-		26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */; };
 		26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2BB42376675600484C38 /* SnowFallView.swift */; };
 		D94A79E6E3B0C907AC4C64D2 /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9F0021D4496CCD16239800 /* Pods_CSBC.framework */; };
 /* End PBXBuildFile section */
@@ -209,6 +209,8 @@
 		26C951C823BAA0240075DCC1 /* SelectableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableLabel.swift; sourceTree = "<group>"; };
 		26C951CA23BC321E0075DCC1 /* AthleticsCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsCalendarManager.swift; sourceTree = "<group>"; };
 		26C951CC23BC684D0075DCC1 /* EventsCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCalendarManager.swift; sourceTree = "<group>"; };
+		26C9521523BD52E70075DCC1 /* IssueReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReporter.swift; sourceTree = "<group>"; };
+		26C9521723BD86650075DCC1 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTextViewTableViewCell.swift; sourceTree = "<group>"; };
 		26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayTextViewTableViewCell.xib; sourceTree = "<group>"; };
 		26DC0B6C222AF54200371B61 /* Montserrat-SemiBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Montserrat-SemiBold.otf"; sourceTree = "<group>"; };
@@ -231,10 +233,8 @@
 		26ED796721EB91D50086FB86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		26ED796921EB91D50086FB86 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = CSBC/Info.plist; sourceTree = SOURCE_ROOT; };
 		26F2357C233D360800A3BE62 /* NewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsViewController.swift; sourceTree = "<group>"; };
-		26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		26F7234522960E15005DEDA7 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchMenuRetriever.swift; sourceTree = "<group>"; };
-		26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsMailDelegate.swift; sourceTree = "<group>"; };
 		26FB2BB42376675600484C38 /* SnowFallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnowFallView.swift; sourceTree = "<group>"; };
 		31B885784EACA4A791413877 /* Pods-CSBC.debugfirebase.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debugfirebase.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debugfirebase.xcconfig"; sourceTree = "<group>"; };
 		B64CA14D09EF7331DA1A44F4 /* Pods-CSBC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CSBC.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CSBC/Pods-CSBC.debug.xcconfig"; sourceTree = "<group>"; };
@@ -451,7 +451,6 @@
 		2637A69022FF94780097EDD1 /* Reusable */ = {
 			isa = PBXGroup;
 			children = (
-				26F7233E22958CCF005DEDA7 /* ComposerViewController.swift */,
 			);
 			path = Reusable;
 			sourceTree = "<group>";
@@ -459,12 +458,13 @@
 		2656156422624351002149E5 /* Options */ = {
 			isa = PBXGroup;
 			children = (
+				26C9521523BD52E70075DCC1 /* IssueReporter.swift */,
 				26599E482360CAF0003D1DC6 /* Passes */,
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
-				26F9F2E522DFB4820051981D /* SettingsMailDelegate.swift */,
 				266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */,
 				2637A69022FF94780097EDD1 /* Reusable */,
 				26F9F2E722DFB52E0051981D /* Admin Settings */,
+				26C9521723BD86650075DCC1 /* ComposerViewController.swift */,
 			);
 			path = Options;
 			sourceTree = "<group>";
@@ -968,11 +968,11 @@
 				26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */,
 				26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
+				26C9521623BD52E70075DCC1 /* IssueReporter.swift in Sources */,
 				26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26C951CD23BC684D0075DCC1 /* EventsCalendarManager.swift in Sources */,
-				26F7233F22958CCF005DEDA7 /* ComposerViewController.swift in Sources */,
 				26C951C923BAA0240075DCC1 /* SelectableLabel.swift in Sources */,
 				263C6D0923038BCB00D189D8 /* Schools.swift in Sources */,
 				2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */,
@@ -1000,6 +1000,7 @@
 				262EA46E23A1F451000BE0FC /* CSBCSearchUI.swift in Sources */,
 				26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */,
 				26247F3E2373DA0200B8BCAC /* PassDetailTableViewCell.swift in Sources */,
+				26C9521823BD86650075DCC1 /* ComposerViewController.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
@@ -1008,7 +1009,6 @@
 				26DD570122BBD16E005E109B /* AlertController.swift in Sources */,
 				26C951CB23BC321E0075DCC1 /* AthleticsCalendarManager.swift in Sources */,
 				26BE620A2273AED600C6656F /* TodayViewController.swift in Sources */,
-				26F9F2E622DFB4820051981D /* SettingsMailDelegate.swift in Sources */,
 				26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */,
 				261D26262211086200D0DD51 /* ActualDocViewController.swift in Sources */,
 				26C0F005237139900067B2DB /* AthleticsTableViewController.swift in Sources */,
@@ -1124,7 +1124,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1271,7 +1271,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1298,7 +1298,7 @@
 				INFOPLIST_FILE = CSBC/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
-				MARKETING_VERSION = 1.8.3;
+				MARKETING_VERSION = 1.8.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.csbcsaints.CSBCapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

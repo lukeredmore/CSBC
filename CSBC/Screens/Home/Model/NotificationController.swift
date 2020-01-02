@@ -55,7 +55,7 @@ class NotificationController {
         if !settings.shouldDeliver {
             Messaging.messaging().subscribe(toTopic: "notReceivingNotifications") { error in
                 if let error = error { print("Error subscribing to topics: \(error)") }
-                else { print("Subscribed to notReceivingNotifications)") }
+                else { print("Subscribed to notReceivingNotifications") }
             }
         } else {
             Messaging.messaging().unsubscribe(fromTopic: "notReceivingNotifications") { error in

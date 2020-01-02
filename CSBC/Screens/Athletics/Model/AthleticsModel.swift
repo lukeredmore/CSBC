@@ -29,7 +29,7 @@ struct AthleticsModel : Searchable {
     static var shouldStayGroupedWhenSearching: Bool? { true }
     
     static func < (lhs : AthleticsModel, rhs : AthleticsModel) -> Bool {
-        return lhs.date < rhs.date
+        return lhs.realDate < rhs.realDate
     }
     
     let title : String

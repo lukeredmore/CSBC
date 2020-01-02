@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tug-Mn-aX5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Tug-Mn-aX5">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -844,85 +844,11 @@
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="loginButton" destination="cxQ-Ud-tyL" id="Lji-zM-Occ"/>
-                        <segue destination="TOw-7h-n1g" kind="presentation" identifier="UNUSED_IDENTIFIER" id="KAd-6o-2hv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7AB-nC-rtf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1964" y="3021"/>
-        </scene>
-        <!--Composer View Controller-->
-        <scene sceneID="20z-re-fdY">
-            <objects>
-                <viewController storyboardIdentifier="ComposerViewScene" id="TOw-7h-n1g" customClass="ComposerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="e3h-q8-mpB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ufq-iL-XY5">
-                                <rect key="frame" x="0.0" y="64" width="414" height="778"/>
-                                <color key="backgroundColor" name="CSBCBackground"/>
-                            </view>
-                            <navigationBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4u8-Q3-UZm">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
-                                <color key="barTintColor" name="CSBCNavBarFlipside"/>
-                                <items>
-                                    <navigationItem id="O8Z-VI-xHt">
-                                        <barButtonItem key="leftBarButtonItem" style="done" systemItem="cancel" id="Wmk-vX-f4g">
-                                            <color key="tintColor" name="CSBCNavBarText"/>
-                                            <connections>
-                                                <action selector="cancelButtonPressed:" destination="TOw-7h-n1g" id="nzb-BR-XwU"/>
-                                            </connections>
-                                        </barButtonItem>
-                                        <barButtonItem key="rightBarButtonItem" title="Send" style="done" id="zqU-wa-Bjo">
-                                            <color key="tintColor" name="CSBCNavBarText"/>
-                                            <connections>
-                                                <action selector="sendButtonPressed:" destination="TOw-7h-n1g" id="gwl-Zh-mMW"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter message to send" translatesAutoresizingMaskIntoConstraints="NO" id="FnU-ZT-roq">
-                                <rect key="frame" x="10" y="69" width="394" height="743"/>
-                                <color key="textColor" systemColor="placeholderTextColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.29999999999999999" colorSpace="custom" customColorSpace="sRGB"/>
-                                <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" autocorrectionType="yes" returnKeyType="send"/>
-                            </textView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LGV-SA-HFG" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="56" width="414" height="8"/>
-                                <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="8" id="yPc-uD-9XB"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" name="CSBCNavBarBackground"/>
-                        <constraints>
-                            <constraint firstItem="4u8-Q3-UZm" firstAttribute="leading" secondItem="cRx-9L-Ig3" secondAttribute="leading" id="1wC-Ke-BjS"/>
-                            <constraint firstItem="ufq-iL-XY5" firstAttribute="top" secondItem="LGV-SA-HFG" secondAttribute="bottom" id="5mj-KU-WTp"/>
-                            <constraint firstItem="ufq-iL-XY5" firstAttribute="trailing" secondItem="cRx-9L-Ig3" secondAttribute="trailing" id="6dk-b2-1ZJ"/>
-                            <constraint firstItem="FnU-ZT-roq" firstAttribute="top" secondItem="LGV-SA-HFG" secondAttribute="bottom" constant="5" id="E6U-RC-agD"/>
-                            <constraint firstAttribute="bottom" secondItem="ufq-iL-XY5" secondAttribute="bottom" id="Gtx-WS-deZ"/>
-                            <constraint firstItem="ufq-iL-XY5" firstAttribute="leading" secondItem="cRx-9L-Ig3" secondAttribute="leading" id="LEk-kc-lCK"/>
-                            <constraint firstItem="LGV-SA-HFG" firstAttribute="top" secondItem="4u8-Q3-UZm" secondAttribute="bottom" id="PXR-gY-nyM"/>
-                            <constraint firstItem="LGV-SA-HFG" firstAttribute="leading" secondItem="e3h-q8-mpB" secondAttribute="leading" id="Z7v-Sb-Vem"/>
-                            <constraint firstItem="4u8-Q3-UZm" firstAttribute="trailing" secondItem="cRx-9L-Ig3" secondAttribute="trailing" id="bCF-lJ-x9Z"/>
-                            <constraint firstItem="FnU-ZT-roq" firstAttribute="leading" secondItem="cRx-9L-Ig3" secondAttribute="leading" constant="10" id="cWM-DN-oEk"/>
-                            <constraint firstItem="4u8-Q3-UZm" firstAttribute="top" secondItem="cRx-9L-Ig3" secondAttribute="top" id="fvD-eD-XbM"/>
-                            <constraint firstItem="cRx-9L-Ig3" firstAttribute="trailing" secondItem="FnU-ZT-roq" secondAttribute="trailing" constant="10" id="ps7-Ed-3dY"/>
-                            <constraint firstAttribute="bottom" secondItem="FnU-ZT-roq" secondAttribute="bottom" constant="30" id="s9a-sX-Hz3"/>
-                            <constraint firstItem="cRx-9L-Ig3" firstAttribute="trailing" secondItem="LGV-SA-HFG" secondAttribute="trailing" id="wvu-md-Ara"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="cRx-9L-Ig3"/>
-                    </view>
-                    <connections>
-                        <outlet property="textView" destination="FnU-ZT-roq" id="bm4-x3-PnH"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pni-2M-yxB" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1964" y="3771"/>
         </scene>
         <!--Settings View Controller-->
         <scene sceneID="6gh-ns-ybo">
@@ -1306,22 +1232,22 @@
         <image name="forward" width="44" height="75"/>
         <image name="refresh" width="32" height="32"/>
         <namedColor name="CSBCAccentGray">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.93725490196078431" green="0.93725490196078431" blue="0.93725490196078431" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCBackground">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="CSBCGrayLabel">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
+        <namedColor name="CSBCGrayLabel">
+            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="CSBCNavBarBackground">
-            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarFlipside">
-            <color red="0.16862745098039217" green="0.17647058823529413" blue="0.18431372549019609" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.082352941176470587" green="0.27843137254901962" blue="0.20392156862745098" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarText">
-            <color red="0.14901960784313725" green="0.3843137254901961" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="CSBCNavBarText">
             <color red="0.14901960784313725" green="0.3843137254901961" blue="0.21176470588235294" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
