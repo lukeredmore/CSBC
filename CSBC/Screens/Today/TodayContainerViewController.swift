@@ -32,7 +32,7 @@ class TodayContainerViewController: CSBCViewController, PageViewDelegate {
     
     weak private var containerDelegate : InputUpdateDelegate!
     var dateToShow = Date() { didSet {
-        title = Date().dateString() == dateToShow.dateString() ? "Today" : dateToShow.monthAbbreviationString() + " " + dateToShow.dayString()
+        title = Date().dateString() == dateToShow.dateString() ? "Today" : dateToShow.monthAbbreviationString() + " " + dateToShow.singleDayString()
     } }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -214,7 +214,12 @@ extension Date: Strideable {
         fmt.dateFormat = "dd"
         return fmt.string(from: self)
     }
-    
+    ///Returns "d" (4)
+    func singleDayString() -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "d"
+        return fmt.string(from: self)
+    }
     ///Returns "MM/dd/yyyy" (01/09/2002)
     func dateString() -> String {
         let fmt = DateFormatter()
