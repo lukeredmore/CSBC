@@ -28,6 +28,7 @@ exports.autoUpdateEvents = functions.runWith(opts).region('us-east4').pubsub.sch
 
 const notifications = require('./morning-notifications.js')
 exports.scheduledDayScheduleNotifications = functions.region('us-east4').pubsub.schedule('00 07 * * *').timeZone('America/New_York').onRun(notifications.createAndSend)
+exports.sendMessageFromAdmin = functions.region('us-east4').runWith(opts).https.onRequest(notifications.sendFromAdmin)
 
 const email = require('./email.js')
 exports.sendReportEmail = functions.region('us-east4').runWith(opts).https.onRequest(email.createAndSend)

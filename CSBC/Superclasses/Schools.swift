@@ -52,4 +52,17 @@ enum Schools : Int {
             return "James"
         }
     }
+    
+    var rawValue: Int {
+        switch self {
+        case .seton:
+            return 0
+        case .john:
+            return 1
+        case .saints:
+            return 2
+        case .james:
+            return 3
+        }
+    }
 }

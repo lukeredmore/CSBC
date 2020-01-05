@@ -77,6 +77,17 @@ class NotificationController {
             }
             Analytics.setUserProperty("\(notificationSettings.schools[i])", forName: topicArray[i])
         }
+        #if DEBUG
+        Messaging.messaging().subscribe(toTopic: "debugDevice") { error in
+            if let error = error { print("Error subscribing to topics: \(error)") }
+            else { print("Subscribed to debugDevice") }
+        }
+        #else
+        Messaging.messaging().unsubscribe(fromTopic: "debugDevice") { error in
+            if let error = error { print("Error unsubscribing from topics: \(error)") }
+            else { print("Unsubscribed from debugDevice") }
+        }
+        #endif
     }
 }
 

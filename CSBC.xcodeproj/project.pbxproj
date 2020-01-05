@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */; };
+		2614F77F229B88F000EC6030 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PushNotificationSender.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
 		2618D3302325483B00E16C21 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32F2325483B00E16C21 /* HomeView.swift */; };
@@ -122,7 +122,7 @@
 
 /* Begin PBXFileReference section */
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
-		2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublishPushNotifications.swift; sourceTree = "<group>"; };
+		2614F77E229B88F000EC6030 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
 		2618D32F2325483B00E16C21 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -691,7 +691,7 @@
 		26F9F2E722DFB52E0051981D /* Admin Settings */ = {
 			isa = PBXGroup;
 			children = (
-				2614F77E229B88F000EC6030 /* PublishPushNotifications.swift */,
+				2614F77E229B88F000EC6030 /* PushNotificationSender.swift */,
 			);
 			path = "Admin Settings";
 			sourceTree = "<group>";
@@ -987,7 +987,7 @@
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
 				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
-				2614F77F229B88F000EC6030 /* PublishPushNotifications.swift in Sources */,
+				2614F77F229B88F000EC6030 /* PushNotificationSender.swift in Sources */,
 				266A69FD2347C6B8006848E9 /* PassesViewController.swift in Sources */,
 				266A6A0123481F4C006848E9 /* SettingsContainerViewController.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,

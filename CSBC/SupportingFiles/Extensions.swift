@@ -325,7 +325,7 @@ extension Bundle {
         #if DEBUG
         return "\(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String)-alpha+\(Bundle.main.infoDictionary?["CFBundleVersion"] as! String)"
         #else
-        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
         #endif
     }
 }
@@ -338,3 +338,23 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
 }
+extension URLRequest {
+    static func createWithParameters(fromURLString urlString: String, parameters: [String : Any]) -> URLRequest? {
+        var urlToSend = "\(urlString)?"
+        for (k, v) in parameters {
+            urlToSend += "\(k)=\(v)&"
+        }
+        urlToSend.removeLast()
+        urlToSend = urlToSend.replacingOccurrences(of: "\n", with: "<br>")
+        urlToSend = urlToSend.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed)!
+        guard let url = URL(string: urlToSend) else {
+            print("Invalid URL")
+            return nil
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        return request
+    }
+}
+

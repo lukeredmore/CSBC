@@ -145,3 +145,33 @@ exports.createAndSend = async (context) => {
     const lunch = require('./lunch.js')
     await lunch.getLinks()
 }
+
+exports.sendFromAdmin = async (req, res) => {
+  const schoolNames = ["Seton Catholic Central", "St. John School", "All Saints School", "St. James School"]
+  const schoolConditionals = ["setonNotifications","johnNotifications","saintsNotifications","jamesNotifications"]
+  let alertNotif = { 
+    notification: {
+      title: schoolNames[req.query.schoolInt],
+      body: req.query.message
+    },
+    android: {
+      priority: "HIGH",
+      ttl: 86400000,
+      notification: { sound: "default" }
+    },
+    apns: { payload: { aps: {
+      sound: "default"
+    } } },
+    condition: "('" + schoolConditionals[req.query.schoolInt] + "' in topics)"
+  }
+  
+  await admin.messaging().send(alertNotif)
+    .then(response => {
+      console.log('Successfully sent alert message: ', JSON.stringify(response))
+      return res.status(200).send('Successfully sent alert message: ' + JSON.stringify(response))
+    })
+    .catch(error => {
+      console.log('Error sending message: ', error)
+      return res.status(506).send('Error sending message: ' + error)
+    }) 
+}

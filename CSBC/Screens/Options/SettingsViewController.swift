@@ -71,7 +71,7 @@ class SettingsViewController: UITableViewController  {
     private func showComposers(at indexPath : IndexPath) {
         if indexPath.section == 4 && indexPath.row == 0 {
             let reportIssueVC = ComposerViewController(configuration: ComposerViewController.reportIssueConfiguration) { text in
-                IssueReporter.sendMessage(text) { error in
+                IssueReporter.report(text) { error in
                     guard error == nil else { errorSending(error!); return }
                     self.alert("Report successfully submitted")
                 }
@@ -80,7 +80,7 @@ class SettingsViewController: UITableViewController  {
         }
         if indexPath.section == 3 && indexPath.row == 1 {
             let notificationVC = ComposerViewController(configuration: ComposerViewController.notificationConfiguration) { text in
-                PublishPushNotifications.send(withMessage: text, toSchool: self.adminSchool ?? .seton) { error in
+                PushNotificationSender.send(withMessage: text, toSchool: self.adminSchool ?? .seton) { error in
                     guard error == nil else { errorSending(error!); return }
                     self.alert("Notification sucessfully sent")
                 }
