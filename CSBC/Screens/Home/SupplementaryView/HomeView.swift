@@ -54,10 +54,14 @@ class HomeView: UIView, AlertDelegate {
             alertView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(bannerTapped)))
             addSubview(alertView)
         }
+        
         let headerImageView = UIImageView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: 109))
         headerImageView.contentMode = .scaleAspectFit
         headerImageView.image = UIImage(named: "wordmark")
+        headerImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(headerImageViewTapped)))
+        headerImageView.isUserInteractionEnabled = true
         addSubview(headerImageView)
+        
         let barView = UIView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 119 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: 14))
         barView.backgroundColor = .csbcYellow
         addSubview(barView)
@@ -80,6 +84,15 @@ class HomeView: UIView, AlertDelegate {
     @objc func bannerTapped() {
         guard alertMessage != nil, alertMessage != "" else { return }
         SnowFallView.overlay(onView: self, count: 2)
+    }
+    @objc func headerImageViewTapped() {
+        print("tapped")
+        let nav1 = UINavigationController()
+        nav1.modalPresentationStyle = .fullScreen
+        nav1.viewControllers = [TableLocationViewController()]
+        segueDelegate.present(nav1, animated: true, completion: nil)
+
+//        segueDelegate.present(TableLocationViewController(), animated: true, completion: nil)
     }
     
     

@@ -1,0 +1,20 @@
+[
+  {
+    "title": "Raytheon Learning",
+    "location": "Chapel Hallway",
+    "organization": "Raytheon",
+    "imageIdentifier": "raytheon",
+    "description": "A big forklift company",
+    "question": "How many forklifts do they make per year",
+    "answer": "89000"
+  },
+  {
+    "title": "Summer Internships",
+    "location": "Library Hallway",
+    "organization": "Lockheed Martin",
+    "imageIdentifier": "lockheed",
+    "description": "A big missle company",
+    "question": "How much money will you make in the war with Iran?",
+    "answer": "4.6 billion dollars"
+  }
+]

@@ -12,7 +12,6 @@ import SwiftyJSON
 class AthleticsRetriever {
     private let preferences = UserDefaults.standard
     let completion : (Set<AthleticsModel>, Bool) -> Void
-    let dataParser = AthleticsDataParser()
     
     init(completion: @escaping (Set<AthleticsModel>, Bool) -> Void) {
         self.completion = completion
