@@ -41,8 +41,8 @@ class PassesViewController : CSBCSearchViewController<SignedOutStudentPassInfo, 
         clockTimer?.invalidate()
     }
     
-    override func cellSelected(withModel student : SignedOutStudentPassInfo) {
-        self.present(PassDetailViewController(forStudent: student), animated: true)
+    override func cellSelected(withModel student : SignedOutStudentPassInfo, forCell cell: PassTableViewCell) {
+        present(PassDetailViewController(forStudent: student), animated: true)
     }
     
     override func backgroundButtonPressed() {

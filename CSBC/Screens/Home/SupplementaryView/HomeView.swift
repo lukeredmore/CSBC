@@ -12,7 +12,7 @@ import UIKit
 protocol SegueDelegate : class {
     func performSegue(withIdentifier identifier: String, sender: Any?)
     var lastSeguedWebView : WebViewController? { get }
-    func present(_ viewControllerToPresent: UIViewController, animated flag: Bool, completion: (() -> Void)?)
+    func headerImageViewTapped()
     var navigationController : UINavigationController? { get }
 }
 
@@ -86,13 +86,7 @@ class HomeView: UIView, AlertDelegate {
         SnowFallView.overlay(onView: self, count: 2)
     }
     @objc func headerImageViewTapped() {
-        print("tapped")
-        let nav1 = UINavigationController()
-        nav1.modalPresentationStyle = .fullScreen
-        nav1.viewControllers = [TableLocationViewController()]
-        segueDelegate.present(nav1, animated: true, completion: nil)
-
-//        segueDelegate.present(TableLocationViewController(), animated: true, completion: nil)
+        segueDelegate.headerImageViewTapped()
     }
     
     

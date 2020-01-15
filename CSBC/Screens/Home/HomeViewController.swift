@@ -13,6 +13,7 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     private lazy var mainView = HomeView(segueDelegate: self)
     private lazy var alertController = AlertController(alertDelegate: mainView)
     
+    private var navBarShouldAppearWhileTransitioning = true
     var lastSeguedWebView: WebViewController?
     
 
@@ -28,7 +29,7 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.setNavigationBarHidden(!navBarShouldAppearWhileTransitioning, animated: animated)
         navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -41,6 +42,21 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "WebSegue" {
             lastSeguedWebView = segue.destination as? WebViewController }
+    }
+    
+    func headerImageViewTapped() {
+//        let startDateString = "02/20/2020 17:00:00"
+//        let fmt = DateFormatter()
+//        fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
+//        let startDate = fmt.date(from: startDateString)!
+//        guard Date() > startDate else { return }
+        
+        navBarShouldAppearWhileTransitioning = false
+        let nav = UINavigationController()
+        nav.modalPresentationStyle = .fullScreen
+        nav.modalTransitionStyle = .flipHorizontal
+        nav.viewControllers = [TableLocationViewController()]
+        present(nav, animated: true) { self.navBarShouldAppearWhileTransitioning = true }
     }
     
 }

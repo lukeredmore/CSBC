@@ -162,7 +162,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func createContextMenuActions(for model : T) -> [UIMenuElement] { [] }
     /// Override this to control what happens when a cell is selcted
     /// - Parameter model: The Searchable object the selected cell is displaying
-    func cellSelected(withModel model : T) {}
+    func cellSelected(withModel model : T, forCell cell : Cell) {}
     /// Override this to control what happens when a background button is pressed, be sure to include super
     /// - Parameter sender: Button object pressed
     func backgroundButtonPressed() {
@@ -235,13 +235,11 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         self.tableView(tableView, titleForHeaderInSection: section) != nil ? 28.5 : 0 }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("selected")
-        tableView.cellForRow(at: tableView.indexPathForSelectedRow!)?.becomeFirstResponder()
+        guard let cell = tableView.cellForRow(at: tableView.indexPathForSelectedRow!) as? Cell else { return }
+        cell.becomeFirstResponder()
         tableView.deselectRow(at: indexPath, animated: true)
-        print("loading is hidden2: ", loadingSymbol.isHidden)
         guard loadingSymbol.isHidden else { return }
-        print("here?")
-        cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row])
+        cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row], forCell: cell)
     }
     @available(iOS 13.0, *)
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
@@ -252,29 +250,6 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
             return UIMenu(title: "", children: self.createContextMenuActions(for: model))
         }
     }
-    /*func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return action == #selector(NSObject.copy) || action == #selector(UITableViewCell.customMenuItemTapped(_:))
-    }
-    func addCustomMenuItem(withTitle title : String) {
-        let customMenuItem = UIMenuItem(title: title, action: #selector(UITableViewCell.customMenuItemTapped(_:)))
-        UIMenuController.shared.menuItems = [customMenuItem]
-        UIMenuController.shared.update()
-    }
-    
-    
-
-    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
-        switch action {
-        case #selector(NSObject.copy):
-            print("gu")// implement copy here
-        default:
-            assertionFailure()
-        }
-    }*/
     
     
     //MARK: UISearchControllerDelegate

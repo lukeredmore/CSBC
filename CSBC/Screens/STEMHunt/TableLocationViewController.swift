@@ -23,21 +23,25 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
             backgroundButtonText: nil
         )
         super.init(configuration: configuration)
-        let dotsMenu = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(close))
-        navigationItem.leftBarButtonItem = dotsMenu
+        let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(close))
+        navigationItem.leftBarButtonItem = closeButton
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     @objc func close() {
-        navigationController?.dismiss(animated: true)
+        dismiss(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         stemRetriever.retrieveSTEMArray()
+        tableView.reloadData()
     }
     
-    override func cellSelected(withModel student : STEMTableModel) {
-        stemRetriever.toggle(for: student)
+    override func cellSelected(withModel student : STEMTableModel, forCell cell : STEMTableCell) {
+        let vc = STEMInfoViewController(for: student) {
+            self.stemRetriever.toggle(for: student)
+        }
+        present(vc, animated: true)
     }
 }

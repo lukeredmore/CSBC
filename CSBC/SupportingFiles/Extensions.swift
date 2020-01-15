@@ -363,3 +363,12 @@ extension URLRequest {
     }
 }
 
+extension UIViewController {
+    func configureNavBarForCSBC() {
+        navigationController?.navigationBar.barTintColor = .csbcNavBarBackground
+        navigationController?.navigationBar.tintColor = .csbcNavBarText
+        navigationController?.navigationBar.barStyle = .default
+        navigationController?.navigationBar.isTranslucent = false
+    }
+}
+

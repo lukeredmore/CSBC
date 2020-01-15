@@ -22,12 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         FirebaseApp.configure()
         
-        #if DEBUG
-        print("Application successfully loaded in debug configuration")
-        #else
-        print("Application successfully loaded in production configuration")
-        #endif
-        print("Version " + (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String))
+        print("Application successfully loaded: Version \(Bundle.versionString)")
         
         LunchMenuRetriever.downloadLunchMenus()
         DaySchedule.retrieveFromFirebase()

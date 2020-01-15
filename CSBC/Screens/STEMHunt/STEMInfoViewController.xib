@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Gotham Book Regular.otf">
+            <string>Gotham-Book</string>
+        </array>
+        <array key="Gotham-BookItalic.otf">
+            <string>Gotham-BookItalic</string>
+        </array>
+        <array key="gotham.otf">
+            <string>Gotham-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="STEMInfoViewController" customModule="CSBC" customModuleProvider="target">
+            <connections>
+                <outlet property="answerLabel" destination="yiw-Pg-Z8o" id="Mjc-tz-X85"/>
+                <outlet property="descriptionTextView" destination="XCG-QV-qnN" id="DtR-IW-zxA"/>
+                <outlet property="headerImageView" destination="J5w-ts-s09" id="V6G-db-8Pe"/>
+                <outlet property="keyboardSpacingConstraint" destination="vi4-Bk-p8w" id="P10-Vs-Hwm"/>
+                <outlet property="organizationLabel" destination="9TB-I4-ZGd" id="FuT-MK-oAM"/>
+                <outlet property="questionLabel" destination="L56-qG-Y0q" id="McF-6n-zd0"/>
+                <outlet property="titleLabel" destination="Bbi-N4-n1P" id="QzX-Zf-XPo"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="setonBuilding" translatesAutoresizingMaskIntoConstraints="NO" id="J5w-ts-s09">
+                    <rect key="frame" x="0.0" y="44" width="414" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="200" id="inY-dL-pBX"/>
+                    </constraints>
+                </imageView>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BeE-mz-fud">
+                    <rect key="frame" x="0.0" y="244" width="414" height="8"/>
+                    <color key="backgroundColor" name="CSBCYellow"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="8" id="Ttx-iL-Tqr"/>
+                    </constraints>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Department/Experience" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bbi-N4-n1P">
+                    <rect key="frame" x="16" y="268" width="382" height="22.5"/>
+                    <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
+                    <color key="textColor" name="CSBCDefaultText"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name of Organization" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9TB-I4-ZGd">
+                    <rect key="frame" x="16" y="295.5" width="382" height="20"/>
+                    <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
+                    <color key="textColor" name="CSBCGrayLabel"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Here is a question, maybe it's more than one line, about a topic?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L56-qG-Y0q">
+                    <rect key="frame" x="16" y="522" width="382" height="40"/>
+                    <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="yiw-Pg-Z8o">
+                    <rect key="frame" x="57" y="578" width="300" height="34"/>
+                    <color key="tintColor" name="CSBCYellow"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="300" id="bVG-c7-t8i"/>
+                        <constraint firstAttribute="height" constant="34" id="cxk-cw-MdC"/>
+                    </constraints>
+                    <color key="textColor" name="CSBCDefaultText"/>
+                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="17"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XCG-QV-qnN">
+                    <rect key="frame" x="16" y="315.5" width="382" height="190.5"/>
+                    <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                    <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" name="Gotham-Book" family="Gotham" pointSize="15"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+            </subviews>
+            <color key="backgroundColor" name="CSBCBackground"/>
+            <constraints>
+                <constraint firstItem="BeE-mz-fud" firstAttribute="top" secondItem="J5w-ts-s09" secondAttribute="bottom" id="BBH-Cx-8DB"/>
+                <constraint firstItem="L56-qG-Y0q" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="E5N-O9-8QO"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="XCG-QV-qnN" secondAttribute="trailing" constant="16" id="Gtl-jy-48m"/>
+                <constraint firstItem="9TB-I4-ZGd" firstAttribute="top" secondItem="Bbi-N4-n1P" secondAttribute="bottom" constant="5" id="JCd-xp-Wsu"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="Bbi-N4-n1P" secondAttribute="trailing" constant="16" id="JYE-Qn-khl"/>
+                <constraint firstItem="yiw-Pg-Z8o" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Ja4-oX-4sk"/>
+                <constraint firstItem="BeE-mz-fud" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="JeV-Si-VTe"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="L56-qG-Y0q" secondAttribute="trailing" constant="16" id="NIT-sb-xn9"/>
+                <constraint firstItem="BeE-mz-fud" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Smu-0p-9ft"/>
+                <constraint firstItem="yiw-Pg-Z8o" firstAttribute="top" secondItem="L56-qG-Y0q" secondAttribute="bottom" constant="16" id="URs-No-1kY"/>
+                <constraint firstItem="Bbi-N4-n1P" firstAttribute="top" secondItem="BeE-mz-fud" secondAttribute="bottom" constant="16" id="a5W-el-kgu"/>
+                <constraint firstItem="9TB-I4-ZGd" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="aZU-O5-VaA"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="9TB-I4-ZGd" secondAttribute="trailing" constant="16" id="eyP-FW-hXM"/>
+                <constraint firstItem="J5w-ts-s09" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="fG4-mP-sWY"/>
+                <constraint firstItem="Bbi-N4-n1P" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="gsb-cb-JfA"/>
+                <constraint firstItem="J5w-ts-s09" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="hgd-d6-4dS"/>
+                <constraint firstItem="L56-qG-Y0q" firstAttribute="top" secondItem="XCG-QV-qnN" secondAttribute="bottom" constant="16" id="lYN-Tr-lSn"/>
+                <constraint firstItem="J5w-ts-s09" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="oxm-IL-h2B"/>
+                <constraint firstItem="XCG-QV-qnN" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="uQp-Hv-SIS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="yiw-Pg-Z8o" secondAttribute="bottom" constant="250" id="vi4-Bk-p8w"/>
+                <constraint firstItem="XCG-QV-qnN" firstAttribute="top" secondItem="9TB-I4-ZGd" secondAttribute="bottom" id="whg-LT-Db6"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="137.68115942028987" y="88.392857142857139"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="setonBuilding" width="416.5" height="204"/>
+        <namedColor name="CSBCBackground">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CSBCDefaultText">
+            <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CSBCGrayLabel">
+            <color red="0.43900001049041748" green="0.43900001049041748" blue="0.43900001049041748" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="CSBCYellow">
+            <color red="0.96470588235294119" green="0.74509803921568629" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
+</document>

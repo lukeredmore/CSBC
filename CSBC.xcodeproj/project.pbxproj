@@ -115,6 +115,8 @@
 		26E281CC23CA3231004497DB /* STEMTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26E281CA23CA3231004497DB /* STEMTableCell.xib */; };
 		26E281CF23CA35E5004497DB /* STEMRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E281CE23CA35E5004497DB /* STEMRetriever.swift */; };
 		26E281D123CA3761004497DB /* STEMInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E281D023CA3761004497DB /* STEMInfo.json */; };
+		26E281D623CB90CF004497DB /* STEMInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E281D423CB90CF004497DB /* STEMInfoViewController.swift */; };
+		26E281D723CB90CF004497DB /* STEMInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26E281D523CB90CF004497DB /* STEMInfoViewController.xib */; };
 		26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */; };
 		26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */; };
 		26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26ED795D21EB91D40086FB86 /* AppDelegate.swift */; };
@@ -237,6 +239,8 @@
 		26E281CA23CA3231004497DB /* STEMTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMTableCell.xib; sourceTree = "<group>"; };
 		26E281CE23CA35E5004497DB /* STEMRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMRetriever.swift; sourceTree = "<group>"; };
 		26E281D023CA3761004497DB /* STEMInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = STEMInfo.json; sourceTree = "<group>"; };
+		26E281D423CB90CF004497DB /* STEMInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMInfoViewController.swift; sourceTree = "<group>"; };
+		26E281D523CB90CF004497DB /* STEMInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMInfoViewController.xib; sourceTree = "<group>"; };
 		26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook19-20.pdf"; sourceTree = "<group>"; };
 		26E2C88D2240530600B40E88 /* jamescodeofconduct19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jamescodeofconduct19-20.pdf"; sourceTree = "<group>"; };
 		26ED795A21EB91D40086FB86 /* CSBC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CSBC.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -649,6 +653,8 @@
 				26E281C723CA31EC004497DB /* STEMTableModel.swift */,
 				26E281CD23CA3237004497DB /* Supplementary View */,
 				26E281D023CA3761004497DB /* STEMInfo.json */,
+				26E281D423CB90CF004497DB /* STEMInfoViewController.swift */,
+				26E281D523CB90CF004497DB /* STEMInfoViewController.xib */,
 			);
 			path = STEMHunt;
 			sourceTree = "<group>";
@@ -877,6 +883,7 @@
 				26E281CC23CA3231004497DB /* STEMTableCell.xib in Resources */,
 				26DC0B6D222B155900371B61 /* Montserrat-SemiBold.otf in Resources */,
 				26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */,
+				26E281D723CB90CF004497DB /* STEMInfoViewController.xib in Resources */,
 				26DC0B6F222B168C00371B61 /* Montserrat-Regular.otf in Resources */,
 				2659E04F22F131CA00016DDE /* sccdresscode19-20.pdf in Resources */,
 				26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */,
@@ -997,6 +1004,7 @@
 				266F9913221B004D00CA7C4E /* SocialMediaController.swift in Sources */,
 				26BE6210227403A300C6656F /* TodayContainerViewController.swift in Sources */,
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
+				26E281D623CB90CF004497DB /* STEMInfoViewController.swift in Sources */,
 				266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */,
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
