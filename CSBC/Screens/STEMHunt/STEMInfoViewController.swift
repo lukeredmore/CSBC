@@ -34,7 +34,7 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
         questionLabel.text = model.question
         organizationLabel.text = model.organization
         titleLabel.text = model.title
-        headerImageView.image = UIImage(named: "\(model.imageIdentifier)header")
+        headerImageView.image = UIImage(named: "\(model.imageIdentifier)header") ?? UIImage(named: "setonBuilding")
         descriptionTextView.text = model.description
         
         answerLabel.returnKeyType = .send
@@ -42,7 +42,7 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
         if model.answered {
             answerLabel.delegate = nil
             answerLabel.isEnabled = false
-            answerLabel.text = model.answer
+            answerLabel.text = model.answer.components(separatedBy: ", ")[0]
         } else {
             answerLabel.delegate = self
             answerLabel.isEnabled = true
@@ -55,7 +55,7 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard string == "\n" else { return true }
-        if textField.text?.lowercased() == model.answer.lowercased() {
+        if model.answer.lowercased().components(separatedBy: ", ").contains(textField.text?.lowercased() ?? "") {
             completion?()
             answerLabel.delegate = nil
             answerLabel.isEnabled = false

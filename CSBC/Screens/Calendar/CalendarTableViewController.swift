@@ -49,7 +49,7 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
         navigationItem.rightBarButtonItem = dotsMenu
     }
     @objc func filterCalendarData() {
-        if loadingSymbol.isHidden {
+        if searchLoadingSymbol.isHidden {
             self.present(FilterCalendarViewController(currentlyShownSchools: storedSchoolsToShow, completion: userDidSelectSchools), animated: true)
         }
     }
@@ -83,6 +83,7 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
     }
     
     func userDidSelectSchools(schoolsToShow: [Bool]) {
+        let shortSchoolsArray = ["seton","john","all saints","james"]
         var filtersToSend = [String]()
         guard schoolsToShow != [true, true, true, true] else { super.filters = filtersToSend; return }
         storedSchoolsToShow = schoolsToShow

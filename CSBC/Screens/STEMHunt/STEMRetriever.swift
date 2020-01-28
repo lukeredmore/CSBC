@@ -7,10 +7,11 @@
 //
 
 import SwiftyJSON
+import Firebase
 
 class STEMRetriever {
-    private let preferences = UserDefaults.standard
     private var setDisplayed = Set<STEMTableModel>()
+    private var answeredArray = [String : Bool]()
     let completion : (Set<STEMTableModel>, Bool) -> Void
     
     init(completion: @escaping (Set<STEMTableModel>, Bool) -> Void) {
@@ -18,50 +19,45 @@ class STEMRetriever {
     }
     
     func retrieveSTEMArray() {
-        print("Attempting to retrieve stored STEM data.")
-        if let json = preferences.value(forKey:"stemArray") as? Data,
-            let stemArray = try? PropertyListDecoder().decode(Set<STEMTableModel>.self, from: json) {
-            saveAndDisplay(stemArray)
-        }
-        else {
-            print("No local STEM data found in UserDefaults. Looking online.")
-            saveAndDisplay(STEMRetriever.getBlankData())
-            return
+        Database.database().reference().child("STEMNight").observeSingleEvent(of: .value) { snapshot in
+            guard let nightJSON = snapshot.value as? [[String : Any]] else { return }
+            print("STEM array updated, new data returned")
+            
+            self.answeredArray = UserDefaults.standard.value(forKey:"stemAnswered") as? [String: Bool] ?? [:]
+            let modelArray = self.parseDataJSON(json: JSON(nightJSON), answeredArray: self.answeredArray)
+            self.saveAndDisplay(modelArray)
         }
     }
     
-    func toggle(for model : STEMTableModel) {
+    func answer(for model : STEMTableModel) {
         guard var newS = setDisplayed.remove(model) else { return }
-        newS.answered = !newS.answered
+        newS.answered = true
+        answeredArray[newS.imageIdentifier] = true
+        UserDefaults.standard.set(answeredArray, forKey: "stemAnswered")
         setDisplayed.insert(newS)
         saveAndDisplay(setDisplayed)
     }
     
     private func saveAndDisplay(_ model : Set<STEMTableModel>) {
         setDisplayed = model
-        print("STEM array is being added to UserDefaults")
-        UserDefaults.standard.set(try? PropertyListEncoder().encode(setDisplayed), forKey: "stemArray")
         completion(setDisplayed, false)
     }
     
-    private static func getBlankData() -> Set<STEMTableModel> {
-        let path = Bundle.main.path(forResource: "STEMInfo", ofType: "json")!
-        let data = try! Data(contentsOf: URL(fileURLWithPath: path), options: .mappedIfSafe)
-        let json = try! JSON(data: data)
-        
+    private func parseDataJSON(json : JSON, answeredArray : [String : Bool]) -> Set<STEMTableModel> {
         var setToReturn = Set<STEMTableModel>()
         var n = 0
         while n < json.count {
             let entry = json[n]
+            let imageIdentifier = "\(entry["imageIdentifier"])"
             let modelToInsert = STEMTableModel(
                 title: "\(entry["title"])",
                 location : "\(entry["location"])",
                 organization : "\(entry["organization"])",
-                imageIdentifier : "\(entry["imageIdentifier"])",
+                imageIdentifier : imageIdentifier,
                 description : "\(entry["description"])",
                 question : "\(entry["question"])",
                 answer : "\(entry["answer"])",
-                answered : false
+                answered : answeredArray[imageIdentifier] ?? false
             )
             setToReturn.insert(modelToInsert)
             n += 1

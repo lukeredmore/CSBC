@@ -20,7 +20,7 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
             refreshConfiguration: .never,
             allowSelection: .selection,
             searchPlaceholder: "Search",
-            backgroundButtonText: nil
+            backgroundButtonText: "Reset"
         )
         super.init(configuration: configuration)
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(close))
@@ -34,14 +34,26 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        searchLoadingSymbol.startAnimating()
         stemRetriever.retrieveSTEMArray()
-        tableView.reloadData()
     }
     
-    override func cellSelected(withModel student : STEMTableModel, forCell cell : STEMTableCell) {
-        let vc = STEMInfoViewController(for: student) {
-            self.stemRetriever.toggle(for: student)
+    override func cellSelected(withModel model : STEMTableModel, forCell cell : STEMTableCell) {
+        let vc = STEMInfoViewController(for: model) {
+            self.stemRetriever.answer(for: model)
         }
         present(vc, animated: true)
+    }
+    
+    override func backgroundButtonPressed() {
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let reset = UIAlertAction(title: "Reset", style: .destructive) { action in
+            UserDefaults.standard.set(nil, forKey: "stemAnswered")
+            self.stemRetriever.retrieveSTEMArray()
+        }
+        let controller = UIAlertController(title: "Are you sure you want to reset your scavenger hunt?", message: "All progress will be lost", preferredStyle: .actionSheet)
+        controller.addAction(cancel)
+        controller.addAction(reset)
+        present(controller, animated: true)
     }
 }

@@ -18,12 +18,13 @@ class CSBCSearchUI : UIView {
     private var backgroundButtonPressed : () -> Void
     private var configuration : CSBCSearchConfiguration
     
-    init(tableView : UITableView, searchController : UISearchController, configuration : CSBCSearchConfiguration, backgroundButtonPressed : @escaping () -> Void) {
+    init(loadingSymbol : UIActivityIndicatorView, tableView : UITableView, searchController : UISearchController, configuration : CSBCSearchConfiguration, backgroundButtonPressed : @escaping () -> Void) {
         self.configuration = configuration
         self.backgroundButtonPressed = backgroundButtonPressed
         super.init(frame: UIScreen.main.bounds)
         translatesAutoresizingMaskIntoConstraints = true
         backgroundColor = .csbcNavBarBackground
+        configureNavHeaderBackground()
         configureHeader(header)
         configureBackgroundView()
         configureBackgroundLabel(emptyDataLabel)
@@ -31,6 +32,7 @@ class CSBCSearchUI : UIView {
         configureYellowBar(bar)
         configureSearchBar(controller: searchController)
         configureTableView(tableView)
+        configureLoadingSymbol(loadingSymbol)
         sendSubviewToBack(header)
     }
     
@@ -38,6 +40,18 @@ class CSBCSearchUI : UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func configureNavHeaderBackground() {
+        let header = UIView()
+        header.translatesAutoresizingMaskIntoConstraints = false
+        header.backgroundColor = .csbcNavBarBackground
+        addSubview(header)
+        addConstraints([
+            header.topAnchor.constraint(equalTo: self.topAnchor),
+            header.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            header.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            header.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+        ])
+    }
     private func configureHeader(_ header : UIView) {
         header.translatesAutoresizingMaskIntoConstraints = false
         header.backgroundColor = .csbcNavBarBackground
@@ -61,7 +75,7 @@ class CSBCSearchUI : UIView {
         ])
         bgView.backgroundColor = .csbcBackground
     }
-   private func configureBackgroundLabel(_ label : UILabel) {
+    private func configureBackgroundLabel(_ label : UILabel) {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
         label.font = UIFont(name: "Gotham-BookItalic", size: 18)!
@@ -144,6 +158,25 @@ class CSBCSearchUI : UIView {
         tableView.tableFooterView = footer
         
     }
+    private func configureLoadingSymbol(_ loadingSymbol : UIActivityIndicatorView) {
+        loadingSymbol.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 13.0, *) {
+            loadingSymbol.style = .large
+        } else {
+            loadingSymbol.style = .whiteLarge
+            loadingSymbol.color = .gray
+        }
+        loadingSymbol.hidesWhenStopped = false
+        addSubview(loadingSymbol)
+        addConstraints([
+            loadingSymbol.widthAnchor.constraint(equalToConstant: 50),
+            loadingSymbol.heightAnchor.constraint(equalToConstant: 50),
+            loadingSymbol.centerYAnchor.constraint(equalTo: centerYAnchor),
+            loadingSymbol.centerXAnchor.constraint(equalTo: centerXAnchor)
+        ])
+        bringSubviewToFront(loadingSymbol)
+        
+    }
     
     func resetSearchBarUI(controller : UISearchController) {
         configureSearchBar(controller: controller)
@@ -163,9 +196,9 @@ class CSBCSearchUI : UIView {
 }
 
 fileprivate extension UISearchBar {
-
+    
     func setPlaceholder(textColor: UIColor) { searchField.setPlaceholder(textColor: textColor) }
-
+    
     func setSearchImage(color: UIColor) {
         guard let imageView = searchField.leftView as? UIImageView else { return }
         imageView.tintColor = color
@@ -174,14 +207,14 @@ fileprivate extension UISearchBar {
 }
 
 fileprivate extension UITextField {
-
+    
     private class ColoredLabel: UILabel {
         private var _textColor = UIColor.lightGray
         override var textColor: UIColor! {
             set { super.textColor = _textColor }
             get { return _textColor }
         }
-
+        
         init(_ label : UILabel, textColor : UIColor) {
             _textColor = textColor
             super.init(frame: label.frame)

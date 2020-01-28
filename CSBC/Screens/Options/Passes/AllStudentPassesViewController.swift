@@ -30,7 +30,7 @@ class AllStudentPassesViewController: CSBCSearchViewController<AllStudentPassInf
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     override func cellSelected(withModel model: AllStudentPassInfo, forCell cell : AllStudentsPassesTableViewCell) {
-        guard loadingSymbol.isHidden else { return }
+        guard searchLoadingSymbol.isHidden else { return }
         self.present(PassDetailViewController(forStudent: model), animated: true)
     }
 }

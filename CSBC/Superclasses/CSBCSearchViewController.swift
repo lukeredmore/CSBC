@@ -24,15 +24,17 @@ enum RefreshConfiguration {
     case whileNotSearching, never
 }
 
-class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate, UISearchControllerDelegate where Cell : DisplayInSearchableTableView {
+class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: UIViewController, UITableViewDataSource, UISearchResultsUpdating, UITableViewDelegate, UISearchControllerDelegate where Cell : DisplayInSearchableTableView {
     
     //MARK: UI & Search Elements
     private lazy var ui = CSBCSearchUI(
+        loadingSymbol: searchLoadingSymbol,
         tableView: tableView,
         searchController: searchController,
         configuration: configuration,
-        backgroundButtonPressed: backgroundButtonPressed)
+        backgroundButtonPressed: privateBackgroundButtonPressed)
     var tableView = UITableView()
+    var searchLoadingSymbol = UIActivityIndicatorView()
     private var searchController = UISearchController()
     private lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
@@ -40,7 +42,11 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         refreshControl.tintColor = .gray
         return refreshControl
     }()
-    
+    private func privateBackgroundButtonPressed() {
+        guard searchLoadingSymbol.isHidden else { return }
+        searchController.dismiss(animated: false) { self.searchController.searchBar.text = "" }
+        backgroundButtonPressed()
+    }
     
     //MARK: Configuration Properties
     private let configuration : CSBCSearchConfiguration!
@@ -56,9 +62,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         setupUI()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
 
     //MARK: Data elements
@@ -114,7 +118,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadingSymbol.startAnimating()
+        searchLoadingSymbol.startAnimating()
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -136,14 +140,12 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     func loadTable(withData set : Set<T>, isDummyData dummy : Bool) {
         fullData = set.nest()
         tableView.reloadData()
-        print("data loaded")
-        if !dummy { loadingSymbol.stopAnimating() }
-        print("loadingsymbol is hidden: ", loadingSymbol.isHidden)
+        if !dummy { searchLoadingSymbol.stopAnimating() }
         refreshControl.endRefreshing()
     }
     /// Refresh data from source. Override this method and call its super to ensure refreshes cannot occur simultaneously. Be sure to call loadTable(withData:) to reload
     @objc func refreshData() {
-        guard loadingSymbol.isHidden && !refreshControl.isRefreshing else { return }
+        guard searchLoadingSymbol.isHidden && !refreshControl.isRefreshing else { return }
     }
     /// Array of 'permanent search parameters' to serve as filters
     var filters = [String]() { didSet {
@@ -163,12 +165,8 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     /// Override this to control what happens when a cell is selcted
     /// - Parameter model: The Searchable object the selected cell is displaying
     func cellSelected(withModel model : T, forCell cell : Cell) {}
-    /// Override this to control what happens when a background button is pressed, be sure to include super
-    /// - Parameter sender: Button object pressed
-    func backgroundButtonPressed() {
-        guard loadingSymbol.isHidden else { return }
-        searchController.dismiss(animated: false) { self.searchController.searchBar.text = "" }
-    }
+    /// Override this to control what happens when a background button is pressed,
+    func backgroundButtonPressed() {}
     
     
     //MARK: UISearchResultsUpdating Methods
@@ -190,6 +188,7 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
     //MARK: UITableView's UIScrollViewDelegate Methods
     private lazy var scrollDelegate = SearchScrollDelegate(headerConstraint: ui.headerHeightConstraint, tableView: tableView, view: view)
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard !searchController.isActive else { return }
         scrollDelegate.scrollViewDidScroll(scrollView)
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -238,12 +237,12 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         guard let cell = tableView.cellForRow(at: tableView.indexPathForSelectedRow!) as? Cell else { return }
         cell.becomeFirstResponder()
         tableView.deselectRow(at: indexPath, animated: true)
-        guard loadingSymbol.isHidden else { return }
+        guard searchLoadingSymbol.isHidden else { return }
         cellSelected(withModel: dataToDisplay[indexPath.section][indexPath.row], forCell: cell)
     }
     @available(iOS 13.0, *)
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-        guard loadingSymbol.isHidden else { return nil }
+        guard searchLoadingSymbol.isHidden else { return nil }
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let model = self.dataToDisplay[indexPath.section][indexPath.row]
@@ -269,7 +268,6 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: CSBCViewCo
         ui.frame = view.frame
         view = ui
         view.layoutIfNeeded()
-        view.bringSubviewToFront(loadingSymbol)
         scrollDelegate.previousScrollViewHeight = self.tableView.contentSize.height
 
         tableView.dataSource = self

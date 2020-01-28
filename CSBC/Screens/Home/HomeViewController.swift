@@ -51,6 +51,10 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
 //        let startDate = fmt.date(from: startDateString)!
 //        guard Date() > startDate else { return }
         
+        guard #available(iOS 13.0, *) else {
+            alert("Not supported", message: "Please upgrade to iOS 13 to access exclusive STEM Night features.")
+            return
+        }
         navBarShouldAppearWhileTransitioning = false
         let nav = UINavigationController()
         nav.modalPresentationStyle = .fullScreen

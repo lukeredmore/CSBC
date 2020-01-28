@@ -19,7 +19,7 @@ class STEMTableCell: UITableViewCell, DisplayInSearchableTableView {
         guard let model = genericModel as? STEMTableModel else { return }
         titleLabel.text = model.title
         organizationLabel.text = model.organization
-        logoImageView.image = UIImage(named: "\(model.imageIdentifier)logo")
+        logoImageView.image = UIImage(named: "\(model.imageIdentifier)logo") ?? UIImage(named: "lettermark")
         checkImageView.image = model.answered ? UIImage(named: "check") : UIImage(named: "uncheck")
         selectionStyle = .none
     }
