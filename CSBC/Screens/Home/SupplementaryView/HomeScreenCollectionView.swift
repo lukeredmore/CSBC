@@ -45,6 +45,8 @@ class HomeScreenCollectionView: UICollectionView {
         super.init(frame: frame, collectionViewLayout: UICollectionViewLayout())
         collectionViewLayout = columnLayout
         backgroundColor = .csbcBackground
+        showsVerticalScrollIndicator = false
+        showsHorizontalScrollIndicator = false
         bounces = true
         alwaysBounceVertical = true
         register(CSBCCollectionViewCell.self, forCellWithReuseIdentifier: "iconCell")

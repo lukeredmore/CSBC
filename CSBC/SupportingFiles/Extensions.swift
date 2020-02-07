@@ -107,6 +107,11 @@ extension UIColor {
             return UIColor(named: "CSBCYellow")!
         } else { return #colorLiteral(red: 0.9647058824, green: 0.7450980392, blue: 0, alpha: 1) }
     }
+    
+    //STEM Night
+    static var stemBaseBlue: UIColor { #colorLiteral(red: 0.08235294118, green: 0.3137254902, blue: 0.7607843137, alpha: 1) }
+    static var stemAccentBlue: UIColor { #colorLiteral(red: 0, green: 0.4117647059, blue: 0.8509803922, alpha: 1) }
+    static var stemLightBlue: UIColor { #colorLiteral(red: 0.3411986075, green: 0.6002656557, blue: 1, alpha: 1) }
 }
 
 extension UISearchBar {
@@ -159,21 +164,32 @@ extension SFSafariViewController {
     }
 }
 extension UserDefaults {
-    
-    /**
-     Returns the codable object associated with the specified key.
-     */
+
+    ///Returns the codable object associated with the specified key.
     func object<T: Codable>(_ type: T.Type, with key: String, usingDecoder decoder: JSONDecoder = JSONDecoder()) -> T? {
         guard let data = self.value(forKey: key) as? Data else { return nil }
         return try? decoder.decode(type.self, from: data)
     }
     
-    /**
-     Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
-     */
+    ///Sets the value of the specified default key to the specified codable object (such as dictionaries with non-String keys).
     func set<T: Codable>(object: T, forKey key: String, usingEncoder encoder: JSONEncoder = JSONEncoder()) {
         let data = try? encoder.encode(object)
-        self.set(data, forKey: key)
+        set(data, forKey: key)
+    }
+    
+    ///Returns the UIColor associated with the specified key.
+    func color(forKey key: String) -> UIColor? {
+        var color: UIColor?
+        if let colorData = data(forKey: key) {
+            color = NSKeyedUnarchiver.unarchiveObject(with: colorData) as? UIColor
+        }
+        return color
+    }
+    
+    ///Sets the value of the specified default key to a UIColor.
+    func set(_ color: UIColor, forKey key: String) {
+        let colorData = NSKeyedArchiver.archivedData(withRootObject: color) as NSData?
+        set(colorData, forKey: key)
     }
 }
 
@@ -371,4 +387,17 @@ extension UIViewController {
         navigationController?.navigationBar.isTranslucent = false
     }
 }
+
+extension CAGradientLayer {
+    static func stemNight(superview : UIView) -> CAGradientLayer {
+        let gradient = CAGradientLayer()
+        gradient.frame = superview.bounds
+        gradient.colors = [UIColor.stemAccentBlue.cgColor, UIColor.stemBaseBlue.cgColor]
+        gradient.locations = [0.0, 1.0]
+        gradient.cornerRadius = superview.layer.cornerRadius
+        gradient.maskedCorners = superview.layer.maskedCorners
+        return gradient
+    }
+}
+
 

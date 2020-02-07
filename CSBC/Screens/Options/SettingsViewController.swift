@@ -69,7 +69,7 @@ class SettingsViewController: UITableViewController  {
         tableView.reloadData()
     }
     private func showComposers(at indexPath : IndexPath) {
-        if indexPath.section == 4 && indexPath.row == 0 {
+        if indexPath.section == 4 && indexPath.row == 1 {
             let reportIssueVC = ComposerViewController(configuration: ComposerViewController.reportIssueConfiguration) { text in
                 IssueReporter.report(text) { error in
                     guard error == nil else { errorSending(error!); return }
@@ -100,6 +100,12 @@ class SettingsViewController: UITableViewController  {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 3 && indexPath.row == 0 {
             navigationController?.pushViewController(PassesViewController(), animated: true)
+        } else if indexPath.section == 4 && indexPath.row == 0 {
+            guard #available(iOS 13.0, *) else {
+                alert("Not supported", message: "Please upgrade to iOS 13 to access exclusive STEM Night features.")
+                return
+            }
+            present(STEMNavigationController(), animated: true)
         } else { showComposers(at: indexPath) }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

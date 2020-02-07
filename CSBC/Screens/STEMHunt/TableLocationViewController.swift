@@ -9,9 +9,12 @@
 import UIKit
 
 class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEMTableCell> {
-    private lazy var stemRetriever = STEMRetriever(completion: loadTable)
+    private lazy var stemRetriever = STEMRetriever(completion: receiveSet)
     
     init() {
+        UserDefaults.standard.set(UIColor.stemBaseBlue, forKey: "customNavBarColor")
+        UserDefaults.standard.set(UIColor.stemLightBlue, forKey: "customSearchFieldColor")
+        UserDefaults.standard.set(UIColor.orange, forKey: "customBarColor")
         let configuration = CSBCSearchConfiguration(
             pageTitle: "STEM Night",
             emptyDataMessage: "No tables found",
@@ -25,12 +28,23 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
         super.init(configuration: configuration)
         let closeButton = UIBarButtonItem(title: "Close", style: .plain, target: self, action: #selector(close))
         navigationItem.leftBarButtonItem = closeButton
+        navigationItem.leftBarButtonItem?.setTitleTextAttributes([
+        NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 25)!,
+        NSAttributedString.Key.foregroundColor: UIColor.orange
+        ], for: .normal)
+        navigationItem.leftBarButtonItem?.setTitleTextAttributes([
+        NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 25)!,
+        NSAttributedString.Key.foregroundColor: UIColor.orange
+        ], for: .highlighted)
     }
     
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
     @objc func close() {
         dismiss(animated: true)
+        UserDefaults.standard.set(nil, forKey: "customNavBarColor")
+        UserDefaults.standard.set(nil, forKey: "customSearchFieldColor")
+        UserDefaults.standard.set(nil, forKey: "customBarColor")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -55,5 +69,21 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
         controller.addAction(cancel)
         controller.addAction(reset)
         present(controller, animated: true)
+    }
+    
+    func receiveSet(_ modelList : Set<STEMTableModel>, _ _ : Bool) {
+        loadTable(withData: modelList, isDummyData: false)
+        if userDidFinishScavengerHunt(listOfVendors: modelList) {
+            print("User has won")
+        } else {
+            print("user hasn't won")
+        }
+    }
+    
+    private func userDidFinishScavengerHunt(listOfVendors : Set<STEMTableModel>) -> Bool {
+        for each in listOfVendors {
+            if !each.answered { return false }
+        }
+        return true
     }
 }

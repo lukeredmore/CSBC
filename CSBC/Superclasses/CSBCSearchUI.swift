@@ -18,6 +18,22 @@ class CSBCSearchUI : UIView {
     private var backgroundButtonPressed : () -> Void
     private var configuration : CSBCSearchConfiguration
     
+    private var navBarColor : UIColor {
+        if let color = UserDefaults.standard.color(forKey: "customNavBarColor") {
+            return color
+        } else { return .csbcNavBarBackground }
+    }
+    private var searchFieldColor : UIColor {
+        if let color = UserDefaults.standard.color(forKey: "customSearchFieldColor") {
+            return color
+        } else { return .csbcLightGreen }
+    }
+    private var barColor : UIColor {
+        if let color = UserDefaults.standard.color(forKey: "customBarColor") {
+            return color
+        } else { return .csbcYellow }
+    }
+    
     init(loadingSymbol : UIActivityIndicatorView, tableView : UITableView, searchController : UISearchController, configuration : CSBCSearchConfiguration, backgroundButtonPressed : @escaping () -> Void) {
         self.configuration = configuration
         self.backgroundButtonPressed = backgroundButtonPressed
@@ -103,7 +119,7 @@ class CSBCSearchUI : UIView {
     }
     
     private func configureYellowBar(_ bar : UIView) {
-        bar.backgroundColor = .csbcYellow
+        bar.backgroundColor = barColor
         bar.translatesAutoresizingMaskIntoConstraints = false
         header.addSubview(bar)
         header.addConstraints([
@@ -127,8 +143,8 @@ class CSBCSearchUI : UIView {
         controller.searchBar.sizeToFit()
         controller.searchBar.tintColor = .white
         controller.searchBar.isTranslucent = false
-        controller.searchBar.barTintColor = .csbcNavBarBackground
-        controller.searchBar.searchField.backgroundColor = .csbcLightGreen
+        controller.searchBar.barTintColor = navBarColor
+        controller.searchBar.searchField.backgroundColor = searchFieldColor
         controller.searchBar.searchField.textColor = .white
         controller.searchBar.backgroundImage = UIImage()
         controller.searchBar.clipsToBounds = true
@@ -166,7 +182,7 @@ class CSBCSearchUI : UIView {
             loadingSymbol.style = .whiteLarge
             loadingSymbol.color = .gray
         }
-        loadingSymbol.hidesWhenStopped = false
+        loadingSymbol.hidesWhenStopped = true
         addSubview(loadingSymbol)
         addConstraints([
             loadingSymbol.widthAnchor.constraint(equalToConstant: 50),

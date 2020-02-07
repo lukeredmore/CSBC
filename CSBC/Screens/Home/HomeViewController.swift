@@ -44,23 +44,13 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
             lastSeguedWebView = segue.destination as? WebViewController }
     }
     
-    func headerImageViewTapped() {
-//        let startDateString = "02/20/2020 17:00:00"
-//        let fmt = DateFormatter()
-//        fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
-//        let startDate = fmt.date(from: startDateString)!
-//        guard Date() > startDate else { return }
-        
+    func stemViewTapped() {
         guard #available(iOS 13.0, *) else {
             alert("Not supported", message: "Please upgrade to iOS 13 to access exclusive STEM Night features.")
             return
         }
         navBarShouldAppearWhileTransitioning = false
-        let nav = UINavigationController()
-        nav.modalPresentationStyle = .fullScreen
-        nav.modalTransitionStyle = .flipHorizontal
-        nav.viewControllers = [TableLocationViewController()]
-        present(nav, animated: true) { self.navBarShouldAppearWhileTransitioning = true }
+        present(STEMNavigationController(), animated: true) { self.navBarShouldAppearWhileTransitioning = true }
     }
     
 }

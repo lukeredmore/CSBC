@@ -24,6 +24,7 @@
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
 		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
+		262E24B623ED161600176E7D /* STEMNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262E24B523ED161500176E7D /* STEMNavigationController.swift */; };
 		262EA46A23A1EE52000BE0FC /* SearchScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */; };
 		262EA46E23A1F451000BE0FC /* CSBCSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
@@ -114,7 +115,6 @@
 		26E281CB23CA3231004497DB /* STEMTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E281C923CA3231004497DB /* STEMTableCell.swift */; };
 		26E281CC23CA3231004497DB /* STEMTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26E281CA23CA3231004497DB /* STEMTableCell.xib */; };
 		26E281CF23CA35E5004497DB /* STEMRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E281CE23CA35E5004497DB /* STEMRetriever.swift */; };
-		26E281D123CA3761004497DB /* STEMInfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 26E281D023CA3761004497DB /* STEMInfo.json */; };
 		26E281D623CB90CF004497DB /* STEMInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E281D423CB90CF004497DB /* STEMInfoViewController.swift */; };
 		26E281D723CB90CF004497DB /* STEMInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26E281D523CB90CF004497DB /* STEMInfoViewController.xib */; };
 		26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */; };
@@ -147,6 +147,7 @@
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
 		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
+		262E24B523ED161500176E7D /* STEMNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMNavigationController.swift; sourceTree = "<group>"; };
 		262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScrollDelegate.swift; sourceTree = "<group>"; };
 		262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchUI.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
@@ -238,7 +239,6 @@
 		26E281C923CA3231004497DB /* STEMTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMTableCell.swift; sourceTree = "<group>"; };
 		26E281CA23CA3231004497DB /* STEMTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMTableCell.xib; sourceTree = "<group>"; };
 		26E281CE23CA35E5004497DB /* STEMRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMRetriever.swift; sourceTree = "<group>"; };
-		26E281D023CA3761004497DB /* STEMInfo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = STEMInfo.json; sourceTree = "<group>"; };
 		26E281D423CB90CF004497DB /* STEMInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMInfoViewController.swift; sourceTree = "<group>"; };
 		26E281D523CB90CF004497DB /* STEMInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMInfoViewController.xib; sourceTree = "<group>"; };
 		26E2C88B224052FF00B40E88 /* jameshandbook19-20.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "jameshandbook19-20.pdf"; sourceTree = "<group>"; };
@@ -652,9 +652,9 @@
 				26E281CE23CA35E5004497DB /* STEMRetriever.swift */,
 				26E281C723CA31EC004497DB /* STEMTableModel.swift */,
 				26E281CD23CA3237004497DB /* Supplementary View */,
-				26E281D023CA3761004497DB /* STEMInfo.json */,
 				26E281D423CB90CF004497DB /* STEMInfoViewController.swift */,
 				26E281D523CB90CF004497DB /* STEMInfoViewController.xib */,
+				262E24B523ED161500176E7D /* STEMNavigationController.swift */,
 			);
 			path = STEMHunt;
 			sourceTree = "<group>";
@@ -854,7 +854,6 @@
 			files = (
 				26894D5021EFACFE00691C97 /* Gotham-UltraItalic.otf in Resources */,
 				26E2C88E2240530600B40E88 /* jamescodeofconduct19-20.pdf in Resources */,
-				26E281D123CA3761004497DB /* STEMInfo.json in Resources */,
 				2659E04C22F131CA00016DDE /* sccbellschedule19-20.pdf in Resources */,
 				26DD56C222BB3BC5005E109B /* highSchoolDressDark.html in Resources */,
 				26894D4A21EFACFE00691C97 /* Gotham-Thin.otf in Resources */,
@@ -1017,6 +1016,7 @@
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,
 				26C951CD23BC684D0075DCC1 /* EventsCalendarManager.swift in Sources */,
+				262E24B623ED161600176E7D /* STEMNavigationController.swift in Sources */,
 				26E281CF23CA35E5004497DB /* STEMRetriever.swift in Sources */,
 				26C951C923BAA0240075DCC1 /* SelectableLabel.swift in Sources */,
 				263C6D0923038BCB00D189D8 /* Schools.swift in Sources */,
