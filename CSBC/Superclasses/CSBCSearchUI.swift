@@ -39,7 +39,7 @@ class CSBCSearchUI : UIView {
         self.backgroundButtonPressed = backgroundButtonPressed
         super.init(frame: UIScreen.main.bounds)
         translatesAutoresizingMaskIntoConstraints = true
-        backgroundColor = .csbcNavBarBackground
+        backgroundColor = navBarColor
         configureNavHeaderBackground()
         configureHeader(header)
         configureBackgroundView()
@@ -59,7 +59,7 @@ class CSBCSearchUI : UIView {
     private func configureNavHeaderBackground() {
         let header = UIView()
         header.translatesAutoresizingMaskIntoConstraints = false
-        header.backgroundColor = .csbcNavBarBackground
+        header.backgroundColor = navBarColor
         addSubview(header)
         addConstraints([
             header.topAnchor.constraint(equalTo: self.topAnchor),
@@ -70,7 +70,7 @@ class CSBCSearchUI : UIView {
     }
     private func configureHeader(_ header : UIView) {
         header.translatesAutoresizingMaskIntoConstraints = false
-        header.backgroundColor = .csbcNavBarBackground
+        header.backgroundColor = navBarColor
         addSubview(header)
         addConstraints([
             header.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),

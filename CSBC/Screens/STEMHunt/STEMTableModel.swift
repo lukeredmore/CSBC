@@ -23,7 +23,8 @@ struct STEMTableModel : Searchable {
     let title : String
     let location : String
     let organization : String
-    let imageIdentifier : String
+    let imageIdentifier : String?
+    let identifier : String
     let description : String
     let question : String
     let answer : String

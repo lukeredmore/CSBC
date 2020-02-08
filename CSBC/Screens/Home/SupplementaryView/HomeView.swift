@@ -108,11 +108,9 @@ class HomeView: UIView, AlertDelegate {
         addSubview(backgroundView)
         
         let stemView = UIView(frame: backgroundView.frame)
-//        stemView.backgroundColor = .csbcGreen
         stemView.layer.cornerRadius = 20
         stemView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        
-        stemView.layer.addSublayer(CAGradientLayer.stemNight(superview: stemView))
+        stemView.addVerticalGradient(from: .stemAccentBlue, to: .stemBaseBlue)
         
         let titleLabel = UILabel()
         titleLabel.translatesAutoresizingMaskIntoConstraints = false

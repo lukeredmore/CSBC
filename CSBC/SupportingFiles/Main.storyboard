@@ -20,13 +20,10 @@
         <!--Navigation Controller-->
         <scene sceneID="gHd-sD-xIQ">
             <objects>
-                <navigationController id="Tug-Mn-aX5" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="GEg-gT-el1">
+                <navigationController id="Tug-Mn-aX5" customClass="CSBCNavigationController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="GEg-gT-el1">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" name="CSBCNavBarBackground"/>
-                        <color key="tintColor" name="CSBCNavBarText"/>
-                        <color key="barTintColor" name="CSBCNavBarBackground"/>
                         <textAttributes key="titleTextAttributes">
                             <color key="textColor" name="CSBCNavBarText"/>
                         </textAttributes>
@@ -39,9 +36,7 @@
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qPN-ca-Fd9" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <barButtonItem title="Item" id="2RY-vx-hOH">
-                    <color key="tintColor" name="CSBCNavBarText"/>
-                </barButtonItem>
+                <barButtonItem title="Item" id="2RY-vx-hOH"/>
             </objects>
             <point key="canvasLocation" x="-233" y="7"/>
         </scene>
@@ -50,7 +45,7 @@
             <objects>
                 <viewController id="OhB-Mq-q05" customClass="HomeViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xdo-fA-7jC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="eEY-NS-zKi"/>
@@ -77,11 +72,11 @@
             <objects>
                 <viewController storyboardIdentifier="TodayViewController" title="Today" id="PMc-mZ-LF5" customClass="TodayContainerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ECP-Ub-4d2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RNL-8w-G8O">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <connections>
                                     <segue destination="d88-AI-F0a" kind="embed" identifier="toPageVC" id="lUM-OY-cpF"/>
                                 </connections>
@@ -125,11 +120,11 @@
             <objects>
                 <viewController title="Portal" id="gie-Ly-Bvm" customClass="WebViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5Pt-4l-7ZW">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progressViewStyle="bar" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Spv-Bl-Xhb">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="4"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="4"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="3" id="STK-xR-mS3"/>
                                 </constraints>
@@ -137,7 +132,7 @@
                                 <color key="trackTintColor" name="CSBCYellow"/>
                             </progressView>
                             <wkWebView contentMode="scaleToFill" allowsBackForwardNavigationGestures="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KFt-l1-ckV">
-                                <rect key="frame" x="0.0" y="3" width="414" height="722"/>
+                                <rect key="frame" x="0.0" y="91" width="414" height="722"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <dataDetectorTypes key="dataDetectorTypes" none="YES"/>
@@ -146,7 +141,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="g0K-tI-bv8" userLabel="Fake Tab Bar">
-                                <rect key="frame" x="0.0" y="725" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <subviews>
                                     <button opaque="NO" tag="3" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jLF-xd-loT">
                                         <rect key="frame" x="133" y="14.5" width="12" height="20"/>
@@ -240,11 +235,11 @@
             <objects>
                 <viewController title="Contact" id="xkc-2H-S7Q" customClass="ContactViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="xiX-QZ-X5N">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="wqz-Vg-OK6">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="dOL-6v-u8R">
                                     <rect key="frame" x="0.0" y="251" width="414" height="36"/>
@@ -443,11 +438,11 @@
             <objects>
                 <viewController title="News" id="w6R-e7-BWc" customClass="NewsViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ee9-tP-cug">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1Q-ak-RwH">
-                                <rect key="frame" x="0.0" y="8" width="414" height="800"/>
+                                <rect key="frame" x="0.0" y="96" width="414" height="800"/>
                                 <color key="backgroundColor" name="CSBCAccentGray"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -455,7 +450,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vom-ct-zkN">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="8"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="8"/>
                                 <color key="backgroundColor" name="CSBCYellow"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="xwc-bb-MaV"/>
@@ -488,11 +483,11 @@
             <objects>
                 <viewController title="Lunch" id="Nhc-OG-ilc" customClass="LunchViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="fv0-s6-5ih">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="C93-3y-3lh" userLabel="Date View">
-                                <rect key="frame" x="0.0" y="725" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="813" width="414" height="49"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today is Monday, January 1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Pdf-ga-oUh">
                                         <rect key="frame" x="10" y="11.5" width="394" height="26"/>
@@ -513,11 +508,11 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rhA-MH-MmZ" userLabel="Bottom Fill View">
-                                <rect key="frame" x="0.0" y="774" width="414" height="34"/>
+                                <rect key="frame" x="0.0" y="862" width="414" height="34"/>
                                 <color key="backgroundColor" name="CSBCNavBarBackground"/>
                             </view>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ff1-Rl-lTQ">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                                 <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -525,7 +520,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <view opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Unc-2p-ucw" customClass="PDFView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="725"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="725"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" name="CSBCAccentGray"/>
@@ -564,11 +559,11 @@
             <objects>
                 <viewController title="SocialMediaView" id="hL9-rV-7XR" customClass="SocialMediaController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="cSp-9q-Mv6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="BV9-5d-mXf">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="socialMediaTableCell" textLabel="oZw-Az-UUW" style="IBUITableViewCellStyleDefault" id="0Fm-7P-xOJ">
@@ -617,11 +612,11 @@
             <objects>
                 <viewController title="UniformsViewController" id="x0P-pp-Tlt" customClass="UniformsViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zJc-ja-e9I">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8VL-SA-Ffp" userLabel="School Picker View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="45"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="45"/>
                                 <subviews>
                                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="RYi-Wv-Df6">
                                         <rect key="frame" x="15" y="5" width="384" height="28"/>
@@ -648,14 +643,14 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EIG-OC-p99" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="45" width="414" height="8"/>
+                                <rect key="frame" x="0.0" y="133" width="414" height="8"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="1fb-2v-led"/>
                                 </constraints>
                             </view>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2mo-CR-mcL">
-                                <rect key="frame" x="0.0" y="53" width="414" height="755"/>
+                                <rect key="frame" x="0.0" y="141" width="414" height="755"/>
                                 <color key="backgroundColor" name="CSBCBackground"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -663,7 +658,7 @@
                                 </wkWebViewConfiguration>
                             </wkWebView>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qor-xJ-D5r">
-                                <rect key="frame" x="0.0" y="53" width="414" height="755"/>
+                                <rect key="frame" x="0.0" y="141" width="414" height="755"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" name="CSBCBackground"/>
@@ -700,11 +695,11 @@
             <objects>
                 <viewController id="bp7-Al-7Sc" customClass="DocumentsViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="pbL-6F-dnM">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="vna-kc-tkp">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="808"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="documentsTableCell" textLabel="NJJ-tX-O0t" rowHeight="65" style="IBUITableViewCellStyleDefault" id="rQu-oC-cTn">
@@ -753,15 +748,15 @@
             <objects>
                 <viewController id="tfq-1P-9H9" customClass="ActualDocViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Car-aO-ycn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5bG-2W-a9Z" customClass="PDFView">
-                                <rect key="frame" x="0.0" y="8" width="414" height="800"/>
+                                <rect key="frame" x="0.0" y="96" width="414" height="800"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mFh-7e-uZd" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="8"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="8"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="8" id="DId-CB-9wg"/>
@@ -796,18 +791,18 @@
             <objects>
                 <viewController title="Options" id="Oys-ro-Gov" customClass="SettingsContainerViewController" customModule="CSBC" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="lwb-n9-k5A">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FWh-WI-C5w" userLabel="Bar">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="8"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="8"/>
                                 <color key="backgroundColor" red="0.96470588239999999" green="0.74509803919999995" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="8" id="ZhH-BZ-xdC"/>
                                 </constraints>
                             </view>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xKr-Ab-lMi">
-                                <rect key="frame" x="0.0" y="8" width="414" height="800"/>
+                                <rect key="frame" x="0.0" y="96" width="414" height="800"/>
                                 <connections>
                                     <segue destination="gEv-fH-LdY" kind="embed" identifier="SettingsTableEmbed" id="BU9-VE-jWU"/>
                                 </connections>

@@ -36,23 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 application.registerForRemoteNotifications()
             } }
         }
-        
-        //UI
-        UINavigationBar.appearance().titleTextAttributes = [
-            NSAttributedString.Key.font: UIFont(name: "gotham", size: 30)!,
-            NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
-        ]
-        UIBarButtonItem.appearance().setTitleTextAttributes([
-            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
-            NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
-            ], for: .normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes([
-            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
-            NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
-            ], for: .highlighted)
-        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-        
         return true
     }
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {

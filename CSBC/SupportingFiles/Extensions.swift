@@ -154,6 +154,21 @@ extension UIView {
         layer.shadowRadius = 5
         //clipsToBounds = false
     }
+    func shake() {
+        self.transform = CGAffineTransform(translationX: 20, y: 0)
+        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
+            self.transform = CGAffineTransform.identity
+        }, completion: nil)
+    }
+    func addVerticalGradient(from color1: UIColor, to color2: UIColor) {
+        let gradient = CAGradientLayer()
+        gradient.frame = self.bounds
+        gradient.colors = [color1.cgColor, color2.cgColor]
+        gradient.locations = [0.0, 1.0]
+        gradient.cornerRadius = self.layer.cornerRadius
+        gradient.maskedCorners = self.layer.maskedCorners
+        self.layer.insertSublayer(gradient, at: 0)
+    }
 }
 extension SFSafariViewController {
     func configureForCSBC() {
@@ -378,26 +393,4 @@ extension URLRequest {
         return request
     }
 }
-
-extension UIViewController {
-    func configureNavBarForCSBC() {
-        navigationController?.navigationBar.barTintColor = .csbcNavBarBackground
-        navigationController?.navigationBar.tintColor = .csbcNavBarText
-        navigationController?.navigationBar.barStyle = .default
-        navigationController?.navigationBar.isTranslucent = false
-    }
-}
-
-extension CAGradientLayer {
-    static func stemNight(superview : UIView) -> CAGradientLayer {
-        let gradient = CAGradientLayer()
-        gradient.frame = superview.bounds
-        gradient.colors = [UIColor.stemAccentBlue.cgColor, UIColor.stemBaseBlue.cgColor]
-        gradient.locations = [0.0, 1.0]
-        gradient.cornerRadius = superview.layer.cornerRadius
-        gradient.maskedCorners = superview.layer.maskedCorners
-        return gradient
-    }
-}
-
 

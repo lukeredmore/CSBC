@@ -14,9 +14,9 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
     init() {
         UserDefaults.standard.set(UIColor.stemBaseBlue, forKey: "customNavBarColor")
         UserDefaults.standard.set(UIColor.stemLightBlue, forKey: "customSearchFieldColor")
-        UserDefaults.standard.set(UIColor.orange, forKey: "customBarColor")
+        UserDefaults.standard.set(UIColor.stemBaseBlue, forKey: "customBarColor")
         let configuration = CSBCSearchConfiguration(
-            pageTitle: "STEM Night",
+            pageTitle: "STEM NIGHT",
             emptyDataMessage: "No tables found",
             emptySearchMessage: "No tables found",
             xibIdentifier: "STEMTableCell",
@@ -75,15 +75,16 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
         loadTable(withData: modelList, isDummyData: false)
         if userDidFinishScavengerHunt(listOfVendors: modelList) {
             print("User has won")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                 self.present(STEMSuccessViewController(), animated: true)
+            })
         } else {
             print("user hasn't won")
         }
     }
     
     private func userDidFinishScavengerHunt(listOfVendors : Set<STEMTableModel>) -> Bool {
-        for each in listOfVendors {
-            if !each.answered { return false }
-        }
+        for each in listOfVendors where !each.answered { return false }
         return true
     }
 }

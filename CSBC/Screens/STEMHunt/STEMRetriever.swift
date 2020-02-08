@@ -32,7 +32,7 @@ class STEMRetriever {
     func answer(for model : STEMTableModel) {
         guard var newS = setDisplayed.remove(model) else { return }
         newS.answered = true
-        answeredArray[newS.imageIdentifier] = true
+        answeredArray[newS.identifier] = true
         UserDefaults.standard.set(answeredArray, forKey: "stemAnswered")
         setDisplayed.insert(newS)
         saveAndDisplay(setDisplayed)
@@ -48,16 +48,18 @@ class STEMRetriever {
         var n = 0
         while n < json.count {
             let entry = json[n]
-            let imageIdentifier = "\(entry["imageIdentifier"])"
+            let identifier = "\(entry["identifier"])"
+            let imageIdentifier = "\(entry["imageIdentifier"])" != "null" ? "\(entry["imageIdentifier"])" : nil
             let modelToInsert = STEMTableModel(
                 title: "\(entry["title"])",
                 location : "\(entry["location"])",
                 organization : "\(entry["organization"])",
                 imageIdentifier : imageIdentifier,
+                identifier: identifier,
                 description : "\(entry["description"])",
                 question : "\(entry["question"])",
                 answer : "\(entry["answer"])",
-                answered : answeredArray[imageIdentifier] ?? false
+                answered : answeredArray[identifier] ?? false
             )
             setToReturn.insert(modelToInsert)
             n += 1

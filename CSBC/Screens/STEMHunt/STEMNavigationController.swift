@@ -18,7 +18,7 @@ class STEMNavigationController: UINavigationController {
         navigationBar.titleTextAttributes =
             [NSAttributedString.Key.foregroundColor: UIColor.orange,
              NSAttributedString.Key.font: UIFont(name: "DINCondensed-Bold", size: 38)!]
-        
+        navigationBar.shadowImage = UIImage()
     }
     
     required init?(coder aDecoder: NSCoder) {

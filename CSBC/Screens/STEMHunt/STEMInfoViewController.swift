@@ -17,28 +17,35 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var organizationLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var headerImageView: UIImageView!
-    @IBOutlet weak var descriptionTextView: UITextView!
+    @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var answerLabel: UITextField!
+    @IBOutlet weak var scrollView : UIScrollView!
     @IBOutlet weak var keyboardSpacingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var descriptionHeightConstraint: NSLayoutConstraint!
     
     init(for model : STEMTableModel, completion : (() -> Void)? = nil) {
         self.model = model
         self.completion = completion
         super.init(nibName: nil, bundle: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
+        registerForKeyboardNotifications()
+        if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
+        
+        //Add data
+        view.addVerticalGradient(from: .stemAccentBlue, to: .stemBaseBlue)
         questionLabel.text = model.question
         organizationLabel.text = model.organization
         titleLabel.text = model.title
-        headerImageView.image = UIImage(named: "\(model.imageIdentifier)header") ?? UIImage(named: "setonBuilding")
-        descriptionTextView.text = model.description
-        
+        let headerName = model.imageIdentifier == nil ? model.identifier : model.imageIdentifier!
+        headerImageView.image = UIImage(named: "\(headerName)header") ?? UIImage(named: "setonBuilding")
+        descriptionLabel.text = model.description
         answerLabel.returnKeyType = .send
-        
+        descriptionHeightConstraint.constant = model.description.height(withConstrainedWidth: UIScreen.main.bounds.width - 16, font: UIFont(name: "Gotham-Book", size: 15)!)
+    }
+    deinit { unregisterForKeyboardNotifications() }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+    
+    
+    override func viewDidLoad() {
         if model.answered {
             answerLabel.delegate = nil
             answerLabel.isEnabled = false
@@ -51,11 +58,11 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
-    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
     
+    //MARK: UITextFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard string == "\n" else { return true }
-        if model.answer.lowercased().components(separatedBy: ", ").contains(textField.text?.lowercased() ?? "") {
+        if model.answer.lowercased().replacingOccurrences(of: " ", with: "").components(separatedBy: ",").contains(textField.text?.lowercased().replacingOccurrences(of: " ", with: "") ?? "") {
             completion?()
             answerLabel.delegate = nil
             answerLabel.isEnabled = false
@@ -68,19 +75,27 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
-    @objc func keyboardWillShow(_ notification: Notification) {
+    
+    //MARK: Keyboard Spacing
+    private func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardAppear(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(onKeyboardDisappear(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    private func unregisterForKeyboardNotifications() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
+    }
+    
+
+    @objc func onKeyboardAppear(_ notification: Notification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            keyboardSpacingConstraint.constant = keyboardRectangle.height - UIApplication.shared.keyWindow!.safeAreaInsets.bottom + 16
+            keyboardSpacingConstraint.constant = keyboardFrame.cgRectValue.height - UIApplication.shared.keyWindow!.safeAreaInsets.bottom
         }
     }
-}
 
-extension UIView {
-    func shake() {
-        self.transform = CGAffineTransform(translationX: 20, y: 0)
-        UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 1, options: .curveEaseInOut, animations: {
-            self.transform = CGAffineTransform.identity
-        }, completion: nil)
+    @objc func onKeyboardDisappear(_ notification: Notification) {
+        keyboardSpacingConstraint.constant = 0
+        view.layoutIfNeeded()
     }
+    
 }

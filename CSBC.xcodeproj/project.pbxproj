@@ -42,6 +42,9 @@
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
 		266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266076DA22F685430088CF16 /* EventsRetriever.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
+		2667FB4223EDBCC0003894FB /* CSBCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2667FB4123EDBCC0003894FB /* CSBCNavigationController.swift */; };
+		2667FB4523EDD2F6003894FB /* STEMSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2667FB4323EDD2F6003894FB /* STEMSuccessViewController.swift */; };
+		2667FB4623EDD2F6003894FB /* STEMSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2667FB4423EDD2F6003894FB /* STEMSuccessViewController.xib */; };
 		26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */; };
 		26684B01221FA70800830975 /* Gotham Book Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 26684B00221FA6F600830975 /* Gotham Book Regular.otf */; };
 		266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */; };
@@ -165,6 +168,9 @@
 		265E65C522AADAE400B3B62C /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		266076DA22F685430088CF16 /* EventsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsRetriever.swift; sourceTree = "<group>"; };
 		2663CD02223448F300E22281 /* EventsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsModel.swift; sourceTree = "<group>"; };
+		2667FB4123EDBCC0003894FB /* CSBCNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCNavigationController.swift; sourceTree = "<group>"; };
+		2667FB4323EDD2F6003894FB /* STEMSuccessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMSuccessViewController.swift; sourceTree = "<group>"; };
+		2667FB4423EDD2F6003894FB /* STEMSuccessViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMSuccessViewController.xib; sourceTree = "<group>"; };
 		26684AFE221FA47600830975 /* AthleticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsTableViewCell.swift; sourceTree = "<group>"; };
 		26684B00221FA6F600830975 /* Gotham Book Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham Book Regular.otf"; sourceTree = "<group>"; };
 		266A4DBA22F700FE00C3B773 /* AthleticsRetriever.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsRetriever.swift; sourceTree = "<group>"; };
@@ -450,6 +456,7 @@
 				26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */,
 				263C6D0823038BCB00D189D8 /* Schools.swift */,
 				26C951C823BAA0240075DCC1 /* SelectableLabel.swift */,
+				2667FB4123EDBCC0003894FB /* CSBCNavigationController.swift */,
 			);
 			path = Superclasses;
 			sourceTree = "<group>";
@@ -655,6 +662,8 @@
 				26E281D423CB90CF004497DB /* STEMInfoViewController.swift */,
 				26E281D523CB90CF004497DB /* STEMInfoViewController.xib */,
 				262E24B523ED161500176E7D /* STEMNavigationController.swift */,
+				2667FB4323EDD2F6003894FB /* STEMSuccessViewController.swift */,
+				2667FB4423EDD2F6003894FB /* STEMSuccessViewController.xib */,
 			);
 			path = STEMHunt;
 			sourceTree = "<group>";
@@ -887,6 +896,7 @@
 				2659E04F22F131CA00016DDE /* sccdresscode19-20.pdf in Resources */,
 				26ED796521EB91D50086FB86 /* Assets.xcassets in Resources */,
 				26894D4E21EFACFE00691C97 /* Gotham-XLightItalic.otf in Resources */,
+				2667FB4623EDD2F6003894FB /* STEMSuccessViewController.xib in Resources */,
 				2659E05122F131CA00016DDE /* sccmonthlycalendar19-20.pdf in Resources */,
 				26247F3F2373DA0200B8BCAC /* PassDetailTableViewCell.xib in Resources */,
 				26B90BA2223B050A00B92936 /* elementarySchoolDress.html in Resources */,
@@ -1008,6 +1018,7 @@
 				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
+				2667FB4523EDD2F6003894FB /* STEMSuccessViewController.swift in Sources */,
 				26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */,
 				26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
@@ -1024,6 +1035,7 @@
 				26E281C623CA31B9004497DB /* TableLocationViewController.swift in Sources */,
 				26712F4322C9071300C30493 /* HomeCollectionController.swift in Sources */,
 				26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */,
+				2667FB4223EDBCC0003894FB /* CSBCNavigationController.swift in Sources */,
 				26DC0B7B222F2B1100371B61 /* MapAnnotation.swift in Sources */,
 				26247F2C2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.swift in Sources */,
 				2699F9DA2233147200AA1CF3 /* WebViewController.swift in Sources */,
