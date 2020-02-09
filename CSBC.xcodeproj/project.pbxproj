@@ -91,6 +91,8 @@
 		26C0F00723713D7D0067B2DB /* AthleticsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C0F00623713D7D0067B2DB /* AthleticsTableViewCell.xib */; };
 		26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */; };
 		26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */; };
+		26C3FC3F23EF942E00715A4A /* STEMIntroViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C3FC3D23EF942D00715A4A /* STEMIntroViewController.swift */; };
+		26C3FC4023EF942E00715A4A /* STEMIntroViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C3FC3E23EF942D00715A4A /* STEMIntroViewController.xib */; };
 		26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C529B322248A8A00267ECA /* LunchViewController.swift */; };
 		26C7648F22FB6A4F0001FBBB /* TodayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C7648E22FB6A4F0001FBBB /* TodayView.swift */; };
 		26C951C723BA9F460075DCC1 /* CSBCSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951C623BA9F460075DCC1 /* CSBCSearchViewController.swift */; };
@@ -218,6 +220,8 @@
 		26C0F00623713D7D0067B2DB /* AthleticsTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AthleticsTableViewCell.xib; sourceTree = "<group>"; };
 		26C36D4922F4B3AB003B6CE3 /* TodayDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataSource.swift; sourceTree = "<group>"; };
 		26C36D4B22F4BDE9003B6CE3 /* TodayDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDataParser.swift; sourceTree = "<group>"; };
+		26C3FC3D23EF942D00715A4A /* STEMIntroViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMIntroViewController.swift; sourceTree = "<group>"; };
+		26C3FC3E23EF942D00715A4A /* STEMIntroViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = STEMIntroViewController.xib; sourceTree = "<group>"; };
 		26C529B322248A8A00267ECA /* LunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunchViewController.swift; sourceTree = "<group>"; };
 		26C7648E22FB6A4F0001FBBB /* TodayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayView.swift; sourceTree = "<group>"; };
 		26C951C623BA9F460075DCC1 /* CSBCSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSBCSearchViewController.swift; sourceTree = "<group>"; };
@@ -664,6 +668,8 @@
 				262E24B523ED161500176E7D /* STEMNavigationController.swift */,
 				2667FB4323EDD2F6003894FB /* STEMSuccessViewController.swift */,
 				2667FB4423EDD2F6003894FB /* STEMSuccessViewController.xib */,
+				26C3FC3D23EF942D00715A4A /* STEMIntroViewController.swift */,
+				26C3FC3E23EF942D00715A4A /* STEMIntroViewController.xib */,
 			);
 			path = STEMHunt;
 			sourceTree = "<group>";
@@ -885,6 +891,7 @@
 				26247F2D2371EA5300B8BCAC /* AllStudentsPassesTableViewCell.xib in Resources */,
 				265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */,
 				26B90BA6223B284500B92936 /* highSchoolDress.html in Resources */,
+				26C3FC4023EF942E00715A4A /* STEMIntroViewController.xib in Resources */,
 				26E2C88C224052FF00B40E88 /* jameshandbook19-20.pdf in Resources */,
 				2659E04D22F131CA00016DDE /* scchandbook19-20.pdf in Resources */,
 				26894D4821EFACFE00691C97 /* Gotham-Light.otf in Resources */,
@@ -1062,6 +1069,7 @@
 				26C9521823BD86650075DCC1 /* ComposerViewController.swift in Sources */,
 				26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */,
 				26ADFE182240AA3100A557C5 /* JumpToDateViewController.swift in Sources */,
+				26C3FC3F23EF942E00715A4A /* STEMIntroViewController.swift in Sources */,
 				26684AFF221FA47600830975 /* AthleticsTableViewCell.swift in Sources */,
 				26247F342372306B00B8BCAC /* EventsTableViewCell.swift in Sources */,
 				26BE620D2273EB2D00C6656F /* TodayViewCell.swift in Sources */,

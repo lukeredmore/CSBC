@@ -34,16 +34,16 @@
                         </constraints>
                     </imageView>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="rwm-8L-oRy">
-                        <rect key="frame" x="95" y="16.5" width="189" height="62.5"/>
+                        <rect key="frame" x="95" y="15" width="189" height="65.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lockheed Martin" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pwe-4B-bCN">
-                                <rect key="frame" x="0.0" y="0.0" width="189" height="21.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="189" height="22.5"/>
                                 <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
                                 <color key="textColor" name="CSBCDefaultText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A really long organization name" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CKN-RT-hDb">
-                                <rect key="frame" x="0.0" y="24.5" width="189" height="38"/>
+                                <rect key="frame" x="0.0" y="25.5" width="189" height="40"/>
                                 <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="17"/>
                                 <color key="textColor" name="CSBCGrayLabel"/>
                                 <nil key="highlightedColor"/>

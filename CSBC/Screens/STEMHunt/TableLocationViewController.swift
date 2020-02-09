@@ -73,13 +73,23 @@ class TableLocationViewController: CSBCSearchViewController<STEMTableModel, STEM
     
     func receiveSet(_ modelList : Set<STEMTableModel>, _ _ : Bool) {
         loadTable(withData: modelList, isDummyData: false)
+        
+        let startDateString = "02/20/2020 17:00:00"
+        let endDateString = "02/21/2020 06:00:00"
+        let fmt = DateFormatter()
+        fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
+        let startDate = fmt.date(from: startDateString)!
+        let endDate = fmt.date(from: endDateString)!
+        if UserDefaults.standard.bool(forKey: "userStartedSTEM") == false && Date() > startDate && Date() < endDate {
+            UserDefaults.standard.set(true, forKey: "userStartedSTEM")
+            present(STEMIntroViewController(), animated: true)
+        }
+        
         if userDidFinishScavengerHunt(listOfVendors: modelList) {
             print("User has won")
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                  self.present(STEMSuccessViewController(), animated: true)
             })
-        } else {
-            print("user hasn't won")
         }
     }
     
