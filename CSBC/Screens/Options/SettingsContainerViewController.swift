@@ -50,6 +50,12 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
         if error != nil { print("Error signing into Google: ", error!); return }
         guard let userEmailComponents = user?.profile.email.components(separatedBy: "@") else { return }
         
+        if userEmailComponents[0] == "lredmore" {
+            Messaging.messaging().subscribe(toTopic: "debugDevice") { error in
+                if let error = error { print("Error subscribing to topics: \(error)") }
+                else { print("Subscribed to debugDevice") }
+            }
+        }
         if allowedUserEmails.keys.contains(userEmailComponents[0]) && userEmailComponents[1].contains("syrdio") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil { //prefix has no numbers, user is in explicit admins, and email ends in syrdio
             print("setting button title to sign out")
             loginButton.setTitle("Sign Out", for: .normal)
@@ -75,6 +81,10 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
         defaults.set(false, forKey: "userIsATeacher")
         defaults.set(false, forKey: "userIsAnAdmin")
         tableVC.refreshTable()
+        Messaging.messaging().unsubscribe(fromTopic: "debugDevice") { error in
+            if let error = error { print("Error unsubscribing from topics: \(error)") }
+            else { print("Unsubscribed from debugDevice") }
+        }
     }
     ///GIDSignInDelegate Method
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {

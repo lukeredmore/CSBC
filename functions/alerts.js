@@ -3,10 +3,13 @@ if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS
 const admin = require('firebase-admin')
 const daySchedule = require('./day-schedule.js')
 const cheerio = require('cheerio')
+const passes = require('./passes.js')
 
 
 //MARK: Snow day methods
 exports.update = async (context) => {
+
+  passes.checkForOutstandingStudents()
 
   let response = await checkForAlerts()
   console.log(JSON.stringify(response))

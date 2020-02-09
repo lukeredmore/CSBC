@@ -55,8 +55,8 @@ class PassesRetriever {
         }
     }
     private func parseStudentForPassInfo(_ student : [String:Any], gradeLevelMap : [Int : Int]) -> AllStudentPassInfo? {
-        let dateTimeFormatter = DateFormatter()
-        dateTimeFormatter.dateFormat = "yyyy-MM-dd hh:mm:ss a"
+        let dateTimeFormatter = ISO8601DateFormatter()
+        dateTimeFormatter.formatOptions =  [.withInternetDateTime, .withFractionalSeconds]
         
         guard let studentName = student["name"] as? String,
             let studentGraduationYear = student["graduationYear"] as? Int,
