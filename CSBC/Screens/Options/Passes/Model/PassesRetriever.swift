@@ -86,7 +86,6 @@ class PassesRetriever {
     }
     private func parseSignedOutStudentForPassInfo(_ student : AllStudentPassInfo) -> SignedOutStudentPassInfo? {
         
-//        let statusArray = student.currentStatus.location.components(separatedBy: " - ")
         guard student.currentStatus.location.lowercased().contains("out") else { return nil }
         return SignedOutStudentPassInfo(
             name: student.name,
