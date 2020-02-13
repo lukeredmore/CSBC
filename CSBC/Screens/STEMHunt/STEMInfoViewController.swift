@@ -62,7 +62,7 @@ class STEMInfoViewController: UIViewController, UITextFieldDelegate {
     //MARK: UITextFieldDelegate
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard string == "\n" else { return true }
-        if model.answer.lowercased().replacingOccurrences(of: " ", with: "").components(separatedBy: ",").contains(textField.text?.lowercased().replacingOccurrences(of: " ", with: "") ?? "") {
+        if model.answer.lowercased().replacingOccurrences(of: " ", with: "").components(separatedBy: ",").contains(textField.text?.lowercased().replacingOccurrences(of: ",", with: "").replacingOccurrences(of: " ", with: "") ?? "") {
             completion?()
             answerLabel.delegate = nil
             answerLabel.isEnabled = false
