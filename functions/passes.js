@@ -131,7 +131,7 @@ function getCurrentPeriod() {
     month: '2-digit', 
     year: 'numeric',
     hour12: false
-  }).split('/').reverse().join('-')
+  }).split('/')
   let timeString = (new Date()).toLocaleTimeString('en-US', { 
     timeZone: "America/New_York",
     hour: '2-digit', 
@@ -139,7 +139,7 @@ function getCurrentPeriod() {
     second: 'numeric',
   hour12: false 
   })
-  let dateTimeString = dateString + " " + timeString
+  let dateTimeString = dateString[2] + "-" + dateString[0] + "-" + dateString[1] + " " + timeString
   const currentDate = new Date(dateTimeString)
 
   for (var i = 1; i < constants.TIMES_OF_PERIOD_START.length; i++) {
