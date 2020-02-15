@@ -31,6 +31,9 @@ class HomeView: UIView, AlertDelegate {
         super.init(frame: .zero)
         rebuild()
         splashView = CSBCSplashView(addToView: self)
+        UserDefaults.standard.set(nil, forKey: "customNavBarColor")
+        UserDefaults.standard.set(nil, forKey: "customSearchFieldColor")
+        UserDefaults.standard.set(nil, forKey: "customBarColor")
     }
     func rebuild() {
         print("Building home view with alert message of: ", alertMessage ?? "nil")
@@ -98,9 +101,9 @@ class HomeView: UIView, AlertDelegate {
         let endDateString = "02/21/2020 06:00:00"
         let fmt = DateFormatter()
         fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
-        let startDate = fmt.date(from: startDateString)!
-        let endDate = fmt.date(from: endDateString)!
-        if Date() < startDate || Date() > endDate { return 0.0 }
+        guard let startDate = fmt.date(from: startDateString),
+            let endDate = fmt.date(from: endDateString),
+            Date() > startDate && Date() < endDate else { return 0.0 }
         
         let stemViewHeight : CGFloat = 180
         let backgroundView = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - stemViewHeight, width: UIScreen.main.bounds.width, height: stemViewHeight))

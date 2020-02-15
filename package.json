@@ -1,0 +1,20 @@
+{
+  "name": "csbc",
+  "version": "1.9.1",
+  "description": "Official iOS app of the Catholic Schools of Broome County",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukeredmore/CSBC.git"
+  },
+  "author": "Luke Redmore for the Catholic Schools of Broome County",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukeredmore/CSBC/issues"
+  },
+  "homepage": "https://github.com/lukeredmore/CSBC#readme",
+  "dependencies": {}
+}
