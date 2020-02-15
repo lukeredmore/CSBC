@@ -9,7 +9,14 @@
 import UIKit
 
 class CSBCSearchUI : UIView {
-    lazy var headerHeightConstraint = header.heightAnchor.constraint(equalToConstant: SearchScrollDelegate.maxHeaderHeight)
+    var startingHeaderHeight : CGFloat {
+        if #available(iOS 13.0, *) {
+            return SearchScrollDelegate.maxHeaderHeight
+        } else {
+            return SearchScrollDelegate.minHeaderHeight
+        }
+    }
+    lazy var headerHeightConstraint = header.heightAnchor.constraint(equalToConstant: startingHeaderHeight)
     lazy var backgroundButton = createBackgroundButton()
     let emptyDataLabel = UILabel()
     
@@ -133,25 +140,28 @@ class CSBCSearchUI : UIView {
         controller.searchBar.translatesAutoresizingMaskIntoConstraints = false
         controller.searchBar.removeFromSuperview()
         header.addSubview(controller.searchBar)
-        header.addConstraints([
-            controller.searchBar.bottomAnchor.constraint(equalTo: bar.topAnchor),
-            controller.searchBar.leadingAnchor.constraint(equalTo: header.leadingAnchor),
-            controller.searchBar.trailingAnchor.constraint(equalTo: header.trailingAnchor)
-        ])
+        if #available(iOS 13.0, *) {
+            header.addConstraints([
+                controller.searchBar.bottomAnchor.constraint(equalTo: bar.topAnchor),
+                controller.searchBar.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+                controller.searchBar.trailingAnchor.constraint(equalTo: header.trailingAnchor)
+            ])
+        }
+        
         
         controller.dimsBackgroundDuringPresentation = false
         controller.searchBar.sizeToFit()
         controller.searchBar.tintColor = .white
         controller.searchBar.isTranslucent = false
         controller.searchBar.barTintColor = navBarColor
-        controller.searchBar.searchField.backgroundColor = searchFieldColor
-        controller.searchBar.searchField.textColor = .white
+        controller.searchBar.searchTextField.backgroundColor = searchFieldColor
+        controller.searchBar.searchTextField.textColor = .white
         controller.searchBar.backgroundImage = UIImage()
         controller.searchBar.clipsToBounds = true
         controller.searchBar.placeholder = configuration.searchPlaceholder
         controller.searchBar.setPlaceholder(textColor: .white)
         controller.searchBar.setSearchImage(color: .white)
-        controller.searchBar.searchField.clearButtonMode = .never
+        controller.searchBar.searchTextField.clearButtonMode = .never
     }
     private func configureTableView(_ tableView : UITableView) {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -213,10 +223,10 @@ class CSBCSearchUI : UIView {
 
 fileprivate extension UISearchBar {
     
-    func setPlaceholder(textColor: UIColor) { searchField.setPlaceholder(textColor: textColor) }
+    func setPlaceholder(textColor: UIColor) { searchTextField.setPlaceholder(textColor: textColor) }
     
     func setSearchImage(color: UIColor) {
-        guard let imageView = searchField.leftView as? UIImageView else { return }
+        guard let imageView = searchTextField.leftView as? UIImageView else { return }
         imageView.tintColor = color
         imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
     }

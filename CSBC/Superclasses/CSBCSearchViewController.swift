@@ -188,13 +188,15 @@ class CSBCSearchViewController<T: Searchable, Cell: UITableViewCell>: UIViewCont
     //MARK: UITableView's UIScrollViewDelegate Methods
     private lazy var scrollDelegate = SearchScrollDelegate(headerConstraint: ui.headerHeightConstraint, tableView: tableView, view: view)
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !searchController.isActive else { return }
+        guard !searchController.isActive, #available(iOS 13, *) else { return }
         scrollDelegate.scrollViewDidScroll(scrollView)
     }
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard #available(iOS 13, *) else { return }
         scrollDelegate.scrollViewDidEndDecelerating(scrollView)
     }
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard #available(iOS 13, *) else { return }
         scrollDelegate.scrollViewDidEndDragging(scrollView, willDecelerate: decelerate)
     }
     

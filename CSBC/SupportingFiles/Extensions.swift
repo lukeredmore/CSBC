@@ -114,16 +114,6 @@ extension UIColor {
     static var stemLightBlue: UIColor { #colorLiteral(red: 0.3411986075, green: 0.6002656557, blue: 1, alpha: 1) }
 }
 
-extension UISearchBar {
-    var searchField: UITextField {
-        if #available(iOS 13.0, *) {
-            return searchTextField
-        } else {
-            return subviews.first?.subviews.first { $0.isKind(of: UITextField.self) } as! UITextField
-        }
-    }
-}
-
 extension String {
     func height(withConstrainedWidth width: CGFloat, font: UIFont) -> CGFloat {
         let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
