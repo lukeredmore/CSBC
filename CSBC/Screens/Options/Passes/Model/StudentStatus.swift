@@ -25,9 +25,8 @@ struct StudentStatus : Searchable {
     
     var searchElements: String {
         let dateSearchFormatter = DateFormatter()
-        dateSearchFormatter.dateFormat = "EEEE MMMM MM/dd/yy MM/dd/yyyy M/d/yyyy M/d/yy"
-        let searchString = dateSearchFormatter.string(from: time)
-        return "\(location) \(time) \(searchString)"
+        dateSearchFormatter.dateFormat = " MM/dd/yy h:mm a"
+        return location + dateSearchFormatter.string(from: time)
     }
     
     static var shouldStayGroupedWhenSearching: Bool? { true }
