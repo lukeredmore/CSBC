@@ -137,13 +137,16 @@ async function createAndSendDayNotification(sendingForReal = true) {
   return
 }
 //Sends day schedule notifications every morning
-exports.createAndSend = async (context) => {
-    const manuallyStopped = false
-    if (manuallyStopped === false) {
-      createAndSendDayNotification()
-    }
-    const lunch = require('./lunch.js')
-    await lunch.getLinks()
+exports.createAndSend = async () => {
+    createAndSendDayNotification()
+    await require("./lunch.js").getLinks()
+
+    /*Reset schedule to default*/
+    await admin
+      .database()
+      .ref("Schools/seton/scheduleInUse")
+      .set(1)
+    return null
 }
 
 exports.sendFromAdmin = async (req, res) => {
