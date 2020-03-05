@@ -18,6 +18,14 @@ exports.addStudentToPassDatabase = functions.region('us-east4').runWith(opts).ht
 exports.toggleStudentPassStatus = functions.region('us-east4').runWith(opts).https.onRequest(passes.toggleHandler)
 
 
+const schedule = require("./schedule.js")
+exports.createTimesInUse = functions.database.ref("/Schools/seton/scheduleInUse").onUpdate(schedule.createTimesInUse)
+
+
+const test = require("./test.js")
+exports.test = functions.region("us-east4").runWith(opts).https.onRequest(test.test)
+
+
 const alexa = require("./alexa.js")
 exports.getDayForDate = functions.region('us-east4').https.onRequest(alexa.getDayForDate)
 
@@ -26,8 +34,11 @@ const events = require('./events.js')
 exports.autoUpdateEvents = functions.runWith(opts).region('us-east4').pubsub.schedule('25 * * * *').timeZone('America/New_York').onRun(events.updateEvents)
 
 
-const notifications = require('./morning-notifications.js')
-exports.scheduledDayScheduleNotifications = functions.region('us-east4').pubsub.schedule('00 07 * * *').timeZone('America/New_York').onRun(notifications.createAndSend)
+const morningNotifications = require('./morning-notifications.js')
+exports.scheduledDayScheduleNotifications = functions.region("us-east4").pubsub.schedule("00 07 * * *").timeZone("America/New_York").onRun(morningNotifications.createAndSend)
+
+
+const notifications = require('./notifications.js')
 exports.sendMessageFromAdmin = functions.region('us-east4').runWith(opts).https.onRequest(notifications.sendFromAdmin)
 
 

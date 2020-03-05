@@ -8,6 +8,8 @@ const daySchedule = require("./day-schedule.js")
 const nodemailer = require("nodemailer")
 const cors = require("cors")({ origin: true })
 const privateFiles = require("./private-files.json")
+const schedule = require('./schedule.js')
+const test = require('./test.js')
 
 //MARK: Methods for pass system
 exports.toggleHandler = async (req, res) => {
@@ -99,7 +101,7 @@ exports.toggleHandler = async (req, res) => {
       forceSignToTest.replace(/^\w/, c => c.toUpperCase()) +
       location
   } else {
-    const period = await getCurrentPeriod()
+    const period = await schedule.getCurrentPeriod()
     let studentAlreadySignedIntoThisPeriod = false
     for (var i = currentStudentPassData["log"].length - 1; i >= 0; i--) {
       const entry = currentStudentPassData["log"][i]
@@ -191,43 +193,7 @@ exports.addHandler = async (req, res) => {
     })
   return res.status(500)
 }
-async function getCurrentPeriod() {
-  const dateString = new Date()
-    .toLocaleDateString("en-US", {
-      timeZone: "America/New_York",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric",
-      hour12: false
-    })
-    .split("/")
-  let timeString = new Date().toLocaleTimeString("en-US", {
-    timeZone: "America/New_York",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "numeric",
-    hour12: false
-  })
-  let dateTimeString =
-    dateString[2] + "-" + dateString[0] + "-" + dateString[1] + " " + timeString
-  const currentDate = new Date(dateTimeString)
 
-  let todaysSchedule = await getCurrentSchedule()
-  for (var i = 1; i < todaysSchedule.length; i++) {
-    let lastBellDate = new Date(
-      dateString + " " + todaysSchedule[i - 1]
-    )
-    let nextBellDate = new Date(
-      dateString + " " + todaysSchedule[i]
-    )
-
-    if (currentDate >= lastBellDate && currentDate < nextBellDate) {
-      console.log("we are in period " + i + "\n")
-      return i
-    }
-  }
-  return 0
-}
 
 exports.checkForOutstandingStudents = async () => {
   let allStudentsDataObject = (
@@ -258,7 +224,7 @@ exports.checkForOutstandingStudents = async () => {
   console.log(JSON.stringify(outstandingStudents))
 
   await notifyOfOutstandingStudents(outstandingStudents)
-  await sendPeriodToDebug()
+  await test.sendPeriodToDebug()
 }
 async function notifyOfOutstandingStudents(studentArray) {
   if (studentArray.length === 0) {
@@ -329,114 +295,3 @@ function createGradeMap() {
   }
   return gradeMap
 }
-
-async function sendPeriodToDebug() {
-  let minutes = new Date().getMinutes()
-  console.log(minutes + "  and   " + Math.floor((minutes / 10) % 10))
-  if (minutes % 2 !== 0 || Math.floor((minutes / 10) % 10) % 2 !== 0) {
-    return
-  }
-
-  let period = await getCurrentPeriod()
-  let alertNotif = {
-    notification: {
-      title: "Current period testing",
-      body: "The app says its now period " + period
-    },
-    android: {
-      priority: "HIGH",
-      ttl: 86400000,
-      notification: { sound: "default" }
-    },
-    apns: {
-      payload: {
-        aps: {
-          sound: "default"
-        }
-      }
-    },
-    condition: "('debugDevice' in topics)"
-  }
-
-  await admin
-    .messaging()
-    .send(alertNotif)
-    .then(response => {
-      console.log(
-        "Successfully sent period message to debug: ",
-        JSON.stringify(response)
-      )
-      return
-    })
-    .catch(error => {
-      console.log("Error sending message: ", error)
-      return
-    })
-}
-
-//Methods to find current schedule
-const getCurrentSchedule = async () => {
-  const scheduleInUse = (
-    await admin
-      .database()
-      .ref("Schools/seton/scheduleInUse")
-      .once("value")
-  ).val()
-
-  const allSchedules = (
-    await admin
-      .database()
-      .ref("Schools/seton/schedules")
-      .once("value")
-  ).val()
-  let filteredSchedule = allSchedules.filter(e => {
-    return e.id === scheduleInUse
-  })
-  if (filteredSchedule) {
-    if (filteredSchedule[0].times && validateTimes(filteredSchedule[0].times)) {
-      return normalTimeFrom24HrTimeArray(filteredSchedule[0].times)
-    }
-  }
-  console.log("Array validation failed, regular schedule returning:")
-  return constants.DEFAULT_TIMES_OF_PERIOD_START
-}
-
-const normalTimeFrom24HrTimeArray = arr => {
-  arr = arr.map(strTime => {
-    let comp = strTime.split(":")
-    let hour = Number(comp[0])
-    let minute = Number(comp[1])
-    if (minute === 0) {
-      minute = 59
-      hour = hour === 0 ? 23 : hour - 1
-    } else {
-      minute -= 1
-    }
-    if (hour === 0) {
-      return "12:" + formatNumber(minute) + " AM"
-    } else if (hour < 13) {
-      return hour + ":" + formatNumber(minute) + " AM"
-    } else {
-      hour -= 12
-      return hour + ":" + formatNumber(minute) + " PM"
-    }
-  })
-  return arr
-}
-
-const validateTimes = arr => {
-  for (var i = 1; i < arr.length; i++) {
-    let previousNum = Number(arr[i - 1].replace(":", ""))
-    let currentNum = Number(arr[i].replace(":", ""))
-    if (previousNum && currentNum) {
-      if (previousNum >= currentNum) {
-        return false
-      }
-    } else {
-      return false
-    }
-  }
-  return true
-}
-
-const formatNumber = n => ("0" + n).slice(-2)

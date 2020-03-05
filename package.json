@@ -16,5 +16,7 @@
     "url": "https://github.com/lukeredmore/CSBC/issues"
   },
   "homepage": "https://github.com/lukeredmore/CSBC#readme",
-  "dependencies": {}
+  "dependencies": {
+    "async-request": "^1.2.0"
+  }
 }
