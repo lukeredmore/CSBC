@@ -14,6 +14,10 @@ exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').ru
 
 
 const passes = require("./passes.js")
+exports.deleteStudentFromPassDatabase = functions
+  .region("us-east4")
+  .runWith(opts)
+  .https.onRequest(passes.deleteHandler)
 exports.addStudentToPassDatabase = functions.region('us-east4').runWith(opts).https.onRequest(passes.addHandler)
 exports.toggleStudentPassStatus = functions.region('us-east4').runWith(opts).https.onRequest(passes.toggleHandler)
 

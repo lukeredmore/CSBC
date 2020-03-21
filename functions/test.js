@@ -1,8 +1,14 @@
+if (process.env.FUNCTIONS_EMULATOR) {
+  process.env.GOOGLE_APPLICATION_CREDENTIALS =
+    "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
+}
 const schedule = require('./schedule.js')
+const lunch = require('./lunch.js')
 const admin = require('firebase-admin')
 
+
 exports.test = async (req, res) => {
-  let period = await schedule.getCurrentPeriod()
+  let period = await lunch.getLinks()
   res.send(String(period))
 }
 

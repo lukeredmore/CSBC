@@ -9,7 +9,6 @@ const nodemailer = require("nodemailer")
 const cors = require("cors")({ origin: true })
 const privateFiles = require("./private-files.json")
 const schedule = require('./schedule.js')
-const test = require('./test.js')
 
 //MARK: Methods for pass system
 exports.toggleHandler = async (req, res) => {
@@ -57,17 +56,12 @@ exports.toggleHandler = async (req, res) => {
     return res.status(400).send("Invalid student ID number")
 
   //Get existing student data
-  let currentStudentPassData = (
-    await admin
-      .database()
-      .ref("PassSystem/Students/" + id)
-      .once("value")
-  ).val()
-  if (
-    currentStudentPassData === null ||
-    typeof currentStudentPassData === "undefined"
-  )
+  let allStudents = await getAllStudentsWithPushID()
+  let currentStudentPassDataArr = allStudents.filter(e => e[1].id.includes(id))
+  if (currentStudentPassDataArr.length === 0)
     return res.status(400).send("Student not found with ID number: " + id)
+    let currentStudentPassData = currentStudentPassDataArr[0][1]
+    let currentStudentID = currentStudentPassDataArr[0][0]
 
   //Move current location info to log
   if (typeof currentStudentPassData["log"] === "undefined") {
@@ -130,79 +124,97 @@ exports.toggleHandler = async (req, res) => {
   currentStudentPassData["timeOfStatusChange"] = timeOfStatusChange
 
   //Update firebase
-  await admin
-    .database()
-    .ref("PassSystem/Students/" + id)
-    .set(currentStudentPassData, error => {
-      if (error) {
-        return res.status(400).send(error)
-      } else {
-        return res.status(200).json({
-          "Database updated sucessfully for id": id,
-          "New Pass Data": currentStudentPassData
-        })
-      }
+  try {
+    await admin.database().ref("PassSystem/Students/" + currentStudentID).set(currentStudentPassData)
+    return res.status(200).json({
+      "Database updated sucessfully for id": id,
+      "New Pass Data": currentStudentPassData
     })
-  return res.status(500)
+  } catch (e) {
+    return res.status(500).send(e)
+  }
 }
 exports.addHandler = async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*")
+  res.set("Access-Control-Allow-Methods", "GET, POST")
+  res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+  res.set("Access-Control-Max-Age", "86400")
+
   const id = Number(req.query.studentIDNumber)
   const graduationYear = Number(req.query.graduationYear)
-  const name = req.query.name.replace("_", " ")
+  const name = req.query.name ? req.query.name.replace("_", " ") : null
   if (
     isNaN(id) ||
-    id > 9999999999 ||
     isNaN(graduationYear) ||
-    graduationYear < 2000 ||
-    graduationYear > 5000 ||
-    name === null
-  )
-    return res.status(400).send("Invalid student parameters")
+    graduationYear < Number(constants.LAST_DAY_OF_SCHOOL.split("/")[2]) ||
+    graduationYear > Number(constants.LAST_DAY_OF_SCHOOL.split("/")[2]) + 6 ||
+    !name
+  ) {
+    res.status(400).json({ error: "Invalid student parameters." })
+    return 
+  }
 
-  let studentToAdd = (
-    await admin
-      .database()
-      .ref("PassSystem/Students/" + id)
-      .once("value")
-  ).val()
-  if (studentToAdd !== null && typeof studentToAdd !== "undefined")
-    return res.status(400).send("This ID has already been added")
+
+    let allStudentsArray = await getAllStudents()
+    let existingStudentArr = allStudentsArray.filter(e => e.id.includes(id))
+    if (existingStudentArr.length > 0) {
+      res.status(400).json({error: "This ID has already been assigned to " + existingStudentArr[0].name + "."})
+      return
+    }
 
   studentToAdd = {
     name: name,
     graduationYear: graduationYear,
+    id: [id],
     timeOfStatusChange: new Date().toISOString(),
     currentStatus: "Signed In"
   }
 
-  await admin
-    .database()
-    .ref("PassSystem/Students")
-    .child(id)
-    .set(studentToAdd, error => {
-      if (error) return res.status(500).send("Error: " + error)
-      else
-        return res
-          .status(200)
-          .json(
-            name +
-              " with ID of " +
-              id +
-              " has successfully been added to the pass system."
-          )
+  try {
+    await admin.database().ref("PassSystem/Students").push(studentToAdd)
+    res.status(200).json({
+      message: name + " with ID of " + id + " has successfully been added to the pass system.", 
+      status: 200
     })
-  return res.status(500)
+  } catch (e) {
+    res.status(500).json({ error: e })
+  }
+}
+exports.deleteHandler = async (req, res) => {
+  res.set("Access-Control-Allow-Origin", "*")
+  res.set("Access-Control-Allow-Methods", "GET, POST")
+  res.set(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  )
+  res.set("Access-Control-Max-Age", "86400")
+
+  //Find element to delete
+  let allStudentsDataArray = await getAllStudentsWithPushID()
+  const studentToDelete = allStudentsDataArray.find(e => e[1].id.includes(Number(req.query.studentIDNumber)))
+  
+  //Ensure element exists
+  if (!studentToDelete)
+    return res.status(400).json({ error: "ID " + req.query.studentIDNumber + " does not exist." })
+
+  //Remove element from Firebase  
+  try {
+    await admin.database().ref("PassSystem/Students/" + studentToDelete[0]).remove()
+    return res.status(200).json({
+      error: null,
+      message:
+        allStudentsDataArray[0][1].name +
+        " with ID " +
+        req.query.studentIDNumber +
+        " has successfully been removed from the system."
+    })
+  } catch (e) {
+    return res.status(500).json({ error: e })
+  }
 }
 
-
 exports.checkForOutstandingStudents = async () => {
-  let allStudentsDataObject = (
-    await admin
-      .database()
-      .ref("PassSystem/Students")
-      .once("value")
-  ).val()
-  let allStudentsDataArray = Object.values(allStudentsDataObject)
+  let allStudentsDataArray = await getAllStudents()
   let outstandingStudents = []
   for (student of allStudentsDataArray) {
     if (!student.currentStatus.toLowerCase().includes("out")) {
@@ -224,7 +236,6 @@ exports.checkForOutstandingStudents = async () => {
   console.log(JSON.stringify(outstandingStudents))
 
   await notifyOfOutstandingStudents(outstandingStudents)
-  await test.sendPeriodToDebug()
 }
 async function notifyOfOutstandingStudents(studentArray) {
   if (studentArray.length === 0) {
@@ -294,4 +305,24 @@ function createGradeMap() {
     seniorsGradYear += 1
   }
   return gradeMap
+}
+
+async function getAllStudents() {
+  let allStudentsDataObject = (
+    await admin
+      .database()
+      .ref("PassSystem/Students")
+      .once("value")
+  ).val()
+  return allStudentsDataObject ? Object.values(allStudentsDataObject) : []
+}
+
+async function getAllStudentsWithPushID() {
+  let allStudentsDataObject = (
+    await admin
+      .database()
+      .ref("PassSystem/Students")
+      .once("value")
+  ).val()
+  return allStudentsDataObject ? Object.entries(allStudentsDataObject) : []
 }

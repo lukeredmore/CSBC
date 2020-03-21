@@ -1,7 +1,7 @@
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
 const cheerio = require('cheerio')
-const request = require('async-request')
+const fetch = require('node-fetch')
 
 exports.getLinks = async function() {
     let lunchOverride = (await admin.database().ref('Lunch/Override').once('value')).val()
@@ -11,9 +11,9 @@ exports.getLinks = async function() {
     if (!currentLunchLinks) { currentLunchLinks = {} }
 
     const lunchLinks = {
-        "seton": await getSetonLunchLink(currentLunchLinks.seton),
-        "johnjames": await getJohnAndJamesLunchLink(currentLunchLinks.johnjames),
-        "saints": "https://csbcsaints.org/wp-content/uploads/Menu.doc"
+      seton: await getSetonLunchLink(currentLunchLinks.seton),
+      johnjames: await getJohnAndJamesLunchLink(currentLunchLinks.johnjames),
+      saints: "https://csbcsaints.org/wp-content/uploads/menu.pdf"
     }
     await admin.database().ref('Lunch/Links').set(lunchLinks, error=> {
         if (error) {
@@ -28,27 +28,32 @@ exports.getLinks = async function() {
 async function getSetonLunchLink(defaultLink) {
   let link = defaultLink
   try {
-    let response = await request('https://www.csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/')
-    const $ = cheerio.load(response.body)
+    let response = await fetch("https://www.csbcsaints.org/our-schools/seton-catholic-central/about-scc/about/")
+    let html = await response.text()
+
+    const $ = cheerio.load(html)
     $(".mega-menu-link").each((i, e) => {
       const $ = cheerio.load(e)
       const text = $.text()
       if (text.toLowerCase().includes("menu")) {
-        link = $('a').attr('href')
+        link = $("a").attr("href")
       }
     })
     return link
+  } catch (error) {
+    console.log(error)
+    return defaultLink
   }
-  catch(error) { console.log(error); return defaultLink }
 }
 
 async function getJohnAndJamesLunchLink(defaultLink) {
   let link = defaultLink
   try {
-    let response = await request('https://www.rockoncafe.org/Menus_B.aspx', {
+    let response = await fetch('https://www.rockoncafe.org/Menus_B.aspx', {
       headers: {'user-agent': 'node.js'}
   })
-    const $ = cheerio.load(response.body)
+  let html = await response.text()
+    const $ = cheerio.load(html)
     $(".linksList").each((i, e) => {
       const $ = cheerio.load(e)
       $('li a').each((i, cell) => {
@@ -59,6 +64,7 @@ async function getJohnAndJamesLunchLink(defaultLink) {
         }
       })
     })
+    console.log(link)
     return link
   }
   catch(error) { console.log(error); return defaultLink }

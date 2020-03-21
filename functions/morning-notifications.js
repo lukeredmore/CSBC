@@ -11,10 +11,10 @@ exports.createAndSend = async () => {
   /*Reset schedule to default*/
   await admin.database().ref("Schools/seton/scheduleInUse").set(1)
 
-  await require("./lunch.js").getLinks()
-
   await createAndSendDayNotification()
   await createAndSendAlertNotification()
+
+  await require("./lunch.js").getLinks()
 
   return null
 }
@@ -44,10 +44,7 @@ async function createAndSendDayNotification(sendingForReal = true) {
   console.log("esDay: " + esDay)
   let messagesToSend = createNotificationArray(hsDay, esDay)
 
-  if (
-    messagesToSend.length > 0 &&
-    sendingForReal & (hsDayExists || esDayExists)
-  ) {
+  if (messagesToSend.length > 0 && sendingForReal) {
     admin
       .messaging()
       .sendAll(messagesToSend)
