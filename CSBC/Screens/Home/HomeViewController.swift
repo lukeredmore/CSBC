@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SafariServices
 
 /// Initial VC, segues into main screens of app, handles and displays critical alert methods
 final class HomeViewController: CSBCViewController, SegueDelegate {
@@ -44,13 +45,21 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
             lastSeguedWebView = segue.destination as? WebViewController }
     }
     
-    func stemViewTapped() {
+    func modalHoverViewTapped() {
+        let web = SFSafariViewController(url: URL(string: "https://www.csbcsaints.org/covid")!)
+        web.preferredBarTintColor = .csbcSafariVCBar
+        web.preferredControlTintColor = .csbcNavBarText
+        web.modalTransitionStyle = .coverVertical
+        web.modalPresentationStyle = .overCurrentContext
+        present(web, animated: true)
+        /*STEM NIGHT
         guard #available(iOS 13.0, *) else {
             alert("Not supported", message: "Please upgrade to iOS 13 to access exclusive STEM Night features.")
             return
         }
         navBarShouldAppearWhileTransitioning = false
         present(STEMNavigationController(), animated: true) { self.navBarShouldAppearWhileTransitioning = true }
+        */
     }
     
 }

@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 
 class SnowFallView: UIView {
     
@@ -25,9 +25,14 @@ class SnowFallView: UIView {
     private let completion : (() -> Void)?
     
     static func overlay(onView superV: UIView, count: Int, completion : (() -> Void)? = nil) {
-        let v = SnowFallView(frame: superV.bounds, count: count, completion: completion)
-        superV.addSubview(v)
-        v.startSnow()
+        Firebase.Database.database().reference(withPath: "BannerAlert/shouldSnow").observeSingleEvent(of: .value) { (snapshot) in
+            if snapshot.value as? Bool ?? true {
+                let v = SnowFallView(frame: superV.bounds, count: count, completion: completion)
+                superV.addSubview(v)
+                v.startSnow()
+            }
+        }
+       
     }
     
     init(frame: CGRect, count : Int, completion : (() -> Void)? = nil) {
@@ -62,7 +67,7 @@ class SnowFallView: UIView {
         }
     }
     
-    func startSnow() {
+    private func startSnow() {
         
         
         let rotAnimation = CABasicAnimation(keyPath: "transform.rotation.y")

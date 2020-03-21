@@ -12,7 +12,7 @@ import UIKit
 protocol SegueDelegate : class {
     func performSegue(withIdentifier identifier: String, sender: Any?)
     var lastSeguedWebView : WebViewController? { get }
-    func stemViewTapped()
+    func modalHoverViewTapped()
     var navigationController : UINavigationController? { get }
 }
 
@@ -68,9 +68,10 @@ class HomeView: UIView, AlertDelegate {
         barView.backgroundColor = .csbcYellow
         addSubview(barView)
         
-        let stemViewHeight = createStemView()
+        let modalHoverViewHeight = createCOVIDView()
         
-        let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0) - stemViewHeight))
+        
+        let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0) - modalHoverViewHeight))
         addSubview(collectionView)
         collectionView.dataSource = collectionController
         collectionView.delegate = collectionController
@@ -87,8 +88,8 @@ class HomeView: UIView, AlertDelegate {
         guard alertMessage != nil, alertMessage != "" else { return }
         SnowFallView.overlay(onView: self, count: 2)
     }
-    @objc func stemViewTapped() {
-        segueDelegate.stemViewTapped()
+    @objc func modalHoverViewTapped() {
+        segueDelegate.modalHoverViewTapped()
     }
     
     
@@ -149,9 +150,56 @@ class HomeView: UIView, AlertDelegate {
             subtitleLabel.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
         })
         
-        stemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(stemViewTapped)))
+        stemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(modalHoverViewTapped)))
         addSubview(stemView)
         return stemViewHeight
+    }
+    
+    func createCOVIDView() -> CGFloat {
+        
+        let covidViewHeight : CGFloat = 180
+        let backgroundView = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - covidViewHeight, width: UIScreen.main.bounds.width, height: covidViewHeight))
+        backgroundView.backgroundColor = .csbcBackground
+        addSubview(backgroundView)
+        
+        let covidView = UIView(frame: backgroundView.frame)
+        covidView.layer.cornerRadius = 20
+        covidView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        covidView.addVerticalGradient(from: .csbcAlertRed, to: .red)
+        
+        let titleLabel = UILabel()
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.text = "COVID-19"
+        titleLabel.font = UIFont(name: "DINCondensed-Bold", size: 87)
+        titleLabel.textColor = .white
+        let subtitleLabel = UILabel()
+        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        subtitleLabel.textAlignment = .center
+        subtitleLabel.textColor = .white
+        let imageAttachment = NSTextAttachment()
+        if #available(iOS 13.0, *) {
+            imageAttachment.image = UIImage(systemName: "arrow.right", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))?
+                .withTintColor(.white, renderingMode: .alwaysOriginal)
+        }
+        
+        let fullString = NSMutableAttributedString(string: "View Updates ")
+        fullString.append(NSAttributedString(attachment: imageAttachment))
+        subtitleLabel.attributedText = fullString
+        subtitleLabel.font = UIFont(name: "Gotham-Medium", size: 24)
+        subtitleLabel.numberOfLines = 0
+        covidView.addSubview(titleLabel)
+        covidView.addSubview(subtitleLabel)
+        covidView.addConstraints([
+            subtitleLabel.bottomAnchor.constraint(equalTo: covidView.bottomAnchor, constant: -40),
+            subtitleLabel.leadingAnchor.constraint(equalTo: covidView.leadingAnchor, constant: 16),
+            subtitleLabel.trailingAnchor.constraint(equalTo: covidView.trailingAnchor, constant: -16),
+            titleLabel.centerYAnchor.constraint(equalTo: covidView.centerYAnchor, constant: -10),
+            titleLabel.centerXAnchor.constraint(equalTo: covidView.centerXAnchor)
+        ])
+        
+        covidView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(modalHoverViewTapped)))
+        addSubview(covidView)
+        return covidViewHeight
     }
     
 }

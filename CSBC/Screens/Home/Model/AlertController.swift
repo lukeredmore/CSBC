@@ -26,13 +26,19 @@ class AlertController {
         Database.database().reference().removeAllObservers()
         alertReturned = false
         Database.database().reference().child("BannerAlertMessage").observe(.value) { (snapshot) in
-            if let alertMessage = snapshot.value as? String, alertMessage != "nil", alertMessage != "null" {
-                self.alertDelegate.alertMessage = alertMessage
-            } else {
-                self.alertDelegate.alertMessage = nil
+            Database.database().reference().child("BannerAlert/messageWithModalHover").observeSingleEvent(of: .value) { (snapshot2) in
+                
+                if let specialAlertMessage = snapshot2.value as? String, specialAlertMessage != "nil", specialAlertMessage != "null" {
+                    self.alertDelegate.alertMessage = specialAlertMessage
+                } else if let alertMessage = snapshot.value as? String, alertMessage != "nil", alertMessage != "null" {
+                    self.alertDelegate.alertMessage = alertMessage
+                } else {
+                    self.alertDelegate.alertMessage = nil
+                }
+                self.alertReturned = true
+                return
             }
-            self.alertReturned = true
-            return
+            
         }
         Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { (timer) in
             if !self.alertReturned {
