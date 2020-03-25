@@ -13,14 +13,9 @@ import GoogleSignIn
 ///Authenticates teachers and administrators through GIDSignIn in order to show hidden settings
 class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
     private let defaults = UserDefaults.standard
-    private let allowedUserEmails : [String:Schools] = [
-    "lredmore": .seton, "kehret": .seton, "ecarter": .seton, "mmartinkovic": .seton, "llevis": .seton,
-    "jfountaine": .john, "krosen": .john,
-    "wpipher": .saints, "kpawlowski": .saints,
-    "skitchen": .james, "isanyshyn": .james]
     
     @IBOutlet weak private var loginButton: UIButton! { didSet {
-        if defaults.bool(forKey: "userIsATeacher") || defaults.bool(forKey: "userIsAnAdmin") {
+        if defaults.bool(forKey: "passAccess") || defaults.bool(forKey: "notifyOutstanding") || defaults.value(forKey: "notificationSchool") as? String != nil {
             loginButton.setTitle("Sign Out", for: .normal)
         } else {
             loginButton.setTitle("Sign In", for: .normal)
@@ -34,9 +29,7 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
     
     @IBAction func signInButtonPressed(_ sender: UIButton) {
         if sender.currentTitle == "Sign Out" {
-            let alert = UIAlertController(title: nil, message: "Sucessfully signed out.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            alert("Sucessfully signed out.")
             signOut()
         } else if sender.currentTitle == "Sign In" {
             GIDSignIn.sharedInstance().signIn()
@@ -48,28 +41,42 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
     ///GIDSignInDelegate Method
     func sign(_ signIn: GIDSignIn?, didSignInFor user: GIDGoogleUser?, withError error: Error?) {
         if error != nil { print("Error signing into Google: ", error!); return }
-        guard let userEmailComponents = user?.profile.email.components(separatedBy: "@") else { return }
         
-        if userEmailComponents[0] == "lredmore" {
-            Messaging.messaging().subscribe(toTopic: "debugDevice") { error in
-                if let error = error { print("Error subscribing to topics: \(error)") }
-                else { print("Subscribed to debugDevice") }
+        Database.database().reference(withPath: "Users").observeSingleEvent(of: .value) { snapshot in
+            let allUsers = Array((snapshot.value as! [String:[String:Any]]).values)
+            let userWithEmail = allUsers.first { userObject -> Bool in
+                guard let email = userObject["email"] as? String else { return false }
+                return email == user?.profile.email
             }
+            if let userInSystem = userWithEmail {
+                let passAccess = userInSystem["passAccess"] as? Bool
+                let notificationSchool = Int(userInSystem["notificationSchool"] as? String ?? "")
+                let notifyOutstanding = userInSystem["notifyOutstanding"] as? Bool
+                
+                if notifyOutstanding ?? false || passAccess ?? false || notificationSchool != nil {
+                    self.addSignedInUserToPreferences(passAccess: passAccess, notificationSchool: notificationSchool, notifyOutstanding: notifyOutstanding)
+                    return
+                }
+            }
+            self.handleUnauthorizedUser()
+            
         }
-        if allowedUserEmails.keys.contains(userEmailComponents[0]) && userEmailComponents[1].contains("syrdio") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil { //prefix has no numbers, user is in explicit admins, and email ends in syrdio
-            print("setting button title to sign out")
-            loginButton.setTitle("Sign Out", for: .normal)
-            defaults.set(true, forKey: "userIsAnAdmin")
-            defaults.set(allowedUserEmails[userEmailComponents[0]]!.rawValue, forKey: "adminSchool")
-        } else if userEmailComponents[1].contains("syrdio") && userEmailComponents[0].rangeOfCharacter(from: .decimalDigits) == nil { //prefix has no numbers, and email ends in syrdio
-            loginButton.setTitle("Sign Out", for: .normal)
-            defaults.set(true, forKey: "userIsATeacher")
-        } else {
-            print("\(userEmailComponents[0]) is unauthorized")
-            let alert = UIAlertController(title: nil, message: "You must be a teacher or administrator to access these settings.", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
-            signOut()
+    }
+    private func handleUnauthorizedUser() {
+        alert("You must be an approved teacher or administrator to access these settings.")
+        signOut()
+        tableVC.refreshTable()
+    }
+    private func addSignedInUserToPreferences(passAccess: Bool?, notificationSchool: Int?, notifyOutstanding: Bool?) {
+        loginButton.setTitle("Sign Out", for: .normal)
+        defaults.set(notificationSchool, forKey: "notificationSchool")
+        defaults.set(passAccess, forKey: "passAccess")
+        defaults.set(notifyOutstanding, forKey: "notifyOutstanding")
+        if notifyOutstanding ?? false {
+            Messaging.messaging().subscribe(toTopic: "notifyOutstanding") { error in
+                if error != nil { print("Error subscribing to notifyOutstanding: \(error!)") }
+                else { print("Subscribed to notifyOutstanding") }
+            }
         }
         tableVC.refreshTable()
     }
@@ -78,19 +85,19 @@ class SettingsContainerViewController: UIViewController, GIDSignInDelegate {
     func signOut() {
         GIDSignIn.sharedInstance()?.disconnect()
         loginButton.setTitle("Sign In", for: .normal)
-        defaults.set(false, forKey: "userIsATeacher")
-        defaults.set(false, forKey: "userIsAnAdmin")
+        defaults.set(nil, forKey: "notificationSchool")
+        defaults.set(nil, forKey: "passAccess")
+        defaults.set(nil, forKey: "notifyOutstanding")
         tableVC.refreshTable()
-        Messaging.messaging().unsubscribe(fromTopic: "debugDevice") { error in
-            if let error = error { print("Error unsubscribing from topics: \(error)") }
-            else { print("Unsubscribed from debugDevice") }
+        Messaging.messaging().unsubscribe(fromTopic: "notifyOutstanding") { error in
+            if let error = error { print("Error unsubscribing from notifyOutstanding: \(error)") }
+            else { print("Unsubscribed from notifyOutstanding") }
         }
     }
     ///GIDSignInDelegate Method
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         if let error = error { print("Error signing out: ", error) }
         else { print("Google user disconnected") }
-        
     }
     
     

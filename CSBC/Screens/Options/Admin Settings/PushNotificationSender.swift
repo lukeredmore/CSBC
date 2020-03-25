@@ -11,11 +11,11 @@ import Foundation
 /// Takes a given notification and publishes it with preconfigured settings and reports to a completion
 class PushNotificationSender {
     
-    static func send(withMessage message : String, toSchool school : Schools, completion: ((String?) -> Void)? = nil) {
+    static func send(withMessage message : String, toSchoolInt schoolInt : Int, completion: ((String?) -> Void)? = nil) {
         let url = "https://us-east4-csbcprod.cloudfunctions.net/sendMessageFromAdmin"
         let params : [String : Any] = [
             "message": message,
-            "schoolInt": school.rawValue
+            "schoolInt": schoolInt
         ]
         guard let request = URLRequest.createWithParameters(fromURLString: url, parameters: params) else {
             print("Invalid URLRequest")

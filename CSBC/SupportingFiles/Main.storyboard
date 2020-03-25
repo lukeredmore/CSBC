@@ -1231,6 +1231,8 @@
                     <connections>
                         <outlet property="copyrightLabel" destination="0LD-El-sQi" id="lrQ-Kv-X2C"/>
                         <outlet property="deliverNotificationsSwitch" destination="eXl-SQ-b8L" id="2Sp-EM-0fW"/>
+                        <outlet property="firstAdminSettingsLabel" destination="SSC-pj-TH5" id="C0N-qi-7t1"/>
+                        <outlet property="secondAdminSettingsLabel" destination="Pfq-H0-sFi" id="d3X-7M-6Li"/>
                         <outlet property="versionLabel" destination="kBL-08-acR" id="zFY-hm-93D"/>
                         <outletCollection property="settingsSwitch" destination="hyF-i7-8cj" collectionClass="NSMutableArray" id="gDO-ip-EHZ"/>
                         <outletCollection property="settingsSwitch" destination="2Gt-0d-fGK" collectionClass="NSMutableArray" id="prX-Qd-a0X"/>

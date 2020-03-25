@@ -25,6 +25,20 @@
     ],
     "DATES_OF_NO_SCHOOL_IN_ELEMENTARY_SCHOOL": [
     "11/22/2019"
+    ],
+    "SCHOOL_NAMES": [
+        "Seton Catholic Central",
+        "St. John School",
+        "All Saints School",
+        "St. James School",
+        "Catholic Schools of Broome County"
+    ],
+    "SCHOOL_CONDITIONALS": [
+        "('setonNotifications' in topics)",
+        "('johnNotifications' in topics)",
+        "('saintsNotifications' in topics)",
+        "('jamesNotifications' in topics)",
+        "(('setonNotifications' in topics) || !('setonNotifications' in topics))"
     ]
 }
 

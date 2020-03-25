@@ -273,7 +273,7 @@ async function notifyOfOutstandingStudents(studentArray) {
   let sendersList = (
     await admin
       .database()
-      .ref("PassSystem/NotifyWhenOutstanding")
+      .ref("PassSystem/EmailWhenOutstanding")
       .once("value")
   ).val()
   sendersList = Object.values(sendersList).join(", ")

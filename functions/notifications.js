@@ -2,8 +2,8 @@ if (process.env.FUNCTIONS_EMULATOR) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS =
     "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
 }
+const constants = require('./constants.json')
 const admin = require("firebase-admin")
-
 
 const createNotificationObject = (title, body, condition) => {
   return {
@@ -31,37 +31,13 @@ const createNotificationObject = (title, body, condition) => {
 exports.createNotificationObject = createNotificationObject
 
 exports.sendFromAdmin = async (req, res) => {
-  const schoolNames = [
-    "Seton Catholic Central",
-    "St. John School",
-    "All Saints School",
-    "St. James School"
-  ]
-  const schoolConditionals = [
-    "setonNotifications",
-    "johnNotifications",
-    "saintsNotifications",
-    "jamesNotifications"
-  ]
-  let alertNotif = {
-    notification: {
-      title: schoolNames[req.query.schoolInt],
-      body: req.query.message
-    },
-    android: {
-      priority: "HIGH",
-      ttl: 86400000,
-      notification: { sound: "default" }
-    },
-    apns: {
-      payload: {
-        aps: {
-          sound: "default"
-        }
-      }
-    },
-    condition: "('" + schoolConditionals[req.query.schoolInt] + "' in topics)"
-  }
+  let alertNotif = createNotificationObject(
+    constants.SCHOOL_NAMES[req.query.schoolInt],
+    req.query.message,
+    constants.SCHOOL_CONDITIONALS[req.query.schoolInt]
+  )
+  console.log("Sending alert message with body of:")
+  console.log(alertNotif)
 
   await admin
     .messaging()
