@@ -22,28 +22,14 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     }
     
     private var imageView = UIImageView()
-    private var yearFormatter : DateFormatter {
-        let fmt = DateFormatter()
-        fmt.dateFormat = "yyyy"
-        return fmt
-    }
     
     private let sectionHeaders = ["Map","Contact","Hours of Operation"]
-    private let mapImageArray = ["setonMap","saintsMap","saintsMap","jamesMap"]
-    private let schoolNames = ["Seton Catholic Central", "St. John the Evangelist", "All Saints School", "St. James School"]
-    private let schoolAddresses = ["70 Seminary Avenue Binghamton, NY 13905", "9 Livingston Street Binghamton NY 13903", "1112 Broad Street Endicott NY 13760", "143 Main Street Johnson City NY 13790"]
-    private let schoolPhone : [[String]] = [["723.5307", "723.4811"],["723.0703","772.6210"],["748.7423"],["797.5444"]]
-    private let districtPhone = "723.1547"
-    private let schoolPrincipals = ["Matthew Martinkovic", "James Fountaine", "William Pipher", "Susan Kitchen"]
-    private let hoursOfOperation = [
-        ["Morning Bell: 8:13 AM", "Dismissal: 3:00 PM"],
-        ["Before School Care: From 7:00 AM","Start: 8:30 AM","Dismissal: 2:45 PM","After School Care: Until 5:45 PM"],
-        ["Before School Care: From 7:00 AM","Start: 8:20 AM","Dismissal: 2:45 PM","After School Care: Until 6:00 PM"],
-        ["Before School Care: From 7:00 AM","Start: 8:20 AM","Dismissal: 3:00 PM","After School Care: Until 6:00 PM"]
-    ]
-    
-    private let buildingImageArray = ["setonBuilding","johnBuilding","saintsBuilding","jamesBuilding"]
-    private var mailController : ContactMailDelegate!
+    private var address : String? { StaticData.readData(atPath: "\(schoolSelected.singleStringLowercase)/info/address") }
+    private var districtPhone : String? { StaticData.readData(atPath: "general/districtPhone") }
+    private var fax : String? { StaticData.readData(atPath: "\(schoolSelected.singleStringLowercase)/info/fax") }
+    private var phone : String? { StaticData.readData(atPath: "\(schoolSelected.singleStringLowercase)/info/phone") }
+    private var principalName : String? { StaticData.readData(atPath: "\(schoolSelected.singleStringLowercase)/info/principal") }
+    private var hoo : [String]? { StaticData.readData(atPath: "\(schoolSelected.singleStringLowercase)/info/hoo")?.components(separatedBy: "\n") }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,8 +38,6 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         view.addSubview(imageView)
-        
-        mailController = ContactMailDelegate(parent: self, schoolSelected: schoolSelected)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,16 +46,14 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     }
     
     override func schoolPickerValueChanged() {
-        mailController.schoolSelected = schoolSelected
-        
         let imageHeight = 0.4904*UIScreen.main.bounds.width
-                imageView.frame = CGRect(
-                    x: 0,
-                    y: 53,
-                    width: UIScreen.main.bounds.size.width,
-                    height: imageHeight)
+        imageView.frame = CGRect(
+            x: 0,
+            y: 53,
+            width: UIScreen.main.bounds.size.width,
+            height: imageHeight)
         tableView.contentInset.top = imageHeight
-        imageView.image = UIImage(named: buildingImageArray[schoolSelected.rawValue])!
+        imageView.image = UIImage(named: "\(schoolSelected.singleStringLowercase)Building")!
         tableView.setContentOffset(CGPoint(x: 0, y: -184), animated: false)
         tableView.reloadData()
     }
@@ -83,56 +65,51 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         case 0:
             return 1
         case 1:
-            return schoolPhone[schoolSelected.rawValue].count + 2
+            return fax?.hasData() ?? false ? 4 : 3
         case 2:
-            return hoursOfOperation[schoolSelected.rawValue].count
+            return hoo?.count ?? 0
         default:
             return 1
         }
         
     }
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sectionHeaders[section]
-    }
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { sectionHeaders[section] }
+    func numberOfSections(in tableView: UITableView) -> Int { 3 }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             let mapCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoMapCell") as! ContactInfoMapCell
-            mapCell.mapImageView.image = UIImage(named: mapImageArray[schoolSelected.rawValue])
-            mapCell.buildingLabel.text = schoolNames[schoolSelected.rawValue]
-            mapCell.addressLabel.text = schoolAddresses[schoolSelected.rawValue]
+            mapCell.mapImageView.image = UIImage(named: "\(schoolSelected.singleStringLowercase)Map")
+            mapCell.buildingLabel.text = schoolSelected.fullName
+            mapCell.addressLabel.text = address
             return mapCell
             
         } else if indexPath.section == 1 {
             let regularCell = tableView.dequeueReusableCell(withIdentifier: "contactInfoRegularCell")
             
-            if indexPath.row == 0 {
-                regularCell!.textLabel?.text = "Main: 607.\(schoolPhone[schoolSelected.rawValue][0])"
+            if indexPath.row == 0, let phone = phone {
+                regularCell!.textLabel?.text = "Main: \(phone)"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
-            } else if indexPath.row == 1 {
-                regularCell!.textLabel?.text = "District: 607.\(districtPhone)"
+            } else if indexPath.row == 1, let districtPhone = districtPhone {
+                regularCell!.textLabel?.text = "District: \(districtPhone)"
                 regularCell!.imageView!.image = UIImage(named: "phoneIcon")
-            } else if schoolPhone[schoolSelected.rawValue].count == 2 {
+            } else if fax?.hasData() ?? false {
                 if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "Fax: 607.\(schoolPhone[schoolSelected.rawValue][1])"
+                    regularCell!.textLabel?.text = "Fax: \(fax!)"
                     regularCell!.imageView!.image = UIImage(named: "faxIcon")
-                } else if indexPath.row == 3 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.rawValue]), Principal"
+                } else if indexPath.row == 3, principalName != nil {
+                    regularCell!.textLabel?.text = "\(principalName!), Principal"
                     regularCell!.imageView!.image = UIImage(named: "mailIcon")
                 }
-            } else if indexPath.row == 2 {
-                    regularCell!.textLabel?.text = "\(schoolPrincipals[schoolSelected.rawValue]), Principal"
-                    regularCell!.imageView!.image = UIImage(named: "mailIcon")
-                }
+            } else if indexPath.row == 2, principalName != nil {
+                regularCell!.textLabel?.text = "\(principalName!), Principal"
+                regularCell!.imageView!.image = UIImage(named: "mailIcon")
+            }
             
             return regularCell!
             
         } else {
             let hoursCell = tableView.dequeueReusableCell(withIdentifier: "hoursOfOperationCell")
-            hoursCell!.textLabel?.text = hoursOfOperation[schoolSelected.rawValue][indexPath.row]
-            //regularCell!.imageView?.image = nil
+            hoursCell!.textLabel?.text = hoo?[indexPath.row]
             return hoursCell!
             
         }
@@ -144,27 +121,16 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             performSegue(withIdentifier: "showMapSegue", sender: self)
-        } else if schoolPhone[schoolSelected.rawValue].count == 2 && indexPath.section == 1 {
-            switch indexPath.row {
-            case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][0])")!)
-            case 1:
-                UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
-            case 2:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][1])")!)
-            case 3:
-                mailController.presentMailVC()
-            default:
-                break
-            }
         } else if indexPath.section == 1 {
             switch indexPath.row {
             case 0:
-                UIApplication.shared.open(URL(string: "tel://607.\(schoolPhone[schoolSelected.rawValue][0])")!)
+                UIApplication.shared.open(URL(string: "tel://\(phone?.replacingOccurrences(of: " ", with: "") ?? "")")!)
             case 1:
-                UIApplication.shared.open(URL(string: "tel://607.\(districtPhone)")!)
+                UIApplication.shared.open(URL(string: "tel://\(districtPhone?.replacingOccurrences(of: " ", with: "") ?? "")")!)
             case 2:
-                mailController.presentMailVC()
+                fax?.hasData() ?? false ? UIApplication.shared.open(URL(string: "tel://\(fax!.replacingOccurrences(of: " ", with: ""))")!) : present(ContactMailDelegate.getMailVC(forSchool: schoolSelected), animated: true)
+            case 3:
+                present(ContactMailDelegate.getMailVC(forSchool: schoolSelected), animated: true)
             default:
                 break
             }
@@ -172,10 +138,10 @@ class ContactViewController: CSBCViewController, UITableViewDataSource, UITableV
     }
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         imageView.frame = CGRect(
-                            x: 0,
-                            y: 53,
-                            width: UIScreen.main.bounds.size.width,
-                            height: -scrollView.contentOffset.y)
+            x: 0,
+            y: 53,
+            width: UIScreen.main.bounds.size.width,
+            height: -scrollView.contentOffset.y)
         
     }
 }

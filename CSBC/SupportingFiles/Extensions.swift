@@ -297,6 +297,10 @@ extension String {
         dateFormatter.dateFormat = "MMM"
         return dateFormatter.date(from: self)
     }
+    //Tests if string is not empty
+    func hasData() -> Bool {
+        return self != "" && self != " "
+    }
 }
 extension Int {
     var stringValue : String? {

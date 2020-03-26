@@ -12,44 +12,33 @@ import MessageUI
 
 ///Methods to display mail composer in Contacts view
 class ContactMailDelegate: NSObject, MFMailComposeViewControllerDelegate {
-    
-    private let principalEmails = ["mmartinkovic","jfountaine","wpipher","skitchen"]
-    
-    var schoolSelected : Schools!
-    private let parent : ContactViewController!
-
-    init(parent: ContactViewController, schoolSelected: Schools) {
-        self.parent = parent
-        self.schoolSelected = schoolSelected
-    }
+        
+    static let delegate = ContactMailDelegate()
     
     //MARK: Email Mehtods
-    func presentMailVC() {
-        let mailComposeViewController = configuredMailComposeViewController()
-        if MFMailComposeViewController.canSendMail() {
-            parent.present(mailComposeViewController, animated: true, completion: nil)
-        } else {
-            self.showSendMailErrorAlert()
+    static func getMailVC(forSchool school: Schools) -> UIViewController {
+        guard MFMailComposeViewController.canSendMail(), let mailComposeViewController = configuredMailComposeViewController(for: school) else {
+            return sendEmailErrorAlert
         }
+        return mailComposeViewController
     }
-    private func configuredMailComposeViewController() -> MFMailComposeViewController {
+    private static func configuredMailComposeViewController(for school : Schools) -> MFMailComposeViewController? {
+        guard let principalEmail = StaticData.readData(atPath: "\(school.singleStringLowercase)/info/email") else {return nil}
         let mailComposerVC = MFMailComposeViewController()
-        mailComposerVC.mailComposeDelegate = self
-        mailComposerVC.setToRecipients(["\(principalEmails[schoolSelected.rawValue])@syrdiocese.org"])
+        mailComposerVC.mailComposeDelegate = delegate
+        mailComposerVC.setToRecipients([(principalEmail)])
         mailComposerVC.setSubject("")
         mailComposerVC.setMessageBody("", isHTML: false)
 
         return mailComposerVC
     }
-    private func showSendMailErrorAlert() {
+    static var sendEmailErrorAlert : UIAlertController {
         let sendMailErrorAlert = UIAlertController(title: "Could Not Send Email", message: "Your device cannot send email. Please check your email configuration and try again.", preferredStyle: .alert)
         let okButton = UIAlertAction(title: "OK", style: .cancel)
         sendMailErrorAlert.addAction(okButton)
-        parent.present(sendMailErrorAlert, animated: true, completion: nil)
+        return sendMailErrorAlert
     }
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true, completion: nil)
     }
-    
-    
 }

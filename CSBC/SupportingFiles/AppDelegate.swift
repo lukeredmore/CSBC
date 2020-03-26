@@ -24,6 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         print("Application successfully loaded: Version \(Bundle.versionString)")
         
+        StaticData.getDataFromFirebase()
         LunchMenuRetriever.downloadLunchMenus()
         DaySchedule.retrieveFromFirebase()
         

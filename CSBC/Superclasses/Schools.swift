@@ -14,6 +14,7 @@ enum Schools : Int {
     case saints
     case james
     
+    /// Seton, St. John's, All Saints, St. James
     var shortName: String {
         switch self {
         case .seton:
@@ -27,6 +28,7 @@ enum Schools : Int {
         }
     }
     
+    /// Seton Catholic Central, St. John School, All Saints School, St. James School
     var fullName: String {
         switch self {
         case .seton:
@@ -40,6 +42,7 @@ enum Schools : Int {
         }
     }
     
+    /// Seton, John, Saints, James
     var singleString: String {
         switch self {
         case .seton:
@@ -53,6 +56,12 @@ enum Schools : Int {
         }
     }
     
+    /// seton, john, saints, james
+    var singleStringLowercase : String {
+        return singleString.lowercased()
+    }
+    
+    /// 0, 1, 2, 3
     var rawValue: Int {
         switch self {
         case .seton:

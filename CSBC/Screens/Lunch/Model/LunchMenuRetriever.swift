@@ -27,7 +27,6 @@ class LunchMenuRetriever {
         
     }
     static func downloadLunchMenus() {
-        print("tryna get")
             Database.database().reference().child("Lunch/Links").observeSingleEvent(of: .value) { snapshot in
                 guard let lunchDict = snapshot.value as? [String:String] else { return }
                 print("Lunch links found:")
