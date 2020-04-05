@@ -5,40 +5,31 @@ if (process.env.FUNCTIONS_EMULATOR) {
 const schedule = require('./schedule.js')
 const lunch = require('./lunch.js')
 const admin = require('firebase-admin')
-
+const passes = require('./passes')
+const notifications = require('./notifications')
 
 exports.test = async (req, res) => {
-  let period = await lunch.getLinks()
-  res.send(String(period))
+  // sendPeriodToDebug()
+  await passes.checkForOutstandingStudents()
+  res.send("complete")
 }
 
-exports.sendPeriodToDebug = async () => {
+
+
+const sendPeriodToDebug = async () => {
+  /* Run only on even times
   let minutes = new Date().getMinutes()
   console.log(minutes + "  and   " + Math.floor((minutes / 10) % 10))
   if (minutes % 2 !== 0 || Math.floor((minutes / 10) % 10) % 2 !== 0) {
     return
-  }
+  }*/
 
   let period = await schedule.getCurrentPeriod()
-  let alertNotif = {
-    notification: {
-      title: "Current period testing",
-      body: "The app says its now period " + period
-    },
-    android: {
-      priority: "HIGH",
-      ttl: 86400000,
-      notification: { sound: "default" }
-    },
-    apns: {
-      payload: {
-        aps: {
-          sound: "default"
-        }
-      }
-    },
-    condition: "('debugDevice' in topics)"
-  }
+  let alertNotif = notifications.createNotificationObject(
+    "test",
+    "The app says its now period " + period,
+    "('notifyOutstanding' in topics)"
+  )
 
   await admin
     .messaging()
@@ -55,3 +46,5 @@ exports.sendPeriodToDebug = async () => {
       return
     })
 }
+
+exports.sendPeriodToDebug = sendPeriodToDebug 

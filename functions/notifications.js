@@ -53,3 +53,17 @@ exports.sendFromAdmin = async (req, res) => {
       return res.status(506).send("Error sending message: " + error)
     })
 }
+
+exports.sendNotification = async (notificationObject) => {
+  await admin
+    .messaging()
+    .send(notificationObject)
+    .then(response => {
+      console.log("success")
+      return "Successfully sent alert message: " + JSON.stringify(response)
+    })
+    .catch(error => {
+      console.log(error)
+      return "Error sending message: " + error
+    })
+}
