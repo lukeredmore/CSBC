@@ -103,9 +103,17 @@ class SettingsViewController: UITableViewController  {
             present(STEMNavigationController(), animated: true)
         } else if indexPath.section == 4, indexPath.row == 1 { //REPORT ISSUE
                 let reportIssueVC = ComposerViewController(configuration: ComposerViewController.reportIssueConfiguration) { text in
-                    IssueReporter.report(text) { error in
-                        guard error == nil else { self.errorSending(error!); return }
-                        self.alert("Report successfully submitted")
+                    let params : [String : String] = [
+                        "message": "<i>App version: \(Bundle.versionString)</i>\n<hr>\n\(text)",
+                        "senderName": "CSBC App Issue",
+                        "subject": "New App Issue: \(Date().dateString())"
+                    ]
+                    CustomNetworking.sendPostRequest(url: APIEndpoints.SEND_REPORT_EMAIL_FUNCTION_URL, body: params) { response in
+                        DispatchQueue.main.async {
+                            print(response)
+                            guard response.status == 200 else { self.errorSending(response.message); return }
+                            self.alert("Report successfully submitted")
+                        }
                     }
                 }
                 present(reportIssueVC, animated: true)
@@ -117,7 +125,7 @@ class SettingsViewController: UITableViewController  {
                     "message": text,
                     "schoolInt": String(self.notificationSchool!)
                 ]
-                CustomNetworking.sendAuthenticatedPostRequest(url: APIEndpoints.SEND_ADMIN_NOTIFICATION_FUNCTION_URL, body: params) { response in
+                CustomNetworking.sendPostRequest(url: APIEndpoints.SEND_ADMIN_NOTIFICATION_FUNCTION_URL, body: params) { response in
                     DispatchQueue.main.async {
                         guard response.status == 200 else { self.errorSending(response.message); return }
                         self.alert("Notification sucessfully sent")

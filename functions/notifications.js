@@ -47,7 +47,7 @@ exports.sendFromAdmin = async (req, res) => {
     )
     console.log('Sending alert message with body of:')
     console.log(alertNotif)
-    await admin
+    return await admin
       .messaging()
       .send(alertNotif)
       .then(response => {

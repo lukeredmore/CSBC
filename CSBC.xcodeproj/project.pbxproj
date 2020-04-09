@@ -100,7 +100,6 @@
 		26C951C923BAA0240075DCC1 /* SelectableLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951C823BAA0240075DCC1 /* SelectableLabel.swift */; };
 		26C951CB23BC321E0075DCC1 /* AthleticsCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951CA23BC321E0075DCC1 /* AthleticsCalendarManager.swift */; };
 		26C951CD23BC684D0075DCC1 /* EventsCalendarManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C951CC23BC684D0075DCC1 /* EventsCalendarManager.swift */; };
-		26C9521623BD52E70075DCC1 /* IssueReporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C9521523BD52E70075DCC1 /* IssueReporter.swift */; };
 		26C9521823BD86650075DCC1 /* ComposerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C9521723BD86650075DCC1 /* ComposerViewController.swift */; };
 		26C954E5237BA9C40061E085 /* TodayTextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */; };
 		26C954E6237BA9C40061E085 /* TodayTextViewTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */; };
@@ -230,7 +229,6 @@
 		26C951C823BAA0240075DCC1 /* SelectableLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectableLabel.swift; sourceTree = "<group>"; };
 		26C951CA23BC321E0075DCC1 /* AthleticsCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsCalendarManager.swift; sourceTree = "<group>"; };
 		26C951CC23BC684D0075DCC1 /* EventsCalendarManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCalendarManager.swift; sourceTree = "<group>"; };
-		26C9521523BD52E70075DCC1 /* IssueReporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IssueReporter.swift; sourceTree = "<group>"; };
 		26C9521723BD86650075DCC1 /* ComposerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposerViewController.swift; sourceTree = "<group>"; };
 		26C954E3237BA9C30061E085 /* TodayTextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayTextViewTableViewCell.swift; sourceTree = "<group>"; };
 		26C954E4237BA9C40061E085 /* TodayTextViewTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = TodayTextViewTableViewCell.xib; sourceTree = "<group>"; };
@@ -472,7 +470,6 @@
 		2656156422624351002149E5 /* Options */ = {
 			isa = PBXGroup;
 			children = (
-				26C9521523BD52E70075DCC1 /* IssueReporter.swift */,
 				26599E482360CAF0003D1DC6 /* Passes */,
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
 				266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */,
@@ -1007,7 +1004,6 @@
 				26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */,
 				26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
-				26C9521623BD52E70075DCC1 /* IssueReporter.swift in Sources */,
 				26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
 				26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */,

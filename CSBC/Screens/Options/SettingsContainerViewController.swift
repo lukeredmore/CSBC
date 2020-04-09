@@ -87,6 +87,7 @@ class SettingsContainerViewController: UIViewController {
         }
     }
     private func cleanUpAfterSignOut() {
+        guard loginButton.currentTitle == "Sign Out" else { return }
         GIDSignIn.sharedInstance()?.disconnect()
         loginButton.setTitle("Sign In", for: .normal)
         defaults.set(nil, forKey: "notificationSchool")
