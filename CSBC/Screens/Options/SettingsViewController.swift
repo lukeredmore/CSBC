@@ -80,7 +80,7 @@ class SettingsViewController: UITableViewController  {
         } else if notificationSchool != nil {
             firstAdminSettingsLabel.text = "Send A Notification (To \(SCHOOL_NOTIF_INFO[notificationSchool!]))"
             secondAdminSettingsLabel.text = ""
-        } else if notificationSchool != nil {
+        } else {
             firstAdminSettingsLabel.text = ""
             secondAdminSettingsLabel.text = ""
         }
@@ -113,9 +113,15 @@ class SettingsViewController: UITableViewController  {
             navigationController?.pushViewController(PassesViewController(), animated: true)
         } else if indexPath.section == 3, indexPath.row == (passAccess ? 1 : 0), self.notificationSchool != nil { //SEND NOTIFICATION
             let notificationVC = ComposerViewController(configuration: ComposerViewController.notificationConfiguration) { text in
-                PushNotificationSender.send(withMessage: text, toSchoolInt: self.notificationSchool!) { error in
-                    guard error == nil else { self.errorSending(error!); return }
-                    self.alert("Notification sucessfully sent")
+                let params : [String : String] = [
+                    "message": text,
+                    "schoolInt": String(self.notificationSchool!)
+                ]
+                CustomNetworking.sendAuthenticatedPostRequest(url: APIEndpoints.SEND_ADMIN_NOTIFICATION_FUNCTION_URL, body: params) { response in
+                    DispatchQueue.main.async {
+                        guard response.status == 200 else { self.errorSending(response.message); return }
+                        self.alert("Notification sucessfully sent")
+                    }
                 }
             }
             present(notificationVC, animated: true)

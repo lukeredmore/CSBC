@@ -34,7 +34,7 @@ class PassesRetriever {
         
         passDataReference.observe(.value) { (snapshot) in
             guard let studentsDict = snapshot.value as? [String:[String:Any]] else { return }
-            
+            print(studentsDict)
             if let completion = self.allStudentCompletion {
                 var setToReturn = Set<AllStudentPassInfo>()
                 for (_, student) in studentsDict {

@@ -11,10 +11,11 @@ const schedule = require('./schedule.js')
 const notifications = require('./notifications')
 const authentication = require('./authentication.js')
 
-//MARK: Methods for pass system
+/*PASS SYSTEM GCF EXPORTS*/
 exports.toggleHandler = async (req, res) => {
   cors(req, res, async () => {
-    await authentication.authenticateRequest(req, res)
+    const unauthenticated = await authentication.authenticateRequest(req.headers, ['toggleAccess', 'dashboardAccess'])
+    if (unauthenticated) return res.status(403).json({ message: unauthenticated })
 
     const dateStringComponents = new Date()
       .toLocaleDateString('en-US', {
@@ -24,180 +25,144 @@ exports.toggleHandler = async (req, res) => {
         year: 'numeric',
       })
       .split('/')
-    const timeString = new Date().toLocaleTimeString('en-US', {
-      timeZone: 'America/New_York',
-    })
     const dateString = dateStringComponents[2] + '-' + dateStringComponents[0] + '-' + dateStringComponents[1]
 
-    //Validate time of request
-    const timeString24H = new Date().toLocaleTimeString('it-IT', {
-      timeZone: 'America/New_York',
-    })
-    let daySched = await daySchedule.create()
-    let allSchoolDays = Object.keys(daySched.highSchool)
-    const hourOfDay = Number(timeString24H.split(':')[0])
-    req.query.forceSign = 'toggle' //COMMENT THIS OUT ONCE IT GOES LIVE!!
-    if (
-      (hourOfDay < 8 || hourOfDay > 14 || !allSchoolDays.includes(dateString)) &&
-      (req.query.forceSign === null || typeof req.query.forceSign === 'undefined')
-    ) {
-      console.log('timeString24H: ' + timeString24H)
-      console.log('timeString: ' + timeString)
-      console.log('hour of day: ' + hourOfDay)
+    const schoolToday = (
+      await admin
+        .database()
+        .ref('DaySchedule/highSchool/' + dateString)
+        .once('value')
+    ).val()
+    const period = await schedule.getCurrentPeriod()
+
+    const { id, location, forceSign } = req.body
+
+    if ((period === 0 || !schoolToday) && !forceSign)
       return res.status(400).json({ message: 'Toggle requests only honored during the school day' })
-    }
 
     //Validate parameters
-    const id = Number(req.query.studentIDNumber)
-    if (isNaN(id) || id > 9999999999) return res.status(400).json({ message: 'Invalid student ID number' })
+    if (!id || !location) return res.status(400).json({ message: 'Invalid parameters' })
 
     //Get existing student data
     let allStudents = await getAllStudentsWithPushID()
-    let currentStudentPassDataArr = allStudents.filter(e => e[1].id.includes(id))
-    if (currentStudentPassDataArr.length === 0)
-      return res.status(400).json({ message: 'Student not found with ID number: ' + id })
-    let currentStudentPassData = currentStudentPassDataArr[0][1]
-    let currentStudentID = currentStudentPassDataArr[0][0]
+    let currentStudentPassEntry = allStudents.find(e => e[1].id.includes(id))
+    if (!currentStudentPassEntry) return res.status(400).json({ message: 'Student not found with ID number: ' + id })
+    let [key, data] = currentStudentPassEntry
 
     //Move current location info to log
-    if (typeof currentStudentPassData['log'] === 'undefined') {
-      currentStudentPassData['log'] = []
-    }
-    currentStudentPassData['log'].push({
-      status: currentStudentPassData['currentStatus'],
-      time: currentStudentPassData['timeOfStatusChange'],
+    if (!data.log) data.log = []
+    data.log.push({
+      status: data.currentStatus,
+      time: data.timeOfStatusChange,
     })
 
     //Get current time and location
-    const timeOfStatusChange = new Date().toISOString() //dateString + " " + timeString
-    let location = ''
-    if (req.query.location !== null && typeof req.query.location !== 'undefined')
-      location = ' - ' + req.query.location.replace('_', ' ')
+    const timeOfStatusChange = new Date().toISOString()
+    if (forceSign === 'in' || forceSign === 'out') 
+      data.currentStatus = `Signed ${forceSign} - ${location}`
+    else {
+      let studentAlreadySignedIntoThisPeriod = data.log.find(e => {
+        console.log(e)
+        return e.time.includes(timeOfStatusChange.split('T')[0]) && e.status.includes(`Period ${period}`)
+      })
 
-    //Update current data
-    let forceSignToTest = ''
-    if (req.query.forceSign !== null && typeof req.query.forceSign !== 'undefined')
-      forceSignToTest = String(req.query.forceSign)
-
-    if (forceSignToTest.toLowerCase().includes('in') || forceSignToTest.toLowerCase().includes('out')) {
-      currentStudentPassData['currentStatus'] =
-        'Signed ' + forceSignToTest.replace(/^\w/, c => c.toUpperCase()) + location
-    } else {
-      const period = await schedule.getCurrentPeriod()
-      let studentAlreadySignedIntoThisPeriod = false
-      for (var i = currentStudentPassData['log'].length - 1; i >= 0; i--) {
-        const entry = currentStudentPassData['log'][i]
-        let studentSignedIntoThisPeriod = entry.status.includes('Period ' + period)
-        let thisPeriodWasToday = entry.time.split('T')[0] === timeOfStatusChange.split('T')[0]
-        studentAlreadySignedIntoThisPeriod = studentSignedIntoThisPeriod && thisPeriodWasToday
-        if (studentAlreadySignedIntoThisPeriod) {
-          break
-        }
-      }
-
-      if (studentAlreadySignedIntoThisPeriod || period === 0) {
-        currentStudentPassData['currentStatus'] =
-          (currentStudentPassData['currentStatus'].toLowerCase().includes('out') ? 'Signed In' : 'Signed Out') +
-          location
-      } else {
-        currentStudentPassData['currentStatus'] = 'Signed In To Period ' + period + location
-      }
+      if (studentAlreadySignedIntoThisPeriod || period === 0)
+        data.currentStatus = (data.currentStatus.includes('Signed Out') ? 'Signed In' : 'Signed Out') + ` - ${location}`
+      else data.currentStatus = `Signed In To Period ${period} - ${location}`
     }
-    currentStudentPassData['timeOfStatusChange'] = timeOfStatusChange
+    data.timeOfStatusChange = timeOfStatusChange
 
     //Update firebase
     try {
       await admin
         .database()
-        .ref('PassSystem/Students/' + currentStudentID)
-        .set(currentStudentPassData)
-      return res
-        .status(200)
-        .json({
-          message: `Database updated sucessfully for ${currentStudentPassData.name} (${id}): '${currentStudentPassData.currentStatus}'`,
-        })
+        .ref('PassSystem/Students/' + key)
+        .set(data)
+      return res.status(200).json({
+        message: `Database updated sucessfully for ${data.name} (${id}): '${data.currentStatus}'`,
+      })
     } catch (e) {
       return res.status(500).json({ message: e })
     }
   })
 }
-
 exports.addHandler = async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*')
-  res.set('Access-Control-Allow-Methods', 'GET, POST')
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  res.set('Access-Control-Max-Age', '86400')
+  cors(req, res, async () => {
+    const unauthenticated = await authentication.authenticateRequest(req.headers, ['dashboardAccess'])
+    if (unauthenticated) return res.status(403).json({ message: unauthenticated })
+    console.log(req.body)
+    let { idNumber, name, graduationYear } = req.body
 
-  const id = Number(req.query.studentIDNumber)
-  const graduationYear = Number(req.query.graduationYear)
-  const name = req.query.name ? req.query.name.replace('_', ' ') : null
-  if (
-    isNaN(id) ||
-    isNaN(graduationYear) ||
-    graduationYear < Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) ||
-    graduationYear > Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) + 6 ||
-    !name
-  ) {
-    res.status(400).json({ error: 'Invalid student parameters.' })
-    return
-  }
+    graduationYear = Number(graduationYear)
+    name = name ? name.replace('_', ' ') : null
+    if (
+      isNaN(graduationYear) ||
+      graduationYear < Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) ||
+      graduationYear > Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) + 6 ||
+      !name
+    ) {
+      return res.status(400).json({ message: 'Invalid student parameters.' })
+    }
 
-  let allStudentsArray = await getAllStudents()
-  let existingStudentArr = allStudentsArray.filter(e => e.id.includes(id))
-  if (existingStudentArr.length > 0) {
-    res.status(400).json({ error: 'This ID has already been assigned to ' + existingStudentArr[0].name + '.' })
-    return
-  }
+    let allStudentsArray = await getAllStudents()
+    let existingStudentArr = allStudentsArray.filter(e => e.id.includes(idNumber))
+    if (existingStudentArr.length > 0) {
+      return res
+        .status(400)
+        .json({ message: 'This ID has already been assigned to ' + existingStudentArr[0].name + '.' })
+    }
 
-  studentToAdd = {
-    name: name,
-    graduationYear: graduationYear,
-    id: [id],
-    timeOfStatusChange: new Date().toISOString(),
-    currentStatus: 'Signed In',
-  }
+    studentToAdd = {
+      name: name,
+      graduationYear: graduationYear,
+      id: [idNumber],
+      timeOfStatusChange: new Date().toISOString(),
+      currentStatus: 'Signed In',
+    }
 
-  try {
-    await admin.database().ref('PassSystem/Students').push(studentToAdd)
-    res.status(200).json({
-      message: name + ' with ID of ' + id + ' has successfully been added to the pass system.',
-      status: 200,
-    })
-  } catch (e) {
-    res.status(500).json({ error: e })
-  }
+    try {
+      await admin.database().ref('PassSystem/Students').push(studentToAdd)
+      return res.status(200).json({
+        message: name + ' with ID of ' + idNumber + ' has successfully been added to the pass system.',
+      })
+    } catch (e) {
+      return res.status(500).json({ message: e.toString() })
+    }
+  })
 }
 exports.deleteHandler = async (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*')
-  res.set('Access-Control-Allow-Methods', 'GET, POST')
-  res.set('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  res.set('Access-Control-Max-Age', '86400')
+  cors(req, res, async () => {
+    const unauthenticated = await authentication.authenticateRequest(req.headers, ['dashboardAccess'])
+    if (unauthenticated) return res.status(403).json({ message: unauthenticated })
 
-  //Find element to delete
-  let allStudentsDataArray = await getAllStudentsWithPushID()
-  const studentToDelete = allStudentsDataArray.find(e => e[1].id.includes(Number(req.query.studentIDNumber)))
+    //Find element to delete
+    const idOfStudentToDelete = req.query.studentIDNumber
+    let allStudentsDataArray = await getAllStudentsWithPushID()
+    const studentToDelete = allStudentsDataArray.find(e => e[1].id.includes(idOfStudentToDelete))
 
-  //Ensure element exists
-  if (!studentToDelete) return res.status(400).json({ error: 'ID ' + req.query.studentIDNumber + ' does not exist.' })
+    //Ensure element exists
+    if (!studentToDelete)
+      return res.status(400).json({ message: 'ID ' + req.query.studentIDNumber + ' does not exist.' })
 
-  //Remove element from Firebase
-  try {
-    await admin
-      .database()
-      .ref('PassSystem/Students/' + studentToDelete[0])
-      .remove()
-    return res.status(200).json({
-      error: null,
-      message:
-        allStudentsDataArray[0][1].name +
-        ' with ID ' +
-        req.query.studentIDNumber +
-        ' has successfully been removed from the system.',
-    })
-  } catch (e) {
-    return res.status(500).json({ error: e })
-  }
+    //Remove element from Firebase
+    try {
+      await admin
+        .database()
+        .ref('PassSystem/Students/' + studentToDelete[0])
+        .remove()
+      return res.status(200).json({
+        message:
+          studentToDelete[1].name +
+          ' with IDs ' +
+          JSON.stringify(studentToDelete[1].id) +
+          ' has successfully been removed from the system.',
+      })
+    } catch (e) {
+      return res.status(500).json({ message: e.toString() })
+    }
+  })
 }
+/*END OF GCF EXPORTS*/
 
 exports.checkForOutstandingStudents = async () => {
   let allStudentsDataArray = await getAllStudents()

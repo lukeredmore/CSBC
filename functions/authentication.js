@@ -3,12 +3,18 @@ if (process.env.FUNCTIONS_EMULATOR) {
 }
 const admin = require('firebase-admin')
 
-exports.authenticateRequest = async (req, res) => {
+/**
+ * Ensure request is authenticated 
+ * @param headers HTTP request headers used to find auth token
+ * @param additionalPermissions Array of strings corresponding to additional permissions to check for (OR-based)
+ * @returns null if authenticated, or a status message if not
+ */
+exports.authenticateRequest = async (headers, additionalPermissions = []) => {
     //Find auth token
     let authToken = null
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer ')) {
-      authToken = req.headers.authorization.split('Bearer ')[1]
-    } else return res.status(403).json({ message: 'No user found - no auth token present' })
+    if (headers.authorization && headers.authorization.startsWith('Bearer ')) {
+      authToken = headers.authorization.split('Bearer ')[1]
+    } else return 'No user found - no auth token present'
 
     //Find user's email attached to auth token
     let userEmail = null
@@ -18,20 +24,27 @@ exports.authenticateRequest = async (req, res) => {
       userEmail = decodedToken.email
     } catch (err) {
       console.log(err)
-      return res.status(403).json({ message: 'Auth token verification failed' })
+      return 'Auth token verification failed'
     }
 
     //Ensure email has appropriate permissions
     try {
       const snapshot = await admin.database().ref('Users').once('value')
       const allUsers = Object.values(snapshot.val())
-      const emailInSystem = allUsers.find(e => e.email === userEmail)
-      if (!emailInSystem) {
-        return res.status(403).json({ message: 'User found, but is not allowed access' })
+      const userInSystem = allUsers.find(e => e.email === userEmail)
+      if (!userInSystem) {
+        return 'User found, but is not registered as a user in the CSBC system'
       }
+
+      let allPermissionsSatisfied = additionalPermissions === [] ? null : 'User found in CSBC system, but does not have the appropriate permissions'
+      additionalPermissions.forEach(permission => {
+          console.log(userInSystem)
+          if (userInSystem[permission]) 
+            allPermissionsSatisfied = null
+      })
+      return allPermissionsSatisfied
     } catch (err) {
       console.log(err)
-      return res.status(500).json({ message: 'Database Error, user could not be authenticated' })
+      return "The user couldn't be authenticated: " + JSON.stringify(err)
     }
-    return true
 }

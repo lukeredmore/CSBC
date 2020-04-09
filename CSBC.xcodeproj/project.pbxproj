@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2614F77F229B88F000EC6030 /* PushNotificationSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* PushNotificationSender.swift */; };
+		2614F77F229B88F000EC6030 /* CustomNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* CustomNetworking.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
 		2618D3302325483B00E16C21 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32F2325483B00E16C21 /* HomeView.swift */; };
@@ -24,12 +24,12 @@
 		2627EA6E242C1B0A0054F7CC /* StaticData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2627EA6D242C1B0A0054F7CC /* StaticData.swift */; };
 		2628430E2228A4FC00ADC019 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2628430D2228A4FC00ADC019 /* HomeViewController.swift */; };
 		262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C1165222AC5CD009A359E /* EventsDataParser.swift */; };
-		262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262C56A322E79469006E3338 /* PrivateAPIKeys.swift */; };
 		262E24B623ED161600176E7D /* STEMNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262E24B523ED161500176E7D /* STEMNavigationController.swift */; };
 		262EA46A23A1EE52000BE0FC /* SearchScrollDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */; };
 		262EA46E23A1F451000BE0FC /* CSBCSearchUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */; };
 		263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263A81F122A5F6D3001D0716 /* NotificationSettings.swift */; };
 		263C6D0923038BCB00D189D8 /* Schools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263C6D0823038BCB00D189D8 /* Schools.swift */; };
+		264C63E5243EC205001088A5 /* APIEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264C63E4243EC205001088A5 /* APIEndpoints.swift */; };
 		265155A52377B455006CAB2E /* PassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265155A42377B455006CAB2E /* PassTableViewCell.xib */; };
 		2653118122355BD6009C5512 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653118022355BD6009C5512 /* Extensions.swift */; };
 		26599E452360BDF8003D1DC6 /* PassTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */; };
@@ -136,7 +136,7 @@
 
 /* Begin PBXFileReference section */
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
-		2614F77E229B88F000EC6030 /* PushNotificationSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationSender.swift; sourceTree = "<group>"; };
+		2614F77E229B88F000EC6030 /* CustomNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNetworking.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
 		2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreenCollectionView.swift; sourceTree = "<group>"; };
 		2618D32F2325483B00E16C21 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
@@ -153,12 +153,12 @@
 		2627EA6D242C1B0A0054F7CC /* StaticData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticData.swift; sourceTree = "<group>"; };
 		2628430D2228A4FC00ADC019 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		262C1165222AC5CD009A359E /* EventsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsDataParser.swift; sourceTree = "<group>"; };
-		262C56A322E79469006E3338 /* PrivateAPIKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivateAPIKeys.swift; sourceTree = "<group>"; };
 		262E24B523ED161500176E7D /* STEMNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = STEMNavigationController.swift; sourceTree = "<group>"; };
 		262EA46923A1EE52000BE0FC /* SearchScrollDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchScrollDelegate.swift; sourceTree = "<group>"; };
 		262EA46D23A1F451000BE0FC /* CSBCSearchUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCSearchUI.swift; sourceTree = "<group>"; };
 		263A81F122A5F6D3001D0716 /* NotificationSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSettings.swift; sourceTree = "<group>"; };
 		263C6D0823038BCB00D189D8 /* Schools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schools.swift; sourceTree = "<group>"; };
+		264C63E4243EC205001088A5 /* APIEndpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoints.swift; sourceTree = "<group>"; };
 		265155A42377B455006CAB2E /* PassTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PassTableViewCell.xib; sourceTree = "<group>"; };
 		2653118022355BD6009C5512 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		26599E442360BDF8003D1DC6 /* PassTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassTableViewCell.swift; sourceTree = "<group>"; };
@@ -337,14 +337,6 @@
 			path = Calendar;
 			sourceTree = "<group>";
 		};
-		262C56A522E79682006E3338 /* PrivateFiles */ = {
-			isa = PBXGroup;
-			children = (
-				262C56A322E79469006E3338 /* PrivateAPIKeys.swift */,
-			);
-			path = PrivateFiles;
-			sourceTree = "<group>";
-		};
 		2637A68322FF0F240097EDD1 /* SupplementaryView */ = {
 			isa = PBXGroup;
 			children = (
@@ -484,7 +476,6 @@
 				26599E482360CAF0003D1DC6 /* Passes */,
 				2698D3ED223940C900B70DA6 /* SettingsViewController.swift */,
 				266A6A0023481F4C006848E9 /* SettingsContainerViewController.swift */,
-				26F9F2E722DFB52E0051981D /* Admin Settings */,
 				26C9521723BD86650075DCC1 /* ComposerViewController.swift */,
 			);
 			path = Options;
@@ -505,14 +496,15 @@
 		266F9914221B3A5C00CA7C4E /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
-				262C56A522E79682006E3338 /* PrivateFiles */,
 				269DF8B422696B7400090884 /* Firebase */,
 				26FD7689223C64F6003B57D9 /* PDF Files */,
 				26B90B96223B009B00B92936 /* Web Files */,
 				26DC0B6B222AF53800371B61 /* Montserrat */,
 				266F9915221B3A8C00CA7C4E /* Gotham */,
 				26ED795D21EB91D40086FB86 /* AppDelegate.swift */,
+				264C63E4243EC205001088A5 /* APIEndpoints.swift */,
 				2653118022355BD6009C5512 /* Extensions.swift */,
+				2614F77E229B88F000EC6030 /* CustomNetworking.swift */,
 				2627EA6D242C1B0A0054F7CC /* StaticData.swift */,
 				26AAAE272220F3C100DA3182 /* Main.storyboard */,
 				26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */,
@@ -736,14 +728,6 @@
 				2656156422624351002149E5 /* Options */,
 			);
 			path = Screens;
-			sourceTree = "<group>";
-		};
-		26F9F2E722DFB52E0051981D /* Admin Settings */ = {
-			isa = PBXGroup;
-			children = (
-				2614F77E229B88F000EC6030 /* PushNotificationSender.swift */,
-			);
-			path = "Admin Settings";
 			sourceTree = "<group>";
 		};
 		26FD7689223C64F6003B57D9 /* PDF Files */ = {
@@ -1017,7 +1001,6 @@
 				267037CB22EF23BF00A57D0D /* CSBCSplashView.swift in Sources */,
 				26E281D623CB90CF004497DB /* STEMInfoViewController.swift in Sources */,
 				266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */,
-				262C56A422E79469006E3338 /* PrivateAPIKeys.swift in Sources */,
 				26599E472360CADE003D1DC6 /* AllStudentPassesViewController.swift in Sources */,
 				26DC0B77222F1E8700371B61 /* ContactInfoMapCell.swift in Sources */,
 				2667FB4523EDD2F6003894FB /* STEMSuccessViewController.swift in Sources */,
@@ -1048,7 +1031,7 @@
 				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				2627EA6E242C1B0A0054F7CC /* StaticData.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,
-				2614F77F229B88F000EC6030 /* PushNotificationSender.swift in Sources */,
+				2614F77F229B88F000EC6030 /* CustomNetworking.swift in Sources */,
 				266A69FD2347C6B8006848E9 /* PassesViewController.swift in Sources */,
 				266A6A0123481F4C006848E9 /* SettingsContainerViewController.swift in Sources */,
 				26B75AED22279B7100D109EC /* DaySchedule.swift in Sources */,
@@ -1087,6 +1070,7 @@
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,
 				262C1166222AC5CD009A359E /* EventsDataParser.swift in Sources */,
 				2663CD03223448F300E22281 /* EventsModel.swift in Sources */,
+				264C63E5243EC205001088A5 /* APIEndpoints.swift in Sources */,
 				26ED795E21EB91D40086FB86 /* AppDelegate.swift in Sources */,
 				26247F292371E1D100B8BCAC /* StudentPassInfo.swift in Sources */,
 				26C954E5237BA9C40061E085 /* TodayTextViewTableViewCell.swift in Sources */,

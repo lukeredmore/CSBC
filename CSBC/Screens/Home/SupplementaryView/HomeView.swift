@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import Firebase
 
 protocol SegueDelegate : class {
     func performSegue(withIdentifier identifier: String, sender: Any?)
@@ -43,8 +43,8 @@ class HomeView: UIView, AlertDelegate {
         if let alertMessage = alertMessage, alertMessage != "" {
             let alertLabel = UILabel()
             alertLabel.numberOfLines = 0
-            alertLabel.text = alertMessage
-            let height = alertMessage.height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont(name: "gotham-bold", size: 18)!)
+            alertLabel.text = alertMessage.replacingOccurrences(of: "--include-covid-modal--", with: "")
+            let height = alertMessage.replacingOccurrences(of: "--include-covid-modal--", with: "").height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont(name: "gotham-bold", size: 18)!)
             alertLabel.font = UIFont(name: "gotham-bold", size: 18)
             alertLabel.textColor = .white
             alertLabel.frame = CGRect(x: (UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0), y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0), width: (UIScreen.main.bounds.width - (2*(UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0))), height: height)
@@ -68,7 +68,7 @@ class HomeView: UIView, AlertDelegate {
         barView.backgroundColor = .csbcYellow
         addSubview(barView)
         
-        let modalHoverViewHeight = createCOVIDView()
+        let modalHoverViewHeight = alertMessage?.contains("--include-covid-modal--") ?? false ? createCOVIDView() : 0.0
         
         
         let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0) - modalHoverViewHeight))
@@ -86,73 +86,19 @@ class HomeView: UIView, AlertDelegate {
     
     @objc func bannerTapped() {
         guard alertMessage != nil, alertMessage != "" else { return }
-        SnowFallView.overlay(onView: self, count: 2)
+        Database.database().reference(withPath: "BannerAlert/shouldSnow").observeSingleEvent(of: .value) { (snapshot) in
+            if let shouldSnow = snapshot.value as? Bool, shouldSnow {
+                SnowFallView.overlay(onView: self, count: 2)
+            }
+        }
     }
+    
     @objc func modalHoverViewTapped() {
         segueDelegate.modalHoverViewTapped()
     }
     
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func createStemView() -> CGFloat {
-        let startDateString = "02/20/2020 17:00:00"
-        let endDateString = "02/21/2020 06:00:00"
-        let fmt = DateFormatter()
-        fmt.dateFormat = "MM/dd/yyyy HH:mm:ss"
-        guard let startDate = fmt.date(from: startDateString),
-            let endDate = fmt.date(from: endDateString),
-            Date() > startDate && Date() < endDate else { return 0.0 }
-        
-        let stemViewHeight : CGFloat = 180
-        let backgroundView = UIView(frame: CGRect(x: 0, y: UIScreen.main.bounds.height - stemViewHeight, width: UIScreen.main.bounds.width, height: stemViewHeight))
-        backgroundView.backgroundColor = .csbcBackground
-        addSubview(backgroundView)
-        
-        let stemView = UIView(frame: backgroundView.frame)
-        stemView.layer.cornerRadius = 20
-        stemView.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        stemView.addVerticalGradient(from: .stemAccentBlue, to: .stemBaseBlue)
-        
-        let titleLabel = UILabel()
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        titleLabel.text = "STEM NIGHT"
-        titleLabel.font = UIFont(name: "DINCondensed-Bold", size: 87)
-        titleLabel.textColor = .orange
-        let subtitleLabel = UILabel()
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.textAlignment = .center
-        subtitleLabel.textColor = .orange
-        let imageAttachment = NSTextAttachment()
-        if #available(iOS 13.0, *) {
-            imageAttachment.image = UIImage(systemName: "arrow.right", withConfiguration: UIImage.SymbolConfiguration(pointSize: 24, weight: .heavy))?
-                .withTintColor(.orange, renderingMode: .alwaysOriginal)
-        }
-        
-        let fullString = NSMutableAttributedString(string: "Join the scavenger hunt ")
-        fullString.append(NSAttributedString(attachment: imageAttachment))
-        subtitleLabel.attributedText = fullString
-        subtitleLabel.font = UIFont(name: "Gotham-Medium", size: 24)
-        subtitleLabel.numberOfLines = 0
-        stemView.addSubview(titleLabel)
-        stemView.addSubview(subtitleLabel)
-        stemView.addConstraints([
-            subtitleLabel.bottomAnchor.constraint(equalTo: stemView.bottomAnchor, constant: -40),
-            subtitleLabel.leadingAnchor.constraint(equalTo: stemView.leadingAnchor, constant: 16),
-            subtitleLabel.trailingAnchor.constraint(equalTo: stemView.trailingAnchor, constant: -16),
-            titleLabel.centerYAnchor.constraint(equalTo: stemView.centerYAnchor, constant: -10),
-            titleLabel.centerXAnchor.constraint(equalTo: stemView.centerXAnchor)
-        ])
-        
-        UIView.animate(withDuration: 1.3, delay: 0, options: [.repeat, .autoreverse, .beginFromCurrentState], animations: {
-            subtitleLabel.transform = CGAffineTransform(scaleX: 1.1, y: 1.1)
-        })
-        
-        stemView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(modalHoverViewTapped)))
-        addSubview(stemView)
-        return stemViewHeight
     }
     
     func createCOVIDView() -> CGFloat {
