@@ -24,8 +24,6 @@ class LunchViewController: CSBCViewController, WKNavigationDelegate {
         }
         if let pdfURL = loadedURLs[schoolSelected.rawValue] {
             return pdfURL
-        } else if loadedURLs[Schools.john.rawValue] != nil && schoolSelected == .james {
-            return loadedURLs[Schools.john.rawValue]
         } else if let docURLToDisplay = loadedURLs[schoolSelected.rawValue] {
             return docURLToDisplay
         }

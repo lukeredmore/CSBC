@@ -8,15 +8,16 @@
 
 import Foundation
 import Firebase
+import SwiftyJSON
 
 
 /// Finds URLs of, download, and store all the lunch menus
 class LunchMenuRetriever {
     
-    private static func tryToLoadPDFs(fromURLs urls : [Schools:URL]) {
+    private static func tryToLoadPDFs(fromURLs urls : [Schools:URL?]) {
         for (school, url) in urls {
-            if url.absoluteString.components(separatedBy: ".").last == "pdf" {
-                let downloadTask = URLSession(configuration: .default, delegate: LunchSessionDelegate(forSchool: school), delegateQueue: OperationQueue()).downloadTask(with: url)
+            if url?.absoluteString.components(separatedBy: ".").last == "pdf" {
+                let downloadTask = URLSession(configuration: .default, delegate: LunchSessionDelegate(forSchool: school), delegateQueue: OperationQueue()).downloadTask(with: url!)
                 downloadTask.resume()
             } else {
                 var loadedWordURLs = UserDefaults.standard.object([Int:URL].self, with: "LunchURLs") ?? [:]
@@ -27,18 +28,25 @@ class LunchMenuRetriever {
         
     }
     static func downloadLunchMenus() {
-            Database.database().reference().child("Lunch/Links").observeSingleEvent(of: .value) { snapshot in
-                guard let lunchDict = snapshot.value as? [String:String] else { return }
-                print("Lunch links found:")
-                print(lunchDict)
-                let urlDict : [Schools:URL] = [
-                    .seton : URL(string: lunchDict["seton"]!)!,
-                    .saints : URL(string: lunchDict["saints"]!)!,
-                    .john : URL(string: lunchDict["johnjames"]!)!,
-                ]
-                self.tryToLoadPDFs(fromURLs: urlDict)
-            }
+        Database.database().reference(withPath: "Schools").observeSingleEvent(of: .value) { snapshot in
+            guard let value = snapshot.value else { return }
+            let schoolsJson = JSON(value)
+            let seton = schoolsJson["seton"]["info"]["lunchURL"].string ?? "nil"
+            let saints = schoolsJson["saints"]["info"]["lunchURL"].string ?? "nil"
+            let john = schoolsJson["john"]["info"]["lunchURL"].string ?? "nil"
+            let james = schoolsJson["james"]["info"]["lunchURL"].string ?? "nil"
+            print("Lunch links found:")
+            print(seton, saints, john, james)
+            
+            let urlDict : [Schools:URL?] = [
+                .seton : URL(string: seton),
+                .saints : URL(string: saints),
+                .john : URL(string: john),
+                .james : URL(string: james)
+            ]
+            self.tryToLoadPDFs(fromURLs: urlDict)
         }
+    }
 }
 
 
