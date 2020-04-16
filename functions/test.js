@@ -2,16 +2,16 @@ if (process.env.FUNCTIONS_EMULATOR) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS =
     "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
 }
-const schedule = require('./schedule.js')
+const daySchedule = require('./day-schedule.js')
 const lunch = require('./lunch.js')
 const admin = require('firebase-admin')
 const passes = require('./passes')
 const notifications = require('./notifications')
+const morning = require('./morning-notifications')
 
 exports.test = async (req, res) => {
-  // sendPeriodToDebug()
-  await passes.checkForOutstandingStudents()
-  res.send("complete")
+  let resp = await daySchedule.create()
+  res.send(resp)
 }
 
 

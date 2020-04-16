@@ -1,29 +1,17 @@
 const puppeteer = require('puppeteer')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
 const admin = require('firebase-admin')
-const daySchedule = require('./day-schedule.js')
 const cheerio = require('cheerio')
 const passes = require('./passes.js')
 
 
 //MARK: Snow day methods
-exports.update = async (context) => {
+exports.checkForAlerts = async () => {
 
   passes.checkForOutstandingStudents()
 
   let response = await checkForAlerts()
   console.log(JSON.stringify(response))
-
-  let daySched = await daySchedule.create()
-  await admin.database().ref('DaySchedule').set(daySched, error=> {
-    if (error) {
-      console.log("Error updating database: " + JSON.stringifiy(error))
-      return //res.status(500).send("Error updating database: " + JSON.stringifiy(error))
-    } else {
-      console.log("Database updated successfully with Day Schedule data")
-      return //res.status(200).send("Database updated successfully with Calendar data")
-    }
-  })
 }
 
 async function checkForAlerts() {

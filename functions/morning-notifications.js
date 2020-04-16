@@ -1,124 +1,97 @@
-const daySchedule = require("./day-schedule.js")
+const daySchedule = require('./day-schedule.js')
 if (process.env.FUNCTIONS_EMULATOR) {
-  process.env.GOOGLE_APPLICATION_CREDENTIALS =
-    "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json"
+  process.env.GOOGLE_APPLICATION_CREDENTIALS = './csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json'
 }
-const admin = require("firebase-admin")
+const admin = require('firebase-admin')
 const notifications = require('./notifications.js')
 
 //Sends day schedule notifications every morning
 exports.createAndSend = async () => {
   /*Reset schedule to default*/
-  await admin.database().ref("Schools/seton/scheduleInUse").set(1)
+  await admin.database().ref('Schools/seton/scheduleInUse').set(1)
 
   await createAndSendDayNotification()
   await createAndSendAlertNotification()
 
-  await require("./lunch.js").getLinks()
-
-  return null
+  await require('./lunch.js').getLinks()
 }
 
-async function createAndSendDayNotification(sendingForReal = true) {
-  /*Send Day Schedule Notification*/
+/*Send Day Schedule Notification*/
+async function createAndSendDayNotification() {
   let todaysDateStringComponents = new Date()
-    .toLocaleDateString("en-US", {
-      timeZone: "America/New_York",
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
+    .toLocaleDateString('en-US', {
+      timeZone: 'America/New_York',
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
     })
-    .split("/")
+    .split('/')
   let todaysDateString =
-    todaysDateStringComponents[2] +
-    "-" +
-    todaysDateStringComponents[0] +
-    "-" +
-    todaysDateStringComponents[1]
+    todaysDateStringComponents[2] + '-' + todaysDateStringComponents[0] + '-' + todaysDateStringComponents[1]
   let daySched = await daySchedule.create()
-  console.log(JSON.stringify(daySched))
-  console.log(todaysDateString)
+  console.log("Today's date: " + todaysDateString)
   const hsDay = daySched.highSchool[todaysDateString]
   const esDay = daySched.elementarySchool[todaysDateString]
-  console.log("hsDay: " + hsDay)
-  console.log("esDay: " + esDay)
+  console.log('hsDay: ' + hsDay)
+  console.log('esDay: ' + esDay)
+
   let messagesToSend = createNotificationArray(hsDay, esDay)
 
-  if (messagesToSend.length > 0 && sendingForReal) {
-    admin
-      .messaging()
-      .sendAll(messagesToSend)
-      .then(response => {
-        console.log(
-          "Successfully sent day notification:",
-          JSON.stringify(response)
-        )
-        return null
-      })
-      .catch(error => {
-        console.log("Error sending message:", error)
-        return null
-      })
-  } else {
-    console.log(
-      "Did not send day notification, as there was no school today, or have been overridden"
-    )
+  if (messagesToSend.length === 0 || (!hsDay && !esDay)) {
+    console.log('Not sending day notification because there is no school today.')
+    return
   }
 
-} 
-
-async function createAndSendAlertNotification(sendingForReal = true) {
-    /*Send Alert as Notification if present*/
-    let alertMessage = (
-      await admin
-        .database()
-        .ref("BannerAlertMessage")
-        .once("value")
-    ).val()
-    if (
-      sendingForReal &&
-      typeof alertMessage !== "undefined" &&
-      alertMessage !== null &&
-      alertMessage !== "nil" &&
-      alertMessage !== ""
-    ) {
-      let alertNotif = notifications.createNotificationObject(
-        "Alert",
-        alertMessage,
-        "(('setonNotifications' in topics) || !('setonNotifications' in topics))"
-      )
-      admin
-        .messaging()
-        .sendAll(alertNotif)
-        .then(response => {
-          console.log("Successfully sent alert message:")
-          console.log(response)
-          return null
-        })
-        .catch(error => {
-          console.log("Error sending message:")
-          console.log(error)
-          return null
-        })
-    } else {
-      console.log(
-        "Did not send alert notification, as there was no alert today"
-      )
-    }
-    return
+  try {
+    let response = await admin.messaging().sendAll(messagesToSend)
+    console.log('Successfully sent day notification:', JSON.stringify(response))
+  } catch (err) {
+    console.log('Error sending message:', err)
+  }
 }
 
+/*Send Alert as Notification if present*/
+async function createAndSendAlertNotification() {
+  let BannerAlert = (await admin.database().ref('BannerAlert').once('value')).val()
+  const { message, previousMessages } = BannerAlert
+
+  console.log("Banner message: " + message)
+
+  if (!message || message === '' || message === 'nil' || message === 'null') {
+    console.log('Not sending alert notification because no banner message was found.')
+    return
+  }
+  if (previousMessages && Object.values(previousMessages).includes(message)) {
+    console.log('Not sending alert notification because this message has already been sent')
+    return
+  }
+
+  let alertNotif = notifications.createNotificationObject(
+    'Alert',
+    message,
+    "(('setonNotifications' in topics) || !('setonNotifications' in topics))"
+  )
+  try {
+    let response = await admin.messaging().send(alertNotif)
+    console.log('Successfully sent alert message:')
+    console.log(response)
+    await admin.database().ref('BannerAlert/previousMessages').push(message)
+  } catch (err) {
+    console.log('Error sending message:')
+    console.log(err)
+  }
+}
 
 const createNotificationArray = (hsDay, esDay) => {
-  const hsDayExists = hsDay !== null && typeof hsDay !== "undefined"
-  const esDayExists = esDay !== null && typeof esDay !== "undefined"
+  const hsDayExists = hsDay !== null && typeof hsDay !== 'undefined'
+  const esDayExists = esDay !== null && typeof esDay !== 'undefined'
   let arr = []
 
   if (hsDayExists) {
     arr.push(
       notifications.createNotificationObject(
-        "Good Morning!",
-        "Today is Day " + hsDay + " at Seton",
+        'Good Morning!',
+        'Today is Day ' + hsDay + ' at Seton',
         "!('notReceivingNotifications' in topics) && ('setonNotifications' in topics && !('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics))"
       )
     )
@@ -127,23 +100,21 @@ const createNotificationArray = (hsDay, esDay) => {
   if (esDayExists) {
     arr.push(
       notifications.createNotificationObject(
-        "Good Morning!",
-        "Today is Day " + esDay + " at St. John's, St. James, and All Saints",
+        'Good Morning!',
+        'Today is Day ' + esDay + " at St. John's, St. James, and All Saints",
         "!('notReceivingNotifications' in topics) && (!('setonNotifications' in topics) && ('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics))"
       )
     )
   }
 
   if (hsDayExists || esDayExists) {
-    const hsString = hsDayExists
-      ? "Today is Day " + hsDay + " at Seton, "
-      : "There is no school at Seton today, "
+    const hsString = hsDayExists ? 'Today is Day ' + hsDay + ' at Seton, ' : 'There is no school at Seton today, '
     const esString = esDayExists
-      ? "and today is Day " + esDay + " at the elementary schools."
-      : "and there is no school at the elementary schools."
+      ? 'and today is Day ' + esDay + ' at the elementary schools.'
+      : 'and there is no school at the elementary schools.'
     arr.push(
       notifications.createNotificationObject(
-        "Good Morning!",
+        'Good Morning!',
         hsString + esString,
         "(!('notReceivingNotifications' in topics) && ('setonNotifications' in topics && ('johnNotifications' in topics || 'saintsNotifications' in topics || 'jamesNotifications' in topics)))"
       )

@@ -10,7 +10,11 @@ const opts = { memory: "2GB", timeoutSeconds: 60 }
 
 
 const alerts = require('./alerts.js')
-exports.autoUpdateDayScheduleAndCheckForAlerts = functions.region('us-east4').runWith(opts).pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(alerts.update)
+exports.checkForAlerts = functions.region('us-east4').runWith(opts).pubsub.schedule('every 5 minutes').timeZone('America/New_York').onRun(alerts.checkForAlerts)
+
+
+const daySchedule = require('./day-schedule.js')
+exports.updateDayScheduleOnDatesUpdate = functions.region('us-east4').database.ref('/Dates').onUpdate(daySchedule.update)
 
 
 const passes = require("./passes.js")

@@ -1,54 +1,46 @@
 const admin = require('firebase-admin')
-const constants = require('./constants.json')
 if (process.env.FUNCTIONS_EMULATOR) { process.env.GOOGLE_APPLICATION_CREDENTIALS = "./csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json" }
+const firebase = require('./firebase')
 
+exports.update = async () => {
+    let noSchoolDays = await firebase.getDataFromRef('Dates/noSchoolDays')
+    let noHighSchoolDays = await firebase.getDataFromRef('Dates/noHighSchoolDays')
+    let noElementarySchoolDays = await firebase.getDataFromRef('Dates/noElementarySchoolDays')
+    let snowDays = await firebase.getDataFromRef('Dates/snowDays')
 
-exports.create = async function() {
-    let snapshot = await admin.database().ref('SnowDays').once('value')
-    const snowDateStrings = Object.values(snapshot.val())
+    const startDateString = await firebase.getDataFromRef('Dates/startDate')
+    const endDateString = await firebase.getDataFromRef('Dates/endDate')
 
-    const startDateString = constants.FIRST_DAY_OF_SCHOOL
-    const endDateString = constants.LAST_DAY_OF_SCHOOL
     var dateDayDict = {
       highSchool : {},
       elementarySchool : {}
     }
 
-    var restrictedDatesForHS = []
-    var restrictedDatesForES = []
-    const restrictedDatesForHSStrings = constants.DATES_OF_NO_SCHOOL_IN_SYSTEM + constants.DATES_OF_NO_SCHOOL_IN_HIGH_SCHOOL + snowDateStrings
-    const restrictedDatesForESStrings = constants.DATES_OF_NO_SCHOOL_IN_SYSTEM + constants.DATES_OF_NO_SCHOOL_IN_ELEMENTARY_SCHOOL + snowDateStrings
-    
-    var date = new Date(startDateString)
-    const endDate = new Date(endDateString)
-        
-    for (dateString of restrictedDatesForHSStrings) {
-      restrictedDatesForHS.push(new Date(dateString))
-    }
-    for (dateString of restrictedDatesForESStrings) {
-      restrictedDatesForES.push(new Date(dateString))
-    }
+    const restrictedDatesForHS = [...noSchoolDays, ...noHighSchoolDays, ...snowDays]
+    const restrictedDatesForES = [...noSchoolDays, ...noElementarySchoolDays, ...snowDays]
+
+    var date = new Date(startDateString + "T14:00:00.000Z")
+    const endDate = new Date(endDateString + 'T14:00:00.000Z')
+
     var hsDay = 1
     var esDay = 1
     while (date <= endDate) {
       if (date.getDay() !== 0 && date.getDay() !== 6) { //if its a weekday
-        let dateString = date.toLocaleDateString('en-US', { 
-          day: '2-digit', 
-          month: '2-digit', 
-          year: 'numeric' }
-        )
-        let dateStringComponents = dateString.split('/')
-        let dateToAddToDict = dateStringComponents[2] + "-" + dateStringComponents[0] + "-" + dateStringComponents[1]
-        if (!restrictedDatesForHSStrings.includes(dateString)) {
-          dateDayDict.highSchool[dateToAddToDict] = hsDay
+
+        let dateString = date.toISOString().split("T")[0]
+        if (!restrictedDatesForHS.includes(dateString)) {
+          dateDayDict.highSchool[dateString] = hsDay
           hsDay = hsDay <= 5 ? hsDay + 1 : 1
         }
-        if (!restrictedDatesForESStrings.includes(dateString)) {
-          dateDayDict.elementarySchool[dateToAddToDict] = esDay
+        if (!restrictedDatesForES.includes(dateString)) {
+          dateDayDict.elementarySchool[dateString] = esDay
           esDay = esDay <= 5 ? esDay + 1 : 1
         }
       }
       date.setDate(date.getDate() + 1);
     }
+
+    await firebase.writeToRef("DaySchedule", dateDayDict)
+
     return dateDayDict      
 }
