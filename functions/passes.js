@@ -1,9 +1,7 @@
 if (process.env.FUNCTIONS_EMULATOR) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = './csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json'
 }
-const constants = require('./constants.json')
-const admin = require('firebase-admin')
-const daySchedule = require('./day-schedule.js')
+const firebase = require('./firebase')
 const nodemailer = require('nodemailer')
 const cors = require('cors')({ origin: true })
 const privateFiles = require('./private-files.json')
@@ -17,22 +15,8 @@ exports.toggleHandler = async (req, res) => {
     const unauthenticated = await authentication.authenticateRequest(req.headers, ['toggleAccess', 'dashboardAccess'])
     if (unauthenticated) return res.status(403).json({ message: unauthenticated })
 
-    const dateStringComponents = new Date()
-      .toLocaleDateString('en-US', {
-        timeZone: 'America/New_York',
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-      })
-      .split('/')
-    const dateString = dateStringComponents[2] + '-' + dateStringComponents[0] + '-' + dateStringComponents[1]
-
-    const schoolToday = (
-      await admin
-        .database()
-        .ref('DaySchedule/highSchool/' + dateString)
-        .once('value')
-    ).val()
+    const dateString = firebase.getDatabaseReadableDateString(new Date())
+    const schoolToday = await firebase.getDataFromRef('DaySchedule/highSchool/' + dateString)
     const period = await schedule.getCurrentPeriod()
 
     const { id, location, forceSign } = req.body
@@ -58,8 +42,7 @@ exports.toggleHandler = async (req, res) => {
 
     //Get current time and location
     const timeOfStatusChange = new Date().toISOString()
-    if (forceSign === 'in' || forceSign === 'out') 
-      data.currentStatus = `Signed ${forceSign} - ${location}`
+    if (forceSign === 'in' || forceSign === 'out') data.currentStatus = `Signed ${forceSign} - ${location}`
     else {
       let studentAlreadySignedIntoThisPeriod = data.log.find(e => {
         console.log(e)
@@ -73,34 +56,27 @@ exports.toggleHandler = async (req, res) => {
     data.timeOfStatusChange = timeOfStatusChange
 
     //Update firebase
-    try {
-      await admin
-        .database()
-        .ref('PassSystem/Students/' + key)
-        .set(data)
-      return res.status(200).json({
-        message: `Database updated sucessfully for ${data.name} (${id}): '${data.currentStatus}'`,
-      })
-    } catch (e) {
-      return res.status(500).json({ message: e })
-    }
+    let updateSuccess = await firebase.writeToRef('PassSystem/Students/' + key, data)
+    if (!updateSuccess)
+      return res.status(500).json({ message: 'An unknown error occurred and the user was not updated' })
+
+    return res
+      .status(200)
+      .json({ message: `Database updated sucessfully for ${data.name} (${id}): '${data.currentStatus}'` })
   })
 }
 exports.addHandler = async (req, res) => {
   cors(req, res, async () => {
     const unauthenticated = await authentication.authenticateRequest(req.headers, ['dashboardAccess'])
     if (unauthenticated) return res.status(403).json({ message: unauthenticated })
+
     console.log(req.body)
     let { idNumber, name, graduationYear } = req.body
-
     graduationYear = Number(graduationYear)
     name = name ? name.replace('_', ' ') : null
-    if (
-      isNaN(graduationYear) ||
-      graduationYear < Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) ||
-      graduationYear > Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2]) + 6 ||
-      !name
-    ) {
+    const ldocString = await firebase.getDataFromRef('Dates/endDate')
+    const ldoc = Number(ldocString.split('-')[0])
+    if (isNaN(graduationYear) || graduationYear < ldoc || graduationYear > ldoc + 6 || !name) {
       return res.status(400).json({ message: 'Invalid student parameters.' })
     }
 
@@ -120,14 +96,13 @@ exports.addHandler = async (req, res) => {
       currentStatus: 'Signed In',
     }
 
-    try {
-      await admin.database().ref('PassSystem/Students').push(studentToAdd)
-      return res.status(200).json({
-        message: name + ' with ID of ' + idNumber + ' has successfully been added to the pass system.',
-      })
-    } catch (e) {
-      return res.status(500).json({ message: e.toString() })
-    }
+    let databaseUpdated = await firebase.pushToRef('PassSystem/Students', studentToAdd)
+    if (!databaseUpdated)
+      return res.status(500).json({ message: 'An unknown error occurred and the database was not updated' })
+
+    return res
+      .status(200)
+      .json({ message: name + ' with ID of ' + idNumber + ' has successfully been added to the pass system.' })
   })
 }
 exports.deleteHandler = async (req, res) => {
@@ -145,21 +120,17 @@ exports.deleteHandler = async (req, res) => {
       return res.status(400).json({ message: 'ID ' + req.query.studentIDNumber + ' does not exist.' })
 
     //Remove element from Firebase
-    try {
-      await admin
-        .database()
-        .ref('PassSystem/Students/' + studentToDelete[0])
-        .remove()
-      return res.status(200).json({
-        message:
-          studentToDelete[1].name +
-          ' with IDs ' +
-          JSON.stringify(studentToDelete[1].id) +
-          ' has successfully been removed from the system.',
-      })
-    } catch (e) {
-      return res.status(500).json({ message: e.toString() })
-    }
+    let studentRemoved = await firebase.removeAtRef('PassSystem/Students/' + studentToDelete[0])
+    if (!studentRemoved)
+      return res.status(500).json({ message: 'An unknown error occured and the student was not removed' })
+
+    return res.status(200).json({
+      message:
+        studentToDelete[1].name +
+        ' with IDs ' +
+        JSON.stringify(studentToDelete[1].id) +
+        ' has successfully been removed from the system.',
+    })
   })
 }
 /*END OF GCF EXPORTS*/
@@ -184,8 +155,10 @@ async function emailOutstandingStudents(studentArray) {
   let outstandingStudentNames = []
   var body =
     "<p style='font-size: 16px;'>The following students have been out of class or unaccounted for for more than 15 minutes: <br/><br/>"
+  const ldocString = await firebase.getDataFromRef('Dates/endDate')
+  const ldoc = Number(ldocString.split('-')[0])
   for (student of studentArray) {
-    var gradeMap = createGradeMap()
+    var gradeMap = createGradeMap(ldoc)
     var gradeLevel = gradeMap[student.graduationYear]
     var lastLocation = student.currentStatus.split('- ')[1]
     var minutesAbsent = Math.round((new Date() - new Date(student.timeOfStatusChange)) / 6000) / 10
@@ -207,7 +180,7 @@ async function emailOutstandingStudents(studentArray) {
     },
   })
 
-  let sendersList = (await admin.database().ref('PassSystem/EmailWhenOutstanding').once('value')).val()
+  let sendersList = await firebase.getDataFromRef('PassSystem/EmailWhenOutstanding')
   sendersList = Object.values(sendersList).join(', ')
 
   const mailOptions = {
@@ -235,23 +208,11 @@ async function notifyOutstandingStudents(studentArray) {
       body,
       "('notifyOutstanding' in topics)"
     )
-    admin
-      .messaging()
-      .send(notifObj)
-      // eslint-disable-next-line no-loop-func
-      .then(() => {
-        console.log('Successfully notified of outstanding student ' + student.name + '.')
-        return
-      })
-      // eslint-disable-next-line no-loop-func
-      .catch(error => {
-        console.log('Error notifying of outstanding student ' + student.name + ': ', error)
-        return
-      })
+    notifications.sendNotification(notifObj)
   }
 }
-function createGradeMap() {
-  var seniorsGradYear = Number(constants.LAST_DAY_OF_SCHOOL.split('/')[2])
+function createGradeMap(gradYear) {
+  var seniorsGradYear = gradYear
   var gradeMap = {}
   for (var i = 12; i >= 7; i--) {
     gradeMap[seniorsGradYear] = i
@@ -261,11 +222,11 @@ function createGradeMap() {
 }
 
 async function getAllStudents() {
-  let allStudentsDataObject = (await admin.database().ref('PassSystem/Students').once('value')).val()
+  let allStudentsDataObject = await firebase.getDataFromRef('PassSystem/Students')
   return allStudentsDataObject ? Object.values(allStudentsDataObject) : []
 }
 
 async function getAllStudentsWithPushID() {
-  let allStudentsDataObject = (await admin.database().ref('PassSystem/Students').once('value')).val()
+  let allStudentsDataObject = await firebase.getDataFromRef('PassSystem/Students')
   return allStudentsDataObject ? Object.entries(allStudentsDataObject) : []
 }

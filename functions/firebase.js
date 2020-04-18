@@ -23,3 +23,37 @@ exports.writeToRef = async (refString, data) => {
     return null
   }
 }
+
+exports.getDatabaseReadableDateString = (date) => {
+let dateComponents = date
+  .toLocaleDateString('en-US', {
+    timeZone: 'America/New_York',
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+  .split('/')
+return dateComponents[2] + '-' + dateComponents[0] + '-' + dateComponents[1]
+}
+
+exports.pushToRef = async (refString, data) => {
+  try {
+    await admin.database().ref(refString).push(data)
+    console.log(`${data} succesfully written to ${refString}.`)
+    return true
+  } catch (err) {
+    console.log(`Could not push ${data} to ${refString}: ${e}.`)
+    return null
+  }
+}
+
+exports.removeAtRef = async (refString) => {
+  try {
+    await admin.database().ref(refString).remove()
+    console.log(`${refString} succesfully removed.`)
+    return true
+  } catch (err) {
+    console.log(`Could not remove ${refString}: ${e}.`)
+    return null
+  }
+}

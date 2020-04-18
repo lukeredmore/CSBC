@@ -1,4 +1,4 @@
-const daySchedule = require('./day-schedule.js')
+const firebase = require('./firebase')
 
 //MARK: Methods for Alexa
 /*
@@ -15,12 +15,13 @@ exports.getDayForDate = async (req, res) => {
 
     console.log("School requested is: " + school)
     console.log("Date requested is: " + date)
-    let daySched = await daySchedule.create()
     if (school === 1) {
-      return res.status(200).json(daySched.highSchool[date])
+      const day = await firebase.getDataFromRef('DaySchedule/highSchool/' + date)
+      return res.status(200).json(day)
     } else if (school === 0) {
-      return res.status(200).json(daySched.elementarySchool[date])
+      const day = await firebase.getDataFromRef('DaySchedule/elementarySchool/' + date)
+      return res.status(200).json(day)
     } else {
-      return res.status(200).json("Invalid request")
+      return res.status(400).json("Invalid request")
     }
 }

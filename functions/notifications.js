@@ -3,7 +3,7 @@ if (process.env.FUNCTIONS_EMULATOR) {
 }
 const constants = require('./constants.json')
 const admin = require('firebase-admin')
-const cors = require('cors')({origin: true})
+const cors = require('cors')({ origin: true })
 const authentication = require('./authentication')
 
 const createNotificationObject = (title, body, condition) => {
@@ -62,15 +62,12 @@ exports.sendFromAdmin = async (req, res) => {
 }
 
 exports.sendNotification = async notificationObject => {
-  await admin
-    .messaging()
-    .send(notificationObject)
-    .then(response => {
-      console.log('success')
-      return 'Successfully sent alert message: ' + JSON.stringify(response)
-    })
-    .catch(error => {
-      console.log(error)
-      return 'Error sending message: ' + error
-    })
+  try {
+    let response = await admin.messaging().send(notificationObject)
+    console.log('success')
+    return 'Successfully sent notification ' + JSON.stringify(response)
+  } catch (error) {
+    console.log(error)
+    return 'Error sending message: ' + error
+  }
 }

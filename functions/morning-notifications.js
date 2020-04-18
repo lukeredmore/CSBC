@@ -1,14 +1,14 @@
-const daySchedule = require('./day-schedule.js')
 if (process.env.FUNCTIONS_EMULATOR) {
   process.env.GOOGLE_APPLICATION_CREDENTIALS = './csbcprod-firebase-adminsdk-hyxgt-2cfbbece24.json'
 }
 const admin = require('firebase-admin')
 const notifications = require('./notifications.js')
+const firebase = require('./firebase')
 
 //Sends day schedule notifications every morning
 exports.createAndSend = async () => {
   /*Reset schedule to default*/
-  await admin.database().ref('Schools/seton/scheduleInUse').set(1)
+  await firebase.writeToRef('Schools/seton/scheduleInUse', 1)
 
   await createAndSendDayNotification()
   await createAndSendAlertNotification()
@@ -28,10 +28,10 @@ async function createAndSendDayNotification() {
     .split('/')
   let todaysDateString =
     todaysDateStringComponents[2] + '-' + todaysDateStringComponents[0] + '-' + todaysDateStringComponents[1]
-  let daySched = await daySchedule.create()
+
   console.log("Today's date: " + todaysDateString)
-  const hsDay = daySched.highSchool[todaysDateString]
-  const esDay = daySched.elementarySchool[todaysDateString]
+  const hsDay = await firebase.getDataFromRef('DaySchedule/highSchool/' + todaysDateString)
+  const esDay = await firebase.getDataFromRef('DaySchedule/elementarySchool/' + todaysDateString)
   console.log('hsDay: ' + hsDay)
   console.log('esDay: ' + esDay)
 
@@ -52,8 +52,8 @@ async function createAndSendDayNotification() {
 
 /*Send Alert as Notification if present*/
 async function createAndSendAlertNotification() {
-  let BannerAlert = (await admin.database().ref('BannerAlert').once('value')).val()
-  const { message, previousMessages } = BannerAlert
+  let bannerAlert = await firebase.getDataFromRef('BannerAlert')
+  const { message, previousMessages } = bannerAlert
 
   console.log("Banner message: " + message)
 

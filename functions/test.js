@@ -8,9 +8,10 @@ const admin = require('firebase-admin')
 const passes = require('./passes')
 const notifications = require('./notifications')
 const morning = require('./morning-notifications')
+const alerts = require('./alerts')
 
 exports.test = async (req, res) => {
-  let resp = await daySchedule.create()
+  let resp = await alerts.checkForAlerts()
   res.send(resp)
 }
 
