@@ -15,14 +15,16 @@ let transporter = nodemailer.createTransport({
 
 exports.createAndSend = async (req, res) => {
   cors(req, res, async () => {
-    const { senderName, subject, message } = req.body
+    const { senderName, subject, message, senderEmail } = req.body
     if (!senderName || !subject || !message) return res.status(400).json({ message: 'Invalid parameters' })
 
     const mailOptions = {
       from: senderName + '<' + privateFiles.MAIL_CREDENTIALS.USERNAME + '>',
       to: 'luke.redmore@gmail.com',
       subject: subject,
+      replyTo: senderEmail,
       html: `<p style="font-size: 16px;">` + message.replace('\n', '<br>') + `</p>`, // email content in HTML
+      text: message,
     }
 
     // returning result

@@ -11,7 +11,8 @@ const morning = require('./morning-notifications')
 const alerts = require('./alerts')
 
 exports.test = async (req, res) => {
-  let resp = await alerts.checkForAlerts()
+  let resp = "await alerts.checkForAlerts()"
+  // console.log(req)
   res.send(resp)
 }
 

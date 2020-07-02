@@ -40,12 +40,13 @@ class HomeView: UIView, AlertDelegate {
         subviews.forEach { $0.removeFromSuperview() }
         alertBannerHeight = nil
         backgroundColor = .csbcNavBarBackground
-        if let alertMessage = alertMessage, alertMessage != "" {
+        if let alertText = alertMessage?.replacingOccurrences(of: "--include-covid-modal--", with: ""), alertText != "" {
             let alertLabel = UILabel()
             alertLabel.numberOfLines = 0
-            alertLabel.text = alertMessage.replacingOccurrences(of: "--include-covid-modal--", with: "")
-            let height = alertMessage.replacingOccurrences(of: "--include-covid-modal--", with: "").height(withConstrainedWidth: UIScreen.main.bounds.width, font: UIFont(name: "gotham-bold", size: 18)!)
-            alertLabel.font = UIFont(name: "gotham-bold", size: 18)
+            alertLabel.text = alertText
+            let font = UIFont(name: "gotham-bold", size: 18)!
+            let height = alertText.height(withConstrainedWidth: UIScreen.main.bounds.width, font: font)
+            alertLabel.font = font
             alertLabel.textColor = .white
             alertLabel.frame = CGRect(x: (UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0), y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0), width: (UIScreen.main.bounds.width - (2*(UIApplication.shared.keyWindow?.safeAreaInsets.left ?? 0))), height: height)
             alertLabel.textAlignment = NSTextAlignment.center

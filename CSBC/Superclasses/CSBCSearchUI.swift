@@ -154,14 +154,18 @@ class CSBCSearchUI : UIView {
         controller.searchBar.tintColor = .white
         controller.searchBar.isTranslucent = false
         controller.searchBar.barTintColor = navBarColor
-        controller.searchBar.searchTextField.backgroundColor = searchFieldColor
-        controller.searchBar.searchTextField.textColor = .white
+        if #available(iOS 13.0, *) {
+            controller.searchBar.searchTextField.backgroundColor = searchFieldColor
+            controller.searchBar.searchTextField.textColor = .white
+            controller.searchBar.searchTextField.clearButtonMode = .never
+
+        }
+        
         controller.searchBar.backgroundImage = UIImage()
         controller.searchBar.clipsToBounds = true
         controller.searchBar.placeholder = configuration.searchPlaceholder
         controller.searchBar.setPlaceholder(textColor: .white)
         controller.searchBar.setSearchImage(color: .white)
-        controller.searchBar.searchTextField.clearButtonMode = .never
     }
     private func configureTableView(_ tableView : UITableView) {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -223,12 +227,17 @@ class CSBCSearchUI : UIView {
 
 fileprivate extension UISearchBar {
     
-    func setPlaceholder(textColor: UIColor) { searchTextField.setPlaceholder(textColor: textColor) }
+    func setPlaceholder(textColor: UIColor) { if #available(iOS 13.0, *) {
+        searchTextField.setPlaceholder(textColor: textColor)
+    } }
     
     func setSearchImage(color: UIColor) {
-        guard let imageView = searchTextField.leftView as? UIImageView else { return }
-        imageView.tintColor = color
-        imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+        if #available(iOS 13.0, *) {
+            guard let imageView = searchTextField.leftView as? UIImageView else { return }
+            imageView.tintColor = color
+            imageView.image = imageView.image?.withRenderingMode(.alwaysTemplate)
+        }
+        
     }
 }
 
