@@ -13,7 +13,6 @@ import SafariServices
 final class HomeViewController: CSBCViewController, SegueDelegate {
     private lazy var mainView = HomeView(segueDelegate: self)
     private lazy var alertController = AlertController(alertDelegate: mainView)
-    
     private var navBarShouldAppearWhileTransitioning = true
     var lastSeguedWebView: WebViewController?
     
@@ -42,7 +41,12 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "WebSegue" {
-            lastSeguedWebView = segue.destination as? WebViewController }
+            lastSeguedWebView = segue.destination as? WebViewController
+        } else if segue.identifier == "CovidSegue" {
+            let vc = segue.destination as? CovidViewController
+            vc?.delegate = self
+        }
+        
     }
     
     func modalHoverViewTapped() {
@@ -62,4 +66,10 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
         */
     }
     
+}
+
+extension HomeViewController: CovidDelegate {
+    func questionaireCompleted() {
+        alert("Questionaire complete!", message: "Thank you for completing the check-in. If any of your answers change throughout the day/week, please fill out this form again.")
+    }
 }

@@ -24,6 +24,13 @@ extension UIColor {
         } else { return #colorLiteral(red: 0.4, green: 0.4, blue: 0.4, alpha: 1) }
     }
     
+    ///Universal: CSBC Green
+    static var csbcAlwaysGreen: UIColor {
+        if #available(iOS 13.0, *) {
+            return UIColor(named: "CSBCAlwaysGreen")!
+        } else { return #colorLiteral(red: 0.08235294118, green: 0.2784313725, blue: 0.2039215686, alpha: 1) }
+    }
+    
     ///Universal: Nice-looking red
     static var csbcAlertRed: UIColor {
         if #available(iOS 13.0, *) {

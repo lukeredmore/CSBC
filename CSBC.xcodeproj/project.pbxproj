@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2608DC4524D38BC00065C471 /* CovidViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2608DC4424D38BC00065C471 /* CovidViewController.swift */; };
 		2614F77F229B88F000EC6030 /* CustomNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2614F77E229B88F000EC6030 /* CustomNetworking.swift */; };
 		26167781223A9A2B00A988D0 /* UniformsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26167780223A9A2B00A988D0 /* UniformsViewController.swift */; };
 		2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2618D32D23236AE400E16C21 /* HomeScreenCollectionView.swift */; };
@@ -58,6 +59,7 @@
 		26712F3F22C7F4CF00C30493 /* ModalMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */; };
 		26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4022C7FB6400C30493 /* CSBCViewController.swift */; };
 		26712F4322C9071300C30493 /* HomeCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4222C9071300C30493 /* HomeCollectionController.swift */; };
+		2678409E24D5C5670050053B /* ButtonWithActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678409D24D5C5670050053B /* ButtonWithActivityIndicator.swift */; };
 		2682D3DA22D05BF000072492 /* ContactMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2682D3D922D05BF000072492 /* ContactMailDelegate.swift */; };
 		26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsDataParser.swift */; };
 		26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */; };
@@ -134,6 +136,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2608DC4424D38BC00065C471 /* CovidViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidViewController.swift; sourceTree = "<group>"; };
 		260DF8952253055900C7413A /* CSBC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CSBC.entitlements; sourceTree = "<group>"; };
 		2614F77E229B88F000EC6030 /* CustomNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNetworking.swift; sourceTree = "<group>"; };
 		26167780223A9A2B00A988D0 /* UniformsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniformsViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +189,7 @@
 		26712F3E22C7F4CF00C30493 /* ModalMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalMenuViewController.swift; sourceTree = "<group>"; };
 		26712F4022C7FB6400C30493 /* CSBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCViewController.swift; sourceTree = "<group>"; };
 		26712F4222C9071300C30493 /* HomeCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionController.swift; sourceTree = "<group>"; };
+		2678409D24D5C5670050053B /* ButtonWithActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithActivityIndicator.swift; sourceTree = "<group>"; };
 		2682D3D922D05BF000072492 /* ContactMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMailDelegate.swift; sourceTree = "<group>"; };
 		26858BC42226292700ADDD1F /* AthleticsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsDataParser.swift; sourceTree = "<group>"; };
 		26894D3E21EFACFD00691C97 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
@@ -280,6 +284,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2608DC3F24D38AB30065C471 /* COVIDQuestionaire */ = {
+			isa = PBXGroup;
+			children = (
+				2608DC4424D38BC00065C471 /* CovidViewController.swift */,
+			);
+			path = COVIDQuestionaire;
+			sourceTree = "<group>";
+		};
 		260A433F222739580022ACA1 /* Today */ = {
 			isa = PBXGroup;
 			children = (
@@ -453,6 +465,7 @@
 				263C6D0823038BCB00D189D8 /* Schools.swift */,
 				26C951C823BAA0240075DCC1 /* SelectableLabel.swift */,
 				2667FB4123EDBCC0003894FB /* CSBCNavigationController.swift */,
+				2678409D24D5C5670050053B /* ButtonWithActivityIndicator.swift */,
 			);
 			path = Superclasses;
 			sourceTree = "<group>";
@@ -710,6 +723,7 @@
 		26F8769D22010771000641E0 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				2608DC3F24D38AB30065C471 /* COVIDQuestionaire */,
 				26E281C423CA3187004497DB /* STEMHunt */,
 				26F7234422960C0F005DEDA7 /* Home */,
 				260A433F222739580022ACA1 /* Today */,
@@ -1003,6 +1017,7 @@
 				2667FB4523EDD2F6003894FB /* STEMSuccessViewController.swift in Sources */,
 				26DF69992378653E00B4B6BE /* PassesRetriever.swift in Sources */,
 				26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */,
+				2678409E24D5C5670050053B /* ButtonWithActivityIndicator.swift in Sources */,
 				26C36D4A22F4B3AB003B6CE3 /* TodayDataSource.swift in Sources */,
 				26247F2F237229F600B8BCAC /* CalendarTableViewController.swift in Sources */,
 				2699F9DC22331A5600AA1CF3 /* DocumentsViewController.swift in Sources */,
@@ -1024,6 +1039,7 @@
 				263A81F222A5F6D3001D0716 /* NotificationSettings.swift in Sources */,
 				266A69FF2347E9B9006848E9 /* PassDetailViewController.swift in Sources */,
 				26DC0B73222B1BF900371B61 /* FilterCalendarViewController.swift in Sources */,
+				2608DC4524D38BC00065C471 /* CovidViewController.swift in Sources */,
 				26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */,
 				2627EA6E242C1B0A0054F7CC /* StaticData.swift in Sources */,
 				26C36D4C22F4BDE9003B6CE3 /* TodayDataParser.swift in Sources */,

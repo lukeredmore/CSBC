@@ -65,14 +65,34 @@ class HomeView: UIView, AlertDelegate {
         headerImageView.isUserInteractionEnabled = true
         addSubview(headerImageView)
         
-        let barView = UIView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 119 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: 14))
+        let barHeight : CGFloat = 60.0
+        
+        
+        let barView = UIView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 119 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: barHeight))
         barView.backgroundColor = .csbcYellow
         addSubview(barView)
         
+        //MARK: COVID-SPECIFIC
         let modalHoverViewHeight = alertMessage?.contains("--include-covid-modal--") ?? false ? createCOVIDView() : 0.0
+        let questionaireLabel = UILabel()
+        questionaireLabel.numberOfLines = 0
+        questionaireLabel.text = "COVID-19 Check-In ►"
+        let font = UIFont(name: "gotham-bold", size: 22)!
+        questionaireLabel.font = font
+        questionaireLabel.textColor = .white
+        questionaireLabel.translatesAutoresizingMaskIntoConstraints = false
+        questionaireLabel.textAlignment = NSTextAlignment.center
         
+        barView.addSubview(questionaireLabel)
+        barView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(covidQuestionaireTapped)))
+        barView.addConstraints([
+            barView.bottomAnchor.constraint(equalTo: questionaireLabel.bottomAnchor),
+            barView.leadingAnchor.constraint(equalTo: questionaireLabel.leadingAnchor),
+            barView.trailingAnchor.constraint(equalTo: questionaireLabel.trailingAnchor),
+            barView.topAnchor.constraint(equalTo: questionaireLabel.topAnchor)
+        ])
         
-        let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 131 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 131 - (alertBannerHeight ?? 0) - modalHoverViewHeight))
+        let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 117 + barHeight + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 117 - barHeight - (alertBannerHeight ?? 0) - modalHoverViewHeight))
         addSubview(collectionView)
         collectionView.dataSource = collectionController
         collectionView.delegate = collectionController
@@ -92,6 +112,10 @@ class HomeView: UIView, AlertDelegate {
                 SnowFallView.overlay(onView: self, count: 2)
             }
         }
+    }
+    
+    @objc func covidQuestionaireTapped() {
+        segueDelegate.performSegue(withIdentifier: "CovidSegue", sender: nil)
     }
     
     @objc func modalHoverViewTapped() {

@@ -30,13 +30,13 @@ final class JumpToDateViewController: ModalMenuViewController {
         menuView.backgroundColor = .csbcCardView
         
         
-        if #available(iOS 14.0, *) {
-            datePicker.preferredDatePickerStyle = .inline
-            menuView.addConstraints([
-                datePicker.centerXAnchor.constraint(equalTo: menuView.centerXAnchor)
-            ])
-            super.init(menu: menuView, height: 310)
-        } else {
+//        if #available(iOS 14.0, *) {
+//            datePicker.preferredDatePickerStyle = .inline
+//            menuView.addConstraints([
+//                datePicker.centerXAnchor.constraint(equalTo: menuView.centerXAnchor)
+//            ])
+//            super.init(menu: menuView, height: 310)
+//        } else {
             menuView.addConstraints([
                 datePicker.topAnchor.constraint(equalTo: menuView.topAnchor),
                 datePicker.bottomAnchor.constraint(equalTo: menuView.bottomAnchor),
@@ -44,7 +44,7 @@ final class JumpToDateViewController: ModalMenuViewController {
                 datePicker.trailingAnchor.constraint(equalTo: menuView.trailingAnchor)
             ])
             super.init(menu: menuView, height: 200)
-        }
+//        }
         
     }
     
