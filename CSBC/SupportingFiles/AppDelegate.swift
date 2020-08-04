@@ -14,7 +14,7 @@ import GoogleSignIn
 
 ///Configure Firebase, download Lunch Menus, queue local notifications, setup UI defaults
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
     
@@ -37,8 +37,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
             if granted { DispatchQueue.main.async {
                 application.registerForRemoteNotifications()
-                CovidQuestionnaireNotifications.configure()
-                print("working good")
             } }
         }
         return true
@@ -69,9 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //print(remoteMessage.appData)
     }
     
-    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler(.alert)
-    }
+    
     
     func applicationWillResignActive(_ application: UIApplication) { }
 
@@ -122,6 +118,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
         if let error = error { print("Error signing out: ", error) }
         else { print("Google user disconnected") }
+    }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+        if (response.notification.request.content.title == "Time to check-in!") {
+            /* Change root view controller to a specific viewcontroller */
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateViewController(withIdentifier: "homeViewController") as? HomeViewController
+            self.window?.rootViewController = vc
+            vc?.performSegue(withIdentifier: "CovidSegue", sender: nil)
+        }
+        
+        completionHandler()
     }
 }
 

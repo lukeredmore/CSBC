@@ -15,6 +15,16 @@ protocol CovidDelegate: class {
 
 class CovidViewController: CSBCViewController {
     
+    static var showCovidCheckIn : Bool {
+        get {
+            #if DEBUG
+            return true
+            #else
+            return Bool(StaticData.readData(atPath: "general/showCovidCheckIn") ?? "false") ?? false
+            #endif
+        }
+    }
+    
     var delegate : CovidDelegate? = nil
     
     @IBOutlet weak var covidText: UILabel! {

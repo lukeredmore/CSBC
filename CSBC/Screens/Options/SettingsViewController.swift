@@ -14,12 +14,15 @@ class SettingsViewController: UITableViewController  {
     @IBOutlet private var settingsSwitch: [UISwitch]!
     @IBOutlet weak private var copyrightLabel: UILabel! { didSet {
         copyrightLabel.text = "© \(Date().yearString()) Catholic Schools of Broome County"
-    }}
+        }}
     @IBOutlet weak private var versionLabel: UILabel! { didSet {
         versionLabel.text = Bundle.versionString
-    } }
+        } }
     @IBOutlet weak var firstAdminSettingsLabel: UILabel!
     @IBOutlet weak var secondAdminSettingsLabel: UILabel!
+    
+    @IBOutlet weak var staffCheckInReminderSwitch: UISwitch!
+    @IBOutlet weak var familyCheckInReminderSwitch: UISwitch!
     
     
     private let userDefaults = UserDefaults.standard
@@ -38,6 +41,8 @@ class SettingsViewController: UITableViewController  {
         for i in 0..<4 { settingsSwitch[i].isOn = NotificationController.notificationSettings.schools[i] }
         settingsSwitch[4].isOn = userDefaults.value(forKey: "showAllSchools") as? Bool ?? true
         deliverNotificationsSwitch.isOn = NotificationController.notificationSettings.shouldDeliver
+        staffCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyStaffCheckIn
+        familyCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyFamilyCheckIn
         configureAdminLabels()
     }
     
@@ -62,6 +67,14 @@ class SettingsViewController: UITableViewController  {
         guard !allSchoolsOff else { deliverNotificationsSwitch.setOn(false, animated: true); return }
         NotificationController.notificationSettings.shouldDeliver = deliverNotificationsSwitch.isOn
     }
+    
+    @IBAction func checkInReminderSwitchToggled(_ sender: UISwitch?) {
+        NotificationController.notificationSettings.notifyStaffCheckIn = staffCheckInReminderSwitch.isOn
+        NotificationController.notificationSettings.notifyFamilyCheckIn = familyCheckInReminderSwitch.isOn
+    }
+    
+
+    
     
     
     //MARK: Other methods
@@ -102,21 +115,21 @@ class SettingsViewController: UITableViewController  {
             }
             present(STEMNavigationController(), animated: true)
         } else if indexPath.section == 4, indexPath.row == 1 { //REPORT ISSUE
-                let reportIssueVC = ComposerViewController(configuration: ComposerViewController.reportIssueConfiguration) { text in
-                    let params : [String : String] = [
-                        "message": "<i>App version: \(Bundle.versionString)</i>\n<hr>\n\(text)",
-                        "senderName": "CSBC App Issue",
-                        "subject": "New App Issue: \(Date().dateString())"
-                    ]
-                    CustomNetworking.sendPostRequest(url: APIEndpoints.SEND_REPORT_EMAIL_FUNCTION_URL, body: params) { response in
-                        DispatchQueue.main.async {
-                            print(response)
-                            guard response.status == 200 else { self.errorSending(response.message); return }
-                            self.alert("Report successfully submitted")
-                        }
+            let reportIssueVC = ComposerViewController(configuration: ComposerViewController.reportIssueConfiguration) { text in
+                let params : [String : String] = [
+                    "message": "<i>App version: \(Bundle.versionString)</i>\n<hr>\n\(text)",
+                    "senderName": "CSBC App Issue",
+                    "subject": "New App Issue: \(Date().dateString())"
+                ]
+                CustomNetworking.sendPostRequest(url: APIEndpoints.SEND_REPORT_EMAIL_FUNCTION_URL, body: params) { response in
+                    DispatchQueue.main.async {
+                        print(response)
+                        guard response.status == 200 else { self.errorSending(response.message); return }
+                        self.alert("Report successfully submitted")
                     }
                 }
-                present(reportIssueVC, animated: true)
+            }
+            present(reportIssueVC, animated: true)
         } else if indexPath.section == 3, indexPath.row == 0, passAccess { //SHOW PASSES
             navigationController?.pushViewController(PassesViewController(), animated: true)
         } else if indexPath.section == 3, indexPath.row == (passAccess ? 1 : 0), self.notificationSchool != nil { //SEND NOTIFICATION
@@ -136,14 +149,18 @@ class SettingsViewController: UITableViewController  {
         }
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard section == 3 else { return super.tableView(tableView, numberOfRowsInSection: section) }
-        if notificationSchool != nil && passAccess {
-            return 2
-        } else if notificationSchool != nil || passAccess {
-            return 1
-        } else {
-            return 0
-        }
+        if section == 3 {
+            if notificationSchool != nil && passAccess {
+                return 2
+            } else if notificationSchool != nil || passAccess {
+                return 1
+            } else {
+                return 0
+            }
+        } else if section == 2 {
+            return CovidViewController.showCovidCheckIn ? 3 : 1
+        } else { return super.tableView(tableView, numberOfRowsInSection: section) }
+        
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 3 && (notificationSchool != nil || passAccess) {

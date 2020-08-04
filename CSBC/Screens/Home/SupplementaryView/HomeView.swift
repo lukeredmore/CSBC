@@ -65,8 +65,7 @@ class HomeView: UIView, AlertDelegate {
         headerImageView.isUserInteractionEnabled = true
         addSubview(headerImageView)
         
-        let showCovidCheckIn = Bool(StaticData.readData(atPath: "general/showCovidCheckIn") ?? "false") ?? false
-        let barHeight : CGFloat = showCovidCheckIn ? 56.0 : 14.0
+        let barHeight : CGFloat = CovidViewController.showCovidCheckIn ? 56.0 : 14.0
         
         
         let barView = UIView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 119 + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: barHeight))
@@ -76,7 +75,7 @@ class HomeView: UIView, AlertDelegate {
         //MARK: COVID-SPECIFIC
         let modalHoverViewHeight = alertMessage?.contains("--include-covid-modal--") ?? false ? createCOVIDView() : 0.0
         
-        if (showCovidCheckIn) {
+        if CovidViewController.showCovidCheckIn {
         let questionaireLabel = UILabel()
         questionaireLabel.numberOfLines = 0
         questionaireLabel.text = "COVID-19 Check-In ►"

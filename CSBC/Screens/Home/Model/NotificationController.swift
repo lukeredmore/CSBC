@@ -36,7 +36,9 @@ class NotificationController {
             } else {
                 let notifs = NotificationSettings(
                     shouldDeliver: true,
-                    schools: [true, true, true, true]
+                    schools: [true, true, true, true],
+                    notifyStaffCheckIn: false,
+                    notifyFamilyCheckIn: true
                 )
                 self.userDefaults.set(try? PropertyListEncoder().encode(notifs), forKey: "Notifications")
                 return notifs
@@ -77,6 +79,9 @@ class NotificationController {
             }
             Analytics.setUserProperty("\(notificationSettings.schools[i])", forName: topicArray[i])
         }
+        CovidQuestionnaireNotifications.configure(notifyStaffCheckIn: settings.notifyStaffCheckIn, notifyFamilyCheckIn: settings.notifyFamilyCheckIn)
+        
+        
         #if DEBUG
         Messaging.messaging().subscribe(toTopic: "debugDevice") { error in
             if let error = error { print("Error subscribing to topics: \(error)") }
