@@ -60,6 +60,7 @@
 		26712F4122C7FB6400C30493 /* CSBCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4022C7FB6400C30493 /* CSBCViewController.swift */; };
 		26712F4322C9071300C30493 /* HomeCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26712F4222C9071300C30493 /* HomeCollectionController.swift */; };
 		2678409E24D5C5670050053B /* ButtonWithActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678409D24D5C5670050053B /* ButtonWithActivityIndicator.swift */; };
+		267840A024D770A60050053B /* CovidQuestionnaireNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678409F24D770A60050053B /* CovidQuestionnaireNotifications.swift */; };
 		2682D3DA22D05BF000072492 /* ContactMailDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2682D3D922D05BF000072492 /* ContactMailDelegate.swift */; };
 		26858BC52226292700ADDD1F /* AthleticsDataParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26858BC42226292700ADDD1F /* AthleticsDataParser.swift */; };
 		26894D3D21EFACBE00691C97 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 26ED796621EB91D50086FB86 /* LaunchScreen.storyboard */; };
@@ -190,6 +191,7 @@
 		26712F4022C7FB6400C30493 /* CSBCViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSBCViewController.swift; sourceTree = "<group>"; };
 		26712F4222C9071300C30493 /* HomeCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCollectionController.swift; sourceTree = "<group>"; };
 		2678409D24D5C5670050053B /* ButtonWithActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonWithActivityIndicator.swift; sourceTree = "<group>"; };
+		2678409F24D770A60050053B /* CovidQuestionnaireNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CovidQuestionnaireNotifications.swift; sourceTree = "<group>"; };
 		2682D3D922D05BF000072492 /* ContactMailDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactMailDelegate.swift; sourceTree = "<group>"; };
 		26858BC42226292700ADDD1F /* AthleticsDataParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AthleticsDataParser.swift; sourceTree = "<group>"; };
 		26894D3E21EFACFD00691C97 /* Gotham-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Gotham-Light.otf"; sourceTree = "<group>"; };
@@ -284,12 +286,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2608DC3F24D38AB30065C471 /* COVIDQuestionaire */ = {
+		2608DC3F24D38AB30065C471 /* COVIDQuestionnaire */ = {
 			isa = PBXGroup;
 			children = (
 				2608DC4424D38BC00065C471 /* CovidViewController.swift */,
+				2678409F24D770A60050053B /* CovidQuestionnaireNotifications.swift */,
 			);
-			path = COVIDQuestionaire;
+			path = COVIDQuestionnaire;
 			sourceTree = "<group>";
 		};
 		260A433F222739580022ACA1 /* Today */ = {
@@ -723,7 +726,7 @@
 		26F8769D22010771000641E0 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
-				2608DC3F24D38AB30065C471 /* COVIDQuestionaire */,
+				2608DC3F24D38AB30065C471 /* COVIDQuestionnaire */,
 				26E281C423CA3187004497DB /* STEMHunt */,
 				26F7234422960C0F005DEDA7 /* Home */,
 				260A433F222739580022ACA1 /* Today */,
@@ -1077,6 +1080,7 @@
 				2618D32E23236AE400E16C21 /* HomeScreenCollectionView.swift in Sources */,
 				266A4DBB22F700FE00C3B773 /* AthleticsRetriever.swift in Sources */,
 				26C529B422248A8A00267ECA /* LunchViewController.swift in Sources */,
+				267840A024D770A60050053B /* CovidQuestionnaireNotifications.swift in Sources */,
 				26F2357D233D360800A3BE62 /* NewsViewController.swift in Sources */,
 				262EA46A23A1EE52000BE0FC /* SearchScrollDelegate.swift in Sources */,
 				26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */,

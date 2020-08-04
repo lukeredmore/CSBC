@@ -22,38 +22,38 @@ class CovidViewController: CSBCViewController {
             covidText.text = "The Catholic Schools of Broome County are working hard to maintain the safety and health of our students, faculty, staff and families. In order to ensure everyone’s safety we are asking that faculty and staff use the check-in below each day, and for families to check-in weekly.\n\nIn addition, we will be taking temperature checks of everyone who enters a CSBC building daily. Thank you in advance for your cooperation."
         }
     }
-    @IBOutlet weak var staffQuestionaireWebView: WKWebView! {
+    @IBOutlet weak var staffQuestionnaireWebView: WKWebView! {
         didSet {
-            staffQuestionaireWebView.navigationDelegate = self
-            staffQuestionaireWebView.scrollView.showsHorizontalScrollIndicator = false
-            staffQuestionaireWebView.scrollView.alwaysBounceVertical = true
-            staffQuestionaireWebView.scrollView.maximumZoomScale = 1.0
-            staffQuestionaireWebView.scrollView.minimumZoomScale = 1.0
-            staffQuestionaireWebView.scrollView.delegate = self
+            staffQuestionnaireWebView.navigationDelegate = self
+            staffQuestionnaireWebView.scrollView.showsHorizontalScrollIndicator = false
+            staffQuestionnaireWebView.scrollView.alwaysBounceVertical = true
+            staffQuestionnaireWebView.scrollView.maximumZoomScale = 1.0
+            staffQuestionnaireWebView.scrollView.minimumZoomScale = 1.0
+            staffQuestionnaireWebView.scrollView.delegate = self
         }
     }
-    @IBOutlet weak var familyQuestionaireWebView: WKWebView!{
+    @IBOutlet weak var familyQuestionnaireWebView: WKWebView!{
         didSet {
-            familyQuestionaireWebView.navigationDelegate = self
-            familyQuestionaireWebView.scrollView.showsHorizontalScrollIndicator = false
-            familyQuestionaireWebView.scrollView.alwaysBounceVertical = true
-            familyQuestionaireWebView.scrollView.maximumZoomScale = 1.0
-            familyQuestionaireWebView.scrollView.minimumZoomScale = 1.0
-            familyQuestionaireWebView.scrollView.delegate = self
+            familyQuestionnaireWebView.navigationDelegate = self
+            familyQuestionnaireWebView.scrollView.showsHorizontalScrollIndicator = false
+            familyQuestionnaireWebView.scrollView.alwaysBounceVertical = true
+            familyQuestionnaireWebView.scrollView.maximumZoomScale = 1.0
+            familyQuestionnaireWebView.scrollView.minimumZoomScale = 1.0
+            familyQuestionnaireWebView.scrollView.delegate = self
         }
     }
     
     @IBOutlet weak var landingPageContainerView: UIView!
     
     
-    @IBOutlet weak var staffQuestionaireButton: ButtonWithActivityIndicator! {
+    @IBOutlet weak var staffQuestionnaireButton: ButtonWithActivityIndicator! {
         didSet {
-            staffQuestionaireButton.layer.cornerRadius = 55.0/2
+            staffQuestionnaireButton.layer.cornerRadius = 55.0/2
         }
     }
-    @IBOutlet weak var familyQuestionaireButton: ButtonWithActivityIndicator! {
+    @IBOutlet weak var familyQuestionnaireButton: ButtonWithActivityIndicator! {
         didSet {
-            familyQuestionaireButton.layer.cornerRadius = 55.0/2
+            familyQuestionnaireButton.layer.cornerRadius = 55.0/2
         }
     }
     
@@ -63,25 +63,25 @@ class CovidViewController: CSBCViewController {
     }
     
     private func resetWebViews() {
-        staffQuestionaireButton.loading(true)
-        familyQuestionaireButton.loading(true)
-        staffQuestionaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/JhGAZQ")!))
-        familyQuestionaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/s1lTAQ")!))
-        staffQuestionaireWebView.isHidden = true
-        familyQuestionaireWebView.isHidden = true
+        staffQuestionnaireButton.loading(true)
+        familyQuestionnaireButton.loading(true)
+        staffQuestionnaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/JhGAZQ")!))
+        familyQuestionnaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/s1lTAQ")!))
+        staffQuestionnaireWebView.isHidden = true
+        familyQuestionnaireWebView.isHidden = true
         landingPageContainerView.isHidden = false
     }
     
-    @IBAction func staffQuestionaireButtonPressed(_ sender: Any) {
-        familyQuestionaireWebView.isHidden = true
-        staffQuestionaireWebView.show() {
+    @IBAction func staffQuestionnaireButtonPressed(_ sender: Any) {
+        familyQuestionnaireWebView.isHidden = true
+        staffQuestionnaireWebView.show() {
             self.landingPageContainerView.isHidden = true
         }
     }
     
-    @IBAction func familyQuestionaireButtonPressed(_ sender: Any) {
-        staffQuestionaireWebView.isHidden = true
-        familyQuestionaireWebView.show() {
+    @IBAction func familyQuestionnaireButtonPressed(_ sender: Any) {
+        staffQuestionnaireWebView.isHidden = true
+        familyQuestionnaireWebView.show() {
             self.landingPageContainerView.isHidden = true
         }
     }
@@ -96,15 +96,15 @@ extension CovidViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         if (webView.url!.absoluteString.contains("confirmation")) {
-            staffQuestionaireWebView.isHidden = true
-            familyQuestionaireWebView.isHidden = true
+            staffQuestionnaireWebView.isHidden = true
+            familyQuestionnaireWebView.isHidden = true
             self.dismiss(animated: true) {
                 self.delegate?.questionaireCompleted()
             }
         } else if (webView.url!.absoluteString.contains("/form/JhGAZQ")) {
-            staffQuestionaireButton.loading(false)
+            staffQuestionnaireButton.loading(false)
         } else if (webView.url!.absoluteString.contains("/form/s1lTAQ")) {
-            familyQuestionaireButton.loading(false)
+            familyQuestionnaireButton.loading(false)
         }
     }
 }

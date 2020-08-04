@@ -70,6 +70,6 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
 
 extension HomeViewController: CovidDelegate {
     func questionaireCompleted() {
-        alert("Questionaire complete!", message: "Thank you for completing the check-in. If any of your answers change throughout the day/week, please fill out this form again.")
+        alert("Questionnaire complete!", message: "Thank you for completing the check-in. If any of your answers change throughout the day/week, please fill out this form again.")
     }
 }

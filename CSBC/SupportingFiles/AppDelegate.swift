@@ -37,6 +37,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         UNUserNotificationCenter.current().requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
             if granted { DispatchQueue.main.async {
                 application.registerForRemoteNotifications()
+                CovidQuestionnaireNotifications.configure()
+                print("working good")
             } }
         }
         return true

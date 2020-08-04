@@ -17,10 +17,11 @@ class StaticData {
     
     static func readData(atPath path : String) -> String?  {
         let pathAsArr = path.components(separatedBy: "/")
+        print(pathAsArr)
         do {
             let savedData = try Data(contentsOf: jsonURL)
             let savedJSON = try JSON(data: savedData)
-            return savedJSON[pathAsArr].string
+            return savedJSON[pathAsArr].rawString()
         } catch {
             print("Unable to read staticData.json")
             return nil
