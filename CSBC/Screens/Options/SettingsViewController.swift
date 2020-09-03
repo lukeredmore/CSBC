@@ -42,7 +42,9 @@ class SettingsViewController: UITableViewController  {
         settingsSwitch[4].isOn = userDefaults.value(forKey: "showAllSchools") as? Bool ?? true
         deliverNotificationsSwitch.isOn = NotificationController.notificationSettings.shouldDeliver
         staffCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyStaffCheckIn
+        staffCheckInReminderSwitch.isEnabled = CovidViewController.showCovidCheckIn
         familyCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyFamilyCheckIn
+        familyCheckInReminderSwitch.isEnabled = CovidViewController.showCovidCheckIn
         configureAdminLabels()
     }
     
@@ -159,7 +161,9 @@ class SettingsViewController: UITableViewController  {
             }
         } else if section == 2 {
             return CovidViewController.showCovidCheckIn ? 3 : 1
-        } else { return super.tableView(tableView, numberOfRowsInSection: section) }
+        } else {
+            return super.tableView(tableView, numberOfRowsInSection: section)
+        }
         
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
