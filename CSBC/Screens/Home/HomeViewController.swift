@@ -20,6 +20,9 @@ final class HomeViewController: CSBCViewController, SegueDelegate {
     //MARK: View Control
     override func viewDidLoad() {
         super.viewDidLoad()
+        StaticData.getDataFromFirebase() {
+            self.mainView.rebuild()
+        }
         self.view = mainView
     }
     override func viewWillAppear(_ animated: Bool) {

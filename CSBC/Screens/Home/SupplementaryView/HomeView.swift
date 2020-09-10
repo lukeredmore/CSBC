@@ -76,22 +76,22 @@ class HomeView: UIView, AlertDelegate {
         let modalHoverViewHeight = alertMessage?.contains("--include-covid-modal--") ?? false ? createCOVIDView() : 0.0
         
         if CovidViewController.showCovidCheckIn {
-        let questionaireLabel = UILabel()
-        questionaireLabel.numberOfLines = 0
-        questionaireLabel.text = "COVID-19 Check-In ►"
-        questionaireLabel.font = UIFont(name: "gotham-bold", size: 24)!
-        questionaireLabel.textColor = .white
-        questionaireLabel.translatesAutoresizingMaskIntoConstraints = false
-        questionaireLabel.textAlignment = NSTextAlignment.center
-        
-        barView.addSubview(questionaireLabel)
-        barView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(covidQuestionnaireTapped)))
-        barView.addConstraints([
-            barView.bottomAnchor.constraint(equalTo: questionaireLabel.bottomAnchor),
-            barView.leadingAnchor.constraint(equalTo: questionaireLabel.leadingAnchor),
-            barView.trailingAnchor.constraint(equalTo: questionaireLabel.trailingAnchor),
-            barView.topAnchor.constraint(equalTo: questionaireLabel.topAnchor)
-        ])
+            let questionaireLabel = UILabel()
+            questionaireLabel.numberOfLines = 0
+            questionaireLabel.text = "COVID-19 Check-In ►"
+            questionaireLabel.font = UIFont(name: "gotham-bold", size: 24)!
+            questionaireLabel.textColor = .white
+            questionaireLabel.translatesAutoresizingMaskIntoConstraints = false
+            questionaireLabel.textAlignment = NSTextAlignment.center
+            
+            barView.addSubview(questionaireLabel)
+            barView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(covidQuestionnaireTapped)))
+            barView.addConstraints([
+                barView.bottomAnchor.constraint(equalTo: questionaireLabel.bottomAnchor),
+                barView.leadingAnchor.constraint(equalTo: questionaireLabel.leadingAnchor),
+                barView.trailingAnchor.constraint(equalTo: questionaireLabel.trailingAnchor),
+                barView.topAnchor.constraint(equalTo: questionaireLabel.topAnchor)
+            ])
         }
         
         let collectionView = HomeScreenCollectionView(frame: CGRect(x: 0, y: (UIApplication.shared.keyWindow?.safeAreaInsets.top ?? 0) + 117 + barHeight + (alertBannerHeight ?? 0), width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - safeAreaInsets.top - 117 - barHeight - (alertBannerHeight ?? 0) - modalHoverViewHeight))

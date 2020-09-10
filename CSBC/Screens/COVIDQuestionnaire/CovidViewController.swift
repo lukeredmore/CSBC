@@ -27,19 +27,11 @@ class CovidViewController: CSBCViewController {
     
     var delegate : CovidDelegate? = nil
     
+    let code = StaticData.readData(atPath: "general/familyCovidCheckInCode") ?? ""
+    
     @IBOutlet weak var covidText: UILabel! {
         didSet {
             covidText.text = "The Catholic Schools of Broome County are working hard to maintain the safety and health of our students, faculty, staff and families. In order to ensure everyone’s safety we are asking that faculty and staff use the check-in below each day, and for families to check-in weekly.\n\nIn addition, we will be taking temperature checks of everyone who enters a CSBC building daily. Thank you in advance for your cooperation."
-        }
-    }
-    @IBOutlet weak var staffQuestionnaireWebView: WKWebView! {
-        didSet {
-            staffQuestionnaireWebView.navigationDelegate = self
-            staffQuestionnaireWebView.scrollView.showsHorizontalScrollIndicator = false
-            staffQuestionnaireWebView.scrollView.alwaysBounceVertical = true
-            staffQuestionnaireWebView.scrollView.maximumZoomScale = 1.0
-            staffQuestionnaireWebView.scrollView.minimumZoomScale = 1.0
-            staffQuestionnaireWebView.scrollView.delegate = self
         }
     }
     @IBOutlet weak var familyQuestionnaireWebView: WKWebView!{
@@ -56,11 +48,6 @@ class CovidViewController: CSBCViewController {
     @IBOutlet weak var landingPageContainerView: UIView!
     
     
-    @IBOutlet weak var staffQuestionnaireButton: ButtonWithActivityIndicator! {
-        didSet {
-            staffQuestionnaireButton.layer.cornerRadius = 55.0/2
-        }
-    }
     @IBOutlet weak var familyQuestionnaireButton: ButtonWithActivityIndicator! {
         didSet {
             familyQuestionnaireButton.layer.cornerRadius = 55.0/2
@@ -73,24 +60,14 @@ class CovidViewController: CSBCViewController {
     }
     
     private func resetWebViews() {
-        staffQuestionnaireButton.loading(true)
         familyQuestionnaireButton.loading(true)
-        staffQuestionnaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/JhGAZQ")!))
-        familyQuestionnaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/s1lTAQ")!))
-        staffQuestionnaireWebView.isHidden = true
+        familyQuestionnaireWebView.load(URLRequest(url: URL(string: "https://app.mobilecause.com/form/\(code)")!))
         familyQuestionnaireWebView.isHidden = true
         landingPageContainerView.isHidden = false
     }
     
-    @IBAction func staffQuestionnaireButtonPressed(_ sender: Any) {
-        familyQuestionnaireWebView.isHidden = true
-        staffQuestionnaireWebView.show() {
-            self.landingPageContainerView.isHidden = true
-        }
-    }
     
     @IBAction func familyQuestionnaireButtonPressed(_ sender: Any) {
-        staffQuestionnaireWebView.isHidden = true
         familyQuestionnaireWebView.show() {
             self.landingPageContainerView.isHidden = true
         }
@@ -106,14 +83,11 @@ extension CovidViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         
         if (webView.url!.absoluteString.contains("confirmation")) {
-            staffQuestionnaireWebView.isHidden = true
             familyQuestionnaireWebView.isHidden = true
             self.dismiss(animated: true) {
                 self.delegate?.questionaireCompleted()
             }
-        } else if (webView.url!.absoluteString.contains("/form/JhGAZQ")) {
-            staffQuestionnaireButton.loading(false)
-        } else if (webView.url!.absoluteString.contains("/form/s1lTAQ")) {
+        } else if (webView.url!.absoluteString.contains("/form/\(code)")) {
             familyQuestionnaireButton.loading(false)
         }
     }

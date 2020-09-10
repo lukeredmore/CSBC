@@ -12,7 +12,6 @@ import Foundation
 struct NotificationSettings : Codable {
     var shouldDeliver : Bool
     var schools : [Bool]
-    var notifyStaffCheckIn : Bool
     var notifyFamilyCheckIn : Bool
     
     func printNotifData() {
@@ -23,7 +22,6 @@ struct NotificationSettings : Codable {
         print("\(schools[1]), ", terminator: "")
         print("\(schools[2]), ", terminator: "")
         print("\(schools[3])] ")
-        print("notifyStaffCheckIn: \(notifyStaffCheckIn)")
         print("notifyFamilyCheckIn: \(notifyFamilyCheckIn)")
         print("-------------------------------------------")
     }

@@ -21,7 +21,6 @@ class SettingsViewController: UITableViewController  {
     @IBOutlet weak var firstAdminSettingsLabel: UILabel!
     @IBOutlet weak var secondAdminSettingsLabel: UILabel!
     
-    @IBOutlet weak var staffCheckInReminderSwitch: UISwitch!
     @IBOutlet weak var familyCheckInReminderSwitch: UISwitch!
     
     
@@ -41,8 +40,6 @@ class SettingsViewController: UITableViewController  {
         for i in 0..<4 { settingsSwitch[i].isOn = NotificationController.notificationSettings.schools[i] }
         settingsSwitch[4].isOn = userDefaults.value(forKey: "showAllSchools") as? Bool ?? true
         deliverNotificationsSwitch.isOn = NotificationController.notificationSettings.shouldDeliver
-        staffCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyStaffCheckIn
-        staffCheckInReminderSwitch.isEnabled = CovidViewController.showCovidCheckIn
         familyCheckInReminderSwitch.isOn = NotificationController.notificationSettings.notifyFamilyCheckIn
         familyCheckInReminderSwitch.isEnabled = CovidViewController.showCovidCheckIn
         configureAdminLabels()
@@ -71,7 +68,6 @@ class SettingsViewController: UITableViewController  {
     }
     
     @IBAction func checkInReminderSwitchToggled(_ sender: UISwitch?) {
-        NotificationController.notificationSettings.notifyStaffCheckIn = staffCheckInReminderSwitch.isOn
         NotificationController.notificationSettings.notifyFamilyCheckIn = familyCheckInReminderSwitch.isOn
     }
     
@@ -160,7 +156,7 @@ class SettingsViewController: UITableViewController  {
                 return 0
             }
         } else if section == 2 {
-            return CovidViewController.showCovidCheckIn ? 3 : 1
+            return CovidViewController.showCovidCheckIn ? 2 : 1
         } else {
             return super.tableView(tableView, numberOfRowsInSection: section)
         }

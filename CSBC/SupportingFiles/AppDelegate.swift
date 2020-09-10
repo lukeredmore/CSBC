@@ -26,7 +26,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         
         print("Application successfully loaded: Version \(Bundle.versionString)")
         
-        StaticData.getDataFromFirebase()
         LunchMenuRetriever.downloadLunchMenus()
         DaySchedule.retrieveFromFirebase()
         

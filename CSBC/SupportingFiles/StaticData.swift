@@ -27,7 +27,7 @@ class StaticData {
         }
     }
     
-    static func getDataFromFirebase() {
+    static func getDataFromFirebase(completion: (() -> Void)? = nil) {
         Database.database().reference(withPath: "Schools").observeSingleEvent(of: .value) { (snapshot) in
             guard let dataRetrieved = snapshot.value else { return }
             let dataJSON = JSON(dataRetrieved)
@@ -41,6 +41,7 @@ class StaticData {
             } catch {
                 print(error.localizedDescription)
             }
+            completion?()
         }
     }
 }

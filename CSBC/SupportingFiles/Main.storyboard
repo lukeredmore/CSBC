@@ -113,15 +113,6 @@
                                     <constraint firstAttribute="height" constant="8" id="oOq-Ob-IGf"/>
                                 </constraints>
                             </view>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="H4G-zo-oOU">
-                                <rect key="frame" x="0.0" y="50" width="375" height="708"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <wkWebViewConfiguration key="configuration" allowsAirPlayForMediaPlayback="NO" allowsPictureInPictureMediaPlayback="NO">
-                                    <dataDetectorTypes key="dataDetectorTypes" none="YES"/>
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qsC-0o-gcF">
                                 <rect key="frame" x="0.0" y="50" width="375" height="708"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -153,24 +144,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="StU-kD-MdZ">
                                         <rect key="frame" x="12" y="330.33333333333331" width="351" height="299.99999999999994"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RNT-rS-AQm" customClass="ButtonWithActivityIndicator" customModule="CSBC" customModuleProvider="target">
-                                                <rect key="frame" x="75.666666666666686" y="0.0" width="200" height="55"/>
-                                                <color key="backgroundColor" name="CSBCAlwaysGreen"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="200" id="SJL-Yf-4es"/>
-                                                    <constraint firstAttribute="height" constant="55" id="kSV-jz-luy"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="20"/>
-                                                <inset key="contentEdgeInsets" minX="16" minY="16" maxX="16" maxY="16"/>
-                                                <state key="normal" title="Staff Check-In">
-                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="staffQuestionnaireButtonPressed:" destination="UuV-0D-9EX" eventType="touchUpInside" id="Vzd-z7-prA"/>
-                                                </connections>
-                                            </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yt3-Yc-Nfk" customClass="ButtonWithActivityIndicator" customModule="CSBC" customModuleProvider="target">
-                                                <rect key="frame" x="75.666666666666686" y="159.00000000000006" width="200" height="55"/>
+                                                <rect key="frame" x="75.666666666666686" y="24" width="200" height="55"/>
                                                 <color key="backgroundColor" name="CSBCAlwaysGreen"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="200" id="Mac-Hc-HdX"/>
@@ -185,18 +160,8 @@
                                                     <action selector="familyQuestionnaireButtonPressed:" destination="UuV-0D-9EX" eventType="touchUpInside" id="6Rc-uR-XjP"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="d8O-Qc-wHv">
-                                                <rect key="frame" x="24" y="63" width="303" height="50"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="50" id="NxX-qB-sbW"/>
-                                                </constraints>
-                                                <string key="text">ALL CSBC Faculty and Staff are asked to please check-in daily at least 30 minutes prior to their first class or start of their shift.  Thank you.</string>
-                                                <fontDescription key="fontDescription" name="Gotham-BookItalic" family="Gotham" pointSize="15"/>
-                                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="nOO-Ao-eDt">
-                                                <rect key="frame" x="24" y="222.00000000000006" width="303" height="50"/>
+                                                <rect key="frame" x="24" y="87" width="303" height="50"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="50" id="kDX-aY-qj7"/>
                                                 </constraints>
@@ -207,19 +172,13 @@
                                             </label>
                                         </subviews>
                                         <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="d8O-Qc-wHv" secondAttribute="trailing" constant="24" id="0Gy-I7-f1d"/>
                                             <constraint firstItem="Yt3-Yc-Nfk" firstAttribute="centerX" secondItem="StU-kD-MdZ" secondAttribute="centerX" id="0WF-ld-h8O"/>
-                                            <constraint firstItem="d8O-Qc-wHv" firstAttribute="centerX" secondItem="StU-kD-MdZ" secondAttribute="centerX" id="4yP-oy-dQQ"/>
+                                            <constraint firstItem="Yt3-Yc-Nfk" firstAttribute="top" secondItem="StU-kD-MdZ" secondAttribute="top" constant="24" id="9d3-u6-m6a"/>
                                             <constraint firstItem="nOO-Ao-eDt" firstAttribute="top" secondItem="Yt3-Yc-Nfk" secondAttribute="bottom" constant="8" id="E4X-f8-J47"/>
-                                            <constraint firstItem="d8O-Qc-wHv" firstAttribute="leading" secondItem="StU-kD-MdZ" secondAttribute="leading" constant="24" id="EBf-mC-jl9"/>
                                             <constraint firstItem="nOO-Ao-eDt" firstAttribute="leading" secondItem="StU-kD-MdZ" secondAttribute="leading" constant="24" id="Isn-dW-KgQ"/>
                                             <constraint firstItem="nOO-Ao-eDt" firstAttribute="centerX" secondItem="StU-kD-MdZ" secondAttribute="centerX" id="JlC-Hc-X66"/>
-                                            <constraint firstItem="RNT-rS-AQm" firstAttribute="centerX" secondItem="StU-kD-MdZ" secondAttribute="centerX" id="Ml8-ag-fKa"/>
-                                            <constraint firstItem="Yt3-Yc-Nfk" firstAttribute="top" secondItem="d8O-Qc-wHv" secondAttribute="bottom" multiplier="1.4" constant="1" id="QPx-Gz-icE"/>
                                             <constraint firstAttribute="height" constant="300" id="UaX-WH-9uS"/>
                                             <constraint firstAttribute="trailing" secondItem="nOO-Ao-eDt" secondAttribute="trailing" constant="24" id="b3I-XI-rfn"/>
-                                            <constraint firstItem="d8O-Qc-wHv" firstAttribute="top" secondItem="RNT-rS-AQm" secondAttribute="bottom" constant="8" id="jbs-u9-oqN"/>
-                                            <constraint firstItem="RNT-rS-AQm" firstAttribute="top" secondItem="StU-kD-MdZ" secondAttribute="top" id="sJS-ye-TN6"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -240,15 +199,11 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="H4G-zo-oOU" firstAttribute="leading" secondItem="zEf-qn-Xd3" secondAttribute="leading" id="0vj-D2-ZLu"/>
                             <constraint firstItem="qsC-0o-gcF" firstAttribute="top" secondItem="eoz-qC-5Zg" secondAttribute="bottom" id="7YQ-Kt-AAP"/>
                             <constraint firstItem="eoz-qC-5Zg" firstAttribute="leading" secondItem="zEf-qn-Xd3" secondAttribute="leading" id="8kf-fx-JCX"/>
                             <constraint firstItem="zEf-qn-Xd3" firstAttribute="trailing" secondItem="g6g-8h-Tk4" secondAttribute="trailing" id="8vw-OT-vO8"/>
                             <constraint firstItem="Xxl-Mu-E3K" firstAttribute="top" secondItem="zEf-qn-Xd3" secondAttribute="top" id="G0g-bb-pUD"/>
                             <constraint firstItem="eoz-qC-5Zg" firstAttribute="top" secondItem="Xxl-Mu-E3K" secondAttribute="bottom" id="LIs-8a-mx7"/>
-                            <constraint firstItem="H4G-zo-oOU" firstAttribute="top" secondItem="eoz-qC-5Zg" secondAttribute="bottom" id="NJe-7F-2aJ"/>
-                            <constraint firstItem="zEf-qn-Xd3" firstAttribute="trailing" secondItem="H4G-zo-oOU" secondAttribute="trailing" id="Ode-cT-exv"/>
-                            <constraint firstAttribute="baseline" secondItem="H4G-zo-oOU" secondAttribute="bottom" id="WFg-vf-c9i"/>
                             <constraint firstItem="Xxl-Mu-E3K" firstAttribute="leading" secondItem="zEf-qn-Xd3" secondAttribute="leading" id="a1H-uB-n50"/>
                             <constraint firstAttribute="baseline" secondItem="qsC-0o-gcF" secondAttribute="bottom" id="dDl-eK-GLH"/>
                             <constraint firstItem="qsC-0o-gcF" firstAttribute="leading" secondItem="zEf-qn-Xd3" secondAttribute="leading" id="h2F-d8-Q00"/>
@@ -267,8 +222,6 @@
                         <outlet property="familyQuestionnaireButton" destination="Yt3-Yc-Nfk" id="jK3-Yz-xOy"/>
                         <outlet property="familyQuestionnaireWebView" destination="qsC-0o-gcF" id="XMQ-S2-fld"/>
                         <outlet property="landingPageContainerView" destination="g6g-8h-Tk4" id="90f-ND-iRT"/>
-                        <outlet property="staffQuestionnaireButton" destination="RNT-rS-AQm" id="0k1-eb-56b"/>
-                        <outlet property="staffQuestionnaireWebView" destination="H4G-zo-oOU" id="01x-ov-jGz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Gg-Dh-FoC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -1063,7 +1016,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="separatorColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="2jl-sM-WBE">
-                            <rect key="frame" x="0.0" y="829.33333206176758" width="375" height="36"/>
+                            <rect key="frame" x="0.0" y="785.33333206176758" width="375" height="36"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© 2019 Catholic Schools of Broome County" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0LD-El-sQi">
@@ -1301,43 +1254,8 @@
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="L4c-wI-J4k">
-                                        <rect key="frame" x="0.0" y="411.33333206176758" width="375" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="L4c-wI-J4k" id="Azn-aX-h53">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <switch opaque="NO" tag="5" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vCF-87-7xJ">
-                                                    <rect key="frame" x="306" y="6.6666666666666679" width="51" height="31.000000000000004"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="31" id="EOa-EP-KLe"/>
-                                                        <constraint firstAttribute="width" constant="49" id="WfY-TQ-I4P"/>
-                                                    </constraints>
-                                                    <connections>
-                                                        <action selector="checkInReminderSwitchToggled:" destination="gEv-fH-LdY" eventType="valueChanged" id="S38-cG-eHL"/>
-                                                    </connections>
-                                                </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Daily Check-In Reminder (Staff)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Evl-Hq-Qvr" userLabel="Show all schools">
-                                                    <rect key="frame" x="16" y="11" width="280" height="22"/>
-                                                    <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
-                                                    <color key="textColor" name="CSBCGrayLabel"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Evl-Hq-Qvr" firstAttribute="leading" secondItem="Azn-aX-h53" secondAttribute="leadingMargin" id="04f-je-Orc"/>
-                                                <constraint firstItem="vCF-87-7xJ" firstAttribute="centerY" secondItem="Azn-aX-h53" secondAttribute="centerY" id="Bm2-Jp-Rx2"/>
-                                                <constraint firstAttribute="trailing" secondItem="vCF-87-7xJ" secondAttribute="trailing" constant="20" id="Va8-TA-Q8b"/>
-                                                <constraint firstItem="Evl-Hq-Qvr" firstAttribute="top" secondItem="Azn-aX-h53" secondAttribute="topMargin" id="e5m-5k-9NC"/>
-                                                <constraint firstItem="vCF-87-7xJ" firstAttribute="leading" secondItem="Evl-Hq-Qvr" secondAttribute="trailing" constant="10" id="ko9-aU-vx3"/>
-                                                <constraint firstItem="Evl-Hq-Qvr" firstAttribute="bottom" secondItem="Azn-aX-h53" secondAttribute="bottomMargin" id="wKT-LA-PQA"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
-                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="Dwn-jT-Yxl">
-                                        <rect key="frame" x="0.0" y="455.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="411.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Dwn-jT-Yxl" id="nQF-qj-A3o">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
@@ -1353,7 +1271,7 @@
                                                         <action selector="checkInReminderSwitchToggled:" destination="gEv-fH-LdY" eventType="valueChanged" id="aan-PB-dNZ"/>
                                                     </connections>
                                                 </switch>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Weekly Check-In Reminder (Families)" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="R3I-NQ-ME9" userLabel="Show all schools">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="COVID-19 Check-In Reminder" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="R3I-NQ-ME9" userLabel="Show all schools">
                                                     <rect key="frame" x="16" y="11" width="280" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
@@ -1376,7 +1294,7 @@
                             <tableViewSection headerTitle="Admin Settings" id="4y0-2L-V4t">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="4Ta-Df-OYh">
-                                        <rect key="frame" x="0.0" y="555.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="511.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Ta-Df-OYh" id="Rz5-2L-YLk">
                                             <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
@@ -1398,7 +1316,7 @@
                                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="oEH-py-k0Y">
-                                        <rect key="frame" x="0.0" y="599.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="555.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="oEH-py-k0Y" id="uVR-Uw-bNY">
                                             <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
@@ -1424,14 +1342,14 @@
                             <tableViewSection id="Lc4-6Y-TfG">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="gWF-VD-pFm">
-                                        <rect key="frame" x="0.0" y="679.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="635.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="gWF-VD-pFm" id="8kL-VC-VhL">
                                             <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="STEM Night Scavenger Hunt" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E6C-qC-41s" userLabel="Report an Issue">
-                                                    <rect key="frame" x="8" y="11" width="244" height="22"/>
+                                                    <rect key="frame" x="16" y="11" width="244" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
@@ -1446,7 +1364,7 @@
                                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" id="4Ev-i4-pc6">
-                                        <rect key="frame" x="0.0" y="723.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="679.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="4Ev-i4-pc6" id="mcv-Q2-i9s">
                                             <rect key="frame" x="0.0" y="0.0" width="348" height="44"/>
@@ -1468,20 +1386,20 @@
                                         <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="DM8-4Q-owg">
-                                        <rect key="frame" x="0.0" y="767.33333206176758" width="375" height="44"/>
+                                        <rect key="frame" x="0.0" y="723.33333206176758" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="DM8-4Q-owg" id="0LR-Ge-CGj">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Version" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ly4-ch-mFx">
-                                                    <rect key="frame" x="8.0000000000000036" y="8" width="62.333333333333343" height="28"/>
+                                                    <rect key="frame" x="8.0000000000000036" y="11" width="62.333333333333343" height="22"/>
                                                     <fontDescription key="fontDescription" name="Gotham-Medium" family="Gotham" pointSize="19"/>
                                                     <color key="textColor" name="CSBCGrayLabel"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kBL-08-acR">
-                                                    <rect key="frame" x="361" y="8" width="6" height="28"/>
+                                                    <rect key="frame" x="361" y="11" width="6" height="22"/>
                                                     <fontDescription key="fontDescription" name="GillSans-Italic" family="Gill Sans" pointSize="21"/>
                                                     <color key="textColor" systemColor="secondaryLabelColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.26274509800000001" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1512,7 +1430,6 @@
                         <outlet property="familyCheckInReminderSwitch" destination="80u-c5-lNe" id="C1F-SL-Lxt"/>
                         <outlet property="firstAdminSettingsLabel" destination="SSC-pj-TH5" id="C0N-qi-7t1"/>
                         <outlet property="secondAdminSettingsLabel" destination="Pfq-H0-sFi" id="d3X-7M-6Li"/>
-                        <outlet property="staffCheckInReminderSwitch" destination="vCF-87-7xJ" id="LM1-lK-6SV"/>
                         <outlet property="versionLabel" destination="kBL-08-acR" id="zFY-hm-93D"/>
                         <outletCollection property="settingsSwitch" destination="hyF-i7-8cj" collectionClass="NSMutableArray" id="gDO-ip-EHZ"/>
                         <outletCollection property="settingsSwitch" destination="2Gt-0d-fGK" collectionClass="NSMutableArray" id="prX-Qd-a0X"/>

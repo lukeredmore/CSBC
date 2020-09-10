@@ -26,9 +26,9 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
             ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "William Pipher, Principal"], // t
             ["Catholic Schools of Broome County", "All Saints School"] //f
         ],[ //St. James
-            ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "St. James School", "Suzy Kitchen, Principal"], //t
+            ["Catholic Schools of Broome County", "Dr. Elizabeth Carter, President", "St. James School"], //t
             ["Catholic Schools of Broome County", "St. James School"], //f
-            ["St. James School", "Suzy Kitchen"] //i
+            ["St. James School", "Principal"] //i
         ]
     ]
     private let socialURLArray = [
@@ -43,7 +43,7 @@ class SocialMediaController: CSBCViewController, UITableViewDataSource, UITableV
             ["CatholicSchools", "CatholicSchPres", "atierno_"], //t
             ["103950839670987", "210263249141313"]//f
         ],[ //St. James
-            ["CatholicSchools", "CatholicSchPres", "StJamesSchoolJC", "StJamesJC"], //t
+            ["CatholicSchools", "CatholicSchPres", "StJamesSchoolJC"], //t
             ["103950839670987", "136066559773647"], //f
             ["stjamesschooljc", "stjamesjcprincipal"] //i
         ]

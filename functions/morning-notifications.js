@@ -53,12 +53,16 @@ async function createAndSendDayNotification() {
 /*Send Alert as Notification if present*/
 async function createAndSendAlertNotification() {
   let bannerAlert = await firebase.getDataFromRef('BannerAlert')
-  const { message, previousMessages } = bannerAlert
+  const { message, previousMessages, autoNotify } = bannerAlert
 
   console.log("Banner message: " + message)
 
   if (!message || message === '' || message === 'nil' || message === 'null') {
     console.log('Not sending alert notification because no banner message was found.')
+    return
+  }
+  if (!autoNotify) {
+    console.log('Not sending alert notification because autoNotify is off.')
     return
   }
   if (previousMessages && Object.values(previousMessages).includes(message)) {
