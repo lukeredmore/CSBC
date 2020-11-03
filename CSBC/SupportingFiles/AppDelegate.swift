@@ -62,9 +62,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
     }
     
     // Receive displayed notifications for iOS 10 devices.
-    func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
-        //print(remoteMessage.appData)
-    }
+//    func applicationReceivedRemoteMessage(_ remoteMessage: MessagingRemoteMessage) {
+//        //print(remoteMessage.appData)
+//    }
     
     
     

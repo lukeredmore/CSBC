@@ -36,27 +36,28 @@ exports.sendFromAdmin = async (req, res) => {
     const unauthenticated = await authentication.authenticateRequest(req.headers, ['notificationSchool'])
     if (unauthenticated) return res.status(403).json({ message: unauthenticated })
 
-    const { message, schoolInt } = req.body
+    const { message, schoolInt, title } = req.body
     if (!req.body || !schoolInt || !constants.SCHOOL_NAMES[schoolInt] || !message)
       return res.status(400).json({ message: 'Invalid parameters' })
 
     let alertNotif = createNotificationObject(
-      constants.SCHOOL_NAMES[schoolInt],
+      title ? title : constants.SCHOOL_NAMES[schoolInt],
       message,
       constants.SCHOOL_CONDITIONALS[schoolInt]
     )
     console.log('Sending alert message with body of:')
     console.log(alertNotif)
+
     return await admin
       .messaging()
       .send(alertNotif)
       .then(response => {
         console.log('Successfully sent alert message: ', JSON.stringify(response))
-        return res.status(200).send('Successfully sent alert message: ' + JSON.stringify(response))
+        return res.status(200).json({message: 'Successfully sent alert message: ' + JSON.stringify(response)})
       })
       .catch(error => {
         console.log('Error sending message: ', error)
-        return res.status(506).send('Error sending message: ' + error)
+        return res.status(506).json({message: 'Error sending message: ' + error})
       })
   })
 }
