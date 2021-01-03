@@ -27,16 +27,13 @@ const schedule = require("./schedule.js")
 exports.createTimesInUse = functions.database.ref("/Schools/seton/scheduleInUse").onUpdate(schedule.createTimesInUse)
 
 
-const test = require("./test.js")
-exports.test = functions.region("us-east4").runWith(opts).https.onRequest(test.test)
-
-
 const alexa = require("./alexa.js")
 exports.getDayForDate = functions.region('us-east4').https.onRequest(alexa.getDayForDate)
 
 
 const events = require('./events.js')
 exports.autoUpdateEvents = functions.runWith(opts).region('us-east4').pubsub.schedule('25 * * * *').timeZone('America/New_York').onRun(events.updateEvents)
+exports.testEvents = functions.region('us-east4').runWith(opts).https.onRequest(events.updateEvents)
 
 
 const morningNotifications = require('./morning-notifications.js')
