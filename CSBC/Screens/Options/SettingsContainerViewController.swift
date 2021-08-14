@@ -44,7 +44,6 @@ class SettingsContainerViewController: UIViewController {
     @IBOutlet weak private var loginButton: UIButton! { didSet {
         let loginButtonTitle = Auth.auth().currentUser == nil ? "Sign In" : "Sign Out"
         loginButton.setTitle(loginButtonTitle, for: .normal)
-        GIDSignIn.sharedInstance()?.presentingViewController = self
     } }
     private var tableVC : SettingsViewController!
     
@@ -54,10 +53,32 @@ class SettingsContainerViewController: UIViewController {
             startSignOut()
             alert("Sucessfully signed out.")
         } else if sender.currentTitle == "Sign In" {
-            GIDSignIn.sharedInstance().signIn()
+            guard let clientID = FirebaseApp.app()?.options.clientID else {
+                print("Firebase client ID is null, cannot sign in")
+                alert("Cannot sign you in. Please try again later")
+                return
+            }
+            let config = GIDConfiguration(clientID: clientID)
+            GIDSignIn.sharedInstance.signIn(with: config, presenting: self, callback: signInCallback)
         }
     }
-    
+    private func signInCallback(user: GIDGoogleUser?, error: Error?) {
+        if error != nil { print("Error signing into Google: ", error!); return }
+        
+        guard let authentication = user?.authentication else { return }
+        guard let idToken = authentication.idToken else {
+            print("idToken on auth object was null")
+            return
+        }
+        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: authentication.accessToken)
+        
+        Auth.auth().signIn(with: credential) { (authResult, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+        }
+    }
     
     //MARK: Sign In Methods
     private func handleUnauthorizedUser() {
@@ -88,7 +109,7 @@ class SettingsContainerViewController: UIViewController {
     }
     private func cleanUpAfterSignOut() {
         guard loginButton.currentTitle == "Sign Out" else { return }
-        GIDSignIn.sharedInstance()?.disconnect()
+        GIDSignIn.sharedInstance.disconnect(callback: signOutCallback)
         loginButton.setTitle("Sign In", for: .normal)
         defaults.set(nil, forKey: "notificationSchool")
         defaults.set(nil, forKey: "passAccess")
@@ -99,8 +120,10 @@ class SettingsContainerViewController: UIViewController {
             else { print("Unsubscribed from notifyOutstanding") }
         }
     }
-    
-    
+    private func signOutCallback(error: Error?) {
+        if let error = error { print("Error signing out: ", error) }
+        else { print("Google user disconnected") }
+    }
     
     //MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -8,21 +8,19 @@
 
 import UIKit
 import Firebase
-import FirebaseInstanceID
+import FirebaseMessaging
 import UserNotifications
 import GoogleSignIn
 
 ///Configure Firebase, download Lunch Menus, queue local notifications, setup UI defaults
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         FirebaseApp.configure()
-        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
-        GIDSignIn.sharedInstance().delegate = self
         
         print("Application successfully loaded: Version \(Bundle.versionString)")
         
@@ -41,14 +39,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         return true
     }
     func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any]) -> Bool {
-      return GIDSignIn.sharedInstance().handle(url)
+      return GIDSignIn.sharedInstance.handle(url)
     }
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        InstanceID.instanceID().instanceID { (result, error) in
+        Messaging.messaging().token { (result, error) in
             if let error = error {
                 print("Error fetching remote instange ID: \(error)")
             } else if let result = result {
-                print("Device registered for remote notifiations. Remote instance ID token: \(result.token)")
+                print("Device registered for remote notifiations. Remote instance ID token: \(result)")
                 Messaging.messaging().apnsToken = deviceToken
                 NotificationController.subscribeToPushNotificationTopics()
             }
@@ -95,28 +93,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             return topViewControllerWithRootViewController(rootViewController: rootViewController.presentedViewController)
         }
         return rootViewController
-    }
-    
-    
-    ///GIDSignInDelegate Method
-    func sign(_ signIn: GIDSignIn?, didSignInFor user: GIDGoogleUser?, withError error: Error?) {
-        if error != nil { print("Error signing into Google: ", error!); return }
-        
-        guard let authentication = user?.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken, accessToken: authentication.accessToken)
-        
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-        }
-        
-        
-    }
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        if let error = error { print("Error signing out: ", error) }
-        else { print("Google user disconnected") }
     }
 }
 

@@ -44,6 +44,7 @@
 		265E65C622AADAE400B3B62C /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 265E65C522AADAE400B3B62C /* Colors.xcassets */; };
 		266076DB22F685430088CF16 /* EventsRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 266076DA22F685430088CF16 /* EventsRetriever.swift */; };
 		2663CD03223448F300E22281 /* EventsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2663CD02223448F300E22281 /* EventsModel.swift */; };
+		2666780226C804C90073B2EE /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9F0021D4496CCD16239800 /* Pods_CSBC.framework */; };
 		2667FB4223EDBCC0003894FB /* CSBCNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2667FB4123EDBCC0003894FB /* CSBCNavigationController.swift */; };
 		2667FB4523EDD2F6003894FB /* STEMSuccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2667FB4323EDD2F6003894FB /* STEMSuccessViewController.swift */; };
 		2667FB4623EDD2F6003894FB /* STEMSuccessViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2667FB4423EDD2F6003894FB /* STEMSuccessViewController.xib */; };
@@ -133,7 +134,6 @@
 		26F7234622960E15005DEDA7 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234522960E15005DEDA7 /* NotificationController.swift */; };
 		26F7234822961BDA005DEDA7 /* LunchMenuRetriever.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7234722961BDA005DEDA7 /* LunchMenuRetriever.swift */; };
 		26FB2BB52376675600484C38 /* SnowFallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB2BB42376675600484C38 /* SnowFallView.swift */; };
-		D94A79E6E3B0C907AC4C64D2 /* Pods_CSBC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA9F0021D4496CCD16239800 /* Pods_CSBC.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -279,7 +279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D94A79E6E3B0C907AC4C64D2 /* Pods_CSBC.framework in Frameworks */,
+				2666780226C804C90073B2EE /* Pods_CSBC.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -793,7 +793,6 @@
 				26C7649022FB9A500001FBBB /* Increment build number */,
 				26ED795821EB91D40086FB86 /* Resources */,
 				81D51B81F4034A6B925C4485 /* [CP] Embed Pods Frameworks */,
-				3CF63FDCED30FB707594038E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -811,7 +810,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1020;
-				LastUpgradeCheck = 1210;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = "Catholic Schools of Broome County";
 				TargetAttributes = {
 					26ED795921EB91D40086FB86 = {
@@ -968,23 +967,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\n";
-		};
-		3CF63FDCED30FB707594038E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CSBC/Pods-CSBC-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-CSBC/Pods-CSBC-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CSBC/Pods-CSBC-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		81D51B81F4034A6B925C4485 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1316,8 +1298,8 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VALIDATE_PRODUCT = YES;
 			};

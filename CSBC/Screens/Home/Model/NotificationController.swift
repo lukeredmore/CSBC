@@ -8,7 +8,7 @@
 
 import Foundation
 import Firebase
-import FirebaseInstanceID
+import FirebaseMessaging
 
 /// Retrieves user's notification preferences, queues local day notifications, subscribes users to push notifications
 class NotificationController {
