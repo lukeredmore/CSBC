@@ -18,7 +18,6 @@ class SettingsViewController: UITableViewController  {
     @IBOutlet weak private var versionLabel: UILabel! { didSet {
         versionLabel.text = Bundle.versionString
         } }
-    @IBOutlet weak var firstAdminSettingsLabel: UILabel!
     @IBOutlet weak var secondAdminSettingsLabel: UILabel!
     
     @IBOutlet weak var familyCheckInReminderSwitch: UISwitch!
@@ -26,7 +25,6 @@ class SettingsViewController: UITableViewController  {
     
     private let userDefaults = UserDefaults.standard
     private var notificationSchool : Int? { UserDefaults.standard.value(forKey: "notificationSchool") as? Int }
-    private var passAccess : Bool { UserDefaults.standard.value(forKey: "passAccess") as? Bool ?? false }
     private var allSchoolsOff : Bool {
         !settingsSwitch[0].isOn && !settingsSwitch[1].isOn && !settingsSwitch[2].isOn && !settingsSwitch[3].isOn
     }
@@ -82,17 +80,9 @@ class SettingsViewController: UITableViewController  {
     }
     private func configureAdminLabels() {
         let SCHOOL_NOTIF_INFO = ["Seton Families", "St. John's Families", "All Saints Families", "St. James Families", "All Users"]
-        if notificationSchool != nil && passAccess {
-            firstAdminSettingsLabel.text = "View Active Passes"
+        if notificationSchool != nil {
             secondAdminSettingsLabel.text = "Send A Notification (To \(SCHOOL_NOTIF_INFO[notificationSchool!]))"
-        } else if passAccess {
-            firstAdminSettingsLabel.text = "View Active Passes"
-            secondAdminSettingsLabel.text = ""
-        } else if notificationSchool != nil {
-            firstAdminSettingsLabel.text = "Send A Notification (To \(SCHOOL_NOTIF_INFO[notificationSchool!]))"
-            secondAdminSettingsLabel.text = ""
         } else {
-            firstAdminSettingsLabel.text = ""
             secondAdminSettingsLabel.text = ""
         }
     }
@@ -128,9 +118,7 @@ class SettingsViewController: UITableViewController  {
                 }
             }
             present(reportIssueVC, animated: true)
-        } else if indexPath.section == 3, indexPath.row == 0, passAccess { //SHOW PASSES
-            navigationController?.pushViewController(PassesViewController(), animated: true)
-        } else if indexPath.section == 3, indexPath.row == (passAccess ? 1 : 0), self.notificationSchool != nil { //SEND NOTIFICATION
+        } else if indexPath.section == 3, indexPath.row == 0, self.notificationSchool != nil { //SEND NOTIFICATION
             let notificationVC = ComposerViewController(configuration: ComposerViewController.notificationConfiguration) { text in
                 let params : [String : String] = [
                     "message": text,
@@ -148,9 +136,7 @@ class SettingsViewController: UITableViewController  {
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 3 {
-            if notificationSchool != nil && passAccess {
-                return 2
-            } else if notificationSchool != nil || passAccess {
+            if notificationSchool != nil {
                 return 1
             } else {
                 return 0
@@ -163,7 +149,7 @@ class SettingsViewController: UITableViewController  {
         
     }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 3 && (notificationSchool != nil || passAccess) {
+        if section == 3 && notificationSchool != nil {
             return "Admin Settings"
         } else if section == 3 {
             return nil
