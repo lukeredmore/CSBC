@@ -145,7 +145,7 @@ class CSBCViewController: UIViewController, CSBCSegmentedControlDelegate {
 }
 
 
-protocol CSBCSegmentedControlDelegate : class {
+protocol CSBCSegmentedControlDelegate : AnyObject {
     func schoolPickerValueChanged()
 }
 class CSBCSegmentedControl : UISegmentedControl {

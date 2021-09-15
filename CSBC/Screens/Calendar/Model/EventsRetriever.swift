@@ -19,7 +19,7 @@ class EventsRetriever {
         self.completion = completion
     }
     
-
+    
     func retrieveEventsArray(forceReturn : Bool = false, forceRefresh: Bool = false) {
         if forceRefresh {
             print("Events Data is being force refreshed")
@@ -30,18 +30,18 @@ class EventsRetriever {
             let setToReturn = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json ?? Data())
             completion(setToReturn ?? [], false)
         } else if let eventsArrayTimeString = preferences.string(forKey: "eventsArrayTime"),
-            let json = preferences.value(forKey:"eventsArray") as? Data,
-            let eventsSet = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json) { //If both events values are defined
-                print("Attempting to retrieve stored Events data.")
-                let eventsArrayTime = eventsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
-                if eventsArrayTime < Date() {
-                    completion(eventsSet, true)
-                    print("Events data found, but is old. Will refresh online.")
-                    requestEventsDataFromFirebase()
-                } else {
-                    print("Up to date events data found")
-                    completion(eventsSet, false)
-                }
+                  let json = preferences.value(forKey:"eventsArray") as? Data,
+                  let eventsSet = try? PropertyListDecoder().decode(Set<EventsModel>.self, from: json) { //If both events values are defined
+            print("Attempting to retrieve stored Events data.")
+            let eventsArrayTime = eventsArrayTimeString.toDateWithTime()! + 3600 //Time one hour in future
+            if eventsArrayTime < Date() {
+                completion(eventsSet, true)
+                print("Events data found, but is old. Will refresh online.")
+                requestEventsDataFromFirebase()
+            } else {
+                print("Up to date events data found")
+                completion(eventsSet, false)
+            }
         } else {
             print("No Events data found in UserDefaults. Looking online.")
             requestEventsDataFromFirebase()
@@ -51,9 +51,15 @@ class EventsRetriever {
     
     func requestEventsDataFromFirebase() {
         Database.database().reference().child("Calendars").observeSingleEvent(of: .value) { snapshot in
-            guard let eventsArrayDict = snapshot.childSnapshot(forPath: "eventsArray").value as? [[String:String]] else { return }
-            print("Events array updated, new data returned")
-            self.completion(EventsDataParser.parseJSON(eventsArrayDict), false)
+            if let eventsArrayDict = snapshot.childSnapshot(forPath: "eventsArray").value as? [[String:String]] {
+                print("Events array updated, new data returned")
+                self.completion(EventsDataParser.parseJSON(eventsArrayDict), false)
+                
+            } else {
+                print("Nothing was found in the events array from looking online")
+                self.completion(Set<EventsModel>(), false)
+            }
+            
         }
     }
 }

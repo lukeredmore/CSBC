@@ -8,11 +8,11 @@
 
 import UIKit
 
-protocol InputUpdateDelegate: class {
+protocol InputUpdateDelegate: AnyObject {
     func storeDateSelected(date : Date) //container tells pager that custom date was updated
     func schoolPickerValueDidChange() //container tells pager that schoolSelected changed
 }
-protocol PageViewDelegate: class {
+protocol PageViewDelegate: AnyObject {
     var dateToShow : Date { get set } //pager tells container the date shown as header
 }
 

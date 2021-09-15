@@ -13,7 +13,15 @@ import SafariServices
 class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsTableViewCell> {
     
     private var storedSchoolsToShow = [true, true, true, true]
-    private lazy var eventsRetriever = EventsRetriever(completion: loadTable)
+    private lazy var eventsRetriever = EventsRetriever { events, isDummy in
+        //        self.searchLoadingSymbol.isHidden = true
+        if (events.count > 0) {
+            self.addFilterMenu()
+        } else {
+            self.navigationItem.rightBarButtonItem = nil
+        }
+        self.loadTable(withData: events, isDummyData: isDummy)
+    }
     
     init() {
         let configuration = CSBCSearchConfiguration(
@@ -34,7 +42,6 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addFilterMenu()
     }
     override func viewWillAppear(_ animated: Bool) {
         eventsRetriever.retrieveEventsArray()
@@ -44,7 +51,7 @@ class CalendarTableViewController: CSBCSearchViewController<EventsModel, EventsT
         super.refreshData()
         eventsRetriever.retrieveEventsArray(forceReturn: false, forceRefresh: true)
     }
-    func addFilterMenu() {
+    private func addFilterMenu() {
         let dotsMenu = UIBarButtonItem(title: "•••", style: .plain, target: self, action: #selector(filterCalendarData))
         navigationItem.rightBarButtonItem = dotsMenu
     }

@@ -149,7 +149,6 @@ class CSBCSearchUI : UIView {
         }
         
         
-        controller.dimsBackgroundDuringPresentation = false
         controller.searchBar.sizeToFit()
         controller.searchBar.tintColor = .white
         controller.searchBar.isTranslucent = false

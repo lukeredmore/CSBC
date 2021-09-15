@@ -19,25 +19,29 @@ class CSBCNavigationController: UINavigationController, UINavigationControllerDe
             NSAttributedString.Key.font: UIFont(name: "gotham", size: 30)!,
             NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
         ]
-        
-        
         navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationBar.shadowImage = UIImage()
         
-        if #available(iOS 13.0, *) { return }
-            UINavigationBar.appearance().titleTextAttributes = [
+        if #available(iOS 13.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .csbcNavBarBackground
+            appearance.titleTextAttributes = [
                 NSAttributedString.Key.font: UIFont(name: "gotham", size: 30)!,
                 NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
             ]
-            UIBarButtonItem.appearance().setTitleTextAttributes([
-                NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
-                NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
-                ], for: .normal)
-            UIBarButtonItem.appearance().setTitleTextAttributes([
-                NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
-                NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
-                ], for: .highlighted)
-            UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
-            UINavigationBar.appearance().shadowImage = UIImage()
+            navigationBar.standardAppearance = appearance
+            navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
+        }
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
+            NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
+        ], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([
+            NSAttributedString.Key.font: UIFont(name: "gotham", size: 20)!,
+            NSAttributedString.Key.foregroundColor: UIColor.csbcNavBarText
+        ], for: .highlighted)
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+        UINavigationBar.appearance().shadowImage = UIImage()
     }
 }
